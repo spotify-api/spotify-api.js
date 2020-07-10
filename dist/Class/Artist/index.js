@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const spotifyData = require('spotify-url-info');
+const hexRgb = require('hex-rgb');
 class track {
     constructor(oauth) {
         if (!oauth)
@@ -23,7 +24,7 @@ class track {
                 }
             });
             if (!res['artists'].items.length)
-                Promise.reject('(Spotify-api.js)No results found');
+                return 'No results found';
             return res['artists'].items;
         }
         catch (e) {
@@ -50,10 +51,16 @@ class track {
             throw new Error('(Spotify-api.js)No query was provided');
         try {
             const res = await this.search(query, 1);
+            if (res === 'No results found')
+                return 'No results found';
             let spot = res[0].external_urls.spotify;
             let data = await spotifyData.getData(spot);
             res[0].hex = data.dominantColor;
-            res[0].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/white/1080/spotify:artist:${res[0].id}`;
+            const match = hexRgb(data.dominantColor, { format: 'array' });
+            let c = 'white';
+            if (match[0] > 150)
+                c = 'black';
+            res[0].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${c}/1080/spotify:artist:${res[0].id}`;
             return res;
         }
         catch (_a) {
