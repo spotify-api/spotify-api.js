@@ -55,6 +55,8 @@ class track {
         }
     }
     async advanced(query) {
+        if (!query)
+            throw new Error('(spotify-api.js)No query was provided');
         const res = await this.search(query, 1);
         if (res === 'No results found')
             return 'No results found';
@@ -67,6 +69,36 @@ class track {
         res[0].hex = data.dominantColor;
         res[0].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${c}/1080/spotify:track:${res[0].id}`;
         return res;
+    }
+    async audioFeatures(trackid) {
+        if (!trackid)
+            throw new Error('(spotify-api.js)No Track ID was provided');
+        try {
+            const { data: res } = await axios_1.default.get(`https://api.spotify.com/v1/audio-features/${trackid}`, {
+                headers: {
+                    "Authorization": `Bearer ${this.token}`
+                }
+            });
+            return res;
+        }
+        catch (e) {
+            Promise.reject('(spotify-api.js)Invalid ID or Token was provided');
+        }
+    }
+    async analysis(trackid) {
+        if (!trackid)
+            throw new Error('(spotify-api.js)No Track ID was provided');
+        try {
+            const { data: res } = await axios_1.default.get(`https://api.spotify.com/v1/audio-analysis/${trackid}`, {
+                headers: {
+                    "Authorization": `Bearer ${this.token}`
+                }
+            });
+            return res;
+        }
+        catch (e) {
+            Promise.reject('(spotify-api.js)Invalid ID or Token was provided');
+        }
     }
 }
 exports.default = track;
