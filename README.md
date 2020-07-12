@@ -60,4 +60,14 @@ const get = spotify.album.get("album id"); //returns album by id
 const tracks = spotify.album.tracks("album id", 5); //returns tracks inside an album
 ```
 
-# Typescript Supported !!
+# Example
+Take the following code for example
+```js
+const client = require("spotify-api.js");
+const spotify = new client.Client("token")
+const track =await spotify.track.search("oh my god by alec benjamin", 1,{advanced:true})
+console.log(track[0].images[0].url,track[0].codeImg)
+```
+This will return the following -
+
+
