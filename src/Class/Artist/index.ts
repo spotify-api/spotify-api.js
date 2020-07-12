@@ -153,5 +153,41 @@ class artist {
       throw e.response.data;
     }
   }
+  async related(id: string, options?: any) {
+    if (!id) throw new Error("(spotify-api.js)No Artist ID was provided");
+    try {
+      const { data: res } = await axios.get(
+        `https://api.spotify.com/v1/artists/${id}/related-artists`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      if (options) {
+        if (!options.advanced) return res.artists;
+        let i = 0;
+        while (i < res.artists.length) {
+          const data = await spotifyData.getData(
+            res.artists[i].external_urls.spotify
+          );
+          res.artists[i].hex = data.dominantColor;
+          let match = hexRgb(data.dominantColor, { format: "array" });
+          let c = "white";
+          if (match[0] > 150) c = "black";
+          res.artists[
+            i
+          ].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(
+            1
+          )}/${c}/1080/${res.artists[i].uri}`;
+          i++;
+        }
+        return res.artists;
+      }
+      if (!options) return res.artists;
+    } catch (e) {
+      throw e.reponse.data;
+    }
+  }
 }
 export default artist;

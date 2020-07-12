@@ -5,5 +5,6 @@ declare class artist {
     get(artid: string, option?: any): Promise<any>;
     albums(artistid: string, limit?: null | string | number, option?: any): Promise<any>;
     top(id: string, option?: any): Promise<any>;
+    related(id: string, options?: any): Promise<any>;
 }
 export default artist;
