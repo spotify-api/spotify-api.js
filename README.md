@@ -69,5 +69,6 @@ const track =await spotify.track.search("oh my god by alec benjamin", 1,{advance
 console.log(track[0].images[0].url,track[0].codeImg)
 ```
 - This will return the following -
-<img src = "https://i.scdn.co/image/ab67616d0000b273ee0232b590932e81529781e1" width ="200" height = "200"></img>
+- <img src = "https://i.scdn.co/image/ab67616d0000b273ee0232b590932e81529781e1" width ="200" height = "200"></img>
+- <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '500' height = "200"></img>
 
