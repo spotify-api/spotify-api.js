@@ -10,7 +10,7 @@ const index_4 = __importDefault(require("./Class/Album/index"));
 class default_1 {
     constructor(oauth) {
         if (!oauth)
-            throw new Error('(Spotify-api.js)No OAuth token was Provided');
+            throw new Error("(Spotify-api.js)No OAuth token was Provided");
         this.token = oauth;
         this.track = new index_1.default(oauth);
         this.artist = new index_2.default(oauth);

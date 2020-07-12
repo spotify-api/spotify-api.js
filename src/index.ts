@@ -1,3 +1,3 @@
-import Client from './client'
-export{Client}
-export default{Client}
+import Client from "./client";
+export { Client };
+export default { Client };

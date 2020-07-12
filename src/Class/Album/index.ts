@@ -1,59 +1,95 @@
-import axios from "axios"
-const spotifyData = require("spotify-url-info")
-const hexRgb = require('hex-rgb')
+import axios from "axios";
+const spotifyData = require("spotify-url-info");
+const hexRgb = require("hex-rgb");
 class Album {
-  token:string
-  constructor(oauth){
-  this.token=oauth
+  token: string;
+  constructor(oauth) {
+    this.token = oauth;
   }
-  async search(q:string,limit:null|number|string){
-    if(!q)throw new Error("(spotify-api.js)No query was Provided")
-    if(!limit)limit = 1
-    try{
-    const {data:res}=await axios.get(`https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=album&market=US&limit=${limit}`,{
-      headers:{
-        "Authorization":`Bearer ${this.token}`
+  async search(q: string, limit?: null | number | string, options?: any) {
+    if (!q) throw new Error("(spotify-api.js)No query was Provided");
+    if (!limit) limit = 1;
+    try {
+      const { data: res } = await axios.get(
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+          q
+        )}&type=album&market=US&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      if (!res["albums"].items.length) return "No results found";
+      const data = await spotifyData.getData(
+        res["albums"].items[0].external_urls.spotify
+      );
+      if (options) {
+        if (!options.advanced)
+          Promise.reject("(spotify-api.js)Invalid options were provided");
+        let i = 0;
+        while (i < res.albums.items.length) {
+          const data = await spotifyData.getData(
+            res.albums.items[i].external_urls.spotify
+          );
+          res.albums.items[i].hex = data.dominantColor;
+          let match = hexRgb(data.dominantColor, { format: "array" });
+          let c = "white";
+          if (match[0] > 150) c = "black";
+          res.albums.items[
+            i
+          ].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(
+            1
+          )}/${c}/1080/${res.albums.items[i].uri}`;
+          i++;
+        }
+        return res.albums.items;
       }
-    })
-    if(!res["albums"].items.length)return 'No results found'
-    const data = await spotifyData.getData(res["albums"].items[0].external_urls.spotify)
-    const match =hexRgb(data.dominantColor,{format:'array'})
-   let c ='white'
-   if(match[0]>150)c='black'
-    res["albums"].items[0].hex= data.dominantColor
-    res["albums"].items[0].codeImg=`https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${c}/1080/spotify:album:${res["albums"].items[0].id}`
-return res["albums"].items
-    }catch(e){console.log(e)
+      if (!options) return res.albums.items;
+    } catch (e) {
+      throw e.response.data;
+    }
+  }
+  async get(albumid: string) {
+    if (!albumid) throw new Error("(spotify-api.js)No Album ID was Provided");
+    try {
+      const { data: res } = await axios.get(
+        `https://api.spotify.com/v1/albums/${albumid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      return res;
+    } catch (e) {
+      Promise.reject("(spotify-api.js)Invalid ID or Token was given");
+    }
+  }
+  async tracks(albumid: string, limit: null | number | string) {
+    if (!albumid) throw new Error("(spotify-api.js)No Album ID was Provided");
+    if (!limit) limit = 1;
+    try {
+      const { data: res } = await axios.get(
+        `https://api.spotify.com/v1/albums/${albumid}/tracks?offset=0&limit=${limit}&market=US`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      let data = await spotifyData.getData(res.items[0].external_urls.spotify);
+      let c = "white";
+      res.items[0].hex = data.dominantColor;
+      let match = hexRgb(data.dominantColor, { format: "array" });
+      if (match[0] > 150) c = "black";
+      res.items[0].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(
+        1
+      )}/${c}/1080/spotify:track:${res.items[0].id}`;
+      return res.items;
+    } catch (e) {
+      throw e.response.data;
+    }
   }
 }
-async get(albumid:string){
-  if(!albumid)throw new Error('(spotify-api.js)No Album ID was Provided')
-  try{
-    const {data:res}=await axios.get(`https://api.spotify.com/v1/albums/${albumid}`,{
-      headers:{
-        "Authorization":`Bearer ${this.token}`
-      }
-    })
-    return res;
-  }catch(e){Promise.reject('(spotify-api.js)Invalid ID or Token was given')}
-}
-async tracks(albumid:string,limit:null|number|string){
-  if(!albumid)throw new Error('(spotify-api.js)No Album ID was Provided')
-  if(!limit)limit = 1
-  try{
-    const {data:res}=await axios.get(`https://api.spotify.com/v1/albums/${albumid}/tracks?offset=0&limit=${limit}&market=US`,{
-      headers:{
-        "Authorization":`Bearer ${this.token}`
-      }
-    })
-    let data = await spotifyData.getData(res.items[0].external_urls.spotify)
-    let c = 'white'
-    res.items[0].hex = data.dominantColor
-    let match = hexRgb(data.dominantColor,{format:'array'})
-    if(match[0]>150)c= 'black'
-    res.items[0].codeImg=`https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${c}/1080/spotify:track:${res.items[0].id}`
-    return res.items
-  }catch(e){Promise.reject('(spotify-api.js)Invalid ID or Token was given')}
-}
-}
-export default Album
+export default Album;
