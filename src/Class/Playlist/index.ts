@@ -21,10 +21,6 @@ class Playlist extends Spotify implements spotify {
     }
   }
   async tracks(id: string, limit?: null | number | string, options?: any) {
-    if (options && options instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
-      );
     if (!id) throw new Error("No Playlist ID was prvided");
     if (!limit) limit = 1;
     try {

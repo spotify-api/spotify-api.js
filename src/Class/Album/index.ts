@@ -4,10 +4,6 @@ import spotify from "../../Interface";
 import Spotify from "../../Spotify";
 class Album extends Spotify implements spotify {
   async search(q: string, limit?: null | number | string, options?: any) {
-    if (options && options instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
-      );
     if (!q) throw new Error("(spotify-api.js)No query was Provided");
     if (!limit) limit = 1;
     try {

@@ -4,10 +4,6 @@ import Spotify from "../../Spotify";
 import spotify from "../../Interface";
 class artist extends Spotify implements spotify {
   async search(q: string, limit?: null | number | string, options?: any) {
-    if (options && options instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
-      );
     if (!q) throw new Error("(Spotify-api.js)No search Query was provided");
     if (!limit) limit = 1;
     try {
@@ -49,10 +45,6 @@ class artist extends Spotify implements spotify {
     }
   }
   async get(artid: string, option?: any) {
-    if (option && option instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof option}`
-      );
     if (!artid) throw new Error("No Artist ID was provided");
     try {
       const { data: res } = await axios.get(
@@ -84,10 +76,6 @@ class artist extends Spotify implements spotify {
   }
 
   async albums(artistid: string, limit?: null | string | number, option?: any) {
-    if (option && option instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof option}`
-      );
     if (!artistid) throw new Error("(spotify-api.js)No Artist ID was provided");
     if (!limit) limit = 1;
     try {
@@ -126,10 +114,6 @@ class artist extends Spotify implements spotify {
     }
   }
   async top(id: string, option?: any) {
-    if (option && option instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof option}`
-      );
     if (!id) throw new Error("(spotify-api.js)No Artist ID was provided");
     try {
       const { data: res } = await axios.get(
@@ -166,10 +150,6 @@ class artist extends Spotify implements spotify {
     }
   }
   async related(id: string, options?: any) {
-    if (options && options instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
-      );
     if (!id) throw new Error("(spotify-api.js)No Artist ID was provided");
     try {
       const { data: res } = await axios.get(

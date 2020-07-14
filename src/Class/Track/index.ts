@@ -8,10 +8,6 @@ class track extends Spotify implements spotify {
     limit?: null | number | string,
     options?: any | Object
   ) {
-    if (options && options instanceof Object === false)
-      throw new Error(
-        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
-      );
     if (!q) throw new Error("No search Query was provided");
     if (!limit) limit = 1;
     try {

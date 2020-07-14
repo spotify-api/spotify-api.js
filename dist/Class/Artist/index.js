@@ -8,8 +8,6 @@ const spotifyData = require("spotify-url-info");
 const Spotify_1 = __importDefault(require("../../Spotify"));
 class artist extends Spotify_1.default {
     async search(q, limit, options) {
-        if (options && options instanceof Object === false)
-            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!q)
             throw new Error("(Spotify-api.js)No search Query was provided");
         if (!limit)
@@ -45,8 +43,6 @@ class artist extends Spotify_1.default {
         }
     }
     async get(artid, option) {
-        if (option && option instanceof Object === false)
-            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof option}`);
         if (!artid)
             throw new Error("No Artist ID was provided");
         try {
@@ -76,8 +72,6 @@ class artist extends Spotify_1.default {
         }
     }
     async albums(artistid, limit, option) {
-        if (option && option instanceof Object === false)
-            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof option}`);
         if (!artistid)
             throw new Error("(spotify-api.js)No Artist ID was provided");
         if (!limit)
@@ -112,8 +106,6 @@ class artist extends Spotify_1.default {
         }
     }
     async top(id, option) {
-        if (option && option instanceof Object === false)
-            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof option}`);
         if (!id)
             throw new Error("(spotify-api.js)No Artist ID was provided");
         try {
@@ -146,8 +138,6 @@ class artist extends Spotify_1.default {
         }
     }
     async related(id, options) {
-        if (options && options instanceof Object === false)
-            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!id)
             throw new Error("(spotify-api.js)No Artist ID was provided");
         try {

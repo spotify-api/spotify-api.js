@@ -8,8 +8,6 @@ const spotifyData = require("spotify-url-info");
 const Spotify_1 = __importDefault(require("../../Spotify"));
 class track extends Spotify_1.default {
     async search(q, limit, options) {
-        if (options && options instanceof Object === false)
-            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!q)
             throw new Error("No search Query was provided");
         if (!limit)
