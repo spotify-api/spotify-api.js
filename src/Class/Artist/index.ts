@@ -1,13 +1,13 @@
 import axios from "axios";
 const spotifyData = require("spotify-url-info");
-const hexRgb = require("hex-rgb");
-class artist {
-  token: string;
-  constructor(oauth: string) {
-    if (!oauth) throw new Error("(Spotify-api.js)No OAuth token was Provided");
-    this.token = oauth;
-  }
+import Spotify from "../../Spotify";
+import spotify from "../../Interface";
+class artist extends Spotify implements spotify {
   async search(q: string, limit?: null | number | string, options?: any) {
+    if (options && options instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
+      );
     if (!q) throw new Error("(Spotify-api.js)No search Query was provided");
     if (!limit) limit = 1;
     try {
@@ -31,7 +31,7 @@ class artist {
             res.artists.items[i].external_urls.spotify
           );
           res.artists.items[i].hex = data.dominantColor;
-          let match = hexRgb(data.dominantColor, { format: "array" });
+          let match = this.hexRgb(data.dominantColor);
           let c = "white";
           if (match[0] > 150) c = "black";
           res.artists.items[
@@ -49,6 +49,10 @@ class artist {
     }
   }
   async get(artid: string, option?: any) {
+    if (option && option instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof option}`
+      );
     if (!artid) throw new Error("No Artist ID was provided");
     try {
       const { data: res } = await axios.get(
@@ -65,7 +69,7 @@ class artist {
         let i = 0;
         const data = await spotifyData.getData(res.external_urls.spotify);
         res.hex = data.dominantColor;
-        let match = hexRgb(data.dominantColor, { format: "array" });
+        let match = this.hexRgb(data.dominantColor);
         let c = "white";
         if (match[0] > 150) c = "black";
         res.codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(
@@ -80,6 +84,10 @@ class artist {
   }
 
   async albums(artistid: string, limit?: null | string | number, option?: any) {
+    if (option && option instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof option}`
+      );
     if (!artistid) throw new Error("(spotify-api.js)No Artist ID was provided");
     if (!limit) limit = 1;
     try {
@@ -100,7 +108,7 @@ class artist {
             res.items[i].external_urls.spotify
           );
           res.items[i].hex = data.dominantColor;
-          let match = hexRgb(data.dominantColor, { format: "array" });
+          let match = this.hexRgb(data.dominantColor);
           let c = "white";
           if (match[0] > 150) c = "black";
           res.items[
@@ -118,6 +126,10 @@ class artist {
     }
   }
   async top(id: string, option?: any) {
+    if (option && option instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof option}`
+      );
     if (!id) throw new Error("(spotify-api.js)No Artist ID was provided");
     try {
       const { data: res } = await axios.get(
@@ -136,7 +148,7 @@ class artist {
             res.tracks[i].external_urls.spotify
           );
           res.tracks[i].hex = data.dominantColor;
-          let match = hexRgb(data.dominantColor, { format: "array" });
+          let match = this.hexRgb(data.dominantColor);
           let c = "white";
           if (match[0] > 150) c = "black";
           res.tracks[
@@ -154,6 +166,10 @@ class artist {
     }
   }
   async related(id: string, options?: any) {
+    if (options && options instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
+      );
     if (!id) throw new Error("(spotify-api.js)No Artist ID was provided");
     try {
       const { data: res } = await axios.get(
@@ -172,7 +188,7 @@ class artist {
             res.artists[i].external_urls.spotify
           );
           res.artists[i].hex = data.dominantColor;
-          let match = hexRgb(data.dominantColor, { format: "array" });
+          let match = this.hexRgb(data.dominantColor);
           let c = "white";
           if (match[0] > 150) c = "black";
           res.artists[

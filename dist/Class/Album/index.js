@@ -5,12 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const spotifyData = require("spotify-url-info");
-const hexRgb = require("hex-rgb");
-class Album {
-    constructor(oauth) {
-        this.token = oauth;
-    }
+const Spotify_1 = __importDefault(require("../../Spotify"));
+class Album extends Spotify_1.default {
     async search(q, limit, options) {
+        if (options && options instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!q)
             throw new Error("(spotify-api.js)No query was Provided");
         if (!limit)
@@ -31,7 +30,7 @@ class Album {
                 while (i < res.albums.items.length) {
                     const data = await spotifyData.getData(res.albums.items[i].external_urls.spotify);
                     res.albums.items[i].hex = data.dominantColor;
-                    let match = hexRgb(data.dominantColor, { format: "array" });
+                    let match = this.hexRgb(data.dominantColor);
                     let c = "white";
                     if (match[0] > 150)
                         c = "black";
@@ -76,7 +75,7 @@ class Album {
             let data = await spotifyData.getData(res.items[0].external_urls.spotify);
             let c = "white";
             res.items[0].hex = data.dominantColor;
-            let match = hexRgb(data.dominantColor, { format: "array" });
+            let match = this.hexRgb(data.dominantColor);
             if (match[0] > 150)
                 c = "black";
             res.items[0].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${c}/1080/spotify:track:${res.items[0].id}`;

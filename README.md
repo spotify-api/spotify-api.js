@@ -59,7 +59,19 @@ const album = spotify.album.search("these two windows", 1); //searches for an al
 const get = spotify.album.get("album id"); //returns album by id
 const tracks = spotify.album.tracks("album id", 5); //returns tracks inside an album
 ```
-
+# User 
+```js
+const client = require("spotify-api.js");
+const spotify = new client.Client("token"); //replace token with real access token
+const user = spotify.user.get('id')
+```
+# Playlist 
+```js
+const client = require("spotify-api.js");
+const spotify = new client.Client("token"); //replace token with real access token
+const playlist = spotify.playlist.get('id')
+const tracks = spotify.playlist.tracks('id',1,{advanced:true}) //advanced is optional along with limit if left empty limit is 1 and advanced is false
+```
 # Example
 Take the following code for example
 ```js
@@ -71,4 +83,5 @@ console.log(track[0].images[0].url,track[0].codeImg)
 - This will return the following -
 - <img src = "https://i.scdn.co/image/ab67616d0000b273ee0232b590932e81529781e1" width ="200" height = "200"></img>
 - <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
+
 

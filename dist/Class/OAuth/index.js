@@ -12,7 +12,6 @@ class auth {
         let token = this.token;
         if (!options)
             throw new Error("(Spotify-api.js) No Authorization option was provided");
-        //
         if (!options.client_id)
             throw new Error("(Spotify-api.js) No Client ID was provided");
         if (!options.client_secret)

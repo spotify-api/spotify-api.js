@@ -5,14 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const spotifyData = require("spotify-url-info");
-const hexRgb = require("hex-rgb");
-class track {
-    constructor(oauth) {
-        if (!oauth)
-            throw new Error("(Spotify-api.js)No OAuth token was Provided");
-        this.token = oauth;
-    }
+const Spotify_1 = __importDefault(require("../../Spotify"));
+class track extends Spotify_1.default {
     async search(q, limit, options) {
+        if (options && options instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!q)
             throw new Error("No search Query was provided");
         if (!limit)
@@ -32,7 +29,7 @@ class track {
                 while (i < res.tracks.items.length) {
                     const data = await spotifyData.getData(res.tracks.items[i].external_urls.spotify);
                     res.tracks.items[i].hex = data.dominantColor;
-                    let match = hexRgb(data.dominantColor, { format: "array" });
+                    let match = this.hexRgb(data.dominantColor);
                     let c = "white";
                     if (match[0] > 150)
                         c = "black";
@@ -59,7 +56,7 @@ class track {
             });
             let spot = res.external_urls.spotify;
             let data = await spotifyData.getData(spot);
-            const match = hexRgb(data.dominantColor, { format: "array" });
+            const match = this.hexRgb(data.dominantColor);
             let c = "white";
             if (match[0] > 150)
                 c = "black";

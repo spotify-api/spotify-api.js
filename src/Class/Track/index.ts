@@ -1,13 +1,17 @@
 import axios from "axios";
 const spotifyData = require("spotify-url-info");
-const hexRgb = require("hex-rgb");
-class track {
-  token: string;
-  constructor(oauth: string) {
-    if (!oauth) throw new Error("(Spotify-api.js)No OAuth token was Provided");
-    this.token = oauth;
-  }
-  async search(q: string, limit?: null | number | string, options?: any) {
+import Spotify from "../../Spotify";
+import spotify from "../../Interface";
+class track extends Spotify implements spotify {
+  async search(
+    q: string,
+    limit?: null | number | string,
+    options?: any | Object
+  ) {
+    if (options && options instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
+      );
     if (!q) throw new Error("No search Query was provided");
     if (!limit) limit = 1;
     try {
@@ -31,7 +35,7 @@ class track {
             res.tracks.items[i].external_urls.spotify
           );
           res.tracks.items[i].hex = data.dominantColor;
-          let match = hexRgb(data.dominantColor, { format: "array" });
+          let match = this.hexRgb(data.dominantColor);
           let c = "white";
           if (match[0] > 150) c = "black";
           res.tracks.items[
@@ -61,7 +65,7 @@ class track {
       );
       let spot = res.external_urls.spotify;
       let data = await spotifyData.getData(spot);
-      const match = hexRgb(data.dominantColor, { format: "array" });
+      const match = this.hexRgb(data.dominantColor);
       let c = "white";
       if (match[0] > 150) c = "black";
       res.hex = data.dominantColor;

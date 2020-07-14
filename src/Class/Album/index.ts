@@ -1,12 +1,13 @@
 import axios from "axios";
 const spotifyData = require("spotify-url-info");
-const hexRgb = require("hex-rgb");
-class Album {
-  token: string;
-  constructor(oauth) {
-    this.token = oauth;
-  }
+import spotify from "../../Interface";
+import Spotify from "../../Spotify";
+class Album extends Spotify implements spotify {
   async search(q: string, limit?: null | number | string, options?: any) {
+    if (options && options instanceof Object === false)
+      throw new Error(
+        `(spotify-api.js)Expected Options type Object but recived ${typeof options}`
+      );
     if (!q) throw new Error("(spotify-api.js)No query was Provided");
     if (!limit) limit = 1;
     try {
@@ -33,7 +34,7 @@ class Album {
             res.albums.items[i].external_urls.spotify
           );
           res.albums.items[i].hex = data.dominantColor;
-          let match = hexRgb(data.dominantColor, { format: "array" });
+          let match = this.hexRgb(data.dominantColor);
           let c = "white";
           if (match[0] > 150) c = "black";
           res.albums.items[
@@ -81,7 +82,7 @@ class Album {
       let data = await spotifyData.getData(res.items[0].external_urls.spotify);
       let c = "white";
       res.items[0].hex = data.dominantColor;
-      let match = hexRgb(data.dominantColor, { format: "array" });
+      let match = this.hexRgb(data.dominantColor);
       if (match[0] > 150) c = "black";
       res.items[0].codeImg = `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(
         1

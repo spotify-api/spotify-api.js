@@ -5,14 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const spotifyData = require("spotify-url-info");
-const hexRgb = require("hex-rgb");
-class artist {
-    constructor(oauth) {
-        if (!oauth)
-            throw new Error("(Spotify-api.js)No OAuth token was Provided");
-        this.token = oauth;
-    }
+const Spotify_1 = __importDefault(require("../../Spotify"));
+class artist extends Spotify_1.default {
     async search(q, limit, options) {
+        if (options && options instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!q)
             throw new Error("(Spotify-api.js)No search Query was provided");
         if (!limit)
@@ -32,7 +29,7 @@ class artist {
                 while (i < res.artists.items.length) {
                     const data = await spotifyData.getData(res.artists.items[i].external_urls.spotify);
                     res.artists.items[i].hex = data.dominantColor;
-                    let match = hexRgb(data.dominantColor, { format: "array" });
+                    let match = this.hexRgb(data.dominantColor);
                     let c = "white";
                     if (match[0] > 150)
                         c = "black";
@@ -48,6 +45,8 @@ class artist {
         }
     }
     async get(artid, option) {
+        if (option && option instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof option}`);
         if (!artid)
             throw new Error("No Artist ID was provided");
         try {
@@ -62,7 +61,7 @@ class artist {
                 let i = 0;
                 const data = await spotifyData.getData(res.external_urls.spotify);
                 res.hex = data.dominantColor;
-                let match = hexRgb(data.dominantColor, { format: "array" });
+                let match = this.hexRgb(data.dominantColor);
                 let c = "white";
                 if (match[0] > 150)
                     c = "black";
@@ -77,6 +76,8 @@ class artist {
         }
     }
     async albums(artistid, limit, option) {
+        if (option && option instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof option}`);
         if (!artistid)
             throw new Error("(spotify-api.js)No Artist ID was provided");
         if (!limit)
@@ -94,7 +95,7 @@ class artist {
                 while (i < res.items.length) {
                     const data = await spotifyData.getData(res.items[i].external_urls.spotify);
                     res.items[i].hex = data.dominantColor;
-                    let match = hexRgb(data.dominantColor, { format: "array" });
+                    let match = this.hexRgb(data.dominantColor);
                     let c = "white";
                     if (match[0] > 150)
                         c = "black";
@@ -111,6 +112,8 @@ class artist {
         }
     }
     async top(id, option) {
+        if (option && option instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof option}`);
         if (!id)
             throw new Error("(spotify-api.js)No Artist ID was provided");
         try {
@@ -126,7 +129,7 @@ class artist {
                 while (i < res.tracks.length) {
                     const data = await spotifyData.getData(res.tracks[i].external_urls.spotify);
                     res.tracks[i].hex = data.dominantColor;
-                    let match = hexRgb(data.dominantColor, { format: "array" });
+                    let match = this.hexRgb(data.dominantColor);
                     let c = "white";
                     if (match[0] > 150)
                         c = "black";
@@ -143,6 +146,8 @@ class artist {
         }
     }
     async related(id, options) {
+        if (options && options instanceof Object === false)
+            throw new Error(`(spotify-api.js)Expected Options type Object but recived ${typeof options}`);
         if (!id)
             throw new Error("(spotify-api.js)No Artist ID was provided");
         try {
@@ -158,7 +163,7 @@ class artist {
                 while (i < res.artists.length) {
                     const data = await spotifyData.getData(res.artists[i].external_urls.spotify);
                     res.artists[i].hex = data.dominantColor;
-                    let match = hexRgb(data.dominantColor, { format: "array" });
+                    let match = this.hexRgb(data.dominantColor);
                     let c = "white";
                     if (match[0] > 150)
                         c = "black";
