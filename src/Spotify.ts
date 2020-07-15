@@ -1,4 +1,5 @@
 
+import spotifyUri from 'spotify-uri-info'
 class Spotify {
   token: string;
   constructor(oauth:string) {
@@ -42,5 +43,8 @@ class Spotify {
 
     return [red, green, blue, alpha];
   }
+ async  getData(uri){
+   return await spotifyUri.getData(uri)
+ }
 }
 export default Spotify;

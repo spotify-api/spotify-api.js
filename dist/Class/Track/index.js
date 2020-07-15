@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const spotifyData = require("spotify-url-info");
 const Spotify_1 = __importDefault(require("../../Spotify"));
 class track extends Spotify_1.default {
     async search(q, limit, options) {
@@ -25,7 +24,7 @@ class track extends Spotify_1.default {
                     Promise.reject("(spotify-api.js)Invalid options were provided");
                 let i = 0;
                 while (i < res.tracks.items.length) {
-                    const data = await spotifyData.getData(res.tracks.items[i].external_urls.spotify);
+                    const data = await this.getData(res.tracks.items[i].uri);
                     res.tracks.items[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";
@@ -52,8 +51,8 @@ class track extends Spotify_1.default {
                     Authorization: `Bearer ${this.token}`,
                 },
             });
-            let spot = res.external_urls.spotify;
-            let data = await spotifyData.getData(spot);
+            let spot = res.uri;
+            let data = await this.getData(spot);
             const match = this.hexRgb(data.dominantColor);
             let c = "white";
             if (match[0] > 150)

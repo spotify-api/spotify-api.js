@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const spotifyData = require("spotify-url-info");
 const Spotify_1 = __importDefault(require("../../Spotify"));
 class Playlist extends Spotify_1.default {
     async get(id) {
@@ -43,7 +42,7 @@ class Playlist extends Spotify_1.default {
                     return res.items;
                 let i = 0;
                 while (i < res.items.length) {
-                    const data = await spotifyData.getData(res.items[i].track.external_urls.spotify);
+                    const data = await this.getData(res.items[i].track.uri);
                     res.items[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";

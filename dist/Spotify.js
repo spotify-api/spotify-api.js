@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const spotify_uri_info_1 = __importDefault(require("spotify-uri-info"));
 class Spotify {
     constructor(oauth) {
         this.token = oauth;
@@ -33,6 +37,9 @@ class Spotify {
         const green = (num >> 8) & 255;
         const blue = num & 255;
         return [red, green, blue, alpha];
+    }
+    async getData(uri) {
+        return await spotify_uri_info_1.default.getData(uri);
     }
 }
 exports.default = Spotify;

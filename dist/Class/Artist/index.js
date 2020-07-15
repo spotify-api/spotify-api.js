@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const spotifyData = require("spotify-url-info");
 const Spotify_1 = __importDefault(require("../../Spotify"));
 class artist extends Spotify_1.default {
     async search(q, limit, options) {
@@ -25,7 +24,7 @@ class artist extends Spotify_1.default {
                     Promise.reject("(spotify-api.js)Invalid options were provided");
                 let i = 0;
                 while (i < res.artists.items.length) {
-                    const data = await spotifyData.getData(res.artists.items[i].external_urls.spotify);
+                    const data = await this.getData(res.artists.items[i].uri);
                     res.artists.items[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";
@@ -55,7 +54,7 @@ class artist extends Spotify_1.default {
                 if (!option.advanced)
                     Promise.reject("(spotify-api.js)Invalid options were provided");
                 let i = 0;
-                const data = await spotifyData.getData(res.external_urls.spotify);
+                const data = await this.getData(res.uri);
                 res.hex = data.dominantColor;
                 let match = this.hexRgb(data.dominantColor);
                 let c = "white";
@@ -87,7 +86,7 @@ class artist extends Spotify_1.default {
                     Promise.reject("(spotify-api.js)Invalid options were provided");
                 let i = 0;
                 while (i < res.items.length) {
-                    const data = await spotifyData.getData(res.items[i].external_urls.spotify);
+                    const data = await this.getData(res.items[i].uri);
                     res.items[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";
@@ -119,7 +118,7 @@ class artist extends Spotify_1.default {
                     return res;
                 let i = 0;
                 while (i < res.tracks.length) {
-                    const data = await spotifyData.getData(res.tracks[i].external_urls.spotify);
+                    const data = await this.getData(res.tracks[i].uri);
                     res.tracks[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";
@@ -151,7 +150,7 @@ class artist extends Spotify_1.default {
                     return res.artists;
                 let i = 0;
                 while (i < res.artists.length) {
-                    const data = await spotifyData.getData(res.artists[i].external_urls.spotify);
+                    const data = await this.getData(res.artists[i].uri);
                     res.artists[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";

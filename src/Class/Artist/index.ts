@@ -1,5 +1,4 @@
 import axios from "axios";
-const spotifyData = require("spotify-url-info");
 import Spotify from "../../Spotify";
 import spotify from "../../Interface";
 class artist extends Spotify implements spotify {
@@ -23,8 +22,8 @@ class artist extends Spotify implements spotify {
           Promise.reject("(spotify-api.js)Invalid options were provided");
         let i = 0;
         while (i < res.artists.items.length) {
-          const data = await spotifyData.getData(
-            res.artists.items[i].external_urls.spotify
+          const data = await this.getData(
+            res.artists.items[i].uri
           );
           res.artists.items[i].hex = data.dominantColor;
           let match = this.hexRgb(data.dominantColor);
@@ -59,7 +58,7 @@ class artist extends Spotify implements spotify {
         if (!option.advanced)
           Promise.reject("(spotify-api.js)Invalid options were provided");
         let i = 0;
-        const data = await spotifyData.getData(res.external_urls.spotify);
+        const data = await this.getData(res.uri);
         res.hex = data.dominantColor;
         let match = this.hexRgb(data.dominantColor);
         let c = "white";
@@ -92,8 +91,8 @@ class artist extends Spotify implements spotify {
           Promise.reject("(spotify-api.js)Invalid options were provided");
         let i = 0;
         while (i < res.items.length) {
-          const data = await spotifyData.getData(
-            res.items[i].external_urls.spotify
+          const data = await this.getData(
+            res.items[i].uri
           );
           res.items[i].hex = data.dominantColor;
           let match = this.hexRgb(data.dominantColor);
@@ -128,8 +127,8 @@ class artist extends Spotify implements spotify {
         if (!option.advanced) return res;
         let i = 0;
         while (i < res.tracks.length) {
-          const data = await spotifyData.getData(
-            res.tracks[i].external_urls.spotify
+          const data = await this.getData(
+            res.tracks[i].uri
           );
           res.tracks[i].hex = data.dominantColor;
           let match = this.hexRgb(data.dominantColor);
@@ -164,9 +163,9 @@ class artist extends Spotify implements spotify {
         if (!options.advanced) return res.artists;
         let i = 0;
         while (i < res.artists.length) {
-          const data = await spotifyData.getData(
-            res.artists[i].external_urls.spotify
-          );
+          const data = await this.getData(
+            res.artists[i].uri
+          )
           res.artists[i].hex = data.dominantColor;
           let match = this.hexRgb(data.dominantColor);
           let c = "white";

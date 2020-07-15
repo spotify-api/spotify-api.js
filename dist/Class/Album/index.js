@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const spotifyData = require("spotify-url-info");
 const Spotify_1 = __importDefault(require("../../Spotify"));
 class Album extends Spotify_1.default {
     async search(q, limit, options) {
@@ -20,13 +19,12 @@ class Album extends Spotify_1.default {
             });
             if (!res["albums"].items.length)
                 return "No results found";
-            const data = await spotifyData.getData(res["albums"].items[0].external_urls.spotify);
             if (options) {
                 if (!options.advanced)
                     Promise.reject("(spotify-api.js)Invalid options were provided");
                 let i = 0;
                 while (i < res.albums.items.length) {
-                    const data = await spotifyData.getData(res.albums.items[i].external_urls.spotify);
+                    const data = await this.getData(res.albums.items[i].uri);
                     res.albums.items[i].hex = data.dominantColor;
                     let match = this.hexRgb(data.dominantColor);
                     let c = "white";
@@ -70,7 +68,7 @@ class Album extends Spotify_1.default {
                     Authorization: `Bearer ${this.token}`,
                 },
             });
-            let data = await spotifyData.getData(res.items[0].external_urls.spotify);
+            let data = await this.getData(res.items[0].uri);
             let c = "white";
             res.items[0].hex = data.dominantColor;
             let match = this.hexRgb(data.dominantColor);

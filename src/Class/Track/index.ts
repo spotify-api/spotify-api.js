@@ -1,5 +1,4 @@
 import axios from "axios";
-const spotifyData = require("spotify-url-info");
 import Spotify from "../../Spotify";
 import spotify from "../../Interface";
 class track extends Spotify implements spotify {
@@ -27,8 +26,8 @@ class track extends Spotify implements spotify {
           Promise.reject("(spotify-api.js)Invalid options were provided");
         let i = 0;
         while (i < res.tracks.items.length) {
-          const data = await spotifyData.getData(
-            res.tracks.items[i].external_urls.spotify
+          const data = await this.getData(
+            res.tracks.items[i].uri
           );
           res.tracks.items[i].hex = data.dominantColor;
           let match = this.hexRgb(data.dominantColor);
@@ -59,8 +58,8 @@ class track extends Spotify implements spotify {
           },
         }
       );
-      let spot = res.external_urls.spotify;
-      let data = await spotifyData.getData(spot);
+      let spot = res.uri
+      let data = await this.getData(spot);
       const match = this.hexRgb(data.dominantColor);
       let c = "white";
       if (match[0] > 150) c = "black";
