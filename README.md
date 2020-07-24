@@ -1,4 +1,6 @@
 # spotify-api.js
+Read The Docs here
+https://spotify-apijs.netlify.app/#/
 
 A complete node js wrapper to interact with the spotify api.
 
