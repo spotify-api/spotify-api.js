@@ -4,8 +4,8 @@ Gets tracks inside an Album.
 |Parameters|Default Value|Type|
 |:--|:--|:--|
 |[AlbumID](album/parameters/albumid)|null|required|
-|[limit](album/parameters/limit)|01|optional|
+|[Options](album/parameters/options)|{limit: 20, advanced: false}|optional|
 
 ```js
-spotify.album.tracks('<parameters>')
+spotify.albums.tracks('<parameters>')
 ```

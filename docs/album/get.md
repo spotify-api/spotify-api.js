@@ -1,10 +1,11 @@
-# album.get
-Gets an Album.
+# albums.get
+
+Returns data of an album by id...
 
 |Parameters|Default Value|Type|
 |:--|:--|:--|
 |[AlbumID](album/parameters/albumid)|null|required|
 
 ```js
-spotify.album.get('<parameters>')
+spotify.albums.get('<parameters>')
 ```
