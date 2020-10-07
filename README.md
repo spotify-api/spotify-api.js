@@ -8,6 +8,10 @@
   </div><br>
 </div>
 
+# Quick Intro
+
+Spotify-api.js is a quick wrapper to interact with spotify api...
+
 # Installation
 
 ```bash
@@ -21,56 +25,52 @@ Please make an App from here https://developer.spotify.com/dashboard/
 # Getting Access Token
 
 ```js
-const client = require("spotify-api.js");
-const fs = require("fs");
-const spotify = new client.Client("NO TOKEN"); //keep it like that
-const token = spotify.oauth.get({
+const { Client } = require("spotify-api.js");
+const spotify = new Client("NO TOKEN"); // Keep it like that to get a new token...
+
+const token = await spotify.oauth.get({
   client_id: "client id",
   client_secret: "client secret",
-}); //replace the id and secret with real ones...
-fs.writeFile("./auth", token); //spotify tokens resets every 5 mins to avoid api spam we recommened using setTimeout
+}); // Will return a promise of token and its details
+
+console.log(token.access_token); // Spotify resets its token each every 1-5 minutes to prevent api spam!
 ```
 
 # Track
 
 ```js
-const client = require("spotify-api.js");
-const spotify = new client.Client("token"); //replace token with real access token
-const track = spotify.track.search("oh my god by alec benjamin", 1); //searches for a track and 1 is the limit
-const advanced = spotify.track.search("oh my god by alec benjamin", 2, {
-  advanced: true,
-}); //same as search but returns with color and code image
-const get = spotify.track.get("track id"); //returns track by track ID
-const trackAnalysis = spotify.track.analysis("track id");
-const features = spotify.track.audioFeatures("track id"); // returns audio features
+const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1 }); // Searches for the track and limit will be 20 by default
+const advanced = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, advanced: true }); // Same but this will return a `codeImage` and `dominantColor` key with it!
+const get = await spotify.tracks.get("track id"); // Get tracks by id...
+const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
+const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
 ```
 
 # Artist
 
 ```js
-const client = require("spotify-api.js");
-const spotify = new client.Client("token"); //replace token with real access token
-const artist = spotify.artist.search("alec benjamin", 1); //searches for artist and 1 is the limit
-const advanced = spotify.artist.search("alec benjamin", 2, { advanced: true }); //same as search but returns with color and code image
-const get = spotify.artist.get("artist id"); //returns artist by Artist ID | this function also has advanced method
-const topTracks = spotify.artist.top('artist id') //returns top tracks| this function also has advanced method
+const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
+const advanced = await spotify.artists.search("alec benjamin", { limit: 1, advanced: true }); // Returns a `dominantColor` and `codeImage` key with the response../
+const get = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
+const albums = await spotify.artists.getAlbums("artist id"); // Get artist albums by id. Has advanced and limit option too...
+const topTracks = await spotify.artists.topTracks('artist id') // Returns top tracks of the artist. Has advanced and limit option too...
+const relatedArtists = await spotify.artists.relatedArtists('artist id') // Returns related artists. Has advanced and limit option too...
 ```
 
 # Album
 
 ```js
-const client = require("spotify-api.js");
-const spotify = new client.Client("token"); //replace token with real access token
-const album = spotify.album.search("these two windows", 1); //searches for an album and 1 is the limit
-const get = spotify.album.get("album id"); //returns album by id
-const tracks = spotify.album.tracks("album id", 5); //returns tracks inside an album
+const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
+const get = await spotify.albums.get("album id"); // Get album by id...
+const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
 ```
+
 # User 
+
 ```js
-const client = require("spotify-api.js");
-const spotify = new client.Client("token"); //replace token with real access token
-const user = spotify.user.get('id')
+const user = await spotify.users.get('id') // Returns the user details by id...
 ```
+
 # Playlist 
 ```js
 const client = require("spotify-api.js");
