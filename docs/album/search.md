@@ -1,12 +1,11 @@
-# album.search
-Searches for an album by name.
+# albums.search
+Searches for an album by query...
 
 |Parameters|Default Value|Type|
 |:--|:--|:--|
 |[AlbumName](album/parameters/albumname)|null|required|
-|[advanced](/advanced)|false|optional|
-|[limit](album/parameters/limit)|01|optional|
+|[Options](album/parameters/options)|{limit: 20, advanced: false}|optional|
 
 ```js
-spotify.album.search('<parameters>')
+spotify.albums.search('<parameters>')
 ```
