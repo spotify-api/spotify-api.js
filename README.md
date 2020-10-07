@@ -1,8 +1,11 @@
-# spotify-api.js
-Read The Docs here
-https://spotify-apijs.netlify.app/#/
-
-A complete node js wrapper to interact with the spotify api.
+<div align="center">
+  <img src="https://media.discordapp.net/attachments/736466510888960020/760853915876327464/Sa.png?width=718&height=275"><br>
+  <div>
+    <a href="https://spotify-apijs.netlify.app/#/"><img src="https://img.shields.io/badge/READ-DOCS-orange?style=for-the-badge"></a>
+    <a href="https://github.com/spotify-api/spotify-api.py/"><img src="https://img.shields.io/github/repo-size/scientific-guy/spotify-api.py?label=Size&style=for-the-badge"></a>
+    <a href="https://discord.gg/FrduEZd"><img src="https://img.shields.io/discord/736099894963601438?label=Discord&style=for-the-badge"></a>
+  </div><br>
+</div>
 
 # Installation
 
