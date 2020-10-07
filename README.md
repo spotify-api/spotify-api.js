@@ -92,6 +92,7 @@ console.log(track[0].codeImage); // Get the code image for advanced...
 console.log(track[0].dominantColor); // Get the dominant color... Returns { hex: string, rgb: [r, g, b, a] }
 ```
 
-- Example for the code and cover image
+### Example for the code and cover image
+
 - <img src = "https://i.scdn.co/image/ab67616d0000b273ee0232b590932e81529781e1" width ="200" height = "200"></img>
 - <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
