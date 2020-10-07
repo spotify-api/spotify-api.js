@@ -1,7 +1,7 @@
 # Album
 
 ```js
-spotify.album.<method>
+spotify.albums.<method>
 ```
 
 # Quick Intro
