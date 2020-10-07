@@ -36,7 +36,7 @@ const token = await spotify.oauth.get({
 console.log(token.access_token); // Spotify resets its token each every 1-5 minutes to prevent api spam!
 ```
 
-# Track
+# Tracks
 
 ```js
 const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1 }); // Searches for the track and limit will be 20 by default
@@ -46,7 +46,7 @@ const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get aud
 const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
 ```
 
-# Artist
+# Artists
 
 ```js
 const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
@@ -57,7 +57,7 @@ const topTracks = await spotify.artists.topTracks('artist id') // Returns top tr
 const relatedArtists = await spotify.artists.relatedArtists('artist id') // Returns related artists. Has advanced and limit option too...
 ```
 
-# Album
+# Albums
 
 ```js
 const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
@@ -65,29 +65,33 @@ const get = await spotify.albums.get("album id"); // Get album by id...
 const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
 ```
 
-# User 
+# Users
 
 ```js
 const user = await spotify.users.get('id') // Returns the user details by id...
 ```
 
-# Playlist 
+# Playlists
+
 ```js
-const client = require("spotify-api.js");
-const spotify = new client.Client("token"); //replace token with real access token
-const playlist = spotify.playlist.get('id')
-const tracks = spotify.playlist.tracks('id',1,{advanced:true}) //advanced is optional along with limit if left empty limit is 1 and advanced is false
+const playlist = await spotify.playlists.get('id') // Get playlist data by id
+const tracks = await spotify.playlists.getTracks('id', { limit: 1 }) // Get all tracks in an album by id. Has advanced option too...
 ```
-# Example
+
+# Example for advanced option...
+
 Take the following code for example
+
 ```js
-const client = require("spotify-api.js");
-const spotify = new client.Client("token")
-const track =await spotify.track.search("oh my god by alec benjamin", 1,{advanced:true})
-console.log(track[0].images[0].url,track[0].codeImg)
+const { Client } = require("spotify-api.js"); // Import package
+const spotify = new Client("token"); // Load client with token or using oauth
+
+const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, advanced:true }); // Search albums
+console.log(track[0].images[0].url) // Get the image url
+console.log(track[0].codeImage); // Get the code image for advanced...
+console.log(track[0].dominantColor); // Get the dominant color... Returns { hex: string, rgb: [r, g, b, a] }
 ```
-- This will return the following -
+
+- Example for the code and cover image
 - <img src = "https://i.scdn.co/image/ab67616d0000b273ee0232b590932e81529781e1" width ="200" height = "200"></img>
 - <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
-
-
