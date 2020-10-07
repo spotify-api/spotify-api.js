@@ -3,7 +3,6 @@
   <div>
     <a href="https://spotify-apijs.netlify.app/#/"><img src="https://img.shields.io/badge/READ-DOCS-orange?style=for-the-badge"></a>
     <a href="https://github.com/spotify-api/spotify-api.py/"><img src="https://img.shields.io/github/repo-size/scientific-guy/spotify-api.py?label=Size&style=for-the-badge"></a>
-    <a href="https://discord.gg/FrduEZd"><img src="https://img.shields.io/discord/736099894963601438?label=Discord&style=for-the-badge"></a>
   </div><br>
 </div>
 
