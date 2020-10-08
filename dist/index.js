@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Client = void 0;
-const client_1 = __importDefault(require("./client"));
-exports.Client = client_1.default;
-exports.default = { Client: client_1.default };
+exports.Client = exports.version = void 0;
+const Client_1 = __importDefault(require("./Client"));
+exports.Client = Client_1.default;
+const version = '3.0.0';
+exports.version = version;
 //# sourceMappingURL=index.js.map
