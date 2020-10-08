@@ -1,6 +1,3 @@
-import Client from "./client";
-export { Client };
-declare const _default: {
-    Client: typeof Client;
-};
-export default _default;
+import Client from './Client';
+declare const version = "3.0.0";
+export { version, Client };

@@ -1,27 +1,25 @@
-import { 
-  MissingParamError,
-  UnexpectedError
-} from '../Error';
+import { MissingParamError, UnexpectedError } from "../Error";
 
-import Spotify from '../Spotify';
+import Spotify from "../Spotify";
 
-class User extends Spotify{
-
+class User extends Spotify {
   async get(id: string): Promise<any> {
-    try{
-      if(!id) throw new MissingParamError('missing id to fetch user');
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!id) reject(new MissingParamError("missing id to fetch user"));
 
-      const res = await this.fetch({
-        link: `v1/users/${id}`
-      });
+        const res = await this.fetch({
+          link: `v1/users/${id}`,
+        });
 
-      res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
+        res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
 
-      return res;
-    }catch(e){
-      throw new UnexpectedError(e);
-    }
+        resolve(res);
+      } catch (e) {
+        reject(new UnexpectedError(e));
+      }
+    });
   }
-};
+}
 
-export default User
+export default User;

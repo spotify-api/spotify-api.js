@@ -1,0 +1,8 @@
+# compiled folder
+dist/
+
+#dependencies
+node_modules/
+
+#test folder
+test/
