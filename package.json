@@ -1,6 +1,6 @@
 {
   "name": "spotify-api.js",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A complete node js wrapper of spotify api with oauth support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/spotify-api/spotify-api.js"
   },
-  "homepage": "https://github.com/spotify-api/spotify-api.js#spotifyjs",
+  "homepage": "https://spotifyjs.fastdocs.tk",
   "keywords": [
     "spotify-api",
     "spotify",
