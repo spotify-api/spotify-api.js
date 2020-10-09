@@ -12,21 +12,30 @@ export default class {
   token: string;
   utils: any;
   lib: {
-    Auth: any,
-    User: any,
-    Playlist: any,
-    Track: any,
-    Album: any,
-    Artist: any
+    Auth,
+    User,
+    Playlist,
+    Track,
+    Album,
+    Artist,
   };
   
-  oauth: any;
-  users: any;
-  playlists: any;
-  tracks: any;
-  albums: any;
-  artists: any;
+  oauth: Auth;
+  users: User;
+  playlists: Playlist;
+  tracks: Track;
+  albums: Album;
+  artists: Artist;
 
+  /**
+   * 
+   * @param oauth {string} 
+   * Pass the spotify oauth `token`
+   * ```js
+   * const Spotify = require('spotify-api.js')
+   * const client = new Spotify.Client('oauth token')
+   * ```
+   */
   constructor(oauth: string) {
     this.token = oauth;
     this.utils = new Spotify(this.token)

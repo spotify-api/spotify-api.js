@@ -11,6 +11,15 @@ const Album_1 = __importDefault(require("./lib/Album"));
 const Artist_1 = __importDefault(require("./lib/Artist"));
 const Spotify_1 = __importDefault(require("./Spotify"));
 class default_1 {
+    /**
+     *
+     * @param oauth {string}
+     * Pass the spotify oauth `token`
+     * ```js
+     * const Spotify = require('spotify-api.js')
+     * const client = new Spotify.Client('oauth token')
+     * ```
+     */
     constructor(oauth) {
         this.token = oauth;
         this.utils = new Spotify_1.default(this.token);
