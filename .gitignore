@@ -3,3 +3,5 @@ node_modules/
 
 #test folder
 test/
+
+package-lock.json
