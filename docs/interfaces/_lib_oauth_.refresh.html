@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>getOptions | spotify-api.js</title>
+	<title>refresh | spotify-api.js</title>
 	<meta name="description" content="Documentation for spotify-api.js">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_spotify_.html">&quot;Spotify&quot;</a>
+					<a href="../modules/_lib_oauth_.html">&quot;lib/Oauth&quot;</a>
 				</li>
 				<li>
-					<a href="_spotify_.getoptions.html">getOptions</a>
+					<a href="_lib_oauth_.refresh.html">refresh</a>
 				</li>
 			</ul>
-			<h1>Interface getOptions</h1>
+			<h1>Interface refresh</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">getOptions</span>
+						<span class="target">refresh</span>
 					</li>
 				</ul>
 			</section>
@@ -84,9 +84,11 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_spotify_.getoptions.html#headers" class="tsd-kind-icon">headers</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_spotify_.getoptions.html#link" class="tsd-kind-icon">link</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_spotify_.getoptions.html#params" class="tsd-kind-icon">params</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_lib_oauth_.refresh.html#access_token" class="tsd-kind-icon">access_<wbr>token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_lib_oauth_.refresh.html#expires_in" class="tsd-kind-icon">expires_<wbr>in</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_lib_oauth_.refresh.html#refresh_token" class="tsd-kind-icon">refresh_<wbr>token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_lib_oauth_.refresh.html#scope" class="tsd-kind-icon">scope</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_lib_oauth_.refresh.html#token_type" class="tsd-kind-icon">token_<wbr>type</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,32 +97,52 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="headers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> headers</h3>
-					<div class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="access_token" class="tsd-anchor"></a>
+					<h3>access_<wbr>token</h3>
+					<div class="tsd-signature tsd-kind-icon">access_<wbr>token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/Spotify.ts#L7">spotify-api.js/src/Spotify.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/lib/Oauth.ts#L3">spotify-api.js/src/lib/Oauth.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="link" class="tsd-anchor"></a>
-					<h3>link</h3>
-					<div class="tsd-signature tsd-kind-icon">link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="expires_in" class="tsd-anchor"></a>
+					<h3>expires_<wbr>in</h3>
+					<div class="tsd-signature tsd-kind-icon">expires_<wbr>in<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/Spotify.ts#L6">spotify-api.js/src/Spotify.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/lib/Oauth.ts#L5">spotify-api.js/src/lib/Oauth.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="params" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> params</h3>
-					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="refresh_token" class="tsd-anchor"></a>
+					<h3>refresh_<wbr>token</h3>
+					<div class="tsd-signature tsd-kind-icon">refresh_<wbr>token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/Spotify.ts#L8">spotify-api.js/src/Spotify.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/lib/Oauth.ts#L6">spotify-api.js/src/lib/Oauth.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="scope" class="tsd-anchor"></a>
+					<h3>scope</h3>
+					<div class="tsd-signature tsd-kind-icon">scope<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/lib/Oauth.ts#L7">spotify-api.js/src/lib/Oauth.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="token_type" class="tsd-anchor"></a>
+					<h3>token_<wbr>type</h3>
+					<div class="tsd-signature tsd-kind-icon">token_<wbr>type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/spotify-api/spotify-api.js/blob/8bb5b16/src/lib/Oauth.ts#L4">spotify-api.js/src/lib/Oauth.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -138,7 +160,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_error_.html">&quot;<wbr>Error&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/_spotify_.html">&quot;<wbr>Spotify&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -153,7 +175,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_lib_artist_.html">&quot;lib/<wbr>Artist&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/_lib_oauth_.html">&quot;lib/<wbr>Oauth&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -169,22 +191,28 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../classes/_spotify_.default.html" class="tsd-kind-icon">default</a>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_lib_oauth_.auth.html" class="tsd-kind-icon">Auth</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_spotify_.getoptions.html" class="tsd-kind-icon">get<wbr>Options</a>
+						<a href="_lib_oauth_.refresh.html" class="tsd-kind-icon">refresh</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_spotify_.getoptions.html#headers" class="tsd-kind-icon">headers</a>
+								<a href="_lib_oauth_.refresh.html#access_token" class="tsd-kind-icon">access_<wbr>token</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_spotify_.getoptions.html#link" class="tsd-kind-icon">link</a>
+								<a href="_lib_oauth_.refresh.html#expires_in" class="tsd-kind-icon">expires_<wbr>in</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_spotify_.getoptions.html#params" class="tsd-kind-icon">params</a>
+								<a href="_lib_oauth_.refresh.html#refresh_token" class="tsd-kind-icon">refresh_<wbr>token</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_lib_oauth_.refresh.html#scope" class="tsd-kind-icon">scope</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_lib_oauth_.refresh.html#token_type" class="tsd-kind-icon">token_<wbr>type</a>
 							</li>
 						</ul>
 					</li>
