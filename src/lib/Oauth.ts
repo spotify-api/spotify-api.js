@@ -89,6 +89,7 @@ class Auth {
               ).toString("base64"),
           },
         });
+        
         resolve(data);
       } catch (e) {
         reject(new UnexpectedError(e));
