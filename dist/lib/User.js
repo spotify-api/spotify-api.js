@@ -22,6 +22,19 @@ class User extends Spotify_1.default {
             }
         });
     }
+    async player() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await this.fetch({
+                    link: "v1/me/player",
+                });
+                resolve(res);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+        });
+    }
 }
 exports.default = User;
 //# sourceMappingURL=User.js.map

@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -69,7 +69,6 @@
 					<div>
 						<a href="https://spotify-apijs.netlify.app/#/"><img src="https://img.shields.io/badge/READ-DOCS-orange?style=for-the-badge"></a>
 						<a href="https://github.com/spotify-api/spotify-api.js/"><img src="https://img.shields.io/github/repo-size/spotify-api/spotify-api.js?label=Size&style=for-the-badge"></a>
-						<a href="https://www.npmjs.com/package/spotify-api.js"><img src="https://img.shields.io/jsdelivr/npm/hw/spotify-api.js?label=Downloads&style=for-the-badge"></a>
 						<a href="https://www.npmjs.com/package/spotify-api.js"><img src="https://img.shields.io/npm/v/spotify-api.js?label=Version&style=for-the-badge"></a>
 					</div><br>
 				</div>
@@ -96,12 +95,17 @@
   <span class="hljs-attr">client_secret</span>: <span class="hljs-string">&quot;client secret&quot;</span>,
 }); <span class="hljs-comment">// Will return a promise of token and its details</span>
 
-<span class="hljs-built_in">console</span>.log(token.access_token); <span class="hljs-comment">// Spotify resets its token each every 1-5 minutes to prevent api spam!</span></code></pre>
+<span class="hljs-built_in">console</span>.log(token); <span class="hljs-comment">// Spotify resets its token each every 1-5 minutes to prevent api spam!</span></code></pre>
 				<a href="#tracks" id="tracks" style="color: inherit; text-decoration: none;">
 					<h1>Tracks</h1>
 				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Searches for the track and limit will be 20 by default</span>
-<span class="hljs-keyword">const</span> advanced = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span> }); <span class="hljs-comment">// Same but this will return a `codeImage` and `dominantColor` key with it!</span>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, {
+  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
+}); <span class="hljs-comment">// Searches for the track and limit will be 20 by default</span>
+<span class="hljs-keyword">const</span> advanced = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, {
+  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span>,
+}); <span class="hljs-comment">// Same but this will return a `codeImage` and `dominantColor` key with it!</span>
 <span class="hljs-keyword">const</span> get = <span class="hljs-keyword">await</span> spotify.tracks.get(<span class="hljs-string">&quot;track id&quot;</span>); <span class="hljs-comment">// Get tracks by id...</span>
 <span class="hljs-keyword">const</span> audioAnalysis = <span class="hljs-keyword">await</span> spotify.tracks.audioAnalysis(<span class="hljs-string">&quot;track id&quot;</span>); <span class="hljs-comment">// Get audio analysis of the track</span>
 <span class="hljs-keyword">const</span> audioFeatures = <span class="hljs-keyword">await</span> spotify.tracks.audioFeatures(<span class="hljs-string">&quot;track id&quot;</span>); <span class="hljs-comment">// Get audio features of the track</span></code></pre>
@@ -109,11 +113,14 @@
 					<h1>Artists</h1>
 				</a>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> artist = <span class="hljs-keyword">await</span> spotify.artists.search(<span class="hljs-string">&quot;alec benjamin&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Searches for the artist with a default limit as 1...</span>
-<span class="hljs-keyword">const</span> advanced = <span class="hljs-keyword">await</span> spotify.artists.search(<span class="hljs-string">&quot;alec benjamin&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span> }); <span class="hljs-comment">// Returns a `dominantColor` and `codeImage` key with the response../</span>
+<span class="hljs-keyword">const</span> advanced = <span class="hljs-keyword">await</span> spotify.artists.search(<span class="hljs-string">&quot;alec benjamin&quot;</span>, {
+  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span>,
+}); <span class="hljs-comment">// Returns a `dominantColor` and `codeImage` key with the response../</span>
 <span class="hljs-keyword">const</span> get = <span class="hljs-keyword">await</span> spotify.artists.get(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Get artists by id. Has advanced option too...</span>
 <span class="hljs-keyword">const</span> albums = <span class="hljs-keyword">await</span> spotify.artists.getAlbums(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Get artist albums by id. Has advanced and limit option too...</span>
-<span class="hljs-keyword">const</span> topTracks = <span class="hljs-keyword">await</span> spotify.artists.topTracks(<span class="hljs-string">&#x27;artist id&#x27;</span>) <span class="hljs-comment">// Returns top tracks of the artist. Has advanced and limit option too...</span>
-<span class="hljs-keyword">const</span> relatedArtists = <span class="hljs-keyword">await</span> spotify.artists.relatedArtists(<span class="hljs-string">&#x27;artist id&#x27;</span>) <span class="hljs-comment">// Returns related artists. Has advanced and limit option too...</span></code></pre>
+<span class="hljs-keyword">const</span> topTracks = <span class="hljs-keyword">await</span> spotify.artists.topTracks(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Returns top tracks of the artist. Has advanced and limit option too...</span>
+<span class="hljs-keyword">const</span> relatedArtists = <span class="hljs-keyword">await</span> spotify.artists.relatedArtists(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Returns related artists. Has advanced and limit option too...</span></code></pre>
 				<a href="#albums" id="albums" style="color: inherit; text-decoration: none;">
 					<h1>Albums</h1>
 				</a>
@@ -123,12 +130,12 @@
 				<a href="#users" id="users" style="color: inherit; text-decoration: none;">
 					<h1>Users</h1>
 				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> spotify.users.get(<span class="hljs-string">&#x27;id&#x27;</span>) <span class="hljs-comment">// Returns the user details by id...</span></code></pre>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> spotify.users.get(<span class="hljs-string">&quot;id&quot;</span>); <span class="hljs-comment">// Returns the user details by id...</span></code></pre>
 				<a href="#playlists" id="playlists" style="color: inherit; text-decoration: none;">
 					<h1>Playlists</h1>
 				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> playlist = <span class="hljs-keyword">await</span> spotify.playlists.get(<span class="hljs-string">&#x27;id&#x27;</span>) <span class="hljs-comment">// Get playlist data by id</span>
-<span class="hljs-keyword">const</span> tracks = <span class="hljs-keyword">await</span> spotify.playlists.getTracks(<span class="hljs-string">&#x27;id&#x27;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }) <span class="hljs-comment">// Get all tracks in an album by id. Has advanced option too...</span></code></pre>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> playlist = <span class="hljs-keyword">await</span> spotify.playlists.get(<span class="hljs-string">&quot;id&quot;</span>); <span class="hljs-comment">// Get playlist data by id</span>
+<span class="hljs-keyword">const</span> tracks = <span class="hljs-keyword">await</span> spotify.playlists.getTracks(<span class="hljs-string">&quot;id&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Get all tracks in an album by id. Has advanced option too...</span></code></pre>
 				<a href="#example-for-advanced-option" id="example-for-advanced-option" style="color: inherit; text-decoration: none;">
 					<h1>Example for advanced option...</h1>
 				</a>
@@ -136,16 +143,37 @@
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> { Client } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;spotify-api.js&quot;</span>); <span class="hljs-comment">// Import package</span>
 <span class="hljs-keyword">const</span> spotify = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">&quot;token&quot;</span>); <span class="hljs-comment">// Load client with token or using oauth</span>
 
-<span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">advanced</span>:<span class="hljs-literal">true</span> }); <span class="hljs-comment">// Search albums</span>
-<span class="hljs-built_in">console</span>.log(track[<span class="hljs-number">0</span>].images[<span class="hljs-number">0</span>].url) <span class="hljs-comment">// Get the image url</span>
+<span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, {
+  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span>,
+}); <span class="hljs-comment">// Search albums</span>
 <span class="hljs-built_in">console</span>.log(track[<span class="hljs-number">0</span>].codeImage); <span class="hljs-comment">// Get the code image for advanced...</span>
 <span class="hljs-built_in">console</span>.log(track[<span class="hljs-number">0</span>].dominantColor); <span class="hljs-comment">// Get the dominant color... Returns { hex: string, rgb: [r, g, b, a] }</span></code></pre>
+				<a href="#deep-dive-into-refrehing-a-token" id="deep-dive-into-refrehing-a-token" style="color: inherit; text-decoration: none;">
+					<h1>Deep dive into Refrehing a token</h1>
+				</a>
+				<p>To refresh a token you need 4 params.</p>
+				<ul>
+					<li>client id</li>
+					<li>client secret</li>
+					<li>redirect uri (should be defined in your spotify application)</li>
+					<li>Authorization token (granted from the <code>/authorize</code> endpoint)</li>
+				</ul>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h2>Example</h2>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> {refresh_token} = <span class="hljs-keyword">await</span> spotify.oauth.refresh({
+  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&quot;my client id&quot;</span>,
+  <span class="hljs-attr">client_secret</span> : <span class="hljs-string">&quot;my client secret&quot;</span>,
+  <span class="hljs-attr">redirect_uri</span> : <span class="hljs-string">&quot;my redirection uri &quot;</span>,
+}, <span class="hljs-string">&quot;my token&quot;</span>
+)</code></pre>
 				<a href="#example-for-the-cover-and-code-image" id="example-for-the-cover-and-code-image" style="color: inherit; text-decoration: none;">
 					<h3>Example for the cover and code image</h3>
 				</a>
 				<ul>
-					<li><img src = "https://i.scdn.co/image/ab67616d0000b273ee0232b590932e81529781e1" width ="200" height = "200"></img></li>
-					<li><img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img></li>
+					<li><img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img><pre><code></code></pre>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -160,6 +188,12 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_error_.html">&quot;<wbr>Error&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_spotify_.html">&quot;<wbr>Spotify&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_lib_album_.html">&quot;lib/<wbr>Album&quot;</a>
