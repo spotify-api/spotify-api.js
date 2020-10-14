@@ -30,7 +30,7 @@ const spotify = new Client("NO TOKEN"); // Keep it like that to get a new token.
 const token = await spotify.oauth.get({
   client_id: "client id",
   client_secret: "client secret",
-}); // Will return a promise of token and its details
+}); // Will return a promise of token 
 
 console.log(token.access_token); // Spotify resets its token each every 1-5 minutes to prevent api spam!
 ```
