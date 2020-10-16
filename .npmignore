@@ -3,3 +3,4 @@ node_modules
 test/
 docs/
 tsconfig.json
+index.js
