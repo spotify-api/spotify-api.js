@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@spotify-api.js/spotify-uri-info": "^1.0.0",
-    "axios": "^0.20.0"
+    "axios": "^0.21.0"
   },
   "contributors": [
     {
