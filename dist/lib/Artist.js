@@ -37,6 +37,7 @@ class Artist extends Spotify_1.default {
             }
         });
     }
+    ;
     async get(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -113,6 +114,7 @@ class Artist extends Spotify_1.default {
             }
         });
     }
+    ;
     async relatedArtists(id, options) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -141,6 +143,8 @@ class Artist extends Spotify_1.default {
             }
         });
     }
+    ;
 }
+;
 exports.default = Artist;
 //# sourceMappingURL=Artist.js.map
