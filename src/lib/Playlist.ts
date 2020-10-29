@@ -1,9 +1,23 @@
-import { MissingParamError, UnexpectedError } from "../Error";
+/**
+ * Playlist lib file
+ */
 
+import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 
+/**
+ * Class of all methods related to playlists
+ */
 class Playlist extends Spotify {
 
+    /**
+     * @param id Id of the playlist
+     * 
+     * **Example:**
+     * ```js
+     * const playlist = await spotify.playlists.get("id"); // Get playlist data by id
+     * ```
+     */
     async get(id: string): Promise<any> {
 
         return new Promise(async (resolve, reject) => {
@@ -25,6 +39,15 @@ class Playlist extends Spotify {
 
     };
 
+    /**
+     * @param id Id of the playlist
+     * @param options Options to configure your search
+     * 
+     * **Example:**
+     * ```js
+     * const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
+     * ```
+     */
     async getTracks(
         id: string,
         options?: {

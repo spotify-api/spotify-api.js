@@ -36,7 +36,8 @@ export default class {
     artists: Artist;
 
     /**
-     * @param oauth {string}
+     * @param oauth Token
+     * 
      * Pass the spotify oauth `token`
      * ```js
      * const Spotify = require('spotify-api.js')

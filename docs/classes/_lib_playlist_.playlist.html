@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class of all methods related to playlists</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -125,7 +132,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_spotify_.default.html">default</a>.<a href="_spotify_.default.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in Spotify.ts:24</li>
+									<li>Defined in Spotify.ts:25</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -136,8 +143,8 @@
 									<h5>oauth: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Your auth token
-											You can access this uility class through the <code>spotify.Client.utils</code></p>
+											<p>Your auth token</p>
+											<p>Library class</p>
 										</div>
 									</div>
 								</li>
@@ -156,7 +163,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_spotify_.default.html">default</a>.<a href="_spotify_.default.html#token">token</a></p>
 						<ul>
-							<li>Defined in Spotify.ts:24</li>
+							<li>Defined in Spotify.ts:25</li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +181,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_spotify_.default.html">default</a>.<a href="_spotify_.default.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in Spotify.ts:68</li>
+									<li>Defined in Spotify.ts:72</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -184,8 +191,8 @@
 								<li>
 									<h5>options: <a href="../interfaces/_spotify_.getoptions.html" class="tsd-signature-type">getOptions</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Fetch options
-										Quick way to access spotify api without large fetching codes through axios....</p>
+										<p>Fetch options</p>
+										<p>Quick way to access spotify api without large fetching codes through axios....</p>
 									</div>
 								</li>
 							</ul>
@@ -203,13 +210,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/Playlist.ts:7</li>
+									<li>Defined in lib/Playlist.ts:21</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Id of the playlist</p>
+										<p><strong>Example:</strong></p>
+										<pre><code class="language-js"><span class="hljs-keyword">const</span> playlist = <span class="hljs-keyword">await</span> spotify.playlists.get(<span class="hljs-string">&quot;id&quot;</span>); <span class="hljs-comment">// Get playlist data by id</span></code></pre>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -227,7 +241,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_spotify_.default.html">default</a>.<a href="_spotify_.default.html#getcodeimage">getCodeImage</a></p>
 								<ul>
-									<li>Defined in Spotify.ts:91</li>
+									<li>Defined in Spotify.ts:97</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -237,8 +251,8 @@
 								<li>
 									<h5>uri: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Spotify data
-										Get code image of advanced options...</p>
+										<p>Spotify data</p>
+										<p>Get code image of advanced options...</p>
 									</div>
 								</li>
 							</ul>
@@ -256,16 +270,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in lib/Playlist.ts:28</li>
+									<li>Defined in lib/Playlist.ts:51</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Id of the playlist</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>advanced<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Options to configure your search</p>
+										<p><strong>Example:</strong></p>
+										<pre><code class="language-js"><span class="hljs-keyword">const</span> tracks = <span class="hljs-keyword">await</span> spotify.playlists.getTracks(<span class="hljs-string">&quot;id&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Get all tracks in an album by id. Has advanced option too...</span></code></pre>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -283,7 +307,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_spotify_.default.html">default</a>.<a href="_spotify_.default.html#geturidata">getURIData</a></p>
 								<ul>
-									<li>Defined in Spotify.ts:77</li>
+									<li>Defined in Spotify.ts:82</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -293,8 +317,8 @@
 								<li>
 									<h5>uri: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Uri of spotify data
-										Get spotify uri data...</p>
+										<p>Uri of spotify data</p>
+										<p>Get spotify uri data...</p>
 									</div>
 								</li>
 							</ul>
@@ -313,7 +337,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_spotify_.default.html">default</a>.<a href="_spotify_.default.html#hextorgb">hexToRgb</a></p>
 								<ul>
-									<li>Defined in Spotify.ts:38</li>
+									<li>Defined in Spotify.ts:41</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,8 +347,8 @@
 								<li>
 									<h5>hex: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Hex to be converted
-										Function used to convert the hex string to rgb array.</p>
+										<p>Hex to be converted</p>
+										<p>Function used to convert the hex string to rgb array.</p>
 									</div>
 								</li>
 							</ul>

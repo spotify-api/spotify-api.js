@@ -1,17 +1,38 @@
 "use strict";
+/**
+ * Auth lib file
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const axios_1 = __importDefault(require("axios"));
+/**
+ * Class of all methods related to auth
+ */
 class Auth {
+    /**
+     * @param oauth Your token
+     * Auth class
+     */
     constructor(oauth) {
         if (!oauth)
             throw new Error_1.MissingParamError("missing oauth");
         this.token = oauth;
     }
     ;
+    /**
+     * @param options Your client id and client secret in object form
+     *
+     * **Example:**
+     * ```js
+     * client.oauth.get({
+     *     client_id: 'your-client-id',
+     *     client_secret: 'your-client-secret'
+     * }).then(console.log) // Will return you the token!
+     * ```
+     */
     async get(options) {
         return new Promise(async (resolve, reject) => {
             if (!options.client_id)
@@ -42,9 +63,9 @@ class Auth {
     }
     ;
     /**
+     * @param options Your client id, client secret and refresh token
+     * @param token Your token
      *
-     * @param options
-     * @param token
      * Refreshes an Authorization token
      */
     async refresh(options, token) {
@@ -81,8 +102,8 @@ class Auth {
     }
     ;
     /**
+     * @param options Your client id, client secret and redirect uri in object form
      *
-     * @param options
      * Builds an Authorization string.
      */
     build(options) {

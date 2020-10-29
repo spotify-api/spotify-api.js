@@ -1,9 +1,24 @@
-import { MissingParamError, UnexpectedError } from "../Error";
+/**
+ * Album lib file
+ */
 
+import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 
+/**
+ * Class of all methods related to albums
+ */
 class Album extends Spotify {
 
+    /**
+     * @param q Your query
+     * @param options Your options such as limit, advanced, etc
+     * 
+     * **Example:**
+     * ```js
+     * const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
+     * ```
+     */
     async search(
         q: string,
         options?: {
@@ -45,6 +60,14 @@ class Album extends Spotify {
 
     };
 
+    /**
+     * @param id Id of the album
+     * 
+     * **Example:**
+     * ```js
+     * const album = await spotify.albums.get("album id"); // Get album by id...
+     * ```
+     */
     async get(id: string): Promise<any> {
 
         return new Promise(async (resolve, reject) => {
@@ -63,6 +86,15 @@ class Album extends Spotify {
 
     };
 
+    /**
+     * @param id Id of the song
+     * @param options Options such as limit and advanced
+     * 
+     * **Example:**
+     * ```js
+     * const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
+     * ```
+     */
     async getTracks(
         id: string,
         options?: {
@@ -99,9 +131,10 @@ class Album extends Spotify {
             } catch (e) {
                 reject(new UnexpectedError(e));
             };
-            
+
         });
     };
+
 };
 
 export default Album;

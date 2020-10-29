@@ -7,7 +7,8 @@ class UtilityError extends Error{
     name: string;
 
     /**
-     * @param message {string}
+     * @param message Error message
+     * 
      * This error occurs on the uitlity side (Spotify.ts)
      */
     constructor(message: string) {
@@ -22,7 +23,8 @@ class MissingParamError extends Error{
     name: string;
 
     /**
-     * @param message {string}
+     * @param message Error message
+     * 
      * This error occurs when you miss to give a required param!
      */
     constructor(message: string) {
@@ -37,7 +39,8 @@ class UnexpectedError extends Error{
     name: string;
 
     /**
-     * @param message {string}
+     * @param message Error message
+     * 
      * This error mostly occurs when the spotify api responses an invalid json format or you have been rate limited!
      * You can view up all the spotify web api responses, request types, etc [here](https://developer.spotify.com/documentation/web-api/)
      */

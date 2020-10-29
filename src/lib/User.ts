@@ -1,9 +1,24 @@
+/**
+ * User lib file
+ */
+
 import { MissingParamError, UnexpectedError } from "../Error";
 import axios from "axios";
 import Spotify from "../Spotify";
 
+/**
+ * Class of all methods related to users
+ */
 class User extends Spotify {
 
+    /**
+     * @param id Id of the user
+     * 
+     * **Example:**
+     * ```js
+     * const user = await spotify.users.get("id"); // Returns the user details by id...
+     * ```
+     */
     async get(id: string): Promise<any> {
 
         return new Promise(async (resolve, reject) => {
@@ -17,21 +32,6 @@ class User extends Spotify {
             } catch (e) {
                 reject(new UnexpectedError(e));
             };
-        });
-
-    };
-
-    async player(): Promise<any> {
-
-        return new Promise(async (resolve, reject) => {
-            try {
-                const res = await this.fetch({
-                    link: "v1/me/player",
-                });
-                resolve(res);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
         });
 
     };

@@ -1,6 +1,13 @@
+/**
+ * Auth lib file
+ */
+
 import { MissingParamError, UnexpectedError } from "../Error";
 import axios from "axios";
 
+/**
+ * Interface of Auth.refresh return object
+ */
 export interface refresh {
     access_token: string;
     token_type: string;
@@ -9,15 +16,33 @@ export interface refresh {
     scope: string;
 }
 
+/**
+ * Class of all methods related to auth
+ */
 class Auth {
 
     token: string;
 
+    /**
+     * @param oauth Your token
+     * Auth class
+     */
     constructor(oauth: string) {
         if (!oauth) throw new MissingParamError("missing oauth");
         this.token = oauth;
     };
 
+    /**
+     * @param options Your client id and client secret in object form
+     * 
+     * **Example:**
+     * ```js
+     * client.oauth.get({
+     *     client_id: 'your-client-id',
+     *     client_secret: 'your-client-secret'
+     * }).then(console.log) // Will return you the token!
+     * ```
+     */
     async get(options: {
         client_id: string;
         client_secret: string;
@@ -28,7 +53,7 @@ class Auth {
             if (!options.client_secret) reject(new MissingParamError("missing client secret"));
 
             const token = this.token;
-            
+
             try {
                 const { data } = await axios({
                     method: "post",
@@ -53,9 +78,9 @@ class Auth {
     };
 
     /**
-     *
-     * @param options
-     * @param token
+     * @param options Your client id, client secret and refresh token
+     * @param token Your token
+     * 
      * Refreshes an Authorization token
      */
     async refresh(
@@ -100,8 +125,8 @@ class Auth {
     };
 
     /**
-     *
-     * @param options
+     * @param options Your client id, client secret and redirect uri in object form
+     * 
      * Builds an Authorization string.
      */
     build(options: {

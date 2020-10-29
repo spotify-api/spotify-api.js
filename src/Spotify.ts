@@ -18,6 +18,7 @@ interface getOptions {
 
 /**
  * Spotify utility class
+ * You can access this uility class through the `spotify.Client.utils`
  */
 export default class {
 
@@ -25,7 +26,8 @@ export default class {
 
     /**
      * @param oauth Your auth token
-     * You can access this uility class through the `spotify.Client.utils`
+     * 
+     * Library class
      */
     constructor(oauth: string) {
         this.token = oauth;
@@ -33,6 +35,7 @@ export default class {
 
     /**
      * @param hex Hex to be converted
+     * 
      * Function used to convert the hex string to rgb array.
      */
     hexToRgb(hex: string): number[] | void {
@@ -63,6 +66,7 @@ export default class {
 
     /**
      * @param options Fetch options
+     * 
      * Quick way to access spotify api without large fetching codes through axios....
      */
     async fetch(options: getOptions): Promise<any> {
@@ -72,6 +76,7 @@ export default class {
 
     /**
      * @param uri Uri of spotify data
+     * 
      * Get spotify uri data...
      */
     async getURIData(uri: string): Promise<any> {
@@ -86,6 +91,7 @@ export default class {
 
     /**
      * @param uri Spotify data
+     * 
      * Get code image of advanced options...
      */
     async getCodeImage(uri: string): Promise<any> {

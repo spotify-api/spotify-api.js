@@ -1,11 +1,30 @@
 "use strict";
+/**
+ * Track lib file
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+/**
+ * Class of all methods related to tracks
+ */
 class Track extends Spotify_1.default {
+    /**
+     * @param q Your query
+     * @param options Options to configure your search...
+     *
+     * **Example:**
+     * ```js
+     * const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, }); // Searches for the track and limit will be 20 by default
+       const advanced = await spotify.tracks.search("oh my god by alec benjamin", {
+           limit: 1,
+           advanced: true,
+       }); // Same but this will return a `codeImage` and `dominantColor` key with it!
+     * ```
+     */
     async search(q, options) {
         return new Promise(async (resolve, reject) => {
             if (!q)
@@ -40,6 +59,14 @@ class Track extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * @param id Id of the track
+     *
+     * **Example:**
+     * ```js
+     * const track = await spotify.tracks.get("track id"); // Get tracks by id...
+     * ```
+     */
     async get(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -59,6 +86,14 @@ class Track extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * @param id Id of the track
+     *
+     * **Example:**
+     * ```js
+     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
+     * ```
+     */
     async audioFeatures(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -75,6 +110,14 @@ class Track extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * @param id Id of the track
+     *
+     * **Example:**
+     * ```js
+     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
+     * ```
+     */
     async audioAnalysis(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)

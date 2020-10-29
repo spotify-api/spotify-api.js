@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * File where Client class exists...
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,10 +13,14 @@ const Track_1 = __importDefault(require("./lib/Track"));
 const Album_1 = __importDefault(require("./lib/Album"));
 const Artist_1 = __importDefault(require("./lib/Artist"));
 const Spotify_1 = __importDefault(require("./Spotify"));
+/**
+ * Client class
+ * The class which collects all the methods
+ */
 class default_1 {
     /**
+     * @param oauth Token
      *
-     * @param oauth {string}
      * Pass the spotify oauth `token`
      * ```js
      * const Spotify = require('spotify-api.js')

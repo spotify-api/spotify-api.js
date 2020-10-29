@@ -1,11 +1,26 @@
 "use strict";
+/**
+ * Album lib file
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+/**
+ * Class of all methods related to albums
+ */
 class Album extends Spotify_1.default {
+    /**
+     * @param q Your query
+     * @param options Your options such as limit, advanced, etc
+     *
+     * **Example:**
+     * ```js
+     * const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
+     * ```
+     */
     async search(q, options) {
         return new Promise(async (resolve, reject) => {
             if (!q)
@@ -38,6 +53,14 @@ class Album extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * @param id Id of the album
+     *
+     * **Example:**
+     * ```js
+     * const album = await spotify.albums.get("album id"); // Get album by id...
+     * ```
+     */
     async get(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -53,6 +76,15 @@ class Album extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * @param id Id of the song
+     * @param options Options such as limit and advanced
+     *
+     * **Example:**
+     * ```js
+     * const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
+     * ```
+     */
     async getTracks(id, options) {
         return new Promise(async (resolve, reject) => {
             if (!id)

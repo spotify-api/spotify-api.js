@@ -1,11 +1,25 @@
 "use strict";
+/**
+ * Playlist lib file
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+/**
+ * Class of all methods related to playlists
+ */
 class Playlist extends Spotify_1.default {
+    /**
+     * @param id Id of the playlist
+     *
+     * **Example:**
+     * ```js
+     * const playlist = await spotify.playlists.get("id"); // Get playlist data by id
+     * ```
+     */
     async get(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -26,6 +40,15 @@ class Playlist extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * @param id Id of the playlist
+     * @param options Options to configure your search
+     *
+     * **Example:**
+     * ```js
+     * const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
+     * ```
+     */
     async getTracks(id, options) {
         return new Promise(async (resolve, reject) => {
             if (!id)
