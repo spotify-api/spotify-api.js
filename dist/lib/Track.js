@@ -29,7 +29,9 @@ class Track extends Spotify_1.default {
                         items[i].codeImage = data.image;
                         items[i].dominantColor = data.dominantColor;
                     }
+                    ;
                 }
+                ;
                 resolve(items);
             }
             catch (e) {
@@ -37,6 +39,7 @@ class Track extends Spotify_1.default {
             }
         });
     }
+    ;
     async get(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -55,6 +58,7 @@ class Track extends Spotify_1.default {
             }
         });
     }
+    ;
     async audioFeatures(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -70,6 +74,7 @@ class Track extends Spotify_1.default {
             }
         });
     }
+    ;
     async audioAnalysis(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -85,6 +90,8 @@ class Track extends Spotify_1.default {
             }
         });
     }
+    ;
 }
+;
 exports.default = Track;
 //# sourceMappingURL=Track.js.map

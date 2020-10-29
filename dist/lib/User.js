@@ -20,8 +20,10 @@ class User extends Spotify_1.default {
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
             }
+            ;
         });
     }
+    ;
     async player() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -35,6 +37,8 @@ class User extends Spotify_1.default {
             }
         });
     }
+    ;
 }
+;
 exports.default = User;
 //# sourceMappingURL=User.js.map
