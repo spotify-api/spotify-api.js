@@ -33,5 +33,8 @@
       "url": "https://decimaldev.xyz",
       "email": "decimaldev01@gmail.com"
     }
-  ]
+  ],
+  "devDependencies": {
+    "fs": "0.0.1-security"
+  }
 }

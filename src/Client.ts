@@ -8,7 +8,7 @@ import Artist from './lib/Artist'
 import Spotify from './Spotify';
 
 export default class {
-
+  
   token: string;
   utils: any;
   lib: {

@@ -5,9 +5,9 @@ class UtilityError extends Error{
   constructor(message: string) {
     super(message);
     this.name = 'UtilityError';
-  }
+  };
 
-}
+};
 
 class MissingParamError extends Error{
 
@@ -16,8 +16,9 @@ class MissingParamError extends Error{
   constructor(message: string) {
     super(message);
     this.name = 'MissingParamError';
-  }
-}
+  };
+
+};
 
 class UnexpectedError extends Error{
 
@@ -26,8 +27,9 @@ class UnexpectedError extends Error{
   constructor(res: any) {
     super(res.response ? JSON.stringify(res.response.data) : res);
     this.name = 'UnexpectedError';
-  }
-}
+  };
+
+};
 
 export {
   UtilityError,
