@@ -11,6 +11,7 @@ class Auth {
             throw new Error_1.MissingParamError("missing oauth");
         this.token = oauth;
     }
+    ;
     async get(options) {
         return new Promise(async (resolve, reject) => {
             if (!options.client_id)
@@ -39,6 +40,7 @@ class Auth {
             }
         });
     }
+    ;
     /**
      *
      * @param options
@@ -77,6 +79,7 @@ class Auth {
             }
         });
     }
+    ;
     /**
      *
      * @param options
@@ -98,6 +101,8 @@ class Auth {
             "&" +
             "response_type=code");
     }
+    ;
 }
+;
 exports.default = Auth;
 //# sourceMappingURL=Oauth.js.map

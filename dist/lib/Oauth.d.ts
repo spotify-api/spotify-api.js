@@ -1,4 +1,4 @@
-interface refresh {
+export interface refresh {
     access_token: string;
     token_type: string;
     expires_in: number;
@@ -32,6 +32,6 @@ declare class Auth {
         client_id: string;
         client_secret: string;
         redirect_uri: string;
-    }): String;
+    }): string;
 }
 export default Auth;

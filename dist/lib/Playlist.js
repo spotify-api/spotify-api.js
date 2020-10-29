@@ -25,6 +25,7 @@ class Playlist extends Spotify_1.default {
             }
         });
     }
+    ;
     async getTracks(id, options) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -46,7 +47,9 @@ class Playlist extends Spotify_1.default {
                         items[i].codeImage = data.image;
                         items[i].dominantColor = data.dominantColor;
                     }
+                    ;
                 }
+                ;
                 resolve(items);
             }
             catch (e) {
@@ -54,6 +57,8 @@ class Playlist extends Spotify_1.default {
             }
         });
     }
+    ;
 }
+;
 exports.default = Playlist;
 //# sourceMappingURL=Playlist.js.map
