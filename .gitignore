@@ -1,9 +1,9 @@
-#dependencies
+# Dependencies
 node_modules/
 
-#test folder
+# Testings
 test/
-
-package-lock.json
-
 index.js
+
+# Lock folder
+package-lock.json

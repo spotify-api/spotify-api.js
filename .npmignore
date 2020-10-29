@@ -1,6 +1,18 @@
+# Tsc source folder
 src/
-node_modules
-test/
-docs/
 tsconfig.json
+
+# Unwanted node modules
+node_modules/
+
+# Docs
+docs/
+
+# Testings
+test/
 index.js
+
+# Github only files
+.github/
+.gitignore
+LICENSE
