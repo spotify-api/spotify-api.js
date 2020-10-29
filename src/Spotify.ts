@@ -48,7 +48,7 @@ export default class {
 
     async getURIData(uri: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            try{
+            try {
                 resolve(await spotifyUri.getData(uri));
             } catch(e) {
                 reject(e);

@@ -37,6 +37,7 @@ class Album extends Spotify_1.default {
             }
         });
     }
+    ;
     async get(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -51,6 +52,7 @@ class Album extends Spotify_1.default {
             }
         });
     }
+    ;
     async getTracks(id, options) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -79,8 +81,11 @@ class Album extends Spotify_1.default {
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
             }
+            ;
         });
     }
+    ;
 }
+;
 exports.default = Album;
 //# sourceMappingURL=Album.js.map
