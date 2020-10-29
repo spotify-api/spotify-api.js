@@ -1,38 +1,38 @@
 class UtilityError extends Error{
-  
-  name: string;
+    
+    name: string;
 
-  constructor(message: string) {
-    super(message);
-    this.name = 'UtilityError';
-  };
+    constructor(message: string) {
+        super(message);
+        this.name = 'UtilityError';
+    };
 
 };
 
 class MissingParamError extends Error{
 
-  name: string;
+    name: string;
 
-  constructor(message: string) {
-    super(message);
-    this.name = 'MissingParamError';
-  };
+    constructor(message: string) {
+        super(message);
+        this.name = 'MissingParamError';
+    };
 
 };
 
 class UnexpectedError extends Error{
 
-  name: string;
+    name: string;
 
-  constructor(res: any) {
-    super(res.response ? JSON.stringify(res.response.data) : res);
-    this.name = 'UnexpectedError';
-  };
+    constructor(res: any) {
+        super(res.response ? JSON.stringify(res.response.data) : res);
+        this.name = 'UnexpectedError';
+    };
 
 };
 
 export {
-  UtilityError,
-  MissingParamError,
-  UnexpectedError
+    UtilityError,
+    MissingParamError,
+    UnexpectedError
 }

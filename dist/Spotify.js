@@ -10,6 +10,7 @@ class default_1 {
     constructor(oauth) {
         this.token = oauth;
     }
+    ;
     hexToRgb(hex) {
         if (typeof hex == "string" && /^([0-9A-F]{3}){1,2}$/i.test(hex))
             throw new Error_1.UtilityError("Invalid hex code provided!");
@@ -19,10 +20,12 @@ class default_1 {
             alpha = parseInt(hex.slice(6, 8), 16) / 255;
             hex = hex.slice(0, 6);
         }
+        ;
         if (hex.length === 4) {
             alpha = parseInt(hex.slice(3, 4).repeat(2), 16) / 255;
             hex = hex.slice(0, 3);
         }
+        ;
         if (hex.length === 3)
             hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
         const num = parseInt(hex, 16);
@@ -32,12 +35,7 @@ class default_1 {
         return [red, green, blue, alpha];
     }
     async fetch(options) {
-        const { data } = await axios_1.default.get("https://api.spotify.com/" + options.link, {
-            headers: options.headers || {
-                Authorization: `Bearer ${this.token}`,
-            },
-            params: options.params || {},
-        });
+        const { data } = await axios_1.default.get("https://api.spotify.com/" + options.link, { headers: options.headers || { Authorization: `Bearer ${this.token}`, }, params: options.params || {}, });
         return data;
     }
     async getURIData(uri) {
@@ -45,9 +43,10 @@ class default_1 {
             try {
                 resolve(await spotify_uri_info_1.default.getData(uri));
             }
-            catch (E) {
-                reject(E);
+            catch (e) {
+                reject(e);
             }
+            ;
         });
     }
     async getCodeImage(uri) {
@@ -61,6 +60,8 @@ class default_1 {
             },
         };
     }
+    ;
 }
 exports.default = default_1;
+;
 //# sourceMappingURL=Spotify.js.map
