@@ -16,3 +16,6 @@ index.js
 .github/
 .gitignore
 LICENSE
+
+# Editor based files
+.vscode/
