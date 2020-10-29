@@ -1,1 +1,146 @@
-"use strict";var __importDefault=this&&this.__importDefault||function(r){return r&&r.__esModule?r:{default:r}};Object.defineProperty(exports,"__esModule",{value:!0});const Error_1=require("../Error"),Spotify_1=__importDefault(require("../Spotify"));class Artist extends Spotify_1.default{async search(r,t){return new Promise((async(e,i)=>{r||i(new Error_1.MissingParamError("missing query")),t||(t={});try{let i=(await this.fetch({link:"v1/search",params:{q:encodeURIComponent(r),type:"artist",market:"US",limit:t.limit||20}})).artists.items;if(t.advanced)for(let r=0;r<i.length;r++){let t=await this.getCodeImage(i[r].uri);i[r].codeImage=t.image,i[r].dominantColor=t.dominantColor}e(i)}catch(r){i(new Error_1.UnexpectedError(r))}}))}async get(r){return new Promise((async(t,e)=>{r||e(new Error_1.MissingParamError("missing id"));try{const e=await this.fetch({link:"v1/artists/"+r}),i=await this.getCodeImage(e.uri);e.codeImage=i.image,e.dominantColor=i.dominantColor,t(e)}catch(r){e(new Error_1.UnexpectedError(r))}}))}async getAlbums(r,t){return new Promise((async(e,i)=>{r||i(new Error_1.MissingParamError("missing id")),t||(t={});try{let i=(await this.fetch({link:`v1/artists/${r}/albums`,params:{limit:t.limit||20,market:"US",include_groups:"single"}})).items;if(t.advanced)for(let r=0;r<i.length;r++){let t=await this.getCodeImage(i[r].uri);i[r].codeImage=t.image,i[r].dominantColor=t.dominantColor}e(i)}catch(r){i(new Error_1.UnexpectedError(r))}}))}async topTracks(r,t){return new Promise((async(e,i)=>{r||i(new Error_1.MissingParamError("missing id")),t||(t={});try{let i=(await this.fetch({link:`v1/artists/${r}/top-tracks`,params:{country:"US"}})).tracks;if(t.advanced)for(let r=0;r<i.length;r++){let t=await this.getCodeImage(i[r].uri);i[r].codeImage=t.image,i[r].dominantColor=t.dominantColor}e(i)}catch(r){i(new Error_1.UnexpectedError(r))}}))}async relatedArtists(r,t){return new Promise((async(e,i)=>{r||i(new Error_1.MissingParamError("missing id")),t||(t={});try{let i=(await this.fetch({link:`v1/artists/${r}/related-artists`,params:{country:"US"}})).artists;if(t.advanced)for(let r=0;r<i.length;r++){let t=await this.getCodeImage(i[r].uri);i[r].codeImage=t.image,i[r].dominantColor=t.dominantColor}e(i)}catch(r){i(new Error_1.UnexpectedError(r))}}))}}exports.default=Artist;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Error_1 = require("../Error");
+const Spotify_1 = __importDefault(require("../Spotify"));
+class Artist extends Spotify_1.default {
+    async search(q, options) {
+        return new Promise(async (resolve, reject) => {
+            if (!q)
+                reject(new Error_1.MissingParamError("missing query"));
+            if (!options)
+                options = {};
+            try {
+                const res = await this.fetch({
+                    link: `v1/search`,
+                    params: {
+                        q: encodeURIComponent(q),
+                        type: "artist",
+                        market: "US",
+                        limit: options.limit || 20,
+                    },
+                });
+                let items = res.artists.items;
+                if (options.advanced) {
+                    for (let i = 0; i < items.length; i++) {
+                        let data = await this.getCodeImage(items[i].uri);
+                        items[i].codeImage = data.image;
+                        items[i].dominantColor = data.dominantColor;
+                    }
+                }
+                resolve(items);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+        });
+    }
+    async get(id) {
+        return new Promise(async (resolve, reject) => {
+            if (!id)
+                reject(new Error_1.MissingParamError("missing id"));
+            try {
+                const data = await this.fetch({
+                    link: `v1/artists/${id}`,
+                });
+                const codeImage = await this.getCodeImage(data.uri);
+                data.codeImage = codeImage.image;
+                data.dominantColor = codeImage.dominantColor;
+                resolve(data);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+        });
+    }
+    async getAlbums(id, options) {
+        return new Promise(async (resolve, reject) => {
+            if (!id)
+                reject(new Error_1.MissingParamError("missing id"));
+            if (!options)
+                options = {};
+            try {
+                const res = await this.fetch({
+                    link: `v1/artists/${id}/albums`,
+                    params: {
+                        limit: options.limit || 20,
+                        market: "US",
+                        include_groups: "single",
+                    },
+                });
+                let items = res.items;
+                if (options.advanced) {
+                    for (let i = 0; i < items.length; i++) {
+                        let data = await this.getCodeImage(items[i].uri);
+                        items[i].codeImage = data.image;
+                        items[i].dominantColor = data.dominantColor;
+                    }
+                }
+                resolve(items);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+        });
+    }
+    async topTracks(id, options) {
+        return new Promise(async (resolve, reject) => {
+            if (!id)
+                reject(new Error_1.MissingParamError("missing id"));
+            if (!options)
+                options = {};
+            try {
+                const res = await this.fetch({
+                    link: `v1/artists/${id}/top-tracks`,
+                    params: {
+                        country: "US",
+                    },
+                });
+                let items = res.tracks;
+                if (options.advanced) {
+                    for (let i = 0; i < items.length; i++) {
+                        let data = await this.getCodeImage(items[i].uri);
+                        items[i].codeImage = data.image;
+                        items[i].dominantColor = data.dominantColor;
+                    }
+                }
+                resolve(items);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+        });
+    }
+    async relatedArtists(id, options) {
+        return new Promise(async (resolve, reject) => {
+            if (!id)
+                reject(new Error_1.MissingParamError("missing id"));
+            if (!options)
+                options = {};
+            try {
+                const res = await this.fetch({
+                    link: `v1/artists/${id}/related-artists`,
+                    params: {
+                        country: "US",
+                    },
+                });
+                let items = res.artists;
+                if (options.advanced) {
+                    for (let i = 0; i < items.length; i++) {
+                        let data = await this.getCodeImage(items[i].uri);
+                        items[i].codeImage = data.image;
+                        items[i].dominantColor = data.dominantColor;
+                    }
+                }
+                resolve(items);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+        });
+    }
+}
+exports.default = Artist;
+//# sourceMappingURL=Artist.js.map

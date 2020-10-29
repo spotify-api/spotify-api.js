@@ -1,3 +1,5 @@
 import Client from './Client';
-declare const version = "3.0.2";
+import '../package.json';
+declare const version = "4.0.5";
 export { version, Client };
+export default Client;
