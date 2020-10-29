@@ -1,20 +1,40 @@
+/**
+ * File of basic utility
+ * All the lib files extends to this class to make work faster
+ */
+
 import { UtilityError } from "./Error";
 import axios from "axios";
 import spotifyUri from "@spotify-api.js/spotify-uri-info";
 
+/**
+ * Interface of this.fetch options
+ */
 interface getOptions {
     link: string;
     headers?: any;
     params?: any;
-}
+};
 
+/**
+ * Spotify utility class
+ */
 export default class {
+
     token: string;
 
+    /**
+     * @param oauth Your auth token
+     * You can access this uility class through the `spotify.Client.utils`
+     */
     constructor(oauth: string) {
         this.token = oauth;
     };
 
+    /**
+     * @param hex Hex to be converted
+     * Function used to convert the hex string to rgb array.
+     */
     hexToRgb(hex: string): number[] | void {
         if (typeof hex == "string" && /^([0-9A-F]{3}){1,2}$/i.test(hex)) throw new UtilityError("Invalid hex code provided!");
 
@@ -41,11 +61,19 @@ export default class {
         return [red, green, blue, alpha];
     }
 
+    /**
+     * @param options Fetch options
+     * Quick way to access spotify api without large fetching codes through axios....
+     */
     async fetch(options: getOptions): Promise<any> {
         const { data } = await axios.get("https://api.spotify.com/" + options.link, { headers: options.headers || { Authorization: `Bearer ${this.token}`, }, params: options.params || {}, });
         return data;
     }
 
+    /**
+     * @param uri Uri of spotify data
+     * Get spotify uri data...
+     */
     async getURIData(uri: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
             try {
@@ -56,6 +84,10 @@ export default class {
         });
     }
 
+    /**
+     * @param uri Spotify data
+     * Get code image of advanced options...
+     */
     async getCodeImage(uri: string): Promise<any> {
         const data = await this.getURIData(uri);
         let match = this.hexToRgb(data.dominantColor);
@@ -68,4 +100,5 @@ export default class {
             },
         };
     };
+
 };

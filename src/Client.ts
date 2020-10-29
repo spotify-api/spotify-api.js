@@ -1,3 +1,7 @@
+/**
+ * File where Client class exists...
+ */
+
 import Auth from './lib/Oauth';
 import User from './lib/User';
 import Playlist from './lib/Playlist';
@@ -7,6 +11,10 @@ import Artist from './lib/Artist'
 
 import Spotify from './Spotify';
 
+/**
+ * Client class
+ * The class which collects all the methods
+ */
 export default class {
       
     token: string;
@@ -28,8 +36,7 @@ export default class {
     artists: Artist;
 
     /**
-     * 
-     * @param oauth {string} 
+     * @param oauth {string}
      * Pass the spotify oauth `token`
      * ```js
      * const Spotify = require('spotify-api.js')
