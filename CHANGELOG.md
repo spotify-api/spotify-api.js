@@ -9,5 +9,6 @@ Version history of spotify-api.js since v4.0.5
 - More brief typedoc
 - Fixed small bugs
 
-**Status:** Not yet pubished, can have some bugs
+**Status:** Published
+
 **Released:** 30th August 2020
