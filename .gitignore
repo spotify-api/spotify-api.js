@@ -7,3 +7,6 @@ index.js
 
 # Lock folder
 package-lock.json
+
+# Editor based files
+.vscode/
