@@ -12,7 +12,7 @@ Version history of spotify-api.js since v4.0.5
 - Readme.md has es6 imports example
 - Added contributing.md so the people can know about repo b efore contributing
 
-**Status:** Waiting to be published | **Released:** 31st August 2020
+**Status:** Published | **Released:** 31st August 2020
 
 ---
 
