@@ -24,10 +24,10 @@ Please make an App from here https://developer.spotify.com/dashboard/
 # Getting Access Token
 
 ```js
-const { Client } = require("spotify-api.js");
-const spotify = new Client("NO TOKEN"); // Keep it like that to get a new token...
+const Spotify = require("spotify-api.js");
+const Auth = new Spotify.Auth();
 
-const token = await spotify.oauth.get({
+const token = await Auth.get({
   client_id: "client id",
   client_secret: "client secret",
 }); // Will return a promise of token 

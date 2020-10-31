@@ -8,11 +8,11 @@ import Playlist from './lib/Playlist';
 import Track from './lib/Track';
 import Album from './lib/Album';
 import Artist from './lib/Artist'
-
 import Spotify from './Spotify';
 
 /**
- * Client class
+ * **Client class**
+ * 
  * The class which collects all the methods
  */
 export default class {
@@ -44,8 +44,8 @@ export default class {
      * const client = new Spotify.Client('oauth token')
      * ```
      */
-    constructor(oauth: string) {
-        this.token = oauth;
+    constructor(oauth?: string) {
+        this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify(this.token)
         this.lib = {
             Auth, User, Playlist, Track, Album, Artist

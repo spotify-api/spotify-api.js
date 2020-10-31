@@ -27,9 +27,8 @@ class Auth {
      * @param oauth Your token
      * Auth class
      */
-    constructor(oauth: string) {
-        if (!oauth) throw new MissingParamError("missing oauth");
-        this.token = oauth;
+    constructor(oauth?: string) {
+        this.token = oauth || 'NO TOKEN';
     };
 
     /**

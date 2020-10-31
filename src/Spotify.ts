@@ -29,8 +29,8 @@ export default class {
      * 
      * Library class
      */
-    constructor(oauth: string) {
-        this.token = oauth;
+    constructor(oauth?: string) {
+        this.token = oauth || 'NO TOKEN';
     };
 
     /**
