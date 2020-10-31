@@ -21,7 +21,7 @@ export default class {
      *
      * Library class
      */
-    constructor(oauth: string);
+    constructor(oauth?: string);
     /**
      * @param hex Hex to be converted
      *

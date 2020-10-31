@@ -20,7 +20,7 @@ declare class Auth {
      * @param oauth Your token
      * Auth class
      */
-    constructor(oauth: string);
+    constructor(oauth?: string);
     /**
      * @param options Your client id and client secret in object form
      *

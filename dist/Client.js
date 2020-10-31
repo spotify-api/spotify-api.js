@@ -14,7 +14,8 @@ const Album_1 = __importDefault(require("./lib/Album"));
 const Artist_1 = __importDefault(require("./lib/Artist"));
 const Spotify_1 = __importDefault(require("./Spotify"));
 /**
- * Client class
+ * **Client class**
+ *
  * The class which collects all the methods
  */
 class default_1 {
@@ -28,7 +29,7 @@ class default_1 {
      * ```
      */
     constructor(oauth) {
-        this.token = oauth;
+        this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify_1.default(this.token);
         this.lib = {
             Auth: Oauth_1.default, User: User_1.default, Playlist: Playlist_1.default, Track: Track_1.default, Album: Album_1.default, Artist: Artist_1.default

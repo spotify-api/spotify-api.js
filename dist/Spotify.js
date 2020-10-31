@@ -22,7 +22,7 @@ class default_1 {
      * Library class
      */
     constructor(oauth) {
-        this.token = oauth;
+        this.token = oauth || 'NO TOKEN';
     }
     ;
     /**
