@@ -1,6 +1,7 @@
 - [Home](/)
 - [Installation](/basics/installation)
 - [Version](/basics/version)
+- [Changelog](/basics/changelog)
 - [Classes](/class/client)
     - [Client](/class/client)
     - [Util](/class/util)

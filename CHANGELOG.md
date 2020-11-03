@@ -1,4 +1,5 @@
 # Spotify-api.js Changelog
+
 Version history of spotify-api.js since v4.0.5
 
 ---
