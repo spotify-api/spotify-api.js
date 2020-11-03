@@ -1,0 +1,3 @@
+- [Home](/)
+- [GitHub](https://github.com/spotify-api/spotify-api.js)
+- [Npm](https://npmjs.com/spotify-api.js)

@@ -1,247 +1,52 @@
-<!doctype html>
-<html class="default no-js">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>spotify-api.js</title>
-	<meta name="description" content="Documentation for spotify-api.js">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+    <meta charset="UTF-8">
+    <title>Spotify-Api.js</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" href="main.css"/>
+    <meta name="Spotify-api.js" content="Description">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+    <link rel="icon" href="https://avatars0.githubusercontent.com/u/71826863?s=400&u=c871a66a95a2ca7e9b0f072aa9635b31fbc1e800&v=4" type="image/png"/>
+
+    <meta itemprop="name" content="Spotify-Api.js">
+    <meta itemprop="description" content="A complete node js wrapper of spotify api with oauth support">
+    <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/71826863?s=400&u=c871a66a95a2ca7e9b0f072aa9635b31fbc1e800&v=4">
+
+    <meta property="og:url" content="https://spotifyapijs.netlify.app">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Spotify-Api.js">
+    <meta property="og:description" content="A complete node js wrapper of spotify api with oauth support">
+    <meta property="og:thumbnail" content="https://avatars0.githubusercontent.com/u/71826863?s=400&u=c871a66a95a2ca7e9b0f072aa9635b31fbc1e800&v=4">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Spotify-Api.js">
+    <meta name="twitter:description" content="A complete node js wrapper of spotify api with oauth support">
+    <meta name="twitter:image" content="https://avatars0.githubusercontent.com/u/71826863?s=400&u=c871a66a95a2ca7e9b0f072aa9635b31fbc1e800&v=4">
 </head>
 <body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">spotify-api.js</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1>spotify-api.js</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<div align="center">
-					<img src="https://media.discordapp.net/attachments/736466510888960020/760853915876327464/Sa.png?width=718&height=275"><br>
-					<div>
-						<a href="https://spotify-apijs.netlify.app/#/"><img src="https://img.shields.io/badge/READ-DOCS-orange?style=for-the-badge"></a>
-						<a href="https://github.com/spotify-api/spotify-api.js/"><img src="https://img.shields.io/github/repo-size/spotify-api/spotify-api.js?label=Size&style=for-the-badge"></a>
-						<a href="https://www.npmjs.com/package/spotify-api.js"><img src="https://img.shields.io/npm/v/spotify-api.js?label=Version&style=for-the-badge"></a>
-					</div><br>
-				</div>
-				<a href="#quick-intro" id="quick-intro" style="color: inherit; text-decoration: none;">
-					<h1>Quick Intro</h1>
-				</a>
-				<p>Spotify-api.js is a quick wrapper to interact with spotify api...</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h1>Installation</h1>
-				</a>
-				<pre><code class="language-bash">npm i spotify-api.js</code></pre>
-				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
-					<h1>Getting Started</h1>
-				</a>
-				<p>Please make an App from here <a href="https://developer.spotify.com/dashboard/">https://developer.spotify.com/dashboard/</a></p>
-				<a href="#getting-access-token" id="getting-access-token" style="color: inherit; text-decoration: none;">
-					<h1>Getting Access Token</h1>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> { Client } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;spotify-api.js&quot;</span>);
-<span class="hljs-keyword">const</span> spotify = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">&quot;NO TOKEN&quot;</span>); <span class="hljs-comment">// Keep it like that to get a new token...</span>
-
-<span class="hljs-keyword">const</span> token = <span class="hljs-keyword">await</span> spotify.oauth.get({
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&quot;client id&quot;</span>,
-  <span class="hljs-attr">client_secret</span>: <span class="hljs-string">&quot;client secret&quot;</span>,
-}); <span class="hljs-comment">// Will return a promise of token </span>
-
-<span class="hljs-built_in">console</span>.log(token); <span class="hljs-comment">// Spotify resets its token each every 1-5 minutes to prevent api spam!</span></code></pre>
-				<a href="#tracks" id="tracks" style="color: inherit; text-decoration: none;">
-					<h1>Tracks</h1>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, {
-  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
-}); <span class="hljs-comment">// Searches for the track and limit will be 20 by default</span>
-<span class="hljs-keyword">const</span> advanced = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, {
-  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span>,
-}); <span class="hljs-comment">// Same but this will return a `codeImage` and `dominantColor` key with it!</span>
-<span class="hljs-keyword">const</span> get = <span class="hljs-keyword">await</span> spotify.tracks.get(<span class="hljs-string">&quot;track id&quot;</span>); <span class="hljs-comment">// Get tracks by id...</span>
-<span class="hljs-keyword">const</span> audioAnalysis = <span class="hljs-keyword">await</span> spotify.tracks.audioAnalysis(<span class="hljs-string">&quot;track id&quot;</span>); <span class="hljs-comment">// Get audio analysis of the track</span>
-<span class="hljs-keyword">const</span> audioFeatures = <span class="hljs-keyword">await</span> spotify.tracks.audioFeatures(<span class="hljs-string">&quot;track id&quot;</span>); <span class="hljs-comment">// Get audio features of the track</span></code></pre>
-				<a href="#artists" id="artists" style="color: inherit; text-decoration: none;">
-					<h1>Artists</h1>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> artist = <span class="hljs-keyword">await</span> spotify.artists.search(<span class="hljs-string">&quot;alec benjamin&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Searches for the artist with a default limit as 1...</span>
-<span class="hljs-keyword">const</span> advanced = <span class="hljs-keyword">await</span> spotify.artists.search(<span class="hljs-string">&quot;alec benjamin&quot;</span>, {
-  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span>,
-}); <span class="hljs-comment">// Returns a `dominantColor` and `codeImage` key with the response../</span>
-<span class="hljs-keyword">const</span> get = <span class="hljs-keyword">await</span> spotify.artists.get(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Get artists by id. Has advanced option too...</span>
-<span class="hljs-keyword">const</span> albums = <span class="hljs-keyword">await</span> spotify.artists.getAlbums(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Get artist albums by id. Has advanced and limit option too...</span>
-<span class="hljs-keyword">const</span> topTracks = <span class="hljs-keyword">await</span> spotify.artists.topTracks(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Returns top tracks of the artist. Has advanced and limit option too...</span>
-<span class="hljs-keyword">const</span> relatedArtists = <span class="hljs-keyword">await</span> spotify.artists.relatedArtists(<span class="hljs-string">&quot;artist id&quot;</span>); <span class="hljs-comment">// Returns related artists. Has advanced and limit option too...</span></code></pre>
-				<a href="#albums" id="albums" style="color: inherit; text-decoration: none;">
-					<h1>Albums</h1>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> album = <span class="hljs-keyword">await</span> spotify.albums.search(<span class="hljs-string">&quot;these two windows&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Searches for an album. Has advanced option too...</span>
-<span class="hljs-keyword">const</span> get = <span class="hljs-keyword">await</span> spotify.albums.get(<span class="hljs-string">&quot;album id&quot;</span>); <span class="hljs-comment">// Get album by id...</span>
-<span class="hljs-keyword">const</span> tracks = <span class="hljs-keyword">await</span> spotify.albums.getTracks(<span class="hljs-string">&quot;album id&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">5</span> }); <span class="hljs-comment">// Get all tracks of an album. Has advanced option too...</span></code></pre>
-				<a href="#users" id="users" style="color: inherit; text-decoration: none;">
-					<h1>Users</h1>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> spotify.users.get(<span class="hljs-string">&quot;id&quot;</span>); <span class="hljs-comment">// Returns the user details by id...</span></code></pre>
-				<a href="#playlists" id="playlists" style="color: inherit; text-decoration: none;">
-					<h1>Playlists</h1>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> playlist = <span class="hljs-keyword">await</span> spotify.playlists.get(<span class="hljs-string">&quot;id&quot;</span>); <span class="hljs-comment">// Get playlist data by id</span>
-<span class="hljs-keyword">const</span> tracks = <span class="hljs-keyword">await</span> spotify.playlists.getTracks(<span class="hljs-string">&quot;id&quot;</span>, { <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// Get all tracks in an album by id. Has advanced option too...</span></code></pre>
-				<a href="#example-for-advanced-option" id="example-for-advanced-option" style="color: inherit; text-decoration: none;">
-					<h1>Example for advanced option...</h1>
-				</a>
-				<p>Take the following code for example</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> { Client } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;spotify-api.js&quot;</span>); <span class="hljs-comment">// Import package</span>
-<span class="hljs-keyword">const</span> spotify = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">&quot;token&quot;</span>); <span class="hljs-comment">// Load client with token or using oauth</span>
-
-<span class="hljs-keyword">const</span> track = <span class="hljs-keyword">await</span> spotify.tracks.search(<span class="hljs-string">&quot;oh my god by alec benjamin&quot;</span>, {
-  <span class="hljs-attr">limit</span>: <span class="hljs-number">1</span>,
-  <span class="hljs-attr">advanced</span>: <span class="hljs-literal">true</span>,
-}); <span class="hljs-comment">// Search albums</span>
-<span class="hljs-built_in">console</span>.log(track[<span class="hljs-number">0</span>].codeImage); <span class="hljs-comment">// Get the code image for advanced...</span>
-<span class="hljs-built_in">console</span>.log(track[<span class="hljs-number">0</span>].dominantColor); <span class="hljs-comment">// Get the dominant color... Returns { hex: string, rgb: [r, g, b, a] }</span></code></pre>
-				<a href="#deep-dive-into-refrehing-a-token" id="deep-dive-into-refrehing-a-token" style="color: inherit; text-decoration: none;">
-					<h1>Deep dive into Refrehing a token</h1>
-				</a>
-				<p>To refresh a token you need 4 params.</p>
-				<ul>
-					<li>client id</li>
-					<li>client secret</li>
-					<li>redirect uri (should be defined in your spotify application)</li>
-					<li>Authorization token (granted from the <code>/authorize</code> endpoint)</li>
-				</ul>
-				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
-					<h2>Example</h2>
-				</a>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> {refresh_token} = <span class="hljs-keyword">await</span> spotify.oauth.refresh({
-  <span class="hljs-attr">client_id</span>: <span class="hljs-string">&quot;my client id&quot;</span>,
-  <span class="hljs-attr">client_secret</span> : <span class="hljs-string">&quot;my client secret&quot;</span>,
-  <span class="hljs-attr">redirect_uri</span> : <span class="hljs-string">&quot;my redirection uri &quot;</span>,
-}, <span class="hljs-string">&quot;my token&quot;</span>
-)</code></pre>
-				<a href="#example-for-the-cover-and-code-image" id="example-for-the-cover-and-code-image" style="color: inherit; text-decoration: none;">
-					<h3>Example for the cover and code image</h3>
-				</a>
-				<ul>
-					<li><img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img><pre><code></code></pre>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_client_.html">&quot;<wbr>Client&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_error_.html">&quot;<wbr>Error&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_spotify_.html">&quot;<wbr>Spotify&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_index_.html">&quot;index&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_album_.html">&quot;lib/<wbr>Album&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_artist_.html">&quot;lib/<wbr>Artist&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_oauth_.html">&quot;lib/<wbr>Oauth&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_playlist_.html">&quot;lib/<wbr>Playlist&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_track_.html">&quot;lib/<wbr>Track&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_lib_user_.html">&quot;lib/<wbr>User&quot;</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
+    <div id="app"></div>
+    <script>
+        window.$docsify = {
+            name: 'Spotify-Api.js',
+            repo: 'https://github.com/spotify-api/spotify-api.js',
+            loadSidebar: true,
+            loadNavbar: true,
+            themeColor: '#1DB954',
+            notFoundPage: true,
+            copyCode: {
+                buttonText : 'Copy',
+                errorText  : 'Error X',
+                successText: 'Copied!'
+            },
+            coverpage:true,
+            auto2top: true,
+            search: 'auto',
+        }
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+    <script src="https://unpkg.com/docsify-copy-code@2"></script>
+    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 </body>
 </html>

@@ -10,3 +10,7 @@ package-lock.json
 
 # Editor based files
 .vscode/
+commit.sh
+
+# Doc Gen File
+doc-gen.js

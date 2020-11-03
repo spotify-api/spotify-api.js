@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "test": "node test/index.js"
+    "test": "node test/index.js",
+    "doc": "node doc-gen.js"
   },
   "repository": {
     "type": "git",
