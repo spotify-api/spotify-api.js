@@ -7,13 +7,13 @@ Fetch spotify user information
 
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: <p>string</p></font></h3>
+<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: >strin</font></h3>
 
 > Your auth token
 > 
 
 ---
-<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: <p>string</p></font>)</h3>
+<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: >strin</font>)</h3>
 
 > Get the spotify user information by id
 > 

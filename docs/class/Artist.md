@@ -7,13 +7,13 @@ Methods related to Spotify Artists
 
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: <p>string</p></font></h3>
+<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: >strin</font></h3>
 
 > Your auth token
 > 
 
 ---
-<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q: <p>string</p>, options?: <p>{ limit?: number, advanced?: boolean }</p></font>)</h3>
+<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q: >strin, options?: >{ limit?: number, advanced?: boolean </font>)</h3>
 
 > Search artists
 > 
@@ -25,7 +25,7 @@ Methods related to Spotify Artists
 > **Returns:** "Promise<any[]>"
 
 ---
-<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: <p>string</p></font>)</h3>
+<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: >strin</font>)</h3>
 
 > Get artist info by id.
 > 
@@ -36,7 +36,7 @@ Methods related to Spotify Artists
 > **Returns:** "Promise<any>"
 
 ---
-<h3 style="font-family: consolas;" id="getalbums">.getAlbums(<font style="opacity: 0.7; font-weight: light;">id: <p>string</p>, options?: <p>{ limit?: number, advanced?: boolean }</p></font>)</h3>
+<h3 style="font-family: consolas;" id="getalbums">.getAlbums(<font style="opacity: 0.7; font-weight: light;">id: >strin, options?: >{ limit?: number, advanced?: boolean </font>)</h3>
 
 > Get list of albums by the Spotify Artist by the artist id
 > 
@@ -48,7 +48,7 @@ Methods related to Spotify Artists
 > **Returns:** "Promise<any[]>"
 
 ---
-<h3 style="font-family: consolas;" id="toptracks">.topTracks(<font style="opacity: 0.7; font-weight: light;">id: <p>string</p>, options?: <p>{ limit?: number, advanced?: boolean }</p></font>)</h3>
+<h3 style="font-family: consolas;" id="toptracks">.topTracks(<font style="opacity: 0.7; font-weight: light;">id: >strin, options?: >{ limit?: number, advanced?: boolean </font>)</h3>
 
 > Get top tracks of the Spotify Artist by the artist id
 > 
@@ -60,7 +60,7 @@ Methods related to Spotify Artists
 > **Returns:** "Promise<any[]>"
 
 ---
-<h3 style="font-family: consolas;" id="relatedartists">.relatedArtists(<font style="opacity: 0.7; font-weight: light;">id: <p>string</p>, options?: <p>{ limit?: number, advanced?: boolean }</p></font>)</h3>
+<h3 style="font-family: consolas;" id="relatedartists">.relatedArtists(<font style="opacity: 0.7; font-weight: light;">id: >strin, options?: >{ limit?: number, advanced?: boolean </font>)</h3>
 
 > Get list of related artists of the Spotify Artist by the artist id
 > 
