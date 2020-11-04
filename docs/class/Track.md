@@ -7,13 +7,13 @@ Methods related to Spotify Tracks
 
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: >string</font></h3>
+<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: string</font></h3>
 
 > Your auth token
 > 
 
 ---
-<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q: >string, options?: >{ limit?: number, advanced?: boolean }</font>)</h3>
+<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
 
 > Search tracks
 > 
@@ -25,7 +25,7 @@ Methods related to Spotify Tracks
 > **Returns:** "Promise<any[]>"
 
 ---
-<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: >string</font>)</h3>
+<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: string</font>)</h3>
 
 > Get track info by id
 > 
@@ -36,7 +36,7 @@ Methods related to Spotify Tracks
 > **Returns:** "Promise<any>"
 
 ---
-<h3 style="font-family: consolas;" id="audiofeatures">.audioFeatures(<font style="opacity: 0.7; font-weight: light;">id: >string</font>)</h3>
+<h3 style="font-family: consolas;" id="audiofeatures">.audioFeatures(<font style="opacity: 0.7; font-weight: light;">id: string</font>)</h3>
 
 > Get audio features of the track by id.
 > 
@@ -47,7 +47,7 @@ Methods related to Spotify Tracks
 > **Returns:** "Promise<any>"
 
 ---
-<h3 style="font-family: consolas;" id="audioanalysis">.audioAnalysis(<font style="opacity: 0.7; font-weight: light;">id: >string</font>)</h3>
+<h3 style="font-family: consolas;" id="audioanalysis">.audioAnalysis(<font style="opacity: 0.7; font-weight: light;">id: string</font>)</h3>
 
 > Audio Analysis of a track by its id.
 > 
