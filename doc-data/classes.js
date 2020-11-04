@@ -11,31 +11,42 @@ module.exports = {
         },
         utils: {
             description: "Util class",
-            type: a('Util', 'https://spotifyapijs.netlify.app/#/class/util')
+            type: a('Util', 'https://spotify-api-js-test.netlify.app/#/class/util')
         },
         oauth: {
             description: "Auth class",
-            type: a('Auth', 'https://spotifyapijs.netlify.app/#/class/auth')
+            type: a('Auth', 'https://spotify-api-js-test.netlify.app/#/class/auth')
         },
         albums: {
             description: "Album class",
-            type: a('Album', 'https://spotifyapijs.netlify.app/#/class/album')
+            type: a('Album', 'https://spotify-api-js-test.netlify.app/#/class/album')
         },
         artists: {
             description: "Artist class",
-            type: a('Artist', 'https://spotifyapijs.netlify.app/#/class/artist')
+            type: a('Artist', 'https://spotify-api-js-test.netlify.app/#/class/artist')
         },
         playlists: {
             description: "Playlist class",
-            type: a('Playlist', 'https://spotifyapijs.netlify.app/#/class/playlist')
+            type: a('Playlist', 'https://spotify-api-js-test.netlify.app/#/class/playlist')
         },
         tracks: {
             description: "Track class",
-            type: a('Track', 'https://spotifyapijs.netlify.app/#/class/track')
+            type: a('Track', 'https://spotify-api-js-test.netlify.app/#/class/track')
         },
         users: {
             description: "User class",
-            type: a('User', 'https://spotifyapijs.netlify.app/#/class/user')
+            type: a('User', 'https://spotify-api-js-test.netlify.app/#/class/user')
+        },
+        login: {
+            description: 'Login to your spotify client.',
+            returns: 'void',
+            parameters: [
+                [
+                    'token',
+                    'string',
+                    'Your token'
+                ]
+            ]
         }
     },
     Util: {

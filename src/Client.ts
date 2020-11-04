@@ -16,6 +16,8 @@ import Browse from './lib/Browse';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 
+import { MissingParamError } from './Error';
+
 /**
  * **Client class**
  * 
@@ -50,6 +52,26 @@ export default class {
      */
     constructor(oauth?: string) {
         this.token = oauth || 'NO TOKEN';
+        this.utils = new Spotify(this.token)
+
+        this.auth = new Auth(this.token);
+        this.users = new User(this.token);
+        this.playlists = new Playlist(this.token);
+        this.tracks = new Track(this.token);
+        this.albums = new Album(this.token);
+        this.artists = new Artist(this.token);
+        this.episodes = new Episode(this.token);
+        this.shows = new Show(this.token);
+        this.browse = new Browse(this.token);
+        this.user = new UserClient(this.token);
+
+        this.search = Search(this.token);
+    };
+
+    login(token: string): void {
+        if(!token) throw new MissingParamError('missing token');
+
+        this.token = token;
         this.utils = new Spotify(this.token)
 
         this.auth = new Auth(this.token);
