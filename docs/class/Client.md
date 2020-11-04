@@ -55,6 +55,18 @@ Spotify Client
 > 
 
 ---
+<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">query: string, options?: { limit?: number, type?: ('track' | 'artist' | 'album')[] }</font>)</h3>
+
+> Search through various types. But will not have advanced option.
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | query | string | Your query to search |
+> | options | { limit?: number, type?: ('track' | 'artist' | 'album')[] } | <font style="opacity: 07;">Optional. </font>Search options |
+> 
+> **Returns:** "Promise<any>"
+
+---
 <h3 style="font-family: consolas;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token: string</font>)</h3>
 
 > Login to your spotify client.

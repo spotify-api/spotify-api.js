@@ -37,6 +37,23 @@ module.exports = {
             description: "User class",
             type: a('User', 'https://spotify-api-js-test.netlify.app/#/class/user')
         },
+        search: {
+            description: 'Search through various types. But will not have advanced option.',
+            returns: 'Promise<any>',
+            parameters: [
+                [
+                    'query',
+                    'string',
+                    'Your query to search'
+                ],
+                [
+                    'options',
+                    '{ limit?: number, type?: (\'track\' | \'artist\' | \'album\')[] }',
+                    'Search options',
+                    true
+                ]
+            ]
+        },
         login: {
             description: 'Login to your spotify client.',
             returns: 'void',
