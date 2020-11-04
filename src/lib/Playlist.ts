@@ -86,6 +86,46 @@ class Playlist extends Spotify {
         });
     };
 
+    async getCoverImage(id: string): Promise<any> {
+
+        return new Promise(async(resolve, reject) => {
+            try{
+                if(!id) reject(new MissingParamError('missing playlist id'));
+
+                resolve(
+                    await this.fetch({
+                        link: `v1/me/playlists/${id}/images`
+                    })
+                );
+            }catch(e){
+                reject(new UnexpectedError(e));
+            };
+        });
+
+    };
+
+    async follows(id: string, userIds: string[]): Promise<any> {
+
+        return new Promise(async(resolve, reject) => {
+            try{
+                if(!id) reject(new MissingParamError('missing playlist id'));
+                if(!userIds || !Array.isArray(userIds)) reject(new MissingParamError('missing user ids'));
+
+                resolve(
+                    await this.fetch({
+                        link: `v1/me/playlists/${id}/followers/contains`,
+                        params: {
+                            ids: userIds.join(',')
+                        }
+                    })
+                );
+            }catch(e){
+                reject(new UnexpectedError(e));
+            };
+        });
+
+    };
+
 };
 
 export default Playlist;

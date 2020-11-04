@@ -9,10 +9,6 @@ module.exports = {
             description: "Your auth token",
             type: "string"
         },
-        lib: {
-            description: "Lib classes",
-            type: `{ ${a('Auth', 'https://spotifyapijs.netlify.app/#/class/auth')}, ${a('Album', 'https://spotifyapijs.netlify.app/#/class/album')}, ${a('Artist', 'https://spotifyapijs.netlify.app/#/class/artist')}, ${a('Playlist', 'https://spotifyapijs.netlify.app/#/class/playlist')}, ${a('Track', 'https://spotifyapijs.netlify.app/#/class/track')}, ${a('User', 'https://spotifyapijs.netlify.app/#/class/user')} }`
-        },
         utils: {
             description: "Util class",
             type: a('Util', 'https://spotifyapijs.netlify.app/#/class/util')

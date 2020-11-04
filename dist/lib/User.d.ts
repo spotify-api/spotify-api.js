@@ -15,5 +15,6 @@ declare class User extends Spotify {
      * ```
      */
     get(id: string): Promise<any>;
+    getPlaylists(id: string): Promise<any>;
 }
 export default User;

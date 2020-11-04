@@ -38,6 +38,23 @@ class User extends Spotify_1.default {
         });
     }
     ;
+    async getPlaylists(id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (!id)
+                    reject(new Error_1.MissingParamError("missing id to fetch user"));
+                const res = await this.fetch({
+                    link: `v1/users/${id}/playlists`,
+                });
+                resolve(res);
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+            ;
+        });
+    }
+    ;
 }
 ;
 exports.default = User;

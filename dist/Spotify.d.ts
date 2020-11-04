@@ -9,6 +9,7 @@ interface getOptions {
     link: string;
     headers?: any;
     params?: any;
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }
 /**
  * Spotify utility class

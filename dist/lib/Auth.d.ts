@@ -46,7 +46,8 @@ declare class Auth {
         client_id: string;
         client_secret: string;
         redirect_uri: string;
-    }, token: string): Promise<refresh>;
+        code: string;
+    }): Promise<refresh>;
     /**
      * @param options Your client id, client secret and redirect uri in object form
      *
@@ -54,8 +55,8 @@ declare class Auth {
      */
     build(options: {
         client_id: string;
-        client_secret: string;
         redirect_uri: string;
+        scopes?: string;
     }): string;
 }
 export default Auth;

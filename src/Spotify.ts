@@ -14,6 +14,7 @@ interface getOptions {
     link: string;
     headers?: any;
     params?: any;
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 };
 
 /**
@@ -70,8 +71,14 @@ export default class {
      * Quick way to access spotify api without large fetching codes through axios....
      */
     async fetch(options: getOptions): Promise<any> {
-        const { data } = await axios.get("https://api.spotify.com/" + options.link, { headers: options.headers || { Authorization: `Bearer ${this.token}`, }, params: options.params || {}, });
+        const { data } = await axios({
+            method: (options.method || 'GET'),
+            url: ("https://api.spotify.com/" + options.link),
+            headers: { Authorization: `Bearer ${this.token}`, ...(options.headers || {}) },
+            params: options.params || {}
+        });
         return data;
+
     }
 
     /**

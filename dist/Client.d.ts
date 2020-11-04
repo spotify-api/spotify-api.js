@@ -1,12 +1,16 @@
 /**
  * File where Client class exists...
  */
-import Auth from './lib/Oauth';
+import Auth from './lib/Auth';
 import User from './lib/User';
 import Playlist from './lib/Playlist';
 import Track from './lib/Track';
 import Album from './lib/Album';
 import Artist from './lib/Artist';
+import Episode from './lib/Episode';
+import Show from './lib/Show';
+import Browse from './lib/Browse';
+import UserClient from './UserClient';
 /**
  * **Client class**
  *
@@ -15,20 +19,17 @@ import Artist from './lib/Artist';
 export default class {
     token: string;
     utils: any;
-    lib: {
-        Auth: any;
-        User: any;
-        Playlist: any;
-        Track: any;
-        Album: any;
-        Artist: any;
-    };
-    oauth: Auth;
+    auth: Auth;
     users: User;
     playlists: Playlist;
     tracks: Track;
     albums: Album;
     artists: Artist;
+    episodes: Episode;
+    shows: Show;
+    browse: Browse;
+    user: UserClient;
+    search: any;
     /**
      * @param oauth Token
      *

@@ -87,15 +87,15 @@ class Auth {
             client_id: string;
             client_secret: string;
             redirect_uri: string;
-        },
-        token: string
+            code: string;
+        }
     ): Promise<refresh> {
 
         return new Promise(async (resolve, reject) => {
             if (!options.client_id) reject(new MissingParamError("missing client id"));
             if (!options.client_secret) reject(new MissingParamError("missing client secret"));
             if (!options.redirect_uri) reject(new MissingParamError("missing redirect uri"));
-            if (!token) reject(new MissingParamError("missing token"));
+            if (!options.code) reject(new MissingParamError("missing code"));
 
             try {
                 const { data } = await axios({
@@ -103,7 +103,7 @@ class Auth {
                     url: "https://accounts.spotify.com/api/token",
                     params: {
                         grant_type: "authorization_code",
-                        code: token,
+                        code: options.code,
                         redirect_uri: options.redirect_uri,
                     },
                     headers: {
@@ -130,12 +130,11 @@ class Auth {
      */
     build(options: {
         client_id: string;
-        client_secret: string;
         redirect_uri: string;
+        scopes?: string;
     }): string {
 
         if (!options.client_id) throw new MissingParamError("missing client id");
-        if (!options.client_secret) throw new MissingParamError("missing client secret");
         if (!options.redirect_uri) throw new MissingParamError("missing redirect uri");
 
         return (
@@ -144,9 +143,11 @@ class Auth {
             options.client_id +
             "&" +
             "redirect_uri=" +
-            options.redirect_uri +
+            encodeURIComponent(options.redirect_uri) +
             "&" +
-            "response_type=code"
+            "response_type=code" + 
+            "&" + 
+            (options.scopes ? `scope=${encodeURIComponent(options.scopes)}`: '')
         );
     };
 

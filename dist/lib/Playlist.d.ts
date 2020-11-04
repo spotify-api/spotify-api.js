@@ -28,5 +28,7 @@ declare class Playlist extends Spotify {
         limit?: null | string | number;
         advanced?: boolean;
     }): Promise<any>;
+    getCoverImage(id: string): Promise<any>;
+    follows(id: string, userIds: string[]): Promise<any>;
 }
 export default Playlist;
