@@ -7,13 +7,13 @@ Methods to get, refresh auth token and build oauth urls
 
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: >strin</font></h3>
+<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: >string</font></h3>
 
 > Your auth token
 > 
 
 ---
-<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">options: >{ client<em>id: string, client</em>secret: string </font>)</h3>
+<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">options: >{ client<em>id: string, client</em>secret: string }</font>)</h3>
 
 > Generates a new Auth token
 > 
@@ -24,7 +24,7 @@ Methods to get, refresh auth token and build oauth urls
 > **Returns:** "Promise<string>"
 
 ---
-<h3 style="font-family: consolas;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options: >{ client<em>id: string, client</em>secret: string, redirect_uri: string </font>)</h3>
+<h3 style="font-family: consolas;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options: >{ client<em>id: string, client</em>secret: string, redirect_uri: string }</font>)</h3>
 
 > Builds and Authorization String
 > 
