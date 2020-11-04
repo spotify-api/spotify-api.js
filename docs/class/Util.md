@@ -7,13 +7,13 @@ Utility methods
 
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: string</font></h3>
+<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: <p>string</p></font></h3>
 
 > Your auth token
 > 
 
 ---
-<h3 style="font-family: consolas;" id="hextorgb">.hexToRgb(<font style="opacity: 0.7; font-weight: light;">hex: string</font>)</h3>
+<h3 style="font-family: consolas;" id="hextorgb">.hexToRgb(<font style="opacity: 0.7; font-weight: light;">hex: <p>string</p></font>)</h3>
 
 > Coverts hex to rgb
 > 
@@ -21,10 +21,10 @@ Utility methods
 > |--------|---------|----------------|
 > | hex | string | Hex code to convert |
 > 
-> **Returns:** number[] | void
+> **Returns:** "number[] | void"
 
 ---
-<h3 style="font-family: consolas;" id="fetch">.fetch(<font style="opacity: 0.7; font-weight: light;">options: { link: string, params?: any, headers?: any }</font>)</h3>
+<h3 style="font-family: consolas;" id="fetch">.fetch(<font style="opacity: 0.7; font-weight: light;">options: <p>{ link: string, params?: any, headers?: any }</p></font>)</h3>
 
 > Easy to fetch spotify api
 > 
@@ -32,10 +32,10 @@ Utility methods
 > |--------|---------|----------------|
 > | options | { link: string, params?: any, headers?: any } | Fetch Options |
 > 
-> **Returns:** Promise<any>
+> **Returns:** "Promise<any>"
 
 ---
-<h3 style="font-family: consolas;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri: string</font>)</h3>
+<h3 style="font-family: consolas;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri: <p>string</p></font>)</h3>
 
 > Get uri data
 > 
@@ -43,10 +43,10 @@ Utility methods
 > |--------|---------|----------------|
 > | uri | string | Uri |
 > 
-> **Returns:** Promise<any>
+> **Returns:** "Promise<any>"
 
 ---
-<h3 style="font-family: consolas;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri: string</font>)</h3>
+<h3 style="font-family: consolas;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri: <p>string</p></font>)</h3>
 
 > Returns the code image
 > 
@@ -54,4 +54,4 @@ Utility methods
 > |--------|---------|----------------|
 > | uri | string | Uri |
 > 
-> **Returns:** Promise<any>
+> **Returns:** "Promise<any>"

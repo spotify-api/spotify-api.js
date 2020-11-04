@@ -30,8 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "@spotify-api.js/spotify-uri-info": "^1.0.0",
-    "axios": "^0.21.0",
-    "events": "^3.2.0"
+    "axios": "^0.21.0"
   },
   "contributors": [
     {
@@ -41,7 +40,9 @@
     }
   ],
   "devDependencies": {
+    "events": "^3.2.0",
     "express": "^4.17.1",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "showdown": "^1.9.1"
   }
 }

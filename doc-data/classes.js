@@ -1,4 +1,4 @@
-const a = (text, href) => `<a href=${href}>${text}</a>`
+const a = (text, href) => `[${text}](${href})`
 
 module.exports = {
     Client: {
