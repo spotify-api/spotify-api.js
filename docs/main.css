@@ -68,3 +68,20 @@ blockquote:hover{
     color: black;
     cursor: pointer;
 }
+
+::selection{
+    color: white;
+    background-color: #1DB954;
+}
+
+::-webkit-scrollbar-thumb{
+    background: var(--theme-color);
+}
+
+::-webkit-scrollbar-track{
+    background: var(--theme-color);
+}
+
+::-webkit-scrollbar{
+    width: 7px;
+}
