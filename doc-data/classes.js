@@ -104,6 +104,15 @@ module.exports = {
     },
     Auth: {
         description: 'Oauth class. All auth endpoints.',
+        example: 'auth',
+        params: [
+            [
+                'token',
+                'string',
+                'Your oauth token',
+                true
+            ]
+        ],
         properties: {
             token: {
                 description: "Your auth token",
