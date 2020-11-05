@@ -1,5 +1,5 @@
 # AuthRefreshOptions
-Auth.refresh options object structure.
+> Auth.refresh options object structure.
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | client_id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Your spotify app client id |
