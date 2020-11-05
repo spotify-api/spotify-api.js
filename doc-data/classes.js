@@ -385,5 +385,62 @@ module.exports = {
                 ]
             },
         }
+    },
+    Album:  {
+        description: 'All album api endpoints in the form of class',
+        example: 'new Spotify.Album("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            search: {
+                description: 'Returns albums search',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'q',
+                        'string',
+                        'Query to search'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            get: {
+                description: 'Returns album info by if',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the album'
+                    ]
+                ]
+            },
+            getTracks: {
+                description: 'Returns album tracks by album id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the album'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            }
+        }
     }
 }

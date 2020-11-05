@@ -1,48 +1,49 @@
 # Album
 
-Methods related to Spotify Albums
-
----
+All album api endpoints in the form of class
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
+> **Properties:** token<br>
+> **Methods:** search, get, getTracks
+```js
+new Spotify.Album("token")
+```
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: string</font></h3>
+## Properties
+<h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
-> Your auth token
-> 
+> Your auth token<br>
+> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
-<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
+## Methods
+<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q, options</font>)</h3>
 
-> Search playlists
+> Returns albums search
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | q | string | Query to search |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | q | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Query to search |
+> | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** "Promise<any[]>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: string</font>)</h3>
-
-> Get playlist info by id
+> Returns album info by if
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | string | Id of the album |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the album |
 > 
-> **Returns:** "Promise<any>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="gettracks">.getTracks(<font style="opacity: 0.7; font-weight: light;">id, options</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="gettracks">.getTracks(<font style="opacity: 0.7; font-weight: light;">id: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
-
-> Get playlist tracks by id
+> Returns album tracks by album id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | string | Id of the album |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the album |
+> | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** "Promise<any>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
