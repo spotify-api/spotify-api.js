@@ -33,7 +33,7 @@ const util = new Spotify.Util();
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | [y}](/typedef/FetchOptions) | Options to fetch |
+> | options | [FetchOptions](/typedef/FetchOptions) | Options to fetch |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<any>
 <h3 style="font-family: consolas; font-weight: lighter;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>

@@ -24,7 +24,7 @@ const auth = new Spotify.Auth('token');
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | [y}](/typedef/AuthGetOptions) | Your client secret and client id in object form |
+> | options | [AuthGetOptions](/typedef/AuthGetOptions) | Your client secret and client id in object form |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)>
 <h3 style="font-family: consolas; font-weight: lighter;" id="refresh">.refresh(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
@@ -33,7 +33,7 @@ const auth = new Spotify.Auth('token');
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | [y}](/typedef/AuthRefreshOptions) | Your client id, client secret and redirect uri in object form |
+> | options | [AuthRefreshOptions](/typedef/AuthRefreshOptions) | Your client id, client secret and redirect uri in object form |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<AuthRefresh>
 <h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
@@ -42,6 +42,6 @@ const auth = new Spotify.Auth('token');
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | [y}](/typedef/AuthBuildOptions) | Your client id, client secret and redirect uri in object form |
+> | options | [AuthBuildOptions](/typedef/AuthBuildOptions) | Your client id, client secret and redirect uri in object form |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)>

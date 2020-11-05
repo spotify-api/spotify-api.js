@@ -69,7 +69,7 @@ const client = new Spotify.Client('token');
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | query | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Your query to search |
-> | options | [y}](/typedef/SearchOptions) | <font style="opacity: 07;">Optional. </font>Search options |
+> | options | [SearchOptions](/typedef/SearchOptions) | <font style="opacity: 07;">Optional. </font>Search options |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<any>
 <h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token</font>)</h3>
