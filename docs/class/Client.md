@@ -72,7 +72,7 @@ client.tracks.search('some-search').then(console.log);
 > | query | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your query to search |
 > | options | [SearchOptions](/typedef/searchoptions) | <font style="opacity: 07;">Optional. </font>Search options |
 > 
-> **Returns:** <p>"<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise <any></a>"</p>
+> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise <any></a>
 <h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token</font>)</h3>
 
 > Login to your spotify client.
@@ -81,4 +81,4 @@ client.tracks.search('some-search').then(console.log);
 > |--------|---------|----------------|
 > | token | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your token |
 > 
-> **Returns:** <p>"void"</p>
+> **Returns:** void
