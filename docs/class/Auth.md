@@ -25,13 +25,13 @@ auth.get({
 ## Methods
 <h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
-> Generates a new Auth token
+> Generates a new api auth token
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | options | { client_id: string, client_secret: string } | Your client secret and client id in object form |
 > 
-> **Returns:** "Promise<string>"
+> **Returns:** Promise<string>
 <h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
 > Builds and Authorization String
@@ -40,4 +40,4 @@ auth.get({
 > |--------|---------|----------------|
 > | options | { client_id: string, client_secret: string, redirect_uri: string } | Your client id, client secret and redirect uri in object form |
 > 
-> **Returns:** "Promise<string>"
+> **Returns:** Promise<string>

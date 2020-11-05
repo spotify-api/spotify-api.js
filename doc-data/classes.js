@@ -121,7 +121,7 @@ module.exports = {
         },
         methods: {
             get: {
-                description: "Generates a new Auth token",
+                description: "Generates a new api auth token",
                 returns: "Promise<string>",
                 parameters: [
                     [
