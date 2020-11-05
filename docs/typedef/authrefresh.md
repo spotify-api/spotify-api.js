@@ -1,5 +1,6 @@
 # AuthRefresh
-> Object structure returned by Auth.refresh.<br><br>
+> Object structure returned by Auth.refresh.<br>
+
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | access_token | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | User access token |
