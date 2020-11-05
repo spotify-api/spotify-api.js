@@ -4,7 +4,7 @@ Oauth class. All auth endpoints.
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token<br>
-> **Methods:** search, get, getTracks
+> **Methods:** get, build
 ```js
 const auth = new Spotify.Auth('token');
 
@@ -23,32 +23,21 @@ auth.get({
 
 ---
 ## Methods
-<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q, options</font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
-> Search playlists
+> Generates a new Auth token
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | q | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Query to search |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | options | { client_id: string, client_secret: string } | Your client secret and client id in object form |
 > 
-> **Returns:** "Promise<any[]>"
-<h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+> **Returns:** "Promise<string>"
+<h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
-> Get playlist info by id
+> Builds and Authorization String
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Id of the album |
+> | options | { client_id: string, client_secret: string, redirect_uri: string } | Your client id, client secret and redirect uri in object form |
 > 
-> **Returns:** "Promise<any>"
-<h3 style="font-family: consolas; font-weight: lighter;" id="gettracks">.getTracks(<font style="opacity: 0.7; font-weight: light;">id, options</font>)</h3>
-
-> Get playlist tracks by id
-> 
-> | PARAMETER   | TYPE    | DESCRIPTION    |
-> |--------|---------|----------------|
-> | id | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Id of the album |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
-> 
-> **Returns:** "Promise<any>"
+> **Returns:** "Promise<string>"

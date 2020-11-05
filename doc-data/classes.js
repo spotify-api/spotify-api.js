@@ -120,48 +120,25 @@ module.exports = {
             }
         },
         methods: {
-            search: {
-                description: 'Search playlists',
-                returns: 'Promise<any[]>',
-                parameters: [
-                    [
-                        'q',
-                        'string',
-                        'Query to search'
-                    ],
-                    [
-                        'options',
-                        '{ limit?: number, advanced?: boolean }',
-                        'Options to help your data collection better!',
-                        true
-                    ]
-                ]
-            },
             get: {
-                description: 'Get playlist info by id',
-                returns: 'Promise<any>',
+                description: "Generates a new Auth token",
+                returns: "Promise<string>",
                 parameters: [
                     [
-                        'id',
-                        'string',
-                        'Id of the album'
+                        "options",
+                        "{ client_id: string, client_secret: string }",
+                        "Your client secret and client id in object form"
                     ]
                 ]
             },
-            getTracks: {
-                description: 'Get playlist tracks by id',
-                returns: 'Promise<any>',
+            build: {
+                description: "Builds and Authorization String",
+                returns: 'Promise<string>',
                 parameters: [
                     [
-                        'id',
-                        'string',
-                        'Id of the album'
-                    ],
-                    [
                         'options',
-                        '{ limit?: number, advanced?: boolean }',
-                        'Options to help your data collection better!',
-                        true
+                        '{ client_id: string, client_secret: string, redirect_uri: string }',
+                        'Your client id, client secret and redirect uri in object form'
                     ]
                 ]
             }
