@@ -16,3 +16,7 @@
 
 - <a href="/typedef/searchoptions" class="sidebar-nav-head">TYPEDEFS</a>
     - [SearchOptions](/typedef/searchoptions)
+    - [AuthGetOptions](/typedef/authgetoptions)
+    - [AuthRefreshOptions](/typedef/authrefreshoptions)
+    - [AuthRefresh](/typedef/authrefresh)
+    - [AuthBuildOptions](/typedef/authbuildoptions)

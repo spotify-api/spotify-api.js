@@ -4,7 +4,7 @@ Oauth class. All auth endpoints.
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token<br>
-> **Methods:** get, build
+> **Methods:** get, refresh, build
 ```js
 const auth = new Spotify.Auth('token');
 
@@ -25,19 +25,28 @@ auth.get({
 ## Methods
 <h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
-> Generates a new api auth token
+> Returns a new api auth token
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | options | [AuthGetOptions](/typedef/authgetoptions) | Your client secret and client id in object form |
 > 
 > **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;string&gt;</a>
-<h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="refresh">.refresh(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
-> Builds and Authorization String
+> Refreshes and gets a new authorization token at the same time can make a new scoped access_token by using code query sent by spotify authorization.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | { client_id: string, client_secret: string, redirect_uri: string } | Your client id, client secret and redirect uri in object form |
+> | options | [AuthRefreshOptions](/typedef/authrefreshoptions) | Your client id, client secret and redirect uri in object form |
+> 
+> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;AuthRefresh&gt;</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
+
+> Builds an Authorization String
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | options | [AuthBuildOptions](/typedef/authbuildoptions) | Your client id, client secret and redirect uri in object form |
 > 
 > **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;string&gt;</a>

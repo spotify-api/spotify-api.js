@@ -121,7 +121,7 @@ module.exports = {
         },
         methods: {
             get: {
-                description: "Generates a new api auth token",
+                description: "Returns a new api auth token",
                 returns: "Promise<string>",
                 parameters: [
                     [
@@ -131,13 +131,24 @@ module.exports = {
                     ]
                 ]
             },
+            refresh: {
+                description: "Refreshes and gets a new authorization token at the same time can make a new scoped access_token by using code query sent by spotify authorization.",
+                returns: 'Promise<AuthRefresh>',
+                parameters: [
+                    [
+                        'options',
+                        'AuthRefreshOptions',
+                        'Your client id, client secret and redirect uri in object form'
+                    ]
+                ]
+            },
             build: {
-                description: "Builds and Authorization String",
+                description: "Builds an Authorization String",
                 returns: 'Promise<string>',
                 parameters: [
                     [
                         'options',
-                        '{ client_id: string, client_secret: string, redirect_uri: string }',
+                        'AuthBuildOptions',
                         'Your client id, client secret and redirect uri in object form'
                     ]
                 ]
