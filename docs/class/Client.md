@@ -14,7 +14,7 @@ const client = new Spotify.Client('token');
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a>
+> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 <h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils</h3>
 
 > Returns new util class<br>
@@ -68,16 +68,16 @@ const client = new Spotify.Client('token');
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | query | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your query to search |
-> | options | [SearchOptions](/typedef/searchoptions) | <font style="opacity: 07;">Optional. </font>Search options |
+> | query | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Your query to search |
+> | options | [y}](/typedef/SearchOptions) | <font style="opacity: 07;">Optional. </font>Search options |
 > 
-> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;any&gt;</a>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<any>
 <h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token</font>)</h3>
 
 > Login to your spotify client.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | token | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your token |
+> | token | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Your token |
 > 
 > **Returns:** void
