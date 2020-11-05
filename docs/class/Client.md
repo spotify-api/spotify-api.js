@@ -2,6 +2,7 @@
 
 Spotify client.
 > **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users
+
 > **Methods:** search, login
 
 ---
