@@ -1,6 +1,6 @@
 # SearchOptions
 > Search options object structure.<br>
-
+> 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit of results |
