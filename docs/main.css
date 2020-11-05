@@ -4,11 +4,11 @@
     padding: 8px;
 }
 
-.markdown-section tr:nth-child(even) {
+.markdown-section tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
-.markdown-section tr:nth-child(odd) {
+.markdown-section tr:nth-child(even) {
     background-color: #f4f4f4;
 }
 
