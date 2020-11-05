@@ -24,12 +24,12 @@
 }
 
 blockquote{
-    border-left: 2px solid #a8b4ae;
+    border-left: 2px solid #a8b4ae!important;
     transition: 0.3s;
 }
 
 blockquote:hover{
-    border-left: 4px solid #1DB954;
+    border-left: 4px solid #1DB954!important;
 }
 
 .markdown-section a{
