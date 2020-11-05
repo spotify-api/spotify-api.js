@@ -35,7 +35,7 @@ const auth = new Spotify.Auth('token');
 > |--------|---------|----------------|
 > | options | [AuthRefreshOptions](/typedef/AuthRefreshOptions) | Your client id, client secret and redirect uri in object form |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<AuthRefresh>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[AuthRefresh](/typedef/AuthRefresh)>
 <h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
 > Builds an Authorization String
