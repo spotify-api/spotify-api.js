@@ -14,7 +14,7 @@ new Spotify.Browse("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+> **Type:** [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
 ## Methods
@@ -24,43 +24,43 @@ new Spotify.Browse("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the category |
+> | id | [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the category |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="getcategoryplaylists">.getCategoryPlaylists(<font style="opacity: 0.7; font-weight: light;">id, limit</font>)</h3>
 
 > Returns the playlists about the category by the id provided.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the category |
-> | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
+> | id | [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the category |
+> | limit | [number](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="categories">.categories(<font style="opacity: 0.7; font-weight: light;">limit</font>)</h3>
 
 > Returns the list of all categories.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
+> | limit | [number](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="featuredcategories">.featuredCategories(<font style="opacity: 0.7; font-weight: light;">limit</font>)</h3>
 
 > Returns the list of all featured categories.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
+> | limit | [number](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="newreleases">.newReleases(<font style="opacity: 0.7; font-weight: light;">limit</font>)</h3>
 
 > Returns the list of all new releases.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
+> | limit | [number](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit your results |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
