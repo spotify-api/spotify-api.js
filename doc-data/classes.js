@@ -442,5 +442,72 @@ module.exports = {
                 ]
             }
         }
+    },
+    Playlist:  {
+        description: 'All playlist api endpoints in the form of class',
+        example: 'new Spotify.Playlist("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            get: {
+                description: 'Returns playlist info by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the spotify playlist'
+                    ]
+                ]
+            },
+            getTracks: {
+                description: 'Returns the tracks of the spotify playlist',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the spotify playlist'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            getCoverImage: {
+                description: 'Returns the cover image of the playlist by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the spotify playlist'
+                    ]
+                ]
+            },
+            follows: {
+                description: 'Verify if the user follows the playlist',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the spotify playlist'
+                    ],
+                    [
+                        'userIds',
+                        'string[] or string',
+                        'Id of the users or user. If users use array as [userid1, userid2] else if one user just use userid1'
+                    ]
+                ]
+            },
+        }
     }
 }

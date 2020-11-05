@@ -11,12 +11,12 @@ import Spotify from "../Spotify";
 class Playlist extends Spotify {
 
     /**
-     * @param id Id of the playlist
-     * 
      * **Example:**
      * ```js
      * const playlist = await spotify.playlists.get("id"); // Get playlist data by id
      * ```
+     * 
+     * @param id Id of the playlist
      */
     async get(id: string): Promise<any> {
 
@@ -40,13 +40,13 @@ class Playlist extends Spotify {
     };
 
     /**
-     * @param id Id of the playlist
-     * @param options Options to configure your search
-     * 
      * **Example:**
      * ```js
      * const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
      * ```
+     * 
+     * @param id Id of the playlist
+     * @param options Options to configure your search
      */
     async getTracks(
         id: string,
@@ -86,6 +86,14 @@ class Playlist extends Spotify {
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * const coverImage = await client.playlists.getCoverImage('id') // Get cover image of the playlist by id
+     * ```
+     * 
+     * @param id Playlist id
+     */
     async getCoverImage(id: string): Promise<any> {
 
         return new Promise(async(resolve, reject) => {
@@ -104,7 +112,16 @@ class Playlist extends Spotify {
 
     };
 
-    async follows(id: string, userIds: string[]): Promise<any> {
+    /**
+     * **Example:**
+     * ```js
+     * const follows = await client.playlists.follows('playlistId', 'userId') // Check if a user or users follow a playlist
+     * ```
+     * 
+     * @param id Id of the playlist
+     * @param userIds List of user id
+     */
+    async follows(id: string, userIds: string[] | string): Promise<any> {
 
         return new Promise(async(resolve, reject) => {
             try{
@@ -115,7 +132,7 @@ class Playlist extends Spotify {
                     await this.fetch({
                         link: `v1/me/playlists/${id}/followers/contains`,
                         params: {
-                            ids: userIds.join(',')
+                            ids: (Array.isArray(userIds) ? userIds.join(',') : userIds)
                         }
                     })
                 );
