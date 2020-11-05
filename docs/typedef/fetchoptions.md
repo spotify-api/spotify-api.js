@@ -1,5 +1,5 @@
 # FetchOptions
-> Util.fetch options object structure.
+> Util.fetch options object structure.<br>
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | link | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Link after https://api.spotify.com/ |
