@@ -70,7 +70,7 @@ client.tracks.search('some-search').then(console.log);
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
 > | query | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your query to search |
-> | options | { limit?: number, type?: ('track' | 'artist' | 'album')[] } | <font style="opacity: 07;">Optional. </font>Search options |
+> | options | SearchOptions | <font style="opacity: 07;">Optional. </font>Search options |
 > 
 > **Returns:** "Promise<any>"
 <h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token</font>)</h3>
