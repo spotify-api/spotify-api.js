@@ -1,8 +1,8 @@
 # Client
 
 Spotify client.
-> **Properties:** <a class="class-index" href="#/class/Client/?id=token">token</a>, <a class="class-index" href="#/class/Client/?id=utils">utils</a>, <a class="class-index" href="#/class/Client/?id=oauth">oauth</a>, <a class="class-index" href="#/class/Client/?id=albums">albums</a>, <a class="class-index" href="#/class/Client/?id=artists">artists</a>, <a class="class-index" href="#/class/Client/?id=playlists">playlists</a>, <a class="class-index" href="#/class/Client/?id=tracks">tracks</a>, <a class="class-index" href="#/class/Client/?id=users">users</a><br>
-> **Methods:** <a class="class-index" href="#/class/Client/?id=search">search</a>, <a class="class-index" href="#/class/Client/?id=login">login</a>
+> **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users<br>
+> **Methods:** search, login
 
 ---
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
