@@ -15,7 +15,7 @@ client.tracks.search('some-search').then(console.log);
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** string
+> **Type:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a>
 <h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils</h3>
 
 > Returns new util class<br>
@@ -63,7 +63,7 @@ client.tracks.search('some-search').then(console.log);
 
 ---
 ## Methods
-<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">query: string, options?: { limit?: number, type?: ('track' | 'artist' | 'album')[] }</font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a>, options?: { limit?: number, type?: ('track' | 'artist' | 'album')[] }</font>)</h3>
 
 > Search through various types. But will not have advanced option.
 > 
@@ -73,7 +73,7 @@ client.tracks.search('some-search').then(console.log);
 > | options | { limit?: number, type?: ('track' | 'artist' | 'album')[] } | <font style="opacity: 07;">Optional. </font>Search options |
 > 
 > **Returns:** "Promise<any>"
-<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token: string</font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a></font>)</h3>
 
 > Login to your spotify client.
 > 
