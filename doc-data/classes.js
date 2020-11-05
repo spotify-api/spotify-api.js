@@ -74,7 +74,7 @@ module.exports = {
         methods: {
             search: {
                 description: 'Search through various types. But will not have advanced option.',
-                returns: 'Promise <any>',
+                returns: 'Promise<any>',
                 parameters: [
                     [
                         'query',
@@ -122,7 +122,7 @@ module.exports = {
         methods: {
             get: {
                 description: "Generates a new api auth token",
-                returns: "Promise <string>",
+                returns: "Promise<string>",
                 parameters: [
                     [
                         "options",
@@ -133,7 +133,7 @@ module.exports = {
             },
             build: {
                 description: "Builds and Authorization String",
-                returns: 'Promise <string>',
+                returns: 'Promise<string>',
                 parameters: [
                     [
                         'options',
