@@ -1,10 +1,10 @@
-- <a href="/" class="sidebar-nav-head">GENERAl</a>
+- <a href="/" class="sidebar-nav-head">GENERAL</a>
     - [Welcome](/)
     - [Installation](/basics/installation)
     - [Version](/basics/version)
     - [Changelog](/changelog)
 
-- [CLASSES](/class/client)
+- <a href="/class/client" class="sidebar-nav-head">CLASSES</a>
     - [Client](/class/client)
     - [Util](/class/util)
     - [Auth](/class/auth)
@@ -14,7 +14,7 @@
     - [Track](/class/track)
     - [User](/class/user)
 
-- [EXAMPLES](/example/client)
+- <a href="/example/client" class="sidebar-nav-head">EXAMPLES</a>
     - [Client](/example/client)
     - [Search](/example/search)
 
