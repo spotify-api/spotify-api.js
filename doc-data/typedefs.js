@@ -106,5 +106,33 @@ module.exports = {
                 'Authorization scopes you have requested'
             ]
         ]
-    }
+    },
+    FetchOptions: {
+        description: 'Util.fetch options object structure.',
+        parameters: [
+            [
+                'link',
+                'string',
+                'Link after https://api.spotify.com/'
+            ],
+            [
+                'params',
+                'object',
+                'All the query parameters in object form',
+                true
+            ],
+            [
+                'headers',
+                'object',
+                'Additional headers than Authorization header',
+                true
+            ],
+            [
+                'method',
+                'string',
+                'By default the fetch methods uses GET method. You can set your own method',
+                true
+            ]
+        ]
+    },
 };

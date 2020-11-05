@@ -154,5 +154,69 @@ module.exports = {
                 ]
             }
         }
+    },
+    Util: {
+        description: 'Utility class. All utility methods are present here.',
+        example: 'util',
+        params: [
+            [
+                'token',
+                'string',
+                'Your oauth token',
+                true
+            ]
+        ],
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            hexToRgb: {
+                description: 'Coverts hex code to rgb number array',
+                returns: 'number[]',
+                parameters: [
+                    [
+                        'hex',
+                        'string',
+                        'Hex code to convert'
+                    ]
+                ]
+            },
+            fetch: {
+                description: 'Quick method to fetch from spotify api. Will return the data required or will throw error if bad request.',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'options',
+                        'FetchOptions',
+                        'Options to fetch'
+                    ]
+                ]
+            },
+            getURIData: {
+                description: 'Returns the spotify uri data requested',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'uri',
+                        'string',
+                        'Uri'
+                    ]
+                ]
+            },
+            getCodeImage: {
+                description: 'Returns the code image url by the spotify uri',
+                returns: 'Promise<string>',
+                parameters: [
+                    [
+                        'uri',
+                        'string',
+                        'Uri'
+                    ]
+                ]
+            }
+        }
     }
 }

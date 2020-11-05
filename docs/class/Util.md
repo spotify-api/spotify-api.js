@@ -1,57 +1,57 @@
 # Util
 
-Utility methods
-
----
+Utility class. All utility methods are present here.
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
+> **Properties:** token<br>
+> **Methods:** hexToRgb, fetch, getURIData, getCodeImage
+```js
+const util = new Spotify.Util();
+util.getCodeImage('uri');
+```
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: string</font></h3>
+## Properties
+<h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
-> Your auth token
-> 
+> Your auth token<br>
+> **Type:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a>
 
 ---
-<h3 style="font-family: consolas;" id="hextorgb">.hexToRgb(<font style="opacity: 0.7; font-weight: light;">hex: string</font>)</h3>
+## Methods
+<h3 style="font-family: consolas; font-weight: lighter;" id="hextorgb">.hexToRgb(<font style="opacity: 0.7; font-weight: light;">hex</font>)</h3>
 
-> Coverts hex to rgb
+> Coverts hex code to rgb number array
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | hex | string | Hex code to convert |
+> | hex | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Hex code to convert |
 > 
-> **Returns:** "number[] | void"
+> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/array">number[]</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="fetch">.fetch(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="fetch">.fetch(<font style="opacity: 0.7; font-weight: light;">options: { link: string, params?: any, headers?: any }</font>)</h3>
-
-> Easy to fetch spotify api
+> Quick method to fetch from spotify api. Will return the data required or will throw error if bad request.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | { link: string, params?: any, headers?: any } | Fetch Options |
+> | options | [FetchOptions](/typedef/fetchoptions) | Options to fetch |
 > 
-> **Returns:** "Promise<any>"
+> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;any&gt;</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri: string</font>)</h3>
-
-> Get uri data
+> Returns the spotify uri data requested
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | uri | string | Uri |
+> | uri | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Uri |
 > 
-> **Returns:** "Promise<any>"
+> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;any&gt;</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri: string</font>)</h3>
-
-> Returns the code image
+> Returns the code image url by the spotify uri
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | uri | string | Uri |
+> | uri | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Uri |
 > 
-> **Returns:** "Promise<any>"
+> **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;string&gt;</a>
