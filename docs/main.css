@@ -79,7 +79,8 @@ blockquote:hover{
 }
 
 ::-webkit-scrollbar-track{
-    background: var(--theme-color);
+    background: #a8b4ae;
+    );
 }
 
 ::-webkit-scrollbar{
