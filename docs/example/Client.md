@@ -4,8 +4,6 @@ Example to connect with Spotify Client!
 
 ---
 ```js
-const Spotify = require("spotify-api.js");
-const client = new Spotify.Client('YOUR-TOKEN');
-
-client.tracks.search("SOME SEARCH");
+const client = new Spotify.Client('token');
+client.tracks.search('some-search').then(console.log);
 ```

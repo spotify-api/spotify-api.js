@@ -1,6 +1,7 @@
 module.exports = {
     Client: {
         description: 'Spotify client.',
+        example: 'client',
         params: [
             [
                 'token',
@@ -15,33 +16,39 @@ module.exports = {
                 type: "string"
             },
             utils: {
-                description: "Util class",
+                description: "Returns new util class",
                 type: 'Util',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/util'
             },
             oauth: {
-                description: "Auth class",
-                type: '[Auth](https://spotify-api-js-test.netlify.app/#/class/auth)'
+                description: "Returns new auth class",
+                type: 'Auth',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/auth'
             },
             albums: {
-                description: "Album class",
-                type: '[Album](https://spotify-api-js-test.netlify.app/#/class/album)'
+                description: "Returns new album class",
+                type: 'Album',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/album'
             },
             artists: {
-                description: "Artist class",
-                type: '[Artist](https://spotify-api-js-test.netlify.app/#/class/artist)'
+                description: "Returns new artist class",
+                type: 'Artist',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/artist'
             },
             playlists: {
-                description: "Playlist class",
-                type: '[Playlist](https://spotify-api-js-test.netlify.app/#/class/playlist)'
+                description: "Returns new playlist class",
+                type: 'Playlist',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/playlist'
             },
             tracks: {
-                description: "Track class",
-                type: '[Track](https://spotify-api-js-test.netlify.app/#/class/track)'
+                description: "Returns new track class",
+                type: 'Track',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/track'
             },
             users: {
                 description: "User class",
-                type: '[User](https://spotify-api-js-test.netlify.app/#/class/user)'
+                type: 'User',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/user'
             }
         },
         methods: {

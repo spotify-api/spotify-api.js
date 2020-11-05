@@ -18,41 +18,41 @@ Spotify client.
 ---
 <h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/util">Util</a></font></h3>
 
-> Util class
+> Returns new util class
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="oauth">.oauth<font style="opacity: 0.7; font-weight: light;">: [Auth](https://spotify-api-js-test.netlify.app/#/class/auth)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="oauth">.oauth<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/auth">Auth</a></font></h3>
 
-> Auth class
+> Returns new auth class
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="albums">.albums<font style="opacity: 0.7; font-weight: light;">: [Album](https://spotify-api-js-test.netlify.app/#/class/album)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="albums">.albums<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/album">Album</a></font></h3>
 
-> Album class
+> Returns new album class
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="artists">.artists<font style="opacity: 0.7; font-weight: light;">: [Artist](https://spotify-api-js-test.netlify.app/#/class/artist)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="artists">.artists<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/artist">Artist</a></font></h3>
 
-> Artist class
+> Returns new artist class
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="playlists">.playlists<font style="opacity: 0.7; font-weight: light;">: [Playlist](https://spotify-api-js-test.netlify.app/#/class/playlist)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="playlists">.playlists<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/playlist">Playlist</a></font></h3>
 
-> Playlist class
+> Returns new playlist class
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="tracks">.tracks<font style="opacity: 0.7; font-weight: light;">: [Track](https://spotify-api-js-test.netlify.app/#/class/track)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="tracks">.tracks<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/track">Track</a></font></h3>
 
-> Track class
+> Returns new track class
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="users">.users<font style="opacity: 0.7; font-weight: light;">: [User](https://spotify-api-js-test.netlify.app/#/class/user)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="users">.users<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/user">User</a></font></h3>
 
 > User class
 > 
