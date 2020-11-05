@@ -22,6 +22,7 @@
 blockquote{
     --theme-color: #a8b4ae;
     transition: 0.3s;
+    margin-top: -10px;
 }
 
 blockquote:hover{
