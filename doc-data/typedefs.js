@@ -16,6 +16,22 @@ module.exports = {
             ]
         ]
     },
+    AdvancedSearchOptions: {
+        description: 'Advanced search options object structure.',
+        parameters: [
+            [
+                'limit',
+                'number',
+                'Limit of results',
+                true
+            ],
+            [
+                'advanced',
+                'boolean',
+                'Making advanced option to true will return you the codeImage and dominantColor with it'
+            ]
+        ]
+    },
     AuthGetOptions: {
         description: 'Auth.get options object structure.',
         parameters: [

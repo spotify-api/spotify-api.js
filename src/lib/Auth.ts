@@ -8,7 +8,7 @@ import axios from "axios";
 /**
  * Interface of Auth.refresh return object
  */
-export interface refresh {
+export interface AuthRefresh {
     access_token: string;
     token_type: string;
     expires_in: number;
@@ -32,8 +32,6 @@ class Auth {
     };
 
     /**
-     * @param options Your client id and client secret in object form
-     * 
      * **Example:**
      * ```js
      * client.oauth.get({
@@ -41,6 +39,8 @@ class Auth {
      *     client_secret: 'your-client-secret'
      * }).then(console.log) // Will return you the token!
      * ```
+     * 
+     * @param options Your client id and client secret in object form
      */
     async get(options: {
         client_id: string;
@@ -77,10 +77,9 @@ class Auth {
     };
 
     /**
-     * @param options Your client id, client secret and refresh token
-     * @param token Your token
-     * 
      * Refreshes an Authorization token
+     * 
+     * @param options Your client id, client secret, redirect uri and refresh token aka code
      */
     async refresh(
         options: {
@@ -89,7 +88,7 @@ class Auth {
             redirect_uri: string;
             code: string;
         }
-    ): Promise<refresh> {
+    ): Promise<AuthRefresh> {
 
         return new Promise(async (resolve, reject) => {
             if (!options.client_id) reject(new MissingParamError("missing client id"));
@@ -124,9 +123,9 @@ class Auth {
     };
 
     /**
-     * @param options Your client id, client secret and redirect uri in object form
+     * Builds an Authorization url string.
      * 
-     * Builds an Authorization string.
+     * @param options Your client id, redirect uri and scopes in object form
      */
     build(options: {
         client_id: string;

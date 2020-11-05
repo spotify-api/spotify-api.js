@@ -218,5 +218,81 @@ module.exports = {
                 ]
             }
         }
+    },
+    Browse: {
+        description: 'All browse endpoints in the form of class',
+        example: 'browse',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            getCategory: {
+                description: 'Returns the information about the category by the id provided.',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the category'
+                    ]
+                ]
+            },
+            getCategoryPlaylists: {
+                description: 'Returns the playlists about the category by the id provided.',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the category'
+                    ],
+                    [
+                        'limit',
+                        'number',
+                        'Limit your results',
+                        true
+                    ]
+                ]
+            },
+            categories: {
+                description: 'Returns the list of all categories.',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'limit',
+                        'number',
+                        'Limit your results',
+                        true
+                    ]
+                ]
+            },
+            featuredCategories: {
+                description: 'Returns the list of all featured categories.',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'limit',
+                        'number',
+                        'Limit your results',
+                        true
+                    ]
+                ]
+            },
+            newReleases: {
+                description: 'Returns the list of all new releases.',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'limit',
+                        'number',
+                        'Limit your results',
+                        true
+                    ]
+                ]
+            }
+        }
     }
 }

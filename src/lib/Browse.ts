@@ -7,6 +7,10 @@ import Spotify from "../Spotify";
 
 class Browse extends Spotify{
 
+    /**
+     * Get information about a category by id
+     * @param id category id
+     */
     async getCategory(id: string): Promise<any> {
         
         return new Promise(async (resolve, reject) => {
@@ -25,6 +29,11 @@ class Browse extends Spotify{
 
     };
 
+    /**
+     * Returns all playlists of the category by id
+     * @param id Id of the category
+     * @param limit Limit of results
+     */
     async getCategoryPlaylists(id: string, limit?: number): Promise<any> {
         
         return new Promise(async (resolve, reject) => {
@@ -46,6 +55,10 @@ class Browse extends Spotify{
 
     };
 
+    /**
+     * Get list of all categories
+     * @param limit Limit of your results
+     */
     async categories(limit?: number): Promise<any> {
         
         return new Promise(async (resolve, reject) => {
@@ -65,6 +78,10 @@ class Browse extends Spotify{
 
     };
 
+    /**
+     * Get list of all featured playlists
+     * @param limit Limit of results
+     */
     async featuredPlaylists(limit?: number): Promise<any> {
         
         return new Promise(async (resolve, reject) => {
@@ -84,6 +101,10 @@ class Browse extends Spotify{
 
     };
 
+    /**
+     * Get list of all new releases
+     * @param limit Limit of results
+     */
     async newReleases(limit?: number): Promise<any> {
         
         return new Promise(async (resolve, reject) => {
