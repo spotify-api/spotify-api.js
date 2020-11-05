@@ -1,8 +1,9 @@
-- [GENERAL](/)
+- <a href="/" class="sidebar-nav-head">GENERAl</a>
     - [Welcome](/)
     - [Installation](/basics/installation)
     - [Version](/basics/version)
     - [Changelog](/changelog)
+
 - [CLASSES](/class/client)
     - [Client](/class/client)
     - [Util](/class/util)
@@ -12,6 +13,7 @@
     - [Playlist](/class/playlist)
     - [Track](/class/track)
     - [User](/class/user)
+
 - [EXAMPLES](/example/client)
     - [Client](/example/client)
     - [Search](/example/search)

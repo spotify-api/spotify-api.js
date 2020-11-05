@@ -26,3 +26,8 @@ blockquote{
 .sidebar .sidebar-nav a{
     line-height: 15px;
 }
+
+.sidebar-nav-head{
+    font-weight: bolder;
+    font-family: Alata;
+}
