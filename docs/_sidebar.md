@@ -3,6 +3,7 @@
     - [Installation](/basics/installation)
     - [Version](/basics/version)
     - [Changelog](/changelog)
+    - [Errors](/errors)
 
 - <a href="/class/client" class="sidebar-nav-head">CLASSES</a>
     - [Client](/class/client)
