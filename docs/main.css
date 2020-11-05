@@ -1,5 +1,5 @@
 .markdown-section th{
-    background-color: #7298da;
+    background-color: #1DB954;
     color: white;
     border: none;
     padding: 8px;
@@ -21,10 +21,11 @@
 
 blockquote{
     --theme-color: #a8b4ae;
+    width: 5px;
 }
 
 blockquote:hover{
-    --theme-color: #7298da;
+    --theme-color: #1DB954;
 }
 
 .sidebar .sidebar-nav a{
