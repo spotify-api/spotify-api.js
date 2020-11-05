@@ -63,22 +63,22 @@ client.tracks.search('some-search').then(console.log);
 
 ---
 ## Methods
-<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a>, options?: { limit?: number, type?: ('track' | 'artist' | 'album')[] }</font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">query, options</font>)</h3>
 
 > Search through various types. But will not have advanced option.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | query | string | Your query to search |
+> | query | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your query to search |
 > | options | { limit?: number, type?: ('track' | 'artist' | 'album')[] } | <font style="opacity: 07;">Optional. </font>Search options |
 > 
 > **Returns:** "Promise<any>"
-<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a></font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">token</font>)</h3>
 
 > Login to your spotify client.
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | token | string | Your token |
+> | token | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string">string</a> | Your token |
 > 
 > **Returns:** "void"
