@@ -36,6 +36,10 @@
     margin: 0!important;
 }
 
+.markdown-section table a{
+    text-decoration: none!important;
+}
+
 blockquote{
     border-left: 2px solid #a8b4ae!important;
     transition: 0.3s;
