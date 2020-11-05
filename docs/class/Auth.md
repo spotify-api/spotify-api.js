@@ -7,11 +7,6 @@ Oauth class. All auth endpoints.
 > **Methods:** get, refresh, build
 ```js
 const auth = new Spotify.Auth('token');
-
-auth.get({
-    client_id: 'id',
-    client_secret: 'secret'
-}).then(console.log);
 ```
 
 ---

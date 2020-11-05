@@ -7,7 +7,6 @@ Utility class. All utility methods are present here.
 > **Methods:** hexToRgb, fetch, getURIData, getCodeImage
 ```js
 const util = new Spotify.Util();
-util.getCodeImage('uri');
 ```
 
 ---

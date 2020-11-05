@@ -7,7 +7,6 @@ Spotify Client class to interact with spotify api! Remember client.user can only
 > **Methods:** search, login
 ```js
 const client = new Spotify.Client('token');
-client.tracks.search('some-search').then(console.log);
 ```
 
 ---
