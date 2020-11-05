@@ -9,11 +9,14 @@
 }
 
 .markdown-section th{
-    padding: 30px!important;
-    font-weight: bolder!important;
+    padding: 25px!important;
     font-family: Alata!important;
     background-color: #1DB954;
     color: white;
+}
+
+.markdown-section td{
+    padding: 25px!important;
 }
 
 .markdown-section blockquote{
