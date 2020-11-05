@@ -20,6 +20,10 @@
 }
 
 blockquote{
+    --theme-color: #a8b4ae;
+}
+
+blockquote:hover{
     --theme-color: #7298da;
 }
 
