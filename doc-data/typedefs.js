@@ -15,5 +15,20 @@ module.exports = {
                 true
             ]
         ]
+    },
+    AuthGetOptions: {
+        description: 'Auth.get options object structure.',
+        parameters: [
+            [
+                'client_id',
+                'string',
+                'Your spotify app client id'
+            ],
+            [
+                'client_secret',
+                'string',
+                'Your spotify app client secret'
+            ]
+        ]
     }
 };

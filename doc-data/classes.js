@@ -126,7 +126,7 @@ module.exports = {
                 parameters: [
                     [
                         "options",
-                        "{ client_id: string, client_secret: string }",
+                        "AuthGetOptions",
                         "Your client secret and client id in object form"
                     ]
                 ]

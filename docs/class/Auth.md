@@ -29,7 +29,7 @@ auth.get({
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | options | { client_id: string, client_secret: string } | Your client secret and client id in object form |
+> | options | [AuthGetOptions](/typedef/authgetoptions) | Your client secret and client id in object form |
 > 
 > **Returns:** <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise">Promise&lt;string&gt;</a>
 <h3 style="font-family: consolas; font-weight: lighter;" id="build">.build(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
