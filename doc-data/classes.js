@@ -83,7 +83,7 @@ module.exports = {
                     ],
                     [
                         'options',
-                        '{ limit?: number, type?: (\'track\' | \'artist\' | \'album\')[] }',
+                        'SearchOptions',
                         'Search options',
                         true
                     ]

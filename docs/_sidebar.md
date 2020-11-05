@@ -14,6 +14,5 @@
     - [Track](/class/track)
     - [User](/class/user)
 
-- <a href="/example/client" class="sidebar-nav-head">EXAMPLES</a>
-    - [Client](/example/client)
-    - [Search](/example/search)
+- <a href="/typedef/searchoptions" class="sidebar-nav-head">TYPEDEFS</a>
+    - [SearchOptions](/typedef/searchoptions)
