@@ -101,5 +101,61 @@ module.exports = {
                 ]
             }
         }
+    },
+    Auth: {
+        description: 'Oauth class. All auth endpoints.',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            search: {
+                description: 'Search playlists',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'q',
+                        'string',
+                        'Query to search'
+                    ],
+                    [
+                        'options',
+                        '{ limit?: number, advanced?: boolean }',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            get: {
+                description: 'Get playlist info by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the album'
+                    ]
+                ]
+            },
+            getTracks: {
+                description: 'Get playlist tracks by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the album'
+                    ],
+                    [
+                        'options',
+                        '{ limit?: number, advanced?: boolean }',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            }
         }
+    }
 }
