@@ -60,7 +60,7 @@ module.exports = {
                 type: 'Show',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/show'
             },
-            broswe: {
+            browse: {
                 description: "Spotify browsing api endpoints",
                 type: 'Browse',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/browse'
