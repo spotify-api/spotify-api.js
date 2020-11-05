@@ -12,54 +12,54 @@ client.tracks.search('some-search').then(console.log);
 
 ---
 ## Properties
-<h3 style="font-family: consolas; font-weight: lighter;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: string</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
-> Your auth token
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/util">Util</a></font></h3>
+> Your auth token<br>
+> **Type:** string
+<h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils</h3>
 
-> Returns new util class
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="oauth">.oauth<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/auth">Auth</a></font></h3>
+> Returns new util class<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/util">Util</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="oauth">.oauth</h3>
 
-> All authorization endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="albums">.albums<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/album">Album</a></font></h3>
+> All authorization endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/auth">Auth</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="albums">.albums</h3>
 
-> Album api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="artists">.artists<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/artist">Artist</a></font></h3>
+> Album api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/album">Album</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="artists">.artists</h3>
 
-> Artist api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="playlists">.playlists<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/playlist">Playlist</a></font></h3>
+> Artist api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/artist">Artist</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="playlists">.playlists</h3>
 
-> Playlist api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="tracks">.tracks<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/track">Track</a></font></h3>
+> Playlist api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/playlist">Playlist</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="tracks">.tracks</h3>
 
-> Track api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="users">.users<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/user">User</a></font></h3>
+> Track api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/track">Track</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="users">.users</h3>
 
-> User api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="episodes">.episodes<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/episode">Episode</a></font></h3>
+> User api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/user">User</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="episodes">.episodes</h3>
 
-> Episode api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="shows">.shows<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/show">Show</a></font></h3>
+> Episode api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/episode">Episode</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="shows">.shows</h3>
 
-> Show api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="browse">.browse<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/browse">Browse</a></font></h3>
+> Show api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/show">Show</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="browse">.browse</h3>
 
-> Spotify browsing api endpoints
-> 
-<h3 style="font-family: consolas; font-weight: lighter;" id="user">.user<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/userclient">UserClient</a></font></h3>
+> Spotify browsing api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/browse">Browse</a>
+<h3 style="font-family: consolas; font-weight: lighter;" id="user">.user</h3>
 
-> Current User api endpoints
-> 
+> Current User api endpoints<br>
+> **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/userclient">UserClient</a>
 
 ---
 ## Methods
