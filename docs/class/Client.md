@@ -1,8 +1,8 @@
 # Client
 
 Spotify client.
-> **Properties:** <a href="#token">token</a>, <a href="#utils">utils</a>, <a href="#oauth">oauth</a>, <a href="#albums">albums</a>, <a href="#artists">artists</a>, <a href="#playlists">playlists</a>, <a href="#tracks">tracks</a>, <a href="#users">users</a><br>
-> **Methods:** <a href="#search">search</a>, <a href="#login">login</a>
+> **Properties:** <a class="class-index" href="#token">token</a>, <a class="class-index" href="#utils">utils</a>, <a class="class-index" href="#oauth">oauth</a>, <a class="class-index" href="#albums">albums</a>, <a class="class-index" href="#artists">artists</a>, <a class="class-index" href="#playlists">playlists</a>, <a class="class-index" href="#tracks">tracks</a>, <a class="class-index" href="#users">users</a><br>
+> **Methods:** <a class="class-index" href="#search">search</a>, <a class="class-index" href="#login">login</a>
 
 ---
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>

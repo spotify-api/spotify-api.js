@@ -32,3 +32,9 @@ blockquote{
     font-family: Alata;
     margin-top: 10px;
 }
+
+.class-index{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
