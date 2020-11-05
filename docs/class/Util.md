@@ -35,7 +35,7 @@ const util = new Spotify.Util();
 > |--------|---------|----------------|
 > | options | [FetchOptions](/typedef/FetchOptions) | Options to fetch |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<any>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
 
 > Returns the spotify uri data requested
@@ -44,7 +44,7 @@ const util = new Spotify.Util();
 > |--------|---------|----------------|
 > | uri | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
 > 
-> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<any>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
 
 > Returns the code image url by the spotify uri
