@@ -1,7 +1,7 @@
 module.exports = {
     Client: {
         description: 'Spotify Client class to interact with spotify api! Remember client.user can only be used when you are using a scoped token.',
-        example: 'client',
+        example: 'new Spotify.Client("token")',
         params: [
             [
                 'token',
@@ -157,7 +157,7 @@ module.exports = {
     },
     Util: {
         description: 'Utility class. All utility methods are present here.',
-        example: 'util',
+        example: 'new Spotify.Util("token")',
         params: [
             [
                 'token',
@@ -221,7 +221,7 @@ module.exports = {
     },
     Browse: {
         description: 'All browse endpoints in the form of class',
-        example: 'browse',
+        example: 'new Spotify.Browse("token")',
         properties: {
             token: {
                 description: "Your auth token",
@@ -293,6 +293,97 @@ module.exports = {
                     ]
                 ]
             }
+        }
+    },
+    Artist:  {
+        description: 'All artist api endpoints in the form of class',
+        example: 'new Spotify.Artist("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            search: {
+                description: 'Returns search info by the query and options provided',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'q',
+                        'string',
+                        'Query to search'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            get: {
+                description: 'Returns artist information by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the artist'
+                    ]
+                ]
+            },
+            getAlbums: {
+                description: 'Returns the list of albums by the Spotify Artist by the artist id',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the artist'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            topTracks: {
+                description: 'Returns the top tracks of the Spotify Artist by the artist id',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the artist'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            relatedArtists: {
+                description: 'Returns list of related artists of the Spotify Artist by the artist id',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the artist'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
         }
     }
 }

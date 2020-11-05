@@ -1,4 +1,4 @@
-# AdvancedSearchOptions
+# BasicOptions
 > Advanced search options object structure.<br>
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |

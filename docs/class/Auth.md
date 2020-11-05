@@ -6,7 +6,7 @@ Oauth class. All auth endpoints.
 > **Properties:** token<br>
 > **Methods:** get, refresh, build
 ```js
-const auth = new Spotify.Auth('token');
+auth
 ```
 
 ---

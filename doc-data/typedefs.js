@@ -16,7 +16,7 @@ module.exports = {
             ]
         ]
     },
-    AdvancedSearchOptions: {
+    BasicOptions: {
         description: 'Advanced search options object structure.',
         parameters: [
             [

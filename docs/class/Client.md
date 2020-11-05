@@ -6,7 +6,7 @@ Spotify Client class to interact with spotify api! Remember client.user can only
 > **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users, episodes, shows, browse, user<br>
 > **Methods:** search, login
 ```js
-const client = new Spotify.Client('token');
+new Spotify.Client("token")
 ```
 
 ---

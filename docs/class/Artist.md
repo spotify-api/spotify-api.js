@@ -1,72 +1,69 @@
 # Artist
 
-Methods related to Spotify Artists
-
----
+All artist api endpoints in the form of class
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
+> **Properties:** token<br>
+> **Methods:** search, get, getAlbums, topTracks, relatedArtists
+```js
+new Spotify.Artist("token")
+```
 
 ---
-<h3 style="font-family: consolas;" id="token">.token<font style="opacity: 0.7; font-weight: light;">: string</font></h3>
+## Properties
+<h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
-> Your auth token
-> 
+> Your auth token<br>
+> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
-<h3 style="font-family: consolas;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
+## Methods
+<h3 style="font-family: consolas; font-weight: lighter;" id="search">.search(<font style="opacity: 0.7; font-weight: light;">q, options</font>)</h3>
 
-> Search artists
+> Returns search info by the query and options provided
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | q | string | Query to search |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | q | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Query to search |
+> | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** "Promise<any[]>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id: string</font>)</h3>
-
-> Get artist info by id.
+> Returns artist information by id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | string | Id of the artist |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the artist |
 > 
-> **Returns:** "Promise<any>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="getalbums">.getAlbums(<font style="opacity: 0.7; font-weight: light;">id, options</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="getalbums">.getAlbums(<font style="opacity: 0.7; font-weight: light;">id: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
-
-> Get list of albums by the Spotify Artist by the artist id
+> Returns the list of albums by the Spotify Artist by the artist id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | string | Id of the artist |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the artist |
+> | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** "Promise<any[]>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="toptracks">.topTracks(<font style="opacity: 0.7; font-weight: light;">id, options</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="toptracks">.topTracks(<font style="opacity: 0.7; font-weight: light;">id: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
-
-> Get top tracks of the Spotify Artist by the artist id
+> Returns the top tracks of the Spotify Artist by the artist id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | string | Id of the artist |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the artist |
+> | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** "Promise<any[]>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="relatedartists">.relatedArtists(<font style="opacity: 0.7; font-weight: light;">id, options</font>)</h3>
 
----
-<h3 style="font-family: consolas;" id="relatedartists">.relatedArtists(<font style="opacity: 0.7; font-weight: light;">id: string, options?: { limit?: number, advanced?: boolean }</font>)</h3>
-
-> Get list of related artists of the Spotify Artist by the artist id
+> Returns list of related artists of the Spotify Artist by the artist id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | string | Id of the artist |
-> | options | { limit?: number, advanced?: boolean } | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the artist |
+> | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** "Promise<any[]>"
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>

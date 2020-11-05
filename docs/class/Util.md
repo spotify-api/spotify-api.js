@@ -6,7 +6,7 @@ Utility class. All utility methods are present here.
 > **Properties:** token<br>
 > **Methods:** hexToRgb, fetch, getURIData, getCodeImage
 ```js
-const util = new Spotify.Util('token');
+new Spotify.Util("token")
 ```
 
 ---

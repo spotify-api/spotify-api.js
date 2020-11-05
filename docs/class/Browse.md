@@ -6,7 +6,7 @@ All browse endpoints in the form of class
 > **Properties:** token<br>
 > **Methods:** getCategory, getCategoryPlaylists, categories, featuredCategories, newReleases
 ```js
-const browse = new Spotify.Browse('token');
+new Spotify.Browse("token")
 ```
 
 ---
