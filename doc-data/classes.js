@@ -1,6 +1,6 @@
 module.exports = {
     Client: {
-        description: 'Spotify client.',
+        description: 'Spotify Client class to interact with spotify api! Remember client.user can only be used when you are using a scoped token.',
         example: 'client',
         params: [
             [
@@ -21,34 +21,54 @@ module.exports = {
                 href: 'https://spotify-api-js-test.netlify.app/#/class/util'
             },
             oauth: {
-                description: "Returns new auth class",
+                description: "All authorization endpoints",
                 type: 'Auth',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/auth'
             },
             albums: {
-                description: "Returns new album class",
+                description: "Album api endpoints",
                 type: 'Album',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/album'
             },
             artists: {
-                description: "Returns new artist class",
+                description: "Artist api endpoints",
                 type: 'Artist',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/artist'
             },
             playlists: {
-                description: "Returns new playlist class",
+                description: "Playlist api endpoints",
                 type: 'Playlist',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/playlist'
             },
             tracks: {
-                description: "Returns new track class",
+                description: "Track api endpoints",
                 type: 'Track',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/track'
             },
             users: {
-                description: "User class",
+                description: "User api endpoints",
                 type: 'User',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/user'
+            },
+            episodes: {
+                description: "Episode api endpoints",
+                type: 'Episode',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/episode'
+            },
+            shows: {
+                description: "Show api endpoints",
+                type: 'Show',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/show'
+            },
+            broswe: {
+                description: "Spotify browsing api endpoints",
+                type: 'Browse',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/browse'
+            },
+            user: {
+                description: "Current User api endpoints",
+                type: 'UserClient',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/userclient'
             }
         },
         methods: {

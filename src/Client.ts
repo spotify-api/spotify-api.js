@@ -28,7 +28,7 @@ export default class {
     token: string;
     utils: any;
     
-    auth: Auth;
+    oauth: Auth;
     users: User;
     playlists: Playlist;
     tracks: Track;
@@ -54,7 +54,7 @@ export default class {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify(this.token)
 
-        this.auth = new Auth(this.token);
+        this.oauth = new Auth(this.token);
         this.users = new User(this.token);
         this.playlists = new Playlist(this.token);
         this.tracks = new Track(this.token);
@@ -74,7 +74,7 @@ export default class {
         this.token = token;
         this.utils = new Spotify(this.token)
 
-        this.auth = new Auth(this.token);
+        this.oauth = new Auth(this.token);
         this.users = new User(this.token);
         this.playlists = new Playlist(this.token);
         this.tracks = new Track(this.token);
