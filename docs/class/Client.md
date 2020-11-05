@@ -5,6 +5,10 @@ Spotify client.
 
 > **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users<br>
 > **Methods:** search, login
+```js
+const client = new Spotify.Client('token');
+client.tracks.search('some-search').then(console.log);
+```
 
 ---
 ## Properties
