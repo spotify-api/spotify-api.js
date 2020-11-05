@@ -23,6 +23,6 @@ blockquote{
     --theme-color: #7298da;
 }
 
-.sidebar{
+.sidebar .sidebar-nav{
     line-height: 10px;
 }
