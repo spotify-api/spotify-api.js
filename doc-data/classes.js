@@ -16,7 +16,8 @@ module.exports = {
             },
             utils: {
                 description: "Util class",
-                type: '[Util](https://spotify-api-js-test.netlify.app/#/class/util)'
+                type: 'Util',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/util'
             },
             oauth: {
                 description: "Auth class",

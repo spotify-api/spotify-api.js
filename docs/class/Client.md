@@ -16,7 +16,7 @@ Spotify client.
 > 
 
 ---
-<h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils<font style="opacity: 0.7; font-weight: light;">: [Util](https://spotify-api-js-test.netlify.app/#/class/util)</font></h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils<font style="opacity: 0.7; font-weight: light;">: <a href="https://spotify-api-js-test.netlify.app/#/class/util">Util</a></font></h3>
 
 > Util class
 > 
