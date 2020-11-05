@@ -20,16 +20,16 @@
 }
 
 .markdown-section blockquote{
-    margin: 0;
+    margin: 0!important;
 }
 
 blockquote{
-    --theme-color: #a8b4ae;
+    border-left: 2px solid #a8b4ae;
     transition: 0.3s;
 }
 
 blockquote:hover{
-    --theme-color: #1DB954;
+    border-left: 4px solid #1DB954;
 }
 
 .markdown-section a{
