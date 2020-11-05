@@ -1,12 +1,10 @@
 # Client
 
 Spotify client.
-> **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users<br>
-> **Methods:** search, login
-
----
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
+> **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users<br>
+> **Methods:** search, login
 
 ---
 ## Properties
