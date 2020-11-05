@@ -1,10 +1,3 @@
-.markdown-section th{
-    background-color: #1DB954;
-    color: white;
-    border: none;
-    padding: 8px;
-}
-
 .markdown-section td{
     border: none;
     color: black;
@@ -15,8 +8,12 @@
     background-color: #f2f2f2;
 }
 
-.markdown-section table{
-    width: 100%;
+.markdown-section th{
+    padding: 30px!important;
+    font-weight: bolder!important;
+    font-family: Alata!important;
+    background-color: #1DB954;
+    color: white;
 }
 
 .markdown-section blockquote{
