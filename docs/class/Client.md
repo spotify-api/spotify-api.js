@@ -1,8 +1,8 @@
 # Client
 
 Spotify client.
-> **Properties:** <a class="class-index" href="#token">token</a>, <a class="class-index" href="#utils">utils</a>, <a class="class-index" href="#oauth">oauth</a>, <a class="class-index" href="#albums">albums</a>, <a class="class-index" href="#artists">artists</a>, <a class="class-index" href="#playlists">playlists</a>, <a class="class-index" href="#tracks">tracks</a>, <a class="class-index" href="#users">users</a><br>
-> **Methods:** <a class="class-index" href="#search">search</a>, <a class="class-index" href="#login">login</a>
+> **Properties:** <a class="class-index" href="?id=token">token</a>, <a class="class-index" href="?id=utils">utils</a>, <a class="class-index" href="?id=oauth">oauth</a>, <a class="class-index" href="?id=albums">albums</a>, <a class="class-index" href="?id=artists">artists</a>, <a class="class-index" href="?id=playlists">playlists</a>, <a class="class-index" href="?id=tracks">tracks</a>, <a class="class-index" href="?id=users">users</a><br>
+> **Methods:** <a class="class-index" href="?id=search">search</a>, <a class="class-index" href="?id=login">login</a>
 
 ---
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
