@@ -22,3 +22,7 @@
 blockquote{
     --theme-color: #7298da;
 }
+
+.sidebar{
+    line-height: 1em;
+}

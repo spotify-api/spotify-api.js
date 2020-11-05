@@ -15,6 +15,6 @@
     - [Client](/example/client)
     - [Search](/example/search)
 
-<div style="padding-left: 3px;">
+<div style="padding-left: 10px;">
     <font style="font-weight: bolder;">GENERAL</font>
 </div>
