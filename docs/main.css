@@ -21,13 +21,11 @@
 
 blockquote{
     --theme-color: #a8b4ae;
-    border-left-width: 5px;
     transition: 0.3s;
 }
 
 blockquote:hover{
     --theme-color: #1DB954;
-    border-left-width: 7px;
 }
 
 .sidebar .sidebar-nav a{
