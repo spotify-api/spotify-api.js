@@ -86,3 +86,10 @@ blockquote:hover{
     width: 7px;
 }
 
+.footer{
+    background-color: #18181d;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
