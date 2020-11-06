@@ -83,7 +83,7 @@ new Spotify.UserPlayer("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | type | 'track' <strong>or</strong> 'context' or 'off' | Type of repeat |
+> | type | 'track' <strong>or</strong> 'context' <strong>or</strong> 'off' | Type of repeat |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="setvolume">.setVolume(<font style="opacity: 0.7; font-weight: light;">volume</font>)</h3>
