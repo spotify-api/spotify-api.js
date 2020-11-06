@@ -1,4 +1,4 @@
-# Spotify-Api.js
+<h1><font style="color: var(--theme-color);">Spotify</font>Api<font>JS</font></h1>
 
 A complete node js wrapper of spotify api with oauth support
 
