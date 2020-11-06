@@ -28,6 +28,13 @@
     <meta name="twitter:title" content="Spotify-Api.js">
     <meta name="twitter:description" content="A complete node js wrapper of spotify api with oauth support">
     <meta name="twitter:image" content="https://avatars0.githubusercontent.com/u/71826863?s=400&u=c871a66a95a2ca7e9b0f072aa9635b31fbc1e800&v=4">
+
+    <script>
+        window.addEventListener('scroll', () => {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) document.getElementById('scroll-up').style.display = 'block';
+            else document.getElementById('scroll-up').style.display = 'none';
+        });
+    </script>
 </head>
 <body>
     <div id="app"></div>
@@ -53,8 +60,8 @@
     <script src="https://unpkg.com/docsify-copy-code@2"></script>
     <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 
-    <div id="scroll-up">
+    <a id="scroll-up" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">
         <i class="fa fa-arrow-up" aria-hidden="true"></i>
-    </div>
+    </a>
 </body>
 </html>
