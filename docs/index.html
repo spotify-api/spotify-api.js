@@ -42,7 +42,10 @@
         window.$docsify = {
             name: 'Spotify-Api.js',
             repo: 'https://github.com/spotify-api/spotify-api.js',
-            loadNavbar: true,
+            loadNavbar: {
+                '/': '_navbar.md',
+                '/docs/': '_navbar.md'
+            },
             themeColor: '#1DB954',
             notFoundPage: true,
             copyCode: {
@@ -50,7 +53,10 @@
                 errorText  : 'Error X',
                 successText: 'Copied!'
             },
-            coverpage: true,
+            coverpage: {
+                '/': '_coverpage.md',
+                '/docs/': '_coverpage.md'
+            },
             auto2top: true,
             search: 'auto',
         }
