@@ -87,6 +87,6 @@ blockquote:hover{
 }
 
 .cover-title{
-    font-weight: bolder;
-    font-size: 80px;
+    font-weight: bolder!important;
+    font-size: 80px!important;
 }
