@@ -86,6 +86,3 @@ blockquote:hover{
     width: 7px;
 }
 
-section.cover.show{
-    background: var(--theme-color)!important;
-}
