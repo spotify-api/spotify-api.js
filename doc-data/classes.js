@@ -628,5 +628,45 @@ module.exports = {
                 ]
             }
         }
+    },
+    show:  {
+        description: 'All show api endpoints in the form of class',
+        example: 'new Spotify.Show("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            get: {
+                description: 'Returns the show information by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the show'
+                    ]
+                ]
+            },
+            getEpisodes: {
+                description: 'Returns the show episodes by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the show'
+                    ],
+                    [
+                        'limit',
+                        'number',
+                        'Limit of your results',
+                        true
+                    ]
+                ]
+            }
+        }
     }
 }
