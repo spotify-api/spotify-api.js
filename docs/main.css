@@ -91,3 +91,10 @@ blockquote:hover{
     font-size: 80px!important;
     margin-top: -30px!important;
 }
+
+.install-code{
+    padding: 20px;
+    background-color: whitesmoke;
+    border-radius: 2px;
+    margin-top: 10px;
+}
