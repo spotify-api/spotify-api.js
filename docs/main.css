@@ -85,3 +85,7 @@ blockquote:hover{
 ::-webkit-scrollbar{
     width: 7px;
 }
+
+section.cover.show{
+    background-color: var(--theme-color);
+}
