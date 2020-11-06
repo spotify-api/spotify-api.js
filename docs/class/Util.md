@@ -14,7 +14,7 @@ new Spotify.Util("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+> **Type:** [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
 ## Methods
@@ -24,7 +24,7 @@ new Spotify.Util("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | hex | [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Hex code to convert |
+> | hex | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Hex code to convert |
 > 
 > **Returns:** [number](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)[]
 <h3 style="font-family: consolas; font-weight: lighter;" id="fetch">.fetch(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
@@ -42,7 +42,7 @@ new Spotify.Util("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | uri | [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
+> | uri | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
 > 
 > **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
@@ -51,6 +51,6 @@ new Spotify.Util("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | uri | [[string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
+> | uri | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)>
+> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)>
