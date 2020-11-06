@@ -91,3 +91,7 @@ blockquote:hover{
     font-size: 80px!important;
     margin-top: -30px!important;
 }
+
+section.cover .cover-main > p a{
+    margin: 5px!important;
+}
