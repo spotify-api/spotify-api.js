@@ -509,5 +509,39 @@ module.exports = {
                 ]
             },
         }
+    },
+    User:  {
+        description: 'All user api endpoints in the form of class',
+        example: 'new Spotify.User("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            get: {
+                description: 'Returns the spotify user information by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the spotify user'
+                    ]
+                ]
+            },
+            get: {
+                description: 'Returns the spotify user playlists by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the spotify user'
+                    ]
+                ]
+            }
+        }
     }
 }

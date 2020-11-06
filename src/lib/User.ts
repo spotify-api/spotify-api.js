@@ -12,12 +12,12 @@ import Spotify from "../Spotify";
 class User extends Spotify {
 
     /**
-     * @param id Id of the user
-     * 
      * **Example:**
      * ```js
      * const user = await spotify.users.get("id"); // Returns the user details by id...
      * ```
+     * 
+     * @param id Id of the user
      */
     async get(id: string): Promise<any> {
 
@@ -38,6 +38,14 @@ class User extends Spotify {
 
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
+     * ```
+     * 
+     * @param id Id of the user
+     */
     async getPlaylists(id: string): Promise<any> {
 
         return new Promise(async (resolve, reject) => {
