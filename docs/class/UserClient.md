@@ -67,14 +67,12 @@ new Spotify.UserClient("token")
 > | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit of your results |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
-<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">o, A, O</font>)</h3>
+<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
 > Make a new login by refreshing the token. Similar to Auth.refresh
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | o | p | <font style="opacity: 07;">Optional. </font>t |
-> | A | u | <font style="opacity: 07;">Optional. </font>t |
-> | O | p | <font style="opacity: 07;">Optional. </font>t |
+> | options | [AuthRefreshOptions](/typedef/AuthRefreshOptions) | Options to login |
 > 
 > **Returns:** void
