@@ -14,7 +14,7 @@ new Spotify.User("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
 ## Methods
@@ -24,34 +24,34 @@ new Spotify.User("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | q | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Query to search |
+> | q | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Query to search |
 > | options | [BasicOptions](/typedef/BasicOptions) | <font style="opacity: 07;">Optional. </font>Options to help your data collection better! |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>[]>
 <h3 style="font-family: consolas; font-weight: lighter;" id="get">.get(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
 
 > Returns track info by id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the track |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the track |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="audiofeatures">.audioFeatures(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
 
 > Returns the audio features by id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the track |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the track |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="audioanalysis">.audioAnalysis(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
 
 > Returns the audio analysis of the track by id
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the track |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the track |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>

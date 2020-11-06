@@ -14,7 +14,7 @@ new Spotify.User("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
 ## Methods
@@ -24,6 +24,6 @@ new Spotify.User("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | id | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the spotify user |
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the spotify user |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>

@@ -14,7 +14,7 @@ new Spotify.Util("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="token">.token</h3>
 
 > Your auth token<br>
-> **Type:** [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+> **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
 
 ---
 ## Methods
@@ -24,9 +24,9 @@ new Spotify.Util("token")
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | hex | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Hex code to convert |
+> | hex | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Hex code to convert |
 > 
-> **Returns:** [number](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)[]
+> **Returns:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)[]
 <h3 style="font-family: consolas; font-weight: lighter;" id="fetch">.fetch(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
 > Quick method to fetch from spotify api. Will return the data required or will throw error if bad request.
@@ -35,22 +35,22 @@ new Spotify.Util("token")
 > |--------|---------|----------------|
 > | options | [FetchOptions](/typedef/FetchOptions) | Options to fetch |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="geturidata">.getURIData(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
 
 > Returns the spotify uri data requested
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | uri | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
+> | uri | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
 <h3 style="font-family: consolas; font-weight: lighter;" id="getcodeimage">.getCodeImage(<font style="opacity: 0.7; font-weight: light;">uri</font>)</h3>
 
 > Returns the code image url by the spotify uri
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
-> | uri | [string](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
+> | uri | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Uri |
 > 
-> **Returns:** [Promise](https://developer.mozilla.<strong>or</strong>g/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)>
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)>
