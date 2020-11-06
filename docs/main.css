@@ -105,3 +105,15 @@ section.cover .cover-main > p a{
 .cover-description{
     margin-top: -20px!important;
 }
+
+#scroll-up{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 3px;
+    background-color: var(--theme-color);
+    color: white;
+    text-align: center;
+    vertical-align: center;
+    padding: 20px;
+}
