@@ -683,6 +683,12 @@ module.exports = {
                 href: 'https://spotify-api-js-test.netlify.app/#/class/userplayer'
             }
         },
-        methods: {}
+        methods: {
+            info: {
+                description: 'Returns current user information',
+                returns: 'Promise<any>',
+                parameters: []
+            }
+        }
     }
 }

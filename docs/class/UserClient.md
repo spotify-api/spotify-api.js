@@ -5,7 +5,7 @@ All current user api endpoints in the form of class. Remember you need a scoped 
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token, player<br>
-> **Methods:** 
+> **Methods:** info
 ```js
 new Spotify.UserClient("token")
 ```
@@ -23,3 +23,11 @@ new Spotify.UserClient("token")
 
 ---
 ## Methods
+<h3 style="font-family: consolas; font-weight: lighter;" id="info">.info(<font style="opacity: 0.7; font-weight: light;"></font>)</h3>
+
+> Returns current user information
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
