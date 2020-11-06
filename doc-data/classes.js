@@ -736,6 +736,15 @@ module.exports = {
                         true
                     ]
                 ]
+            },
+            login: {
+                description: 'Make a new login by refreshing the token. Similar to Auth.refresh',
+                returns: 'void',
+                parameters: [
+                    'options',
+                    'AuthRefreshOptions',
+                    'Options to login'
+                ]
             }
         }
     }

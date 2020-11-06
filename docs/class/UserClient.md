@@ -5,7 +5,7 @@ All current user api endpoints in the form of class. Remember you need a scoped 
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token, player<br>
-> **Methods:** info, getPlaylists, getAlbums, getTracks, getShows
+> **Methods:** info, getPlaylists, getAlbums, getTracks, getShows, login
 ```js
 new Spotify.UserClient("token")
 ```
@@ -67,3 +67,14 @@ new Spotify.UserClient("token")
 > | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit of your results |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">o, A, O</font>)</h3>
+
+> Make a new login by refreshing the token. Similar to Auth.refresh
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | o | p | <font style="opacity: 07;">Optional. </font>t |
+> | A | u | <font style="opacity: 07;">Optional. </font>t |
+> | O | p | <font style="opacity: 07;">Optional. </font>t |
+> 
+> **Returns:** void
