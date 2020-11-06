@@ -151,4 +151,27 @@ module.exports = {
             ]
         ]
     },
+    RecentlyPlayedOptions: {
+        description: 'UserPlayer.getRecentlyPlayed options object structure',
+        parameters: [
+            [
+                'limit',
+                'number',
+                'Limit of your results',
+                true
+            ],
+            [
+                'after',
+                'any',
+                'Filters results by after time',
+                true
+            ],
+            [
+                'before',
+                'any',
+                'Filters results by before time',
+                true
+            ]
+        ]
+    }
 };

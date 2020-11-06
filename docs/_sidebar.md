@@ -28,3 +28,4 @@
     - [AuthRefreshOptions](/typedef/authrefreshoptions)
     - [AuthRefresh](/typedef/authrefresh)
     - [AuthBuildOptions](/typedef/authbuildoptions)
+    - [RecentlyPlayedOptions](/typedef/recentlyplayedoptions)

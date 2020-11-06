@@ -749,5 +749,108 @@ module.exports = {
                 ]
             }
         }
+    },
+    UserPlayer:  {
+        description: 'All player api endpoints in the form of class. Remember you need a scoped token to access current user api endpoints.',
+        example: 'new Spotify.UserPlayer("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            getCurrentPlayback: {
+                description: 'Returns current playback',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            getDevices: {
+                description: 'Returns the active devices on spotify',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            getRecentlyPlayed: {
+                description: 'Returns recently played data',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'options',
+                        'RecentlyPlayedOptions',
+                        'Filter the data by selecting options',
+                        true
+                    ]
+                ]
+            },
+            getCurrentlyPlaying: {
+                description: 'Returns currently playing track and data',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            play: {
+                description: 'Plays the player',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            pause: {
+                description: 'Pauses the player',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            seek: {
+                description: 'Seeks the player to the position provided',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'position',
+                        'number',
+                        'Position in ms to seek the player'
+                    ]
+                ]
+            },
+            repeat: {
+                description: 'Repeats the player',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'type',
+                        '\'track\' or \'context\' or \'off\'',
+                        'Type of repeat'
+                    ]
+                ]
+            },
+            setVolume: {
+                description: 'Set volume to the player',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'volume',
+                        'number',
+                        'Volume to set'
+                    ]
+                ]
+            },
+            next: {
+                description: 'Plays next track',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            previous: {
+                description: 'Plays the previous track',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            shuffle: {
+                description: 'Shuffles the playback',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'state',
+                        'boolean',
+                        'State while shuffling'
+                    ]
+                ]
+            }
+        }
     }
 }
