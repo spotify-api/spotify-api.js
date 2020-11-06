@@ -683,5 +683,6 @@ module.exports = {
                 href: 'https://spotify-api-js-test.netlify.app/#/class/userplayer'
             }
         },
+        methods: {}
     }
 }
