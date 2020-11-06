@@ -92,6 +92,12 @@ blockquote:hover{
     margin-top: -30px!important;
 }
 
+@media (max-width: 700px){
+    .cover-title{
+        font-size: 50px!important;
+    }
+}
+
 section.cover .cover-main > p a{
     margin: 5px!important;
 }
