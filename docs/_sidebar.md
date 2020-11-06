@@ -7,6 +7,8 @@
 
 - <a href="/class/client" class="sidebar-nav-head">CLASSES</a>
     - [Client](/class/client)
+    - [UserClient](/class/userclient)
+    - [UserPlayer](/class/userplayer)
     - [Util](/class/util)
     - [Auth](/class/auth)
     - [Album](/class/album)

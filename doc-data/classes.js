@@ -629,7 +629,7 @@ module.exports = {
             }
         }
     },
-    show:  {
+    Show:  {
         description: 'All show api endpoints in the form of class',
         example: 'new Spotify.Show("token")',
         properties: {
@@ -668,5 +668,20 @@ module.exports = {
                 ]
             }
         }
+    },
+    UserClient:  {
+        description: 'All current user api endpoints in the form of class. Remember you need a scoped token to access current user api endpoints.',
+        example: 'new Spotify.UserClient("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            },
+            player: {
+                description: 'User player. Most of the player api is available only for spotify premium users only',
+                type: 'UserPlayer',
+                href: 'https://spotify-api-js-test.netlify.app/#/class/userplayer'
+            }
+        },
     }
 }
