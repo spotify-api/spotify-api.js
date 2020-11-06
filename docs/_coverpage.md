@@ -6,4 +6,6 @@ A complete node js wrapper of spotify api with oauth support
 [Npm](https://npmjs.com/spotify-api.js)
 [Get Started](/#start)
 
-<div class="install-code">npm install spotify-api.js</div>
+```bash
+npm install spotify-api.js
+```
