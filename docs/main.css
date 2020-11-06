@@ -86,9 +86,7 @@ blockquote:hover{
     width: 7px;
 }
 
-.footer{
-    background-color: #18181d;
-    position: absolute;
-    left: 0;
-    right: 0;
+.cover-title{
+    font-weight: bolder;
+    font-size: 80px;
 }
