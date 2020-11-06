@@ -687,6 +687,7 @@ module.exports = {
             info: {
                 description: 'Returns current user information',
                 returns: 'Promise<any>',
+                parameters: []
             },
             getPlaylists: {
                 description: 'Returns the list of all playlists of the current user',
