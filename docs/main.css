@@ -119,6 +119,8 @@ section.cover .cover-main > p a{
     color: white;
     text-align: center;
     vertical-align: center;
-    padding: 8px;
     display: none;
+    width: 10px;
+    height: 10px;
+    font-weight: bold;
 }
