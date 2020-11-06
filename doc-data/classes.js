@@ -543,5 +543,67 @@ module.exports = {
                 ]
             }
         }
+    },
+    Track:  {
+        description: 'All track api endpoints in the form of class',
+        example: 'new Spotify.User("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            search: {
+                description: 'Returns search information of tracks',
+                returns: 'Promise<any[]>',
+                parameters: [
+                    [
+                        'q',
+                        'string',
+                        'Query to search'
+                    ],
+                    [
+                        'options',
+                        'BasicOptions',
+                        'Options to help your data collection better!',
+                        true
+                    ]
+                ]
+            },
+            get: {
+                description: 'Returns track info by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the track'
+                    ]
+                ]
+            },
+            audioFeatures: {
+                description: 'Returns the audio features by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the track'
+                    ]
+                ]
+            },
+            audioAnalysis: {
+                description: 'Returns the audio analysis of the track by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the track'
+                    ]
+                ]
+            }
+        }
     }
 }
