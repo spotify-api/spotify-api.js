@@ -1,3 +1,7 @@
+html{
+    scroll-behavior: smooth;
+}
+
 .markdown-section td{
     border: none!important;
     color: black;
