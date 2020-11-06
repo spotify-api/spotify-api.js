@@ -605,5 +605,28 @@ module.exports = {
                 ]
             }
         }
+    },
+    Episode:  {
+        description: 'All episode api endpoints in the form of class',
+        example: 'new Spotify.Episode("token")',
+        properties: {
+            token: {
+                description: "Your auth token",
+                type: "string"
+            }
+        },
+        methods: {
+            get: {
+                description: 'Returns episode information by id',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the episode'
+                    ]
+                ]
+            }
+        }
     }
 }

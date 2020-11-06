@@ -89,7 +89,7 @@ class Playlist extends Spotify {
     /**
      * **Example:**
      * ```js
-     * const coverImage = await client.playlists.getCoverImage('id') // Get cover image of the playlist by id
+     * const coverImage = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
      * ```
      * 
      * @param id Playlist id
@@ -115,7 +115,7 @@ class Playlist extends Spotify {
     /**
      * **Example:**
      * ```js
-     * const follows = await client.playlists.follows('playlistId', 'userId') // Check if a user or users follow a playlist
+     * const follows = await spotify.playlists.follows('playlistId', 'userId') // Check if a user or users follow a playlist
      * ```
      * 
      * @param id Id of the playlist

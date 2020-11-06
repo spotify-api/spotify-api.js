@@ -5,6 +5,9 @@
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 
+/**
+ * Class of all methods related to browse enpoints
+ */
 class Browse extends Spotify{
 
     /**

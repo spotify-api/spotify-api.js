@@ -12,8 +12,10 @@
     - [Album](/class/album)
     - [Artist](/class/artist)
     - [Browse](/class/browse)
+    - [Episode](/class/episode)
     - [Playlist](/class/playlist)
     - [Track](/class/track)
+    - [Show](/class/show)
     - [User](/class/user)
 
 - <a href="/typedef/searchoptions" class="sidebar-nav-head">TYPEDEFS</a>
