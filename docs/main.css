@@ -124,6 +124,10 @@ section.cover .cover-main > p a{
     font-weight: bold;
 }
 
+.bottom-links{
+    padding-top: 30px;
+}
+
 .bottom-links a{
     background-color: var(--theme-color);
     padding: 10px;
