@@ -5,7 +5,7 @@ All player api endpoints in the form of class. Remember you need a scoped token 
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token<br>
-> **Methods:** getCurrentPlayback, getDevices, getRecentlyPlayed, getCurrentlyPlaying, play, pause, seek, repeat, setVolume, next, previous, shuffle
+> **Methods:** getCurrentPlayback, getDevices, getRecentlyPlayed, getCurrentlyPlaying, play, pause, seek, repeat, setVolume, next, previous, shuffle<br>
 ```js
 new Spotify.UserPlayer("token")
 ```

@@ -687,10 +687,20 @@ module.exports = {
                 description: "Your auth token",
                 type: "string"
             },
+            startedAt: {
+                description: 'Client started at time',
+                type: 'number'
+            },
             player: {
                 description: 'User player. Most of the player api is available only for spotify premium users only',
                 type: 'UserPlayer',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/userplayer'
+            }
+        },
+        getters: {
+            uptime: {
+                description: 'Uptime of the client',
+                type: 'number'
             }
         },
         methods: {

@@ -4,8 +4,9 @@
 All current user api endpoints in the form of class. Remember you need a scoped token to access current user api endpoints.
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
-> **Properties:** token, player<br>
-> **Methods:** info, getTopTracks, getTopArtists, getPlaylists, getAlbums, getTracks, getShows, deleteAlbums, deleteTracks, deleteShows, addAlbums, addTracks, addShows, followsUser, followsArtist, followUser, followArtist, followPlaylist, unfollowUser, unfollowArtist, unfollowPlaylist, login
+> **Properties:** token, startedAt, player<br>
+> **Methods:** info, getTopTracks, getTopArtists, getPlaylists, getAlbums, getTracks, getShows, deleteAlbums, deleteTracks, deleteShows, addAlbums, addTracks, addShows, followsUser, followsArtist, followUser, followArtist, followPlaylist, unfollowUser, unfollowArtist, unfollowPlaylist, login<br>
+> **Getters:** uptime
 ```js
 new Spotify.UserClient("token")
 ```
@@ -16,10 +17,21 @@ new Spotify.UserClient("token")
 
 > Your auth token<br>
 > **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+<h3 style="font-family: consolas; font-weight: lighter;" id="startedat">.startedAt</h3>
+
+> Client started at time<br>
+> **Type:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)
 <h3 style="font-family: consolas; font-weight: lighter;" id="player">.player</h3>
 
 > User player. Most of the player api is available only for spotify premium users only<br>
 > **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/userplayer">UserPlayer</a>
+
+---
+## Getters
+<h3 style="font-family: consolas; font-weight: lighter;" id="uptime">.uptime</h3>
+
+> Uptime of the client<br>
+> **Returns:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)
 
 ---
 ## Methods

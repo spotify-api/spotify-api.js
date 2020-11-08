@@ -5,7 +5,7 @@ Spotify Client class to interact with spotify api! Remember client.user can only
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token, startedAt, utils, oauth, albums, artists, playlists, tracks, users, episodes, shows, browse, user<br>
-> **Methods:** search, login
+> **Methods:** search, login<br>
 > **Getters:** uptime
 ```js
 new Spotify.Client("token")
@@ -71,7 +71,7 @@ new Spotify.Client("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="uptime">.uptime</h3>
 
 > Uptime of the client<br>
-> **Type:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)
+> **Returns:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)
 
 ---
 ## Methods

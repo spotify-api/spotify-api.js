@@ -5,7 +5,7 @@ Utility class. All utility methods are present here.
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token<br>
-> **Methods:** hexToRgb, fetch, getURIData, getCodeImage
+> **Methods:** hexToRgb, fetch, getURIData, getCodeImage<br>
 ```js
 new Spotify.Util("token")
 ```

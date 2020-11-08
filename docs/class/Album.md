@@ -5,7 +5,7 @@ All album api endpoints in the form of class
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token<br>
-> **Methods:** search, get, getTracks
+> **Methods:** search, get, getTracks<br>
 ```js
 new Spotify.Album("token")
 ```

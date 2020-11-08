@@ -74,7 +74,8 @@ export default class {
         if(!token) throw new MissingParamError('missing token');
 
         this.token = token;
-        this.utils = new Spotify(this.token)
+        this.utils = new Spotify(this.token);
+        this.startedAt = Date.now();
 
         this.oauth = new Auth(this.token);
         this.users = new User(this.token);

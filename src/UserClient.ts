@@ -7,12 +7,18 @@ class UserClient extends Spotify{
 
     auth: Auth;
     player: UserPlayer;
+    startedAt: number;
 
     constructor(token?: string){
         super(token);
 
         this.auth = new Auth();
         this.player = new UserPlayer(this.token);
+        this.startedAt = Date.now();
+    };
+
+    get uptime(): number {
+        return Date.now() - this.startedAt;
     };
 
     async info(): Promise<any> {
@@ -482,6 +488,7 @@ class UserClient extends Spotify{
     ): Promise<void> {
         this.token = (await this.auth.refresh(options)).access_token;
         this.player = new UserPlayer(this.token);
+        this.startedAt = Date.now();
     };
     
 };
