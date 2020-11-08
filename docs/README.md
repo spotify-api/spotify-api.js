@@ -29,8 +29,6 @@ const client = new Spotify.Client('token');
 client.tracks.search('some-search').then(console.log);
 ```
 
-<div class="bottom-links" align="center">
-
-    [Get Started](/class/client)
-
+<div class="bottom-links" style="background-color: none;" align="center">
+    <a href="/#/class/client">Get Started</a>
 </div>
