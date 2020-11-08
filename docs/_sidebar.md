@@ -29,3 +29,6 @@
     - [AuthRefresh](/typedef/authrefresh)
     - [AuthBuildOptions](/typedef/authbuildoptions)
     - [RecentlyPlayedOptions](/typedef/recentlyplayedoptions)
+
+- <a href="/guide/spotify-auth-with-expressjs.md" class="sidebar-nav-head">GUIDES</a>
+    - [Spotify Auth](/guide/spotify-auth-with-expressjs.md)
