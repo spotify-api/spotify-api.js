@@ -1,5 +1,3 @@
-<h1 id="start"></h1>
-
 <div align="center">
   <img src="https://media.discordapp.net/attachments/736466510888960020/760853915876327464/Sa.png?width=718&height=275"><br>
   <div>
@@ -121,4 +119,9 @@ const {refresh_token} = await spotify.oauth.refresh({
   redirect_uri : "my redirection uri ",
 }, "my token"
 )
+```
+
+### Example for the cover and code image
+
+- <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
 ```
