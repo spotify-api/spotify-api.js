@@ -4,8 +4,9 @@
 Spotify Client class to interact with spotify api! Remember client.user can only be used when you are using a scoped token.
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
-> **Properties:** token, utils, oauth, albums, artists, playlists, tracks, users, episodes, shows, browse, user<br>
+> **Properties:** token, startedAt, utils, oauth, albums, artists, playlists, tracks, users, episodes, shows, browse, user<br>
 > **Methods:** search, login
+> **Getters:** uptime
 ```js
 new Spotify.Client("token")
 ```
@@ -16,6 +17,10 @@ new Spotify.Client("token")
 
 > Your auth token<br>
 > **Type:** [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)
+<h3 style="font-family: consolas; font-weight: lighter;" id="startedat">.startedAt</h3>
+
+> Client started at time<br>
+> **Type:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)
 <h3 style="font-family: consolas; font-weight: lighter;" id="utils">.utils</h3>
 
 > Returns new util class<br>
@@ -60,6 +65,13 @@ new Spotify.Client("token")
 
 > Current User api endpoints<br>
 > **Type:** <a href="https://spotify-api-js-test.netlify.app/#/class/userclient">UserClient</a>
+
+---
+## Getters
+<h3 style="font-family: consolas; font-weight: lighter;" id="uptime">.uptime</h3>
+
+> Uptime of the client<br>
+> **Type:** [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number)
 
 ---
 ## Methods

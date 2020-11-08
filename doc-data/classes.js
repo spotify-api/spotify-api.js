@@ -15,6 +15,10 @@ module.exports = {
                 description: "Your auth token",
                 type: "string"
             },
+            startedAt: {
+                description: 'Client started at time',
+                type: 'number'
+            },
             utils: {
                 description: "Returns new util class",
                 type: 'Util',
@@ -69,6 +73,12 @@ module.exports = {
                 description: "Current User api endpoints",
                 type: 'UserClient',
                 href: 'https://spotify-api-js-test.netlify.app/#/class/userclient'
+            }
+        },
+        getters: {
+            uptime: {
+                description: 'Uptime of the client',
+                type: 'number'
             }
         },
         methods: {

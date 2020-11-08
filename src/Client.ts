@@ -27,6 +27,7 @@ export default class {
       
     token: string;
     utils: any;
+    startedAt: number;
     
     oauth: Auth;
     users: User;
@@ -53,6 +54,7 @@ export default class {
     constructor(oauth?: string) {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify(this.token)
+        this.startedAt = Date.now();
 
         this.oauth = new Auth(this.token);
         this.users = new User(this.token);
@@ -86,6 +88,10 @@ export default class {
         this.user = new UserClient(this.token);
 
         this.search = Search(this.token);
+    };
+
+    get uptime(): number {
+        return Date.now() - this.startedAt;
     };
     
 };
