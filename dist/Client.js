@@ -37,6 +37,7 @@ class default_1 {
     constructor(oauth) {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify_1.default(this.token);
+        this.startedAt = Date.now();
         this.oauth = new Auth_1.default(this.token);
         this.users = new User_1.default(this.token);
         this.playlists = new Playlist_1.default(this.token);
@@ -55,6 +56,7 @@ class default_1 {
             throw new Error_1.MissingParamError('missing token');
         this.token = token;
         this.utils = new Spotify_1.default(this.token);
+        this.startedAt = Date.now();
         this.oauth = new Auth_1.default(this.token);
         this.users = new User_1.default(this.token);
         this.playlists = new Playlist_1.default(this.token);
@@ -66,6 +68,10 @@ class default_1 {
         this.browse = new Browse_1.default(this.token);
         this.user = new UserClient_1.default(this.token);
         this.search = Search_1.default(this.token);
+    }
+    ;
+    get uptime() {
+        return Date.now() - this.startedAt;
     }
     ;
 }

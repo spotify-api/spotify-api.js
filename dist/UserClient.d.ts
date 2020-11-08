@@ -4,7 +4,9 @@ import Auth from './lib/Auth';
 declare class UserClient extends Spotify {
     auth: Auth;
     player: UserPlayer;
+    startedAt: number;
     constructor(token?: string);
+    get uptime(): number;
     info(): Promise<any>;
     getTopArtists(): Promise<any>;
     getTopTracks(): Promise<any>;

@@ -12,6 +12,11 @@ class UserClient extends Spotify_1.default {
         super(token);
         this.auth = new Auth_1.default();
         this.player = new UserPlayer_1.default(this.token);
+        this.startedAt = Date.now();
+    }
+    ;
+    get uptime() {
+        return Date.now() - this.startedAt;
     }
     ;
     async info() {
@@ -429,6 +434,7 @@ class UserClient extends Spotify_1.default {
     async login(options) {
         this.token = (await this.auth.refresh(options)).access_token;
         this.player = new UserPlayer_1.default(this.token);
+        this.startedAt = Date.now();
     }
     ;
 }
