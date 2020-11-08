@@ -124,7 +124,7 @@ section.cover .cover-main > p a{
     font-weight: bold;
 }
 
-#bottom-links a{
+.bottom-links a{
     background-color: var(--theme-color);
     padding: 10px;
     color: white;
