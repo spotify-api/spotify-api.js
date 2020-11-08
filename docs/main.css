@@ -127,5 +127,6 @@ section.cover .cover-main > p a{
 .bottom-links a{
     background-color: var(--theme-color);
     padding: 10px;
-    color: white;
+    color: white!important;
+    border-radius: 3px;
 }
