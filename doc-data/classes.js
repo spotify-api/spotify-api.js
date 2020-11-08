@@ -689,6 +689,16 @@ module.exports = {
                 returns: 'Promise<any>',
                 parameters: []
             },
+            getTopTracks: {
+                description: 'Returns top tracks based on your affinity',
+                returns: 'Promise<any>',
+                parameters: []
+            },
+            getTopArtists: {
+                description: 'Returns top artists based on your affinity',
+                returns: 'Promise<any>',
+                parameters: []
+            },
             getPlaylists: {
                 description: 'Returns the list of all playlists of the current user',
                 returns: 'Promise<any>',
@@ -734,6 +744,160 @@ module.exports = {
                         'number',
                         'Limit of your results',
                         true
+                    ]
+                ]
+            },
+            deleteAlbums: {
+                description: 'Deletes your saved spotify albums',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the albums in array to delete'
+                    ]
+                ]
+            },
+            deleteTracks: {
+                description: 'Deletes your saved spotify tracks',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the tracks in array to delete'
+                    ]
+                ]
+            },
+            deleteShows: {
+                description: 'Deletes your saved spotify shows',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the shows in array to delete'
+                    ]
+                ]
+            },
+            addAlbums: {
+                description: 'Adds spotify albums to your saved list',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the albums in array to add'
+                    ]
+                ]
+            },
+            addTracks: {
+                description: 'Adds spotify tracks to your saved list',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the tracks in array to add'
+                    ]
+                ]
+            },
+            addShows: {
+                description: 'Adds spotify shows to your saved list',
+                returns: 'Promise<any>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the shows in array to add'
+                    ]
+                ]
+            },
+            followsUser: {
+                description: 'Verify if you follow a user',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the users to verify that you follow them'
+                    ]
+                ]
+            },
+            followsArtist: {
+                description: 'Verify if you follow an artist',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'ids',
+                        'string[]',
+                        'Ids of the artists to verify that you follow them'
+                    ]
+                ]
+            },
+            followUser: {
+                description: 'Follow an user',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the user'
+                    ]
+                ]
+            },
+            followArtist: {
+                description: 'Follow an artist',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the artist'
+                    ]
+                ]
+            },
+            followPlaylist: {
+                description: 'Follow a playlist',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the playlist'
+                    ]
+                ]
+            },
+            unfollowUser: {
+                description: 'Unfollow an user',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the user'
+                    ]
+                ]
+            },
+            unfollowArtist: {
+                description: 'Unfollow an artist',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the artist'
+                    ]
+                ]
+            },
+            unfollowPlaylist: {
+                description: 'Unfollow a playlist',
+                returns: 'Promise<boolean[]>',
+                parameters: [
+                    [
+                        'id',
+                        'string',
+                        'Id of the playlist'
                     ]
                 ]
             },

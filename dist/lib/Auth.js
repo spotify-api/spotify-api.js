@@ -21,8 +21,6 @@ class Auth {
     }
     ;
     /**
-     * @param options Your client id and client secret in object form
-     *
      * **Example:**
      * ```js
      * client.oauth.get({
@@ -30,6 +28,8 @@ class Auth {
      *     client_secret: 'your-client-secret'
      * }).then(console.log) // Will return you the token!
      * ```
+     *
+     * @param options Your client id and client secret in object form
      */
     async get(options) {
         return new Promise(async (resolve, reject) => {
@@ -61,10 +61,9 @@ class Auth {
     }
     ;
     /**
-     * @param options Your client id, client secret and refresh token
-     * @param token Your token
-     *
      * Refreshes an Authorization token
+     *
+     * @param options Your client id, client secret, redirect uri and refresh token aka code
      */
     async refresh(options) {
         return new Promise(async (resolve, reject) => {
@@ -100,9 +99,9 @@ class Auth {
     }
     ;
     /**
-     * @param options Your client id, client secret and redirect uri in object form
+     * Builds an Authorization url string.
      *
-     * Builds an Authorization string.
+     * @param options Your client id, redirect uri and scopes in object form
      */
     build(options) {
         if (!options.client_id)

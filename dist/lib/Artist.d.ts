@@ -7,9 +7,6 @@ import Spotify from "../Spotify";
  */
 declare class Artist extends Spotify {
     /**
-     * @param q Your search query
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
@@ -18,54 +15,56 @@ declare class Artist extends Spotify {
            advanced: true,
        }); // Returns a `dominantColor` and `codeImage` key with the response..
      * ```
+     *
+     * @param q Your search query
+     * @param options Options to configure your search
      */
     search(q: string, options?: {
         limit?: null | string | number;
         advanced?: boolean;
     }): Promise<any>;
     /**
-     * @param id Id of the artist
-     *
      * **Example:**
      * ```js
      * const artist = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
      * ```
+     *
+     * @param id Id of the artist
      */
     get(id: string): Promise<any>;
     /**
-     * @param id Id of the artist
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const albums = await spotify.artists.getAlbums("artist id"); // Get albums of the artists by id. Has advanced and limit option too...
      * ```
+     * @param id Id of the artist
+     * @param options Options to configure your search
      */
     getAlbums(id: string, options?: {
         limit?: null | string | number;
         advanced?: boolean;
     }): Promise<any>;
     /**
-     * @param id Id of the artist
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
      * ```
+     *
+     * @param id Id of the artist
+     * @param options Options to configure your search
      */
     topTracks(id: string, options?: {
         limit?: null | string | number;
         advanced?: boolean;
     }): Promise<any>;
     /**
-     * @param id Id of the artist
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists. Has advanced and limit option too...
      * ```
+     *
+     * @param id Id of the artist
+     * @param options Options to configure your search
      */
     relatedArtists(id: string, options?: {
         advanced?: boolean;

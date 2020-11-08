@@ -5,7 +5,7 @@ All current user api endpoints in the form of class. Remember you need a scoped 
 <h3 style="font-family: consolas;" id="constructor">constructor(<font style="opacity: 0.7; font-weight: light;">token?: string</font>)</h3>
 
 > **Properties:** token, player<br>
-> **Methods:** info, getPlaylists, getAlbums, getTracks, getShows, login
+> **Methods:** info, getTopTracks, getTopArtists, getPlaylists, getAlbums, getTracks, getShows, deleteAlbums, deleteTracks, deleteShows, addAlbums, addTracks, addShows, followsUser, followsArtist, followUser, followArtist, followPlaylist, unfollowUser, unfollowArtist, unfollowPlaylist, login
 ```js
 new Spotify.UserClient("token")
 ```
@@ -26,6 +26,22 @@ new Spotify.UserClient("token")
 <h3 style="font-family: consolas; font-weight: lighter;" id="info">.info(<font style="opacity: 0.7; font-weight: light;"></font>)</h3>
 
 > Returns current user information
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="gettoptracks">.getTopTracks(<font style="opacity: 0.7; font-weight: light;"></font>)</h3>
+
+> Returns top tracks based on your affinity
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="gettopartists">.getTopArtists(<font style="opacity: 0.7; font-weight: light;"></font>)</h3>
+
+> Returns top artists based on your affinity
 > 
 > | PARAMETER   | TYPE    | DESCRIPTION    |
 > |--------|---------|----------------|
@@ -67,6 +83,132 @@ new Spotify.UserClient("token")
 > | limit | [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number) | <font style="opacity: 07;">Optional. </font>Limit of your results |
 > 
 > **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="deletealbums">.deleteAlbums(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Deletes your saved spotify albums
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the albums in array to delete |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="deletetracks">.deleteTracks(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Deletes your saved spotify tracks
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the tracks in array to delete |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="deleteshows">.deleteShows(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Deletes your saved spotify shows
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the shows in array to delete |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="addalbums">.addAlbums(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Adds spotify albums to your saved list
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the albums in array to add |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="addtracks">.addTracks(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Adds spotify tracks to your saved list
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the tracks in array to add |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="addshows">.addShows(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Adds spotify shows to your saved list
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the shows in array to add |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<<font>any</font>>
+<h3 style="font-family: consolas; font-weight: lighter;" id="followsuser">.followsUser(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Verify if you follow a user
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the users to verify that you follow them |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="followsartist">.followsArtist(<font style="opacity: 0.7; font-weight: light;">ids</font>)</h3>
+
+> Verify if you follow an artist
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | ids | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string)[] | Ids of the artists to verify that you follow them |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="followuser">.followUser(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+
+> Follow an user
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the user |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="followartist">.followArtist(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+
+> Follow an artist
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the artist |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="followplaylist">.followPlaylist(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+
+> Follow a playlist
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the playlist |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="unfollowuser">.unfollowUser(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+
+> Unfollow an user
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the user |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="unfollowartist">.unfollowArtist(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+
+> Unfollow an artist
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the artist |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
+<h3 style="font-family: consolas; font-weight: lighter;" id="unfollowplaylist">.unfollowPlaylist(<font style="opacity: 0.7; font-weight: light;">id</font>)</h3>
+
+> Unfollow a playlist
+> 
+> | PARAMETER   | TYPE    | DESCRIPTION    |
+> |--------|---------|----------------|
+> | id | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string) | Id of the playlist |
+> 
+> **Returns:** [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/promise)<[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean)[]>
 <h3 style="font-family: consolas; font-weight: lighter;" id="login">.login(<font style="opacity: 0.7; font-weight: light;">options</font>)</h3>
 
 > Make a new login by refreshing the token. Similar to Auth.refresh

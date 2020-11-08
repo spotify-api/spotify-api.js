@@ -18,6 +18,7 @@ const Show_1 = __importDefault(require("./lib/Show"));
 const Browse_1 = __importDefault(require("./lib/Browse"));
 const Spotify_1 = __importDefault(require("./Spotify"));
 const UserClient_1 = __importDefault(require("./UserClient"));
+const Error_1 = require("./Error");
 /**
  * **Client class**
  *
@@ -36,7 +37,25 @@ class default_1 {
     constructor(oauth) {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify_1.default(this.token);
-        this.auth = new Auth_1.default(this.token);
+        this.oauth = new Auth_1.default(this.token);
+        this.users = new User_1.default(this.token);
+        this.playlists = new Playlist_1.default(this.token);
+        this.tracks = new Track_1.default(this.token);
+        this.albums = new Album_1.default(this.token);
+        this.artists = new Artist_1.default(this.token);
+        this.episodes = new Episode_1.default(this.token);
+        this.shows = new Show_1.default(this.token);
+        this.browse = new Browse_1.default(this.token);
+        this.user = new UserClient_1.default(this.token);
+        this.search = Search_1.default(this.token);
+    }
+    ;
+    login(token) {
+        if (!token)
+            throw new Error_1.MissingParamError('missing token');
+        this.token = token;
+        this.utils = new Spotify_1.default(this.token);
+        this.oauth = new Auth_1.default(this.token);
         this.users = new User_1.default(this.token);
         this.playlists = new Playlist_1.default(this.token);
         this.tracks = new Track_1.default(this.token);

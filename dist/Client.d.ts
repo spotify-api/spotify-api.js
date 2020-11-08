@@ -19,7 +19,7 @@ import UserClient from './UserClient';
 export default class {
     token: string;
     utils: any;
-    auth: Auth;
+    oauth: Auth;
     users: User;
     playlists: Playlist;
     tracks: Track;
@@ -40,4 +40,5 @@ export default class {
      * ```
      */
     constructor(oauth?: string);
+    login(token: string): void;
 }

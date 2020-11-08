@@ -8,7 +8,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+/**
+ * Class of all methods related to browse enpoints
+ */
 class Browse extends Spotify_1.default {
+    /**
+     * Get information about a category by id
+     * @param id category id
+     */
     async getCategory(id) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -25,6 +32,11 @@ class Browse extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * Returns all playlists of the category by id
+     * @param id Id of the category
+     * @param limit Limit of results
+     */
     async getCategoryPlaylists(id, limit) {
         return new Promise(async (resolve, reject) => {
             if (!id)
@@ -44,6 +56,10 @@ class Browse extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * Get list of all categories
+     * @param limit Limit of your results
+     */
     async categories(limit) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -61,6 +77,10 @@ class Browse extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * Get list of all featured playlists
+     * @param limit Limit of results
+     */
     async featuredPlaylists(limit) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -78,6 +98,10 @@ class Browse extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * Get list of all new releases
+     * @param limit Limit of results
+     */
     async newReleases(limit) {
         return new Promise(async (resolve, reject) => {
             try {

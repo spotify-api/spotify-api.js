@@ -13,9 +13,6 @@ const Spotify_1 = __importDefault(require("../Spotify"));
  */
 class Artist extends Spotify_1.default {
     /**
-     * @param q Your search query
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
@@ -24,6 +21,9 @@ class Artist extends Spotify_1.default {
            advanced: true,
        }); // Returns a `dominantColor` and `codeImage` key with the response..
      * ```
+     *
+     * @param q Your search query
+     * @param options Options to configure your search
      */
     async search(q, options) {
         return new Promise(async (resolve, reject) => {
@@ -58,12 +58,12 @@ class Artist extends Spotify_1.default {
     }
     ;
     /**
-     * @param id Id of the artist
-     *
      * **Example:**
      * ```js
      * const artist = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
      * ```
+     *
+     * @param id Id of the artist
      */
     async get(id) {
         return new Promise(async (resolve, reject) => {
@@ -84,13 +84,12 @@ class Artist extends Spotify_1.default {
         });
     }
     /**
-     * @param id Id of the artist
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const albums = await spotify.artists.getAlbums("artist id"); // Get albums of the artists by id. Has advanced and limit option too...
      * ```
+     * @param id Id of the artist
+     * @param options Options to configure your search
      */
     async getAlbums(id, options) {
         return new Promise(async (resolve, reject) => {
@@ -123,13 +122,13 @@ class Artist extends Spotify_1.default {
         });
     }
     /**
-     * @param id Id of the artist
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
      * ```
+     *
+     * @param id Id of the artist
+     * @param options Options to configure your search
      */
     async topTracks(id, options) {
         return new Promise(async (resolve, reject) => {
@@ -161,13 +160,13 @@ class Artist extends Spotify_1.default {
     }
     ;
     /**
-     * @param id Id of the artist
-     * @param options Options to configure your search
-     *
      * **Example:**
      * ```js
      * const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists. Has advanced and limit option too...
      * ```
+     *
+     * @param id Id of the artist
+     * @param options Options to configure your search
      */
     async relatedArtists(id, options) {
         return new Promise(async (resolve, reject) => {

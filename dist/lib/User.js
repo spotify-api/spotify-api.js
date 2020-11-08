@@ -13,12 +13,12 @@ const Spotify_1 = __importDefault(require("../Spotify"));
  */
 class User extends Spotify_1.default {
     /**
-     * @param id Id of the user
-     *
      * **Example:**
      * ```js
      * const user = await spotify.users.get("id"); // Returns the user details by id...
      * ```
+     *
+     * @param id Id of the user
      */
     async get(id) {
         return new Promise(async (resolve, reject) => {
@@ -38,6 +38,14 @@ class User extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
+     * ```
+     *
+     * @param id Id of the user
+     */
     async getPlaylists(id) {
         return new Promise(async (resolve, reject) => {
             try {
