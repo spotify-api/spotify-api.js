@@ -121,7 +121,7 @@ const {refresh_token} = await spotify.oauth.refresh({
 )
 ```
 
-### Example for the cover and code image
+### Example for the code image
 
 - <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
 ```
