@@ -1,8 +1,24 @@
+/**
+ * UserPlayer which access the user player only if the scoped token
+ * has those correct scopes
+ */
 import { MissingParamError, UnexpectedError } from "./Error";
 import Spotify from "./Spotify";
 
+/**
+ * UserPlayer which access the user player only if the scoped token
+ * has those correct scopes
+ */
 class UserPlayer extends Spotify{
 
+    /**
+     * **Example:**
+     * ```js
+     * const currentPlayback = await player.getCurrentPlayback();
+     * ```
+     * 
+     * Returns the current playback
+     */
     async getCurrentPlayback(): Promise<any> {
         return new Promise(async(resolve, reject) => {
             try{
@@ -17,6 +33,14 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * const devices = await player.getDevices();
+     * ```
+     * 
+     * Returns the devices which has active player
+     */
     async getDevices(): Promise<any> {
         return new Promise(async(resolve, reject) => {
             try{
@@ -31,6 +55,16 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * const recentlyPlayed = await player.getRecentlyPlayed();
+     * ```
+     * 
+     * Returns the recently played information
+     * 
+     * @param options Configure your results
+     */
     async getRecentlyPlayed(
         options?: {
             limit?: number,
@@ -101,6 +135,16 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * await player.repeat('track');
+     * ```
+     * 
+     * Repeats the player
+     * 
+     * @param type Type of repeat mode
+     */
     async repeat(type: 'track' | 'context' | 'off'): Promise<any> {
         return new Promise(async(resolve, reject) => {
             if(!type) reject(new MissingParamError('missing type'));
@@ -121,6 +165,16 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * await player.setVolume(10);
+     * ```
+     * 
+     * Set the volume of the player
+     * 
+     * @param volume Volume to set
+     */
     async setVolume(volume: number): Promise<any> {
         return new Promise(async(resolve, reject) => {
             if(!volume) reject(new MissingParamError('missing volume'));
@@ -141,6 +195,14 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * await player.next()
+     * ```
+     * 
+     * Plays the next playback
+     */
     async next(): Promise<any> {
         return new Promise(async(resolve, reject) => {
             try{
@@ -156,6 +218,14 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * await player.previous()
+     * ```
+     * 
+     * Plays the previous playback
+     */
     async previous(): Promise<any> {
         return new Promise(async(resolve, reject) => {
             try{
@@ -171,6 +241,14 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * await player.play()
+     * ```
+     * 
+     * Plays the playback
+     */
     async play(): Promise<any> {
         return new Promise(async(resolve, reject) => {
             try{
@@ -186,6 +264,16 @@ class UserPlayer extends Spotify{
         });
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * await player.shuffle()
+     * ```
+     * 
+     * Shuffles the playback
+     * 
+     * @param state State while shuffling
+     */
     async shuffle(state?: boolean): Promise<any> {
         return new Promise(async(resolve, reject) => {
             try{

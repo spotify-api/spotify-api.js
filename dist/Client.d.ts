@@ -43,4 +43,5 @@ export default class {
     constructor(oauth?: string);
     login(token: string): void;
     get uptime(): number;
+    ping(): Promise<number>;
 }

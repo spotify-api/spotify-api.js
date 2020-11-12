@@ -3,9 +3,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * UserPlayer which access the user player only if the scoped token
+ * has those correct scopes
+ */
 const Error_1 = require("./Error");
 const Spotify_1 = __importDefault(require("./Spotify"));
+/**
+ * UserPlayer which access the user player only if the scoped token
+ * has those correct scopes
+ */
 class UserPlayer extends Spotify_1.default {
+    /**
+     * **Example:**
+     * ```js
+     * const currentPlayback = await player.getCurrentPlayback();
+     * ```
+     *
+     * Returns the current playback
+     */
     async getCurrentPlayback() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -20,6 +36,14 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * const devices = await player.getDevices();
+     * ```
+     *
+     * Returns the devices which has active player
+     */
     async getDevices() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -34,6 +58,16 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * const recentlyPlayed = await player.getRecentlyPlayed();
+     * ```
+     *
+     * Returns the recently played information
+     *
+     * @param options Configure your results
+     */
     async getRecentlyPlayed(options) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -98,6 +132,16 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * await player.repeat('track');
+     * ```
+     *
+     * Repeats the player
+     *
+     * @param type Type of repeat mode
+     */
     async repeat(type) {
         return new Promise(async (resolve, reject) => {
             if (!type)
@@ -118,6 +162,16 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * await player.setVolume(10);
+     * ```
+     *
+     * Set the volume of the player
+     *
+     * @param volume Volume to set
+     */
     async setVolume(volume) {
         return new Promise(async (resolve, reject) => {
             if (!volume)
@@ -138,6 +192,14 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * await player.next()
+     * ```
+     *
+     * Plays the next playback
+     */
     async next() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -153,6 +215,14 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * await player.previous()
+     * ```
+     *
+     * Plays the previous playback
+     */
     async previous() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -168,6 +238,14 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * await player.play()
+     * ```
+     *
+     * Plays the playback
+     */
     async play() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -183,6 +261,16 @@ class UserPlayer extends Spotify_1.default {
         });
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * await player.shuffle()
+     * ```
+     *
+     * Shuffles the playback
+     *
+     * @param state State while shuffling
+     */
     async shuffle(state) {
         return new Promise(async (resolve, reject) => {
             try {

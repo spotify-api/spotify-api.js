@@ -94,5 +94,13 @@ export default class {
     get uptime(): number {
         return Date.now() - this.startedAt;
     };
+
+    async ping(): Promise<number> {
+        return new Promise(async (resolve, reject) => {
+            let startedAt = Date.now();
+            await this.browse.newReleases();
+            return Date.now() - startedAt;
+        });
+    };
     
 };

@@ -11,6 +11,7 @@ const Error_1 = require("./Error");
 const axios_1 = __importDefault(require("axios"));
 const spotify_uri_info_1 = __importDefault(require("@spotify-api.js/spotify-uri-info"));
 ;
+;
 /**
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`

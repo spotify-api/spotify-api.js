@@ -42,12 +42,13 @@ class Browse extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError('missing id'));
             try {
-                resolve(await this.fetch({
+                const data = await this.fetch({
                     link: `v1/browse/categories/${id}/playlists`,
                     params: {
                         limit: limit || 20
                     }
-                }));
+                });
+                resolve(data.playlists);
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
@@ -63,12 +64,13 @@ class Browse extends Spotify_1.default {
     async categories(limit) {
         return new Promise(async (resolve, reject) => {
             try {
-                resolve(await this.fetch({
+                const data = await this.fetch({
                     link: `v1/browse/categories`,
                     params: {
                         limit: limit || 20
                     }
-                }));
+                });
+                resolve(data.categories.items);
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));

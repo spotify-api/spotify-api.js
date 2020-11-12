@@ -74,6 +74,14 @@ class default_1 {
         return Date.now() - this.startedAt;
     }
     ;
+    async ping() {
+        return new Promise(async (resolve, reject) => {
+            let startedAt = Date.now();
+            await this.browse.newReleases();
+            return Date.now() - startedAt;
+        });
+    }
+    ;
 }
 exports.default = default_1;
 ;
