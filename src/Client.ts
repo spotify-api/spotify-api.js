@@ -16,7 +16,7 @@ import Browse from './lib/Browse';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 
-import { MissingParamError } from './Error';
+import { MissingParamError, UnexpectedError } from './Error';
 
 /**
  * **Client class**
@@ -39,8 +39,6 @@ export default class {
     shows: Show;
     browse: Browse;
     user: UserClient;
-
-    search: any;
 
     /**
      * @param oauth Token
@@ -87,8 +85,6 @@ export default class {
         this.shows = new Show(this.token);
         this.browse = new Browse(this.token);
         this.user = new UserClient(this.token);
-
-        this.search = Search(this.token);
     };
 
     get uptime(): number {
@@ -100,6 +96,36 @@ export default class {
             let startedAt = Date.now();
             await this.browse.newReleases();
             return Date.now() - startedAt;
+        });
+    };
+
+    async search(
+        q: string, 
+        options?: {
+            limit?: number,
+            type?: ('track' | 'artist' | 'album')[]
+        }
+    ): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            if(!q) reject(new MissingParamError('missing query'));
+            if(!options) options = {};
+            if(!Array.isArray(options.type)) options.type = ['track', 'artist', 'album'];
+
+            try{
+                resolve(
+                    await this.utils.fetch({
+                        link: `v1/search`,
+                        params: {
+                            q: encodeURIComponent(q),
+                            type: options.type.join(','),
+                            market: "US",
+                            limit: options.limit || 20,
+                        },
+                    })
+                );
+            }catch(e){
+                reject(new UnexpectedError(e));
+            };
         });
     };
     

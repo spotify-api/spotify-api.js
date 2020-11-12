@@ -67,7 +67,6 @@ class default_1 {
         this.shows = new Show_1.default(this.token);
         this.browse = new Browse_1.default(this.token);
         this.user = new UserClient_1.default(this.token);
-        this.search = Search_1.default(this.token);
     }
     ;
     get uptime() {
@@ -79,6 +78,32 @@ class default_1 {
             let startedAt = Date.now();
             await this.browse.newReleases();
             return Date.now() - startedAt;
+        });
+    }
+    ;
+    async search(q, options) {
+        return new Promise(async (resolve, reject) => {
+            if (!q)
+                reject(new Error_1.MissingParamError('missing query'));
+            if (!options)
+                options = {};
+            if (!Array.isArray(options.type))
+                options.type = ['track', 'artist', 'album'];
+            try {
+                resolve(await this.utils.fetch({
+                    link: `v1/search`,
+                    params: {
+                        q: encodeURIComponent(q),
+                        type: options.type.join(','),
+                        market: "US",
+                        limit: options.limit || 20,
+                    },
+                }));
+            }
+            catch (e) {
+                reject(new Error_1.UnexpectedError(e));
+            }
+            ;
         });
     }
     ;

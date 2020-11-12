@@ -30,7 +30,6 @@ export default class {
     shows: Show;
     browse: Browse;
     user: UserClient;
-    search: any;
     /**
      * @param oauth Token
      *
@@ -44,4 +43,8 @@ export default class {
     login(token: string): void;
     get uptime(): number;
     ping(): Promise<number>;
+    search(q: string, options?: {
+        limit?: number;
+        type?: ('track' | 'artist' | 'album')[];
+    }): Promise<any>;
 }

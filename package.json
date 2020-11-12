@@ -6,10 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "test": "node test/index.js",
-    "doc": "node doc-gen.js",
-    "host": "node test/host.js",
-    "auth": "node test/auth.js"
+    "test": "node test/index.js"
   },
   "repository": {
     "type": "git",
