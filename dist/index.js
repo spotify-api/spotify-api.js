@@ -6,7 +6,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Util = exports.UserPlayer = exports.UserClient = exports.Search = exports.Browse = exports.Show = exports.Episode = exports.Artist = exports.Album = exports.Track = exports.Playlist = exports.User = exports.Auth = exports.Client = exports.version = void 0;
+exports.Util = exports.UserPlayer = exports.UserClient = exports.Browse = exports.Show = exports.Episode = exports.Artist = exports.Album = exports.Track = exports.Playlist = exports.User = exports.Auth = exports.Client = exports.version = void 0;
 const Client_1 = __importDefault(require("./Client"));
 exports.Client = Client_1.default;
 const Auth_1 = __importDefault(require("./lib/Auth"));
@@ -27,8 +27,6 @@ const Episode_1 = __importDefault(require("./lib/Episode"));
 exports.Episode = Episode_1.default;
 const Show_1 = __importDefault(require("./lib/Show"));
 exports.Show = Show_1.default;
-const Search_1 = __importDefault(require("./lib/Search"));
-exports.Search = Search_1.default;
 const Spotify_1 = __importDefault(require("./Spotify"));
 exports.Util = Spotify_1.default;
 const UserClient_1 = __importDefault(require("./UserClient"));
@@ -60,7 +58,6 @@ exports.default = {
     Episode: Episode_1.default,
     Show: Show_1.default,
     Browse: Browse_1.default,
-    Search: Search_1.default,
     UserClient: UserClient_1.default,
     UserPlayer: UserPlayer_1.default,
     Util: Spotify_1.default

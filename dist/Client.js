@@ -12,7 +12,6 @@ const Playlist_1 = __importDefault(require("./lib/Playlist"));
 const Track_1 = __importDefault(require("./lib/Track"));
 const Album_1 = __importDefault(require("./lib/Album"));
 const Artist_1 = __importDefault(require("./lib/Artist"));
-const Search_1 = __importDefault(require("./lib/Search"));
 const Episode_1 = __importDefault(require("./lib/Episode"));
 const Show_1 = __importDefault(require("./lib/Show"));
 const Browse_1 = __importDefault(require("./lib/Browse"));
@@ -48,9 +47,16 @@ class default_1 {
         this.shows = new Show_1.default(this.token);
         this.browse = new Browse_1.default(this.token);
         this.user = new UserClient_1.default(this.token);
-        this.search = Search_1.default(this.token);
     }
     ;
+    /**
+     * **Example:**
+     * ```js
+     * client.login('token');
+     * ```
+     *
+     * @param token string
+     */
     login(token) {
         if (!token)
             throw new Error_1.MissingParamError('missing token');
@@ -69,18 +75,22 @@ class default_1 {
         this.user = new UserClient_1.default(this.token);
     }
     ;
+    /**
+     * Uptime of the client
+     */
     get uptime() {
         return Date.now() - this.startedAt;
     }
     ;
-    async ping() {
-        return new Promise(async (resolve, reject) => {
-            let startedAt = Date.now();
-            await this.browse.newReleases();
-            return Date.now() - startedAt;
-        });
-    }
-    ;
+    /**
+     * **Example:**
+     * ```js
+     * const search = await client.search('search', { limit: 10, search: ['track'] });
+     * ```
+     *
+     * @param q Query
+     * @param options Your options to selected
+     */
     async search(q, options) {
         return new Promise(async (resolve, reject) => {
             if (!q)

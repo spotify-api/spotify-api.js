@@ -11,7 +11,6 @@ import Artist from './lib/Artist';
 import Browse from './lib/Browse';
 import Episode from './lib/Episode';
 import Show from './lib/Show';
-import Search from './lib/Search';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 import UserPlayer from './UserPlayer';
@@ -27,7 +26,7 @@ import UserPlayer from './UserPlayer';
  * Always try to update your spotify-api.js to v4.x.x
  */
 declare const version = "5.0.0";
-export { version, Client, Auth, User, Playlist, Track, Album, Artist, Episode, Show, Browse, Search, UserClient, UserPlayer, Spotify as Util };
+export { version, Client, Auth, User, Playlist, Track, Album, Artist, Episode, Show, Browse, UserClient, UserPlayer, Spotify as Util };
 declare const _default: {
     version: string;
     Client: typeof Client;
@@ -40,7 +39,6 @@ declare const _default: {
     Episode: typeof Episode;
     Show: typeof Show;
     Browse: typeof Browse;
-    Search: (token: string) => any;
     UserClient: typeof UserClient;
     UserPlayer: typeof UserPlayer;
     Util: typeof Spotify;

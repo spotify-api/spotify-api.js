@@ -8,7 +8,6 @@ import Playlist from './lib/Playlist';
 import Track from './lib/Track';
 import Album from './lib/Album';
 import Artist from './lib/Artist'
-import Search from './lib/Search';
 import Episode from './lib/Episode';
 import Show from './lib/Show';
 import Browse from './lib/Browse';
@@ -64,10 +63,16 @@ export default class {
         this.shows = new Show(this.token);
         this.browse = new Browse(this.token);
         this.user = new UserClient(this.token);
-
-        this.search = Search(this.token);
     };
 
+    /**
+     * **Example:**
+     * ```js
+     * client.login('token');
+     * ```
+     * 
+     * @param token string
+     */
     login(token: string): void {
         if(!token) throw new MissingParamError('missing token');
 
@@ -87,18 +92,22 @@ export default class {
         this.user = new UserClient(this.token);
     };
 
+    /**
+     * Uptime of the client
+     */
     get uptime(): number {
         return Date.now() - this.startedAt;
     };
 
-    async ping(): Promise<number> {
-        return new Promise(async (resolve, reject) => {
-            let startedAt = Date.now();
-            await this.browse.newReleases();
-            return Date.now() - startedAt;
-        });
-    };
-
+    /**
+     * **Example:**
+     * ```js
+     * const search = await client.search('search', { limit: 10, search: ['track'] });
+     * ```
+     * 
+     * @param q Query
+     * @param options Your options to selected
+     */
     async search(
         q: string, 
         options?: {

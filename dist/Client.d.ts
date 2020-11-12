@@ -40,9 +40,28 @@ export default class {
      * ```
      */
     constructor(oauth?: string);
+    /**
+     * **Example:**
+     * ```js
+     * client.login('token');
+     * ```
+     *
+     * @param token string
+     */
     login(token: string): void;
+    /**
+     * Uptime of the client
+     */
     get uptime(): number;
-    ping(): Promise<number>;
+    /**
+     * **Example:**
+     * ```js
+     * const search = await client.search('search', { limit: 10, search: ['track'] });
+     * ```
+     *
+     * @param q Query
+     * @param options Your options to selected
+     */
     search(q: string, options?: {
         limit?: number;
         type?: ('track' | 'artist' | 'album')[];

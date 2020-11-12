@@ -13,7 +13,6 @@ import Artist from './lib/Artist'
 import Browse from './lib/Browse';
 import Episode from './lib/Episode';
 import Show from './lib/Show';
-import Search from './lib/Search';
 
 import Spotify from './Spotify';
 import UserClient from './UserClient';
@@ -44,7 +43,6 @@ export {
     Episode,
     Show,
     Browse,
-    Search,
     UserClient,
     UserPlayer,
     Spotify as Util
@@ -62,7 +60,6 @@ export default {
     Episode,
     Show,
     Browse,
-    Search,
     UserClient,
     UserPlayer,
     Util: Spotify
