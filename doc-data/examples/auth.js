@@ -1,1 +1,0 @@
-const auth = new Spotify.Auth('token');

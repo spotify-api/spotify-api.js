@@ -1,1 +1,0 @@
-const util = new Spotify.Util('token');

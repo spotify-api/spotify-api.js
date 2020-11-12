@@ -1,1 +1,0 @@
-const client = new Spotify.Client('token');
