@@ -10,7 +10,9 @@
 
 # Quick Intro
 
-Spotify-api.js is a promise based quick wrapper for spotify web api which covers the all the api endpoints!
+Spotify-api.js is a promise based quick wrapper for spotify web api which covers the all the api endpoints!<br/>
+You can read the docs of this package by clicking [here](https://spotify-api.js.org)<br/>
+You can join our discord server for additional support from [here](https://discord.gg/FrduEZd).
 
 # Installation
 
@@ -21,6 +23,13 @@ npm i spotify-api.js
 # Getting Started
 
 Please make an App from here https://developer.spotify.com/dashboard/
+
+# Contents
+
+- [Client](https://spotify-api.js.org/#/docs/class/Client)
+- [Authorization](https://spotify-api.js.org/#/docs/class/Auth)
+- [Current user client](https://spotify-api.js.org/#/docs/class/UserClient)
+- [Currenr user player](https://spotify-api.js.org/#/docs/class/UserPlayer)
 
 # Getting Access Token
 
@@ -37,6 +46,10 @@ console.log(token); // Spotify resets its token each every 1-5 minutes to preven
 ```
 
 > Remember that you need scoped token for Client.user and Client.user.player which uses current user api endpoints...
+
+# Examples
+
+These are just some small examples, you can view the docs for a more brief documentation...
 
 ## Tracks
 
