@@ -29,7 +29,7 @@ Please make an App from here https://developer.spotify.com/dashboard/
 - [Client](https://spotify-api.js.org/#/docs/class/Client)
 - [Authorization](https://spotify-api.js.org/#/docs/class/Auth)
 - [Current user client](https://spotify-api.js.org/#/docs/class/UserClient)
-- [Currenr user player](https://spotify-api.js.org/#/docs/class/UserPlayer)
+- [Current user player](https://spotify-api.js.org/#/docs/class/UserPlayer)
 
 # Getting Access Token
 
