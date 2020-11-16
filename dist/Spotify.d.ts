@@ -5,10 +5,21 @@
 /**
  * Interface of this.fetch options
  */
-interface getOptions {
+export interface getOptions {
     link: string;
     headers?: any;
     params?: any;
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+}
+/**
+ * Interface of this.getCodeImage result
+ */
+export interface CodeImageReturn {
+    image: string;
+    dominantColor: {
+        hex: string;
+        rgb: number[];
+    };
 }
 /**
  * Spotify utility class
@@ -27,7 +38,7 @@ export default class {
      *
      * Function used to convert the hex string to rgb array.
      */
-    hexToRgb(hex: string): number[] | void;
+    hexToRgb(hex: string): number[];
     /**
      * @param options Fetch options
      *
@@ -45,6 +56,5 @@ export default class {
      *
      * Get code image of advanced options...
      */
-    getCodeImage(uri: string): Promise<any>;
+    getCodeImage(uri: string): Promise<CodeImageReturn>;
 }
-export {};

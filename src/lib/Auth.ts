@@ -8,7 +8,7 @@ import axios from "axios";
 /**
  * Interface of Auth.refresh return object
  */
-export interface refresh {
+export interface AuthRefresh {
     access_token: string;
     token_type: string;
     expires_in: number;
@@ -32,8 +32,6 @@ class Auth {
     };
 
     /**
-     * @param options Your client id and client secret in object form
-     * 
      * **Example:**
      * ```js
      * client.oauth.get({
@@ -41,6 +39,8 @@ class Auth {
      *     client_secret: 'your-client-secret'
      * }).then(console.log) // Will return you the token!
      * ```
+     * 
+     * @param options Your client id and client secret in object form
      */
     async get(options: {
         client_id: string;
@@ -77,25 +77,24 @@ class Auth {
     };
 
     /**
-     * @param options Your client id, client secret and refresh token
-     * @param token Your token
-     * 
      * Refreshes an Authorization token
+     * 
+     * @param options Your client id, client secret, redirect uri and refresh token aka code
      */
     async refresh(
         options: {
             client_id: string;
             client_secret: string;
             redirect_uri: string;
-        },
-        token: string
-    ): Promise<refresh> {
+            code: string;
+        }
+    ): Promise<AuthRefresh> {
 
         return new Promise(async (resolve, reject) => {
             if (!options.client_id) reject(new MissingParamError("missing client id"));
             if (!options.client_secret) reject(new MissingParamError("missing client secret"));
             if (!options.redirect_uri) reject(new MissingParamError("missing redirect uri"));
-            if (!token) reject(new MissingParamError("missing token"));
+            if (!options.code) reject(new MissingParamError("missing code"));
 
             try {
                 const { data } = await axios({
@@ -103,7 +102,7 @@ class Auth {
                     url: "https://accounts.spotify.com/api/token",
                     params: {
                         grant_type: "authorization_code",
-                        code: token,
+                        code: options.code,
                         redirect_uri: options.redirect_uri,
                     },
                     headers: {
@@ -124,18 +123,17 @@ class Auth {
     };
 
     /**
-     * @param options Your client id, client secret and redirect uri in object form
+     * Builds an Authorization url string.
      * 
-     * Builds an Authorization string.
+     * @param options Your client id, redirect uri and scopes in object form
      */
     build(options: {
         client_id: string;
-        client_secret: string;
         redirect_uri: string;
+        scopes?: string;
     }): string {
 
         if (!options.client_id) throw new MissingParamError("missing client id");
-        if (!options.client_secret) throw new MissingParamError("missing client secret");
         if (!options.redirect_uri) throw new MissingParamError("missing redirect uri");
 
         return (
@@ -144,9 +142,11 @@ class Auth {
             options.client_id +
             "&" +
             "redirect_uri=" +
-            options.redirect_uri +
+            encodeURIComponent(options.redirect_uri) +
             "&" +
-            "response_type=code"
+            "response_type=code" + 
+            "&" + 
+            (options.scopes ? `scope=${encodeURIComponent(options.scopes)}`: '')
         );
     };
 

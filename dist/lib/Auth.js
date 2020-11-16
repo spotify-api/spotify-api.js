@@ -21,8 +21,6 @@ class Auth {
     }
     ;
     /**
-     * @param options Your client id and client secret in object form
-     *
      * **Example:**
      * ```js
      * client.oauth.get({
@@ -30,6 +28,8 @@ class Auth {
      *     client_secret: 'your-client-secret'
      * }).then(console.log) // Will return you the token!
      * ```
+     *
+     * @param options Your client id and client secret in object form
      */
     async get(options) {
         return new Promise(async (resolve, reject) => {
@@ -61,12 +61,11 @@ class Auth {
     }
     ;
     /**
-     * @param options Your client id, client secret and refresh token
-     * @param token Your token
-     *
      * Refreshes an Authorization token
+     *
+     * @param options Your client id, client secret, redirect uri and refresh token aka code
      */
-    async refresh(options, token) {
+    async refresh(options) {
         return new Promise(async (resolve, reject) => {
             if (!options.client_id)
                 reject(new Error_1.MissingParamError("missing client id"));
@@ -74,15 +73,15 @@ class Auth {
                 reject(new Error_1.MissingParamError("missing client secret"));
             if (!options.redirect_uri)
                 reject(new Error_1.MissingParamError("missing redirect uri"));
-            if (!token)
-                reject(new Error_1.MissingParamError("missing token"));
+            if (!options.code)
+                reject(new Error_1.MissingParamError("missing code"));
             try {
                 const { data } = await axios_1.default({
                     method: "post",
                     url: "https://accounts.spotify.com/api/token",
                     params: {
                         grant_type: "authorization_code",
-                        code: token,
+                        code: options.code,
                         redirect_uri: options.redirect_uri,
                     },
                     headers: {
@@ -100,15 +99,13 @@ class Auth {
     }
     ;
     /**
-     * @param options Your client id, client secret and redirect uri in object form
+     * Builds an Authorization url string.
      *
-     * Builds an Authorization string.
+     * @param options Your client id, redirect uri and scopes in object form
      */
     build(options) {
         if (!options.client_id)
             throw new Error_1.MissingParamError("missing client id");
-        if (!options.client_secret)
-            throw new Error_1.MissingParamError("missing client secret");
         if (!options.redirect_uri)
             throw new Error_1.MissingParamError("missing redirect uri");
         return ("https://accounts.spotify.com/en/authorize?" +
@@ -116,12 +113,14 @@ class Auth {
             options.client_id +
             "&" +
             "redirect_uri=" +
-            options.redirect_uri +
+            encodeURIComponent(options.redirect_uri) +
             "&" +
-            "response_type=code");
+            "response_type=code" +
+            "&" +
+            (options.scopes ? `scope=${encodeURIComponent(options.scopes)}` : ''));
     }
     ;
 }
 ;
 exports.default = Auth;
-//# sourceMappingURL=Oauth.js.map
+//# sourceMappingURL=Auth.js.map

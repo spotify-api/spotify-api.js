@@ -7,13 +7,22 @@ import Spotify from "../Spotify";
  */
 declare class User extends Spotify {
     /**
-     * @param id Id of the user
-     *
      * **Example:**
      * ```js
      * const user = await spotify.users.get("id"); // Returns the user details by id...
      * ```
+     *
+     * @param id Id of the user
      */
     get(id: string): Promise<any>;
+    /**
+     * **Example:**
+     * ```js
+     * const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
+     * ```
+     *
+     * @param id Id of the user
+     */
+    getPlaylists(id: string): Promise<any>;
 }
 export default User;

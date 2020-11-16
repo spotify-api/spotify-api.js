@@ -1,6 +1,6 @@
 # Spotify-api.js
 
-So before you attempt to contribute, you can get a clear idea where to make changes
+So before you attempt to contribute, you can get a clear idea where to make changes.
 
 - As the package is made in Typescript, you need to update in `src/` folder. Make sure to compile it in `dist/`. Or else mention in pull request.
 
@@ -18,6 +18,6 @@ So before you attempt to contribute, you can get a clear idea where to make chan
 
 - Do not make changes to `package.json` scripts. If you are doing kindly mention in pull request description!
 
-- Do not update `docs/` unless you know what you are doing...
+- To add documentation to your functions, mention us in pr description. To propose changes, make a feature request pr or an issue.
 
 **Happy Contributing!**

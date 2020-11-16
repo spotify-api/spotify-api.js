@@ -10,10 +10,23 @@ import spotifyUri from "@spotify-api.js/spotify-uri-info";
 /**
  * Interface of this.fetch options
  */
-interface getOptions {
+export interface getOptions {
     link: string;
     headers?: any;
     params?: any;
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+};
+
+/**
+ * Interface of this.getCodeImage result
+ */
+
+export interface CodeImageReturn {
+    image: string;
+    dominantColor: {
+        hex: string;
+        rgb: number[];
+    };
 };
 
 /**
@@ -38,7 +51,7 @@ export default class {
      * 
      * Function used to convert the hex string to rgb array.
      */
-    hexToRgb(hex: string): number[] | void {
+    hexToRgb(hex: string): number[] {
         if (typeof hex == "string" && /^([0-9A-F]{3}){1,2}$/i.test(hex)) throw new UtilityError("Invalid hex code provided!");
 
         hex = hex.replace(/^#/, "");
@@ -70,8 +83,14 @@ export default class {
      * Quick way to access spotify api without large fetching codes through axios....
      */
     async fetch(options: getOptions): Promise<any> {
-        const { data } = await axios.get("https://api.spotify.com/" + options.link, { headers: options.headers || { Authorization: `Bearer ${this.token}`, }, params: options.params || {}, });
+        const { data } = await axios({
+            method: (options.method || 'GET'),
+            url: ("https://api.spotify.com/" + options.link),
+            headers: { Authorization: `Bearer ${this.token}`, ...(options.headers || {}) },
+            params: options.params || {}
+        });
         return data;
+
     }
 
     /**
@@ -94,7 +113,7 @@ export default class {
      * 
      * Get code image of advanced options...
      */
-    async getCodeImage(uri: string): Promise<any> {
+    async getCodeImage(uri: string): Promise<CodeImageReturn> {
         const data = await this.getURIData(uri);
         let match = this.hexToRgb(data.dominantColor);
 

@@ -13,13 +13,13 @@ const Spotify_1 = __importDefault(require("../Spotify"));
  */
 class Album extends Spotify_1.default {
     /**
-     * @param q Your query
-     * @param options Your options such as limit, advanced, etc
-     *
      * **Example:**
      * ```js
      * const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
      * ```
+     *
+     * @param q Your query
+     * @param options Your options such as limit, advanced, etc
      */
     async search(q, options) {
         return new Promise(async (resolve, reject) => {
@@ -54,12 +54,12 @@ class Album extends Spotify_1.default {
     }
     ;
     /**
-     * @param id Id of the album
-     *
      * **Example:**
      * ```js
      * const album = await spotify.albums.get("album id"); // Get album by id...
      * ```
+     *
+     * @param id Id of the album
      */
     async get(id) {
         return new Promise(async (resolve, reject) => {
@@ -77,13 +77,13 @@ class Album extends Spotify_1.default {
     }
     ;
     /**
-     * @param id Id of the song
-     * @param options Options such as limit and advanced
-     *
      * **Example:**
      * ```js
      * const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
      * ```
+     *
+     * @param id Id of the song
+     * @param options Options such as limit and advanced
      */
     async getTracks(id, options) {
         return new Promise(async (resolve, reject) => {

@@ -11,6 +11,7 @@ const Error_1 = require("./Error");
 const axios_1 = __importDefault(require("axios"));
 const spotify_uri_info_1 = __importDefault(require("@spotify-api.js/spotify-uri-info"));
 ;
+;
 /**
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
@@ -59,7 +60,12 @@ class default_1 {
      * Quick way to access spotify api without large fetching codes through axios....
      */
     async fetch(options) {
-        const { data } = await axios_1.default.get("https://api.spotify.com/" + options.link, { headers: options.headers || { Authorization: `Bearer ${this.token}`, }, params: options.params || {}, });
+        const { data } = await axios_1.default({
+            method: (options.method || 'GET'),
+            url: ("https://api.spotify.com/" + options.link),
+            headers: { Authorization: `Bearer ${this.token}`, ...(options.headers || {}) },
+            params: options.params || {}
+        });
         return data;
     }
     /**

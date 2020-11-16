@@ -11,9 +11,6 @@ import Spotify from "../Spotify";
 class Track extends Spotify {
 
     /**
-     * @param q Your query
-     * @param options Options to configure your search...
-     * 
      * **Example:**
      * ```js
      * const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, }); // Searches for the track and limit will be 20 by default
@@ -22,6 +19,9 @@ class Track extends Spotify {
            advanced: true,
        }); // Same but this will return a `codeImage` and `dominantColor` key with it!
      * ```
+     *
+     * @param q Your query
+     * @param options Options to configure your search...
      */
     async search(
         q: string,
@@ -65,12 +65,12 @@ class Track extends Spotify {
     };
 
     /**
-     * @param id Id of the track
-     * 
      * **Example:**
      * ```js
      * const track = await spotify.tracks.get("track id"); // Get tracks by id...
      * ```
+     * 
+     * @param id Id of the track
      */
     async get(id: string): Promise<any> {
 
@@ -94,12 +94,12 @@ class Track extends Spotify {
     };
 
     /**
-     * @param id Id of the track
-     * 
      * **Example:**
      * ```js
      * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
      * ```
+     * 
+     * @param id Id of the track
      */
     async audioFeatures(id: string): Promise<any> {
 
@@ -119,12 +119,12 @@ class Track extends Spotify {
     };
 
     /**
-     * @param id Id of the track
-     * 
      * **Example:**
      * ```js
      * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
      * ```
+     * 
+     * @param id Id of the track
      */
     async audioAnalysis(id: string): Promise<any> {
 
