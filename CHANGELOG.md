@@ -16,7 +16,7 @@ Version history of spotify-api.js since v4.0.5
 - Added UserPlayer class
 - Updated Playlist and User class
 
-**Status:** Published | **Released:** Not yet released
+**Status:** Published | **Released:** Released
 
 ---
 
