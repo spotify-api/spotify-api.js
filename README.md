@@ -9,7 +9,7 @@
 
 # Quick Intro
 
-Spotify-api.js is a quick wrapper to interact with spotify api...
+Spotify-api.js is a promise based quick wrapper for spotify web api which covers the all the api endpoints!
 
 # Installation
 
@@ -28,43 +28,37 @@ const Spotify = require("spotify-api.js");
 const Auth = new Spotify.Auth();
 
 const token = await Auth.get({
-  client_id: "client id",
-  client_secret: "client secret",
+    client_id: "client id",
+    client_secret: "client secret",
 }); // Will return a promise of token 
 
 console.log(token); // Spotify resets its token each every 1-5 minutes to prevent api spam!
 ```
 
-# Tracks
+> Remember that you need scoped token for Client.user and Client.user.player which uses current user api endpoints...
+
+## Tracks
 
 ```js
-const track = await spotify.tracks.search("oh my god by alec benjamin", {
-  limit: 1,
-}); // Searches for the track and limit will be 20 by default
-const advanced = await spotify.tracks.search("oh my god by alec benjamin", {
-  limit: 1,
-  advanced: true,
-}); // Same but this will return a `codeImage` and `dominantColor` key with it!
+const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1 }); // Searches for the track and limit will be 20 by default
+const advanced = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, advanced: true, }); // Same but this will return a `codeImage` and `dominantColor` key with it!
 const get = await spotify.tracks.get("track id"); // Get tracks by id...
 const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
 const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
 ```
 
-# Artists
+## Artists
 
 ```js
 const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
-const advanced = await spotify.artists.search("alec benjamin", {
-  limit: 1,
-  advanced: true,
-}); // Returns a `dominantColor` and `codeImage` key with the response../
+const advanced = await spotify.artists.search("alec benjamin", { limit: 1, advanced: true, }); // Returns a `dominantColor` and `codeImage` key with the response../
 const get = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
 const albums = await spotify.artists.getAlbums("artist id"); // Get artist albums by id. Has advanced and limit option too...
 const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
 const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists. Has advanced and limit option too...
 ```
 
-# Albums
+## Albums
 
 ```js
 const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
@@ -72,20 +66,22 @@ const get = await spotify.albums.get("album id"); // Get album by id...
 const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
 ```
 
-# Users
+## Users
 
 ```js
 const user = await spotify.users.get("id"); // Returns the user details by id...
 ```
 
-# Playlists
+## Playlists
 
 ```js
 const playlist = await spotify.playlists.get("id"); // Get playlist data by id
 const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
 ```
 
-# Example for advanced option...
+# Examples
+
+## Advanced Option
 
 Take the following code for example
 
@@ -94,34 +90,28 @@ const { Client } = require("spotify-api.js"); // Import package
 const spotify = new Client("token"); // Load client with token or using oauth
 
 const track = await spotify.tracks.search("oh my god by alec benjamin", {
-  limit: 1,
-  advanced: true,
+    limit: 1,
+    advanced: true,
 }); // Search albums
 console.log(track[0].codeImage); // Get the code image for advanced...
 console.log(track[0].dominantColor); // Get the dominant color... Returns { hex: string, rgb: [r, g, b, a] }
 ```
 
-# Deep dive into Refrehing a token
+**Code Image:**
+<img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
 
-To refresh a token you need 4 params.
+## Getting scoped token
 
-- client id
-- client secret
-- redirect uri (should be defined in your spotify application)
-- Authorization token (granted from the `/authorize` endpoint)
-
-## Example
+To refresh or to get a scoped token
 
 ```js
-const {refresh_token} = await spotify.oauth.refresh({
-  client_id: "my client id",
-  client_secret : "my client secret",
-  redirect_uri : "my redirection uri ",
-}, "my token"
-)
-```
+const Spotify = require('spotify-api.js');
+const auth = new Spotify.Auth();
 
-### Example for the code image
-
-- <img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
+const { refresh_token } = auth.refresh({
+    client_id: 'id', // Your app client id
+    client_secret: 'secret', // Your app client secret
+    code: 'token or code', // The code you received from the search query. You can use refresh token to get new access_token also
+    redirect_uri: 'redirect uri' // Redirect uri which you used while auth, which is only for verification
+});
 ```
