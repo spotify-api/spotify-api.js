@@ -34,8 +34,11 @@ class SimplifiedTrack {
         this.trackNumber = data.track_number;
         this.type = data.type;
         this.uri = data.uri;
-        this.codeImage = data.codeImage;
-        this.dominantColor = data.dominantColor;
+        
+        if(data.codeImage){
+            this.codeImage = data.codeImage;
+            this.dominantColor = data.dominantColor;
+        };
 
     };
 };

@@ -22,7 +22,7 @@ export default class {
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images;
-        this.codeImage = data.codeImage;
+        if(data.codeImage) this.codeImage = data.codeImage;
         
     };
 };
