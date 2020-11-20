@@ -120,7 +120,7 @@ class Album extends Spotify {
                         offset: "0",
                     },
                 });
-
+                
                 let items = res.items.map(x => new SimplifiedTrack(x));
 
                 if (options.advanced) {

@@ -3,8 +3,8 @@
  */
 
 import { MissingParamError, UnexpectedError } from "../Error";
-import axios from "axios";
 import Spotify from "../Spotify";
+import PublicUser from "../structures/PublicUser";
 
 /**
  * Class of all methods related to users
@@ -19,7 +19,7 @@ class User extends Spotify {
      * 
      * @param id Id of the user
      */
-    async get(id: string): Promise<any> {
+    async get(id: string): Promise<PublicUser> {
 
         return new Promise(async (resolve, reject) => {
             try {
@@ -30,7 +30,7 @@ class User extends Spotify {
                 });
 
                 res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
-                resolve(res);
+                resolve(new PublicUser(res));
             } catch (e) {
                 reject(new UnexpectedError(e));
             };

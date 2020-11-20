@@ -10,6 +10,7 @@ export default class {
     type: string;
     uri: string;
     images: Image[];
+    codeImage?: string;
 
     constructor(data){
 
@@ -21,5 +22,7 @@ export default class {
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images;
+        this.codeImage = data.codeImage;
+        
     };
 };

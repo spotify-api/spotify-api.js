@@ -102,6 +102,7 @@ class Album extends Spotify_1.default {
                         offset: "0",
                     },
                 });
+                let startedAt = Date.now();
                 let items = res.items.map(x => new SimplifiedTrack_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
@@ -112,6 +113,7 @@ class Album extends Spotify_1.default {
                     ;
                 }
                 ;
+                console.log(Date.now() - startedAt);
                 resolve(items);
             }
             catch (e) {
