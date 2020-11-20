@@ -2,6 +2,8 @@
  * Album lib file
  */
 import Spotify from "../Spotify";
+import AlbumStructure from '../structures/Album';
+import SimplifiedTrack from "../structures/SimplifiedTrack";
 /**
  * Class of all methods related to albums
  */
@@ -27,7 +29,7 @@ declare class Album extends Spotify {
      *
      * @param id Id of the album
      */
-    get(id: string): Promise<any>;
+    get(id: string): Promise<AlbumStructure>;
     /**
      * **Example:**
      * ```js
@@ -40,6 +42,6 @@ declare class Album extends Spotify {
     getTracks(id: string, options?: {
         limit?: string | null | number;
         advanced?: boolean;
-    }): Promise<any>;
+    }): Promise<SimplifiedTrack[]>;
 }
 export default Album;
