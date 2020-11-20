@@ -9,7 +9,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("./Error");
 const axios_1 = __importDefault(require("axios"));
-const spotify_uri_info_1 = __importDefault(require("@spotify-api.js/spotify-uri-info"));
 ;
 ;
 /**
@@ -76,7 +75,10 @@ class default_1 {
     async getURIData(uri) {
         return new Promise(async (resolve, reject) => {
             try {
-                resolve(await spotify_uri_info_1.default.getData(uri));
+                const { data } = await axios_1.default.get('https://open.spotify.com/embed?uri=' + uri);
+                resolve(JSON.parse(decodeURIComponent(data
+                    .split('<script id="resource" type="application/json">')[1]
+                    .split('</script>')[0])));
             }
             catch (e) {
                 reject(e);
@@ -84,6 +86,7 @@ class default_1 {
             ;
         });
     }
+    ;
     /**
      * @param uri Spotify data
      *

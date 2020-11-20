@@ -8,6 +8,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+const PublicUser_1 = __importDefault(require("../structures/PublicUser"));
 /**
  * Class of all methods related to users
  */
@@ -29,7 +30,7 @@ class User extends Spotify_1.default {
                     link: `v1/users/${id}`,
                 });
                 res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
-                resolve(res);
+                resolve(new PublicUser_1.default(res));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));

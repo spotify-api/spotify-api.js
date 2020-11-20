@@ -5,7 +5,6 @@
 
 import { UtilityError } from "./Error";
 import axios from "axios";
-import spotifyUri from "@spotify-api.js/spotify-uri-info";
 
 /**
  * Interface of this.fetch options
@@ -83,6 +82,7 @@ export default class {
      * Quick way to access spotify api without large fetching codes through axios....
      */
     async fetch(options: getOptions): Promise<any> {
+
         const { data } = await axios({
             method: (options.method || 'GET'),
             url: ("https://api.spotify.com/" + options.link),
@@ -101,12 +101,22 @@ export default class {
     async getURIData(uri: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
             try {
-                resolve(await spotifyUri.getData(uri));
+                const { data } = await axios.get('https://open.spotify.com/embed?uri=' + uri);
+
+                resolve(
+                    JSON.parse(
+                        decodeURIComponent(
+                            data
+                            .split('<script id="resource" type="application/json">')[1]
+                            .split('</script>')[0]
+                        )
+                    )
+                );
             } catch(e) {
                 reject(e);
             };
         });
-    }
+    };
 
     /**
      * @param uri Spotify data

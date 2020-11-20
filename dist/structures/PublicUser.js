@@ -10,6 +10,8 @@ class default_1 {
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images;
+        if (data.codeImage)
+            this.codeImage = data.codeImage;
     }
     ;
 }

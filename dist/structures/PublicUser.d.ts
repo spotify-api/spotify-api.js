@@ -8,5 +8,6 @@ export default class {
     type: string;
     uri: string;
     images: Image[];
+    codeImage?: string;
     constructor(data: any);
 }

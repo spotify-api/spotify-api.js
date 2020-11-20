@@ -1,5 +1,8 @@
 import Artist from './Artist';
 import { DominantColor } from './Interface';
+import Util from '../Spotify';
+
+const util = new Util();
 
 class SimplifiedTrack {
 
@@ -41,6 +44,15 @@ class SimplifiedTrack {
         };
 
     };
+
+    async getCodeImage(){
+        return await util.getCodeImage(this.uri);
+    };
+
+    async getURIData(){
+        return await util.getURIData(this.uri);
+    };
+
 };
 
 export default SimplifiedTrack;

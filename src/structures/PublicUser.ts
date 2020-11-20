@@ -23,6 +23,7 @@ export default class {
         this.uri = data.uri;
         this.images = data.images;
         if(data.codeImage) this.codeImage = data.codeImage;
-        
+
     };
+    
 };

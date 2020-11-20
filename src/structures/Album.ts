@@ -1,10 +1,16 @@
-import Util from '../Spotify';
+/**
+ * Full Album structure
+ */
+import Util, { CodeImageReturn } from '../Spotify';
 import SimplifiedArtist from './SimplifiedArtist';
 import SimplifiedTrack from './SimplifiedTrack';
 import { Copyright, Image } from './Interface';
 
 const util = new Util();
 
+/**
+ * Album structure class
+ */
 class Album {
 
     albumType: string;
@@ -25,6 +31,15 @@ class Album {
     type: string;
     uri: string;
 
+    /**
+     * **Example:**
+     * 
+     * ```js
+     * const album = new Album(data);
+     * ```
+     * 
+     * @param data Received raw data from the spotify api
+     */
     constructor(data){
 
         this.albumType = data.album_type;
@@ -47,8 +62,26 @@ class Album {
 
     };
 
-    async getCodeImage(){
+    /**
+     * Returns the code image with dominant color
+     */
+    async getCodeImage(): Promise<CodeImageReturn> {
         return await util.getCodeImage(this.uri);
+    };
+
+    /**
+     * Returns the uri data
+     */
+    async getURIData(): Promise<any> {
+        return await util.getURIData(this.uri);
+    };
+
+    /**
+     * Returns date structure of this.releaseDate
+     * @readonly
+     */
+    get releasedAt(): Date {
+        return new Date(this.releaseDate);
     };
 
 };
