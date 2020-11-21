@@ -26,6 +26,7 @@ class Album extends Spotify {
         options?: {
             limit?: string | null | number;
             advanced?: boolean;
+            params?: any;
         }
     ): Promise<any> {
 
@@ -41,6 +42,7 @@ class Album extends Spotify {
                         market: "US",
                         limit: options.limit || 20,
                         type: "album",
+                        ...options.params
                     },
                 });
 
@@ -104,6 +106,7 @@ class Album extends Spotify {
         options?: {
             limit?: string | null | number;
             advanced?: boolean;
+            params?: any;
         }
     ): Promise<SimplifiedTrack[]> {
 
@@ -118,6 +121,7 @@ class Album extends Spotify {
                         limit: options.limit || 20,
                         market: "US",
                         offset: "0",
+                        ...options.params
                     },
                 });
 

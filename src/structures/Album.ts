@@ -1,10 +1,11 @@
 /**
  * Full Album structure
  */
-import Util, { CodeImageReturn } from '../Spotify';
+import Util from '../Spotify';
 import SimplifiedArtist from './SimplifiedArtist';
 import SimplifiedTrack from './SimplifiedTrack';
 import { Copyright, Image } from './Interface';
+import { CodeImageReturn } from './Interface'
 
 const util = new Util();
 

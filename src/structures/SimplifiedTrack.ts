@@ -1,5 +1,5 @@
 import Artist from './Artist';
-import { DominantColor } from './Interface';
+import { DominantColor, CodeImageReturn, LinkedTrack, Restriction } from './Interface';
 import Util from '../Spotify';
 
 const util = new Util();
@@ -9,7 +9,7 @@ class SimplifiedTrack {
     artists: Artist[];
     availableMarkets: string[];
     discNumber: number;
-    durationMs: number;
+    duration: number;
     explicit: boolean;
     externalUrls: any;
     href: string;
@@ -19,15 +19,19 @@ class SimplifiedTrack {
     trackNumber: number;
     type: string;
     uri: string;
+    local?: boolean;
+    playable?: boolean;
+    linkedFrom?: LinkedTrack;
     codeImage?: string;
     dominantColor?: DominantColor;
+    restrictions?: Restriction;
 
     constructor(data){
 
         this.artists = data.artists.map(x => new Artist(x));
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
-        this.durationMs = data.duration_ms;
+        this.duration = data.duration_ms;
         this.explicit = data.explicit;
         this.externalUrls = data.external_urls;
         this.href = data.href;
@@ -38,19 +42,41 @@ class SimplifiedTrack {
         this.type = data.type;
         this.uri = data.uri;
         
-        if(data.codeImage){
+        if('is_playable' in data){
+            this.playable = data.is_playable;
+            this.linkedFrom = data.linked_from;
+        };
+
+        this.restrictions = data.restrictions || null;
+        this.local = data.is_local || null;
+        
+        if('codeImage' in data){
             this.codeImage = data.codeImage;
             this.dominantColor = data.dominantColor;
         };
 
     };
 
-    async getCodeImage(){
+    /**
+     * Returns the code image with dominant color
+     */
+    async getCodeImage(): Promise<CodeImageReturn> {
         return await util.getCodeImage(this.uri);
     };
 
-    async getURIData(){
+    /**
+     * Returns the uri data
+     */
+    async getURIData(): Promise<any> {
         return await util.getURIData(this.uri);
+    };
+
+    /**
+     * Check wheater if it is restricted or not
+     * @readonly
+     */
+    get restricted(): boolean {
+        return Boolean(this.restrictions);
     };
 
 };

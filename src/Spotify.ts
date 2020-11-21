@@ -5,6 +5,7 @@
 
 import { UtilityError } from "./Error";
 import axios from "axios";
+import { CodeImageReturn } from './structures/Interface'
 
 /**
  * Interface of this.fetch options
@@ -14,18 +15,6 @@ export interface getOptions {
     headers?: any;
     params?: any;
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-};
-
-/**
- * Interface of this.getCodeImage result
- */
-
-export interface CodeImageReturn {
-    image: string;
-    dominantColor: {
-        hex: string;
-        rgb: number[];
-    };
 };
 
 /**
@@ -86,7 +75,7 @@ export default class {
         const { data } = await axios({
             method: (options.method || 'GET'),
             url: ("https://api.spotify.com/" + options.link),
-            headers: { Authorization: `Bearer ${this.token}`, ...(options.headers || {}) },
+            headers: { Authorization: `Bearer ${this.token}`, ...options.headers },
             params: options.params || {}
         });
         return data;
