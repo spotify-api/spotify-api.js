@@ -19,7 +19,7 @@ class Album extends Spotify {
      * ```
      * 
      * @param q Your query
-     * @param options Your options such as limit, advanced, etc
+     * @param options Options such as limit, advanced and params
      */
     async search(
         q: string,
@@ -99,7 +99,7 @@ class Album extends Spotify {
      * ```
      * 
      * @param id Id of the song
-     * @param options Options such as limit and advanced
+     * @param options Options such as limit, advanced and params
      */
     async getTracks(
         id: string,

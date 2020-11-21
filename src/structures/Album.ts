@@ -4,7 +4,7 @@
 import Util from '../Spotify';
 import SimplifiedArtist from './SimplifiedArtist';
 import SimplifiedTrack from './SimplifiedTrack';
-import { Copyright, Image } from './Interface';
+import { Copyright, DominantColor, Image, Restriction } from './Interface';
 import { CodeImageReturn } from './Interface'
 
 const util = new Util();
@@ -14,7 +14,7 @@ const util = new Util();
  */
 class Album {
 
-    albumType: string;
+    albumType: 'album' | 'single' | 'compilation';
     artists: SimplifiedArtist[];
     availableMarkets: string[];
     copyrights: Copyright[];
@@ -31,6 +31,10 @@ class Album {
     tracks: SimplifiedTrack[];
     type: string;
     uri: string;
+    label: string | null;
+    restrictions: Restriction | null;
+    codeImage?: string;
+    dominantColor?: DominantColor;
 
     /**
      * **Example:**
@@ -61,6 +65,9 @@ class Album {
         this.type = data.type;
         this.uri = data.uri;
 
+        this.label = data.label || null;
+        this.restrictions = data.restrictions || null;
+
     };
 
     /**
@@ -83,6 +90,14 @@ class Album {
      */
     get releasedAt(): Date {
         return new Date(this.releaseDate);
+    };
+
+    /**
+     * Check wheater if it is restricted or not
+     * @readonly
+     */
+    get restricted(): boolean {
+        return Boolean(this.restrictions);
     };
 
 };

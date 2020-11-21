@@ -15,11 +15,12 @@ declare class Album extends Spotify {
      * ```
      *
      * @param q Your query
-     * @param options Your options such as limit, advanced, etc
+     * @param options Options such as limit, advanced and params
      */
     search(q: string, options?: {
         limit?: string | null | number;
         advanced?: boolean;
+        params?: any;
     }): Promise<any>;
     /**
      * **Example:**
@@ -37,11 +38,12 @@ declare class Album extends Spotify {
      * ```
      *
      * @param id Id of the song
-     * @param options Options such as limit and advanced
+     * @param options Options such as limit, advanced and params
      */
     getTracks(id: string, options?: {
         limit?: string | null | number;
         advanced?: boolean;
+        params?: any;
     }): Promise<SimplifiedTrack[]>;
 }
 export default Album;

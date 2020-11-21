@@ -2,6 +2,7 @@
  * File of basic utility
  * All the lib files extends to this class to make work faster
  */
+import { CodeImageReturn } from './structures/Interface';
 /**
  * Interface of this.fetch options
  */
@@ -10,16 +11,6 @@ export interface getOptions {
     headers?: any;
     params?: any;
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-}
-/**
- * Interface of this.getCodeImage result
- */
-export interface CodeImageReturn {
-    image: string;
-    dominantColor: {
-        hex: string;
-        rgb: number[];
-    };
 }
 /**
  * Spotify utility class

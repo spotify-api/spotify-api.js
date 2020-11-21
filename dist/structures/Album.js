@@ -3,11 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Full Album structure
+ */
 const Spotify_1 = __importDefault(require("../Spotify"));
 const SimplifiedArtist_1 = __importDefault(require("./SimplifiedArtist"));
 const SimplifiedTrack_1 = __importDefault(require("./SimplifiedTrack"));
 const util = new Spotify_1.default();
+/**
+ * Album structure class
+ */
 class Album {
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const album = new Album(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     */
     constructor(data) {
         this.albumType = data.album_type;
         this.artists = data.artists.map(x => new SimplifiedArtist_1.default(x));
@@ -26,10 +41,38 @@ class Album {
         this.tracks = data.tracks.items.map(x => new SimplifiedTrack_1.default(x));
         this.type = data.type;
         this.uri = data.uri;
+        this.label = data.label || null;
+        this.restrictions = data.restrictions || null;
     }
     ;
+    /**
+     * Returns the code image with dominant color
+     */
     async getCodeImage() {
         return await util.getCodeImage(this.uri);
+    }
+    ;
+    /**
+     * Returns the uri data
+     */
+    async getURIData() {
+        return await util.getURIData(this.uri);
+    }
+    ;
+    /**
+     * Returns date structure of this.releaseDate
+     * @readonly
+     */
+    get releasedAt() {
+        return new Date(this.releaseDate);
+    }
+    ;
+    /**
+     * Check wheater if it is restricted or not
+     * @readonly
+     */
+    get restricted() {
+        return Boolean(this.restrictions);
     }
     ;
 }

@@ -1,13 +1,17 @@
-export interface BasicOptions {
-    codeImage?: string;
-    dominantColor?: {
-        hex: string;
-        rgb: number[];
-    };
-}
 export interface DominantColor {
     hex?: string;
     rgb: number[];
+}
+export interface BasicOptions {
+    codeImage?: string;
+    dominantColor?: DominantColor;
+}
+export interface CodeImageReturn {
+    image: string;
+    dominantColor: {
+        hex: string;
+        rgb: number[];
+    };
 }
 export interface Followers {
     href?: null | string;

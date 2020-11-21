@@ -1,10 +1,10 @@
 import Artist from './Artist';
-import { DominantColor } from './Interface';
+import { DominantColor, CodeImageReturn, LinkedTrack, Restriction } from './Interface';
 declare class SimplifiedTrack {
     artists: Artist[];
     availableMarkets: string[];
     discNumber: number;
-    durationMs: number;
+    duration: number;
     explicit: boolean;
     externalUrls: any;
     href: string;
@@ -14,8 +14,25 @@ declare class SimplifiedTrack {
     trackNumber: number;
     type: string;
     uri: string;
+    local: boolean | null;
+    restrictions: Restriction | null;
+    playable?: boolean;
+    linkedFrom?: LinkedTrack;
     codeImage?: string;
     dominantColor?: DominantColor;
     constructor(data: any);
+    /**
+     * Returns the code image with dominant color
+     */
+    getCodeImage(): Promise<CodeImageReturn>;
+    /**
+     * Returns the uri data
+     */
+    getURIData(): Promise<any>;
+    /**
+     * Check wheater if it is restricted or not
+     * @readonly
+     */
+    get restricted(): boolean;
 }
 export default SimplifiedTrack;

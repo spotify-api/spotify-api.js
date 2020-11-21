@@ -10,7 +10,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("./Error");
 const axios_1 = __importDefault(require("axios"));
 ;
-;
 /**
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
@@ -62,7 +61,7 @@ class default_1 {
         const { data } = await axios_1.default({
             method: (options.method || 'GET'),
             url: ("https://api.spotify.com/" + options.link),
-            headers: { Authorization: `Bearer ${this.token}`, ...(options.headers || {}) },
+            headers: { Authorization: `Bearer ${this.token}`, ...options.headers },
             params: options.params || {}
         });
         return data;

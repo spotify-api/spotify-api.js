@@ -21,7 +21,7 @@ class Album extends Spotify_1.default {
      * ```
      *
      * @param q Your query
-     * @param options Your options such as limit, advanced, etc
+     * @param options Options such as limit, advanced and params
      */
     async search(q, options) {
         return new Promise(async (resolve, reject) => {
@@ -37,6 +37,7 @@ class Album extends Spotify_1.default {
                         market: "US",
                         limit: options.limit || 20,
                         type: "album",
+                        ...options.params
                     },
                 });
                 let items = res.albums.items;
@@ -85,7 +86,7 @@ class Album extends Spotify_1.default {
      * ```
      *
      * @param id Id of the song
-     * @param options Options such as limit and advanced
+     * @param options Options such as limit, advanced and params
      */
     async getTracks(id, options) {
         return new Promise(async (resolve, reject) => {
@@ -100,12 +101,12 @@ class Album extends Spotify_1.default {
                         limit: options.limit || 20,
                         market: "US",
                         offset: "0",
+                        ...options.params
                     },
                 });
                 let items = res.items.map(x => new SimplifiedTrack_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
-                        console.log(items[i].uri);
                         let data = await this.getCodeImage(items[i].uri);
                         items[i].codeImage = data.image;
                         items[i].dominantColor = data.dominantColor;

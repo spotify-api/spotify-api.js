@@ -19,12 +19,12 @@ class SimplifiedTrack {
     trackNumber: number;
     type: string;
     uri: string;
-    local?: boolean;
+    local: boolean | null;
+    restrictions: Restriction | null;
     playable?: boolean;
     linkedFrom?: LinkedTrack;
     codeImage?: string;
     dominantColor?: DominantColor;
-    restrictions?: Restriction;
 
     constructor(data){
 
@@ -42,18 +42,13 @@ class SimplifiedTrack {
         this.type = data.type;
         this.uri = data.uri;
         
-        if('is_playable' in data){
+        if('linked_form' in data){
             this.playable = data.is_playable;
             this.linkedFrom = data.linked_from;
         };
 
         this.restrictions = data.restrictions || null;
         this.local = data.is_local || null;
-        
-        if('codeImage' in data){
-            this.codeImage = data.codeImage;
-            this.dominantColor = data.dominantColor;
-        };
 
     };
 
