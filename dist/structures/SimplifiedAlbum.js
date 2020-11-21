@@ -21,7 +21,7 @@ class SimplifiedAlbum {
      */
     constructor(data) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
-        this.albumGroup = data.album_group;
+        this.albumGroup = data.album_group || null;
         this.albumType = data.album_type;
         this.availableMarkets = data.available_markets || [];
         this.externalUrls = data.external_urls;
@@ -34,6 +34,7 @@ class SimplifiedAlbum {
         this.restrictions = data.restrictions;
         this.type = data.type;
         this.uri = data.uri;
+        this.totalTracks = data.total_tracks;
     }
     ;
     /**

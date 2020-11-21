@@ -21,6 +21,7 @@ declare class SimplifiedAlbum {
     restrictions?: Restriction;
     type: string;
     uri: string;
+    totalTracks?: number;
     /**
      * **Example:**
      *

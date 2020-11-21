@@ -40,6 +40,7 @@ class Album {
         this.releaseDatePrecision = data.release_date_precision;
         this.type = data.type;
         this.uri = data.uri;
+        this.totalTracks = data.total_tracks;
         this.label = data.label || null;
         this.restrictions = data.restrictions || null;
     }

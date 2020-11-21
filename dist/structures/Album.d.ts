@@ -24,6 +24,7 @@ declare class Album {
     uri: string;
     label: string | null;
     restrictions: Restriction | null;
+    totalTracks?: number;
     codeImage?: string;
     dominantColor?: DominantColor;
     /**
