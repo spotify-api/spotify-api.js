@@ -21,13 +21,11 @@ class SimplifiedTrack {
         this.trackNumber = data.track_number;
         this.type = data.type;
         this.uri = data.uri;
-        if ('linked_form' in data) {
-            this.playable = data.is_playable;
-            this.linkedFrom = data.linked_from;
-        }
-        ;
+        this.playable = data.is_playable;
         this.restrictions = data.restrictions || null;
-        this.local = data.is_local || null;
+        this.local = Boolean(data.is_local);
+        if ('linked_from' in data)
+            this.linkedFrom = data.linked_from;
     }
     ;
     /**

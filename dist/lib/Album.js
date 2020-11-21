@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Album_1 = __importDefault(require("../structures/Album"));
+const SimplifiedAlbum_1 = __importDefault(require("../structures/SimplifiedAlbum"));
 const SimplifiedTrack_1 = __importDefault(require("../structures/SimplifiedTrack"));
 /**
  * Class of all methods related to albums
@@ -40,7 +41,7 @@ class Album extends Spotify_1.default {
                         ...options.params
                     },
                 });
-                let items = res.albums.items;
+                let items = res.albums.items.map(x => new SimplifiedAlbum_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
                         let data = await this.getCodeImage(items[i].uri);
@@ -69,9 +70,13 @@ class Album extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                resolve(new Album_1.default(await this.fetch({
+                let res = new Album_1.default(await this.fetch({
                     link: `v1/albums/${id}`,
-                })));
+                }));
+                let uri = await this.getCodeImage(res.uri);
+                res.codeImage = uri.image;
+                res.dominantColor = uri.dominantColor;
+                resolve(res);
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));

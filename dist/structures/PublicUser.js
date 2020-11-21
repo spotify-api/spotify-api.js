@@ -1,6 +1,23 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class default_1 {
+const Spotify_1 = __importDefault(require("../Spotify"));
+const util = new Spotify_1.default();
+/**
+ * Public User Class
+ */
+class PublicUser {
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const user = new PublicUser(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     */
     constructor(data) {
         this.displayName = data.display_name;
         this.externalUrls = data.external_urls;
@@ -10,11 +27,23 @@ class default_1 {
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images;
-        if (data.codeImage)
-            this.codeImage = data.codeImage;
+    }
+    ;
+    /**
+     * Returns the code image with dominant color
+     */
+    async getCodeImage() {
+        return await util.getCodeImage(this.uri);
+    }
+    ;
+    /**
+     * Returns the uri data
+     */
+    async getURIData() {
+        return await util.getURIData(this.uri);
     }
     ;
 }
-exports.default = default_1;
 ;
+exports.default = PublicUser;
 //# sourceMappingURL=PublicUser.js.map

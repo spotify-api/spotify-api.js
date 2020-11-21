@@ -16,7 +16,7 @@ export interface getOptions {
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
  */
-export default class {
+declare class Util {
     token: string;
     /**
      * @param oauth Your auth token
@@ -49,3 +49,4 @@ export default class {
      */
     getCodeImage(uri: string): Promise<CodeImageReturn>;
 }
+export default Util;

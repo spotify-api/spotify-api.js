@@ -1,6 +1,15 @@
-import { Followers, Image } from "./Interface";
+/**
+ * Public User Structure
+ */
+import { CodeImageReturn, Followers, Image } from "./Interface";
+import Util from '../Spotify';
 
-export default class {
+const util = new Util();
+
+/**
+ * Public User Class
+ */
+class PublicUser {
 
     displayName: string;
     externalUrls: any;
@@ -12,6 +21,15 @@ export default class {
     images: Image[];
     codeImage?: string;
 
+    /**
+     * **Example:**
+     * 
+     * ```js
+     * const user = new PublicUser(data);
+     * ```
+     * 
+     * @param data Received raw data from the spotify api
+     */
     constructor(data){
 
         this.displayName = data.display_name;
@@ -22,8 +40,23 @@ export default class {
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images;
-        if(data.codeImage) this.codeImage = data.codeImage;
 
+    };
+
+    /**
+     * Returns the code image with dominant color
+     */
+    async getCodeImage(): Promise<CodeImageReturn> {
+        return await util.getCodeImage(this.uri);
+    };
+
+    /**
+     * Returns the uri data
+     */
+    async getURIData(): Promise<any> {
+        return await util.getURIData(this.uri);
     };
     
 };
+
+export default PublicUser;

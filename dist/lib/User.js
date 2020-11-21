@@ -26,9 +26,7 @@ class User extends Spotify_1.default {
             try {
                 if (!id)
                     reject(new Error_1.MissingParamError("missing id to fetch user"));
-                const res = await this.fetch({
-                    link: `v1/users/${id}`,
-                });
+                const res = await this.fetch({ link: `v1/users/${id}` });
                 res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
                 resolve(new PublicUser_1.default(res));
             }

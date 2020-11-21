@@ -14,7 +14,7 @@ const axios_1 = __importDefault(require("axios"));
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
  */
-class default_1 {
+class Util {
     /**
      * @param oauth Your auth token
      *
@@ -104,6 +104,6 @@ class default_1 {
     }
     ;
 }
-exports.default = default_1;
 ;
+exports.default = Util;
 //# sourceMappingURL=Spotify.js.map

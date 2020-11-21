@@ -1,11 +1,29 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class default_1 {
+const SimplifiedArtist_1 = __importDefault(require("./SimplifiedArtist"));
+const Spotify_1 = __importDefault(require("../Spotify"));
+const util = new Spotify_1.default();
+/**
+ * SimplifiedAlbum class
+ */
+class SimplifiedAlbum {
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const album = new SimplifiedAlbum(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     */
     constructor(data) {
+        Object.defineProperty(this, 'data', { value: data, writable: false });
         this.albumGroup = data.album_group;
         this.albumType = data.album_type;
-        this.artists = data.artists;
-        this.availableMarkets = data.available_markets;
+        this.availableMarkets = data.available_markets || [];
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
@@ -18,7 +36,37 @@ class default_1 {
         this.uri = data.uri;
     }
     ;
+    /**
+     * Returns the code image with dominant color
+     */
+    async getCodeImage() {
+        return await util.getCodeImage(this.uri);
+    }
+    ;
+    /**
+     * Returns the uri data
+     */
+    async getURIData() {
+        return await util.getURIData(this.uri);
+    }
+    ;
+    /**
+     * Returns the array of simplified artist
+     * @readonly
+     */
+    get artists() {
+        return this.data.artists.map(x => new SimplifiedArtist_1.default(x));
+    }
+    ;
+    /**
+     * Returns date structure of this.releaseDate
+     * @readonly
+     */
+    get releasedAt() {
+        return this.releaseDate ? new Date(this.releaseDate) : null;
+    }
+    ;
 }
-exports.default = default_1;
 ;
+exports.default = SimplifiedAlbum;
 //# sourceMappingURL=SimplifiedAlbum.js.map

@@ -59,10 +59,5 @@ declare class Album {
      * @readonly
      */
     get releasedAt(): Date;
-    /**
-     * Check wheater if it is restricted or not
-     * @readonly
-     */
-    get restricted(): boolean;
 }
 export default Album;

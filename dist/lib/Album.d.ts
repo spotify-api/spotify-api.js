@@ -3,6 +3,7 @@
  */
 import Spotify from "../Spotify";
 import AlbumStructure from '../structures/Album';
+import SimplifiedAlbum from "../structures/SimplifiedAlbum";
 import SimplifiedTrack from "../structures/SimplifiedTrack";
 /**
  * Class of all methods related to albums
@@ -21,7 +22,7 @@ declare class Album extends Spotify {
         limit?: string | null | number;
         advanced?: boolean;
         params?: any;
-    }): Promise<any>;
+    }): Promise<SimplifiedAlbum[]>;
     /**
      * **Example:**
      * ```js

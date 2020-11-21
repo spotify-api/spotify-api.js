@@ -108,14 +108,6 @@ class Album {
         return new Date(this.releaseDate);
     };
 
-    /**
-     * Check wheater if it is restricted or not
-     * @readonly
-     */
-    get restricted(): boolean {
-        return Boolean(this.restrictions);
-    };
-
 };
 
 export default Album;

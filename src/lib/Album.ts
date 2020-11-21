@@ -5,6 +5,7 @@
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 import AlbumStructure from '../structures/Album';
+import SimplifiedAlbum from "../structures/SimplifiedAlbum";
 import SimplifiedTrack from "../structures/SimplifiedTrack";
 
 /**
@@ -28,7 +29,7 @@ class Album extends Spotify {
             advanced?: boolean;
             params?: any;
         }
-    ): Promise<any> {
+    ): Promise<SimplifiedAlbum[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!q) throw new MissingParamError("missing query!");
@@ -46,7 +47,7 @@ class Album extends Spotify {
                     },
                 });
 
-                let items = res.albums.items;
+                let items = res.albums.items.map(x => new SimplifiedAlbum(x));
 
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
@@ -78,13 +79,17 @@ class Album extends Spotify {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                resolve(
-                    new AlbumStructure(
-                        await this.fetch({
-                            link: `v1/albums/${id}`,
-                        })
-                    )
+                let res = new AlbumStructure(
+                    await this.fetch({
+                        link: `v1/albums/${id}`,
+                    })
                 );
+
+                let uri = await this.getCodeImage(res.uri);
+                res.codeImage = uri.image;
+                res.dominantColor = uri.dominantColor;
+
+                resolve(res);
             } catch (e) {
                 reject(new UnexpectedError(e));
             }

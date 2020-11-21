@@ -21,7 +21,7 @@ export interface getOptions {
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
  */
-export default class {
+class Util {
 
     token: string;
 
@@ -126,3 +126,5 @@ export default class {
     };
 
 };
+
+export default Util;
