@@ -1,7 +1,7 @@
 import Artist from './Artist';
 import { DominantColor, CodeImageReturn, LinkedTrack, Restriction } from './Interface';
 declare class SimplifiedTrack {
-    artists: Artist[];
+    private data;
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -21,6 +21,11 @@ declare class SimplifiedTrack {
     codeImage?: string;
     dominantColor?: DominantColor;
     constructor(data: any);
+    /**
+     * Returns the array of Artist
+     * @readonly
+     */
+    get artists(): Artist[];
     /**
      * Returns the code image with dominant color
      */

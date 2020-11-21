@@ -8,7 +8,7 @@ const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
 class SimplifiedTrack {
     constructor(data) {
-        this.artists = data.artists.map(x => new Artist_1.default(x));
+        Object.defineProperty(this, 'data', { value: data, writable: false });
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
@@ -28,6 +28,14 @@ class SimplifiedTrack {
         ;
         this.restrictions = data.restrictions || null;
         this.local = data.is_local || null;
+    }
+    ;
+    /**
+     * Returns the array of Artist
+     * @readonly
+     */
+    get artists() {
+        return this.data.artists.map(x => new Artist_1.default(x));
     }
     ;
     /**

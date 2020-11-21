@@ -6,8 +6,8 @@ import { CodeImageReturn } from './Interface';
  * Album structure class
  */
 declare class Album {
+    private data;
     albumType: 'album' | 'single' | 'compilation';
-    artists: SimplifiedArtist[];
     availableMarkets: string[];
     copyrights: Copyright[];
     externalIds: any;
@@ -20,7 +20,6 @@ declare class Album {
     popularity: number;
     releaseDate: string;
     releaseDatePrecision: string;
-    tracks: SimplifiedTrack[];
     type: string;
     uri: string;
     label: string | null;
@@ -37,6 +36,16 @@ declare class Album {
      * @param data Received raw data from the spotify api
      */
     constructor(data: any);
+    /**
+     * Returns the array of simplified artist
+     * @readonly
+     */
+    get artists(): SimplifiedArtist[];
+    /**
+     * Returns the array of simplified tracks
+     * @readonly
+     */
+    get tracks(): SimplifiedTrack[];
     /**
      * Returns the code image with dominant color
      */

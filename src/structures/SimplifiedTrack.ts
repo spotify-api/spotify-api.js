@@ -6,7 +6,8 @@ const util = new Util();
 
 class SimplifiedTrack {
 
-    artists: Artist[];
+    private data: any;
+
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -28,7 +29,8 @@ class SimplifiedTrack {
 
     constructor(data){
 
-        this.artists = data.artists.map(x => new Artist(x));
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
@@ -50,6 +52,14 @@ class SimplifiedTrack {
         this.restrictions = data.restrictions || null;
         this.local = data.is_local || null;
 
+    };
+
+    /**
+     * Returns the array of Artist
+     * @readonly
+     */
+    get artists(): Artist[] {
+        return this.data.artists.map(x => new Artist(x));
     };
 
     /**

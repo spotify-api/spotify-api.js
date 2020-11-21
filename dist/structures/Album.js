@@ -24,8 +24,8 @@ class Album {
      * @param data Received raw data from the spotify api
      */
     constructor(data) {
+        Object.defineProperty(this, 'data', { value: data, writable: false });
         this.albumType = data.album_type;
-        this.artists = data.artists.map(x => new SimplifiedArtist_1.default(x));
         this.availableMarkets = data.available_markets;
         this.copyrights = data.copyrights;
         this.externalIds = data.external_ids;
@@ -38,11 +38,26 @@ class Album {
         this.popularity = data.popularity;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
-        this.tracks = data.tracks.items.map(x => new SimplifiedTrack_1.default(x));
         this.type = data.type;
         this.uri = data.uri;
         this.label = data.label || null;
         this.restrictions = data.restrictions || null;
+    }
+    ;
+    /**
+     * Returns the array of simplified artist
+     * @readonly
+     */
+    get artists() {
+        return this.data.artists.map(x => new SimplifiedArtist_1.default(x));
+    }
+    ;
+    /**
+     * Returns the array of simplified tracks
+     * @readonly
+     */
+    get tracks() {
+        return this.data.tracks.items.map(x => new SimplifiedTrack_1.default(x));
     }
     ;
     /**

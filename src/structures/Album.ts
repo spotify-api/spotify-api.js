@@ -14,8 +14,9 @@ const util = new Util();
  */
 class Album {
 
+    private data: any;
+
     albumType: 'album' | 'single' | 'compilation';
-    artists: SimplifiedArtist[];
     availableMarkets: string[];
     copyrights: Copyright[];
     externalIds: any;
@@ -28,7 +29,6 @@ class Album {
     popularity: number;
     releaseDate: string;
     releaseDatePrecision: string;
-    tracks: SimplifiedTrack[];
     type: string;
     uri: string;
     label: string | null;
@@ -47,8 +47,9 @@ class Album {
      */
     constructor(data){
 
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+
         this.albumType = data.album_type;
-        this.artists = data.artists.map(x => new SimplifiedArtist(x));
         this.availableMarkets = data.available_markets;
         this.copyrights = data.copyrights;
         this.externalIds = data.external_ids;
@@ -61,13 +62,28 @@ class Album {
         this.popularity = data.popularity;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
-        this.tracks = data.tracks.items.map(x => new SimplifiedTrack(x));
         this.type = data.type;
         this.uri = data.uri;
 
         this.label = data.label || null;
         this.restrictions = data.restrictions || null;
 
+    };
+
+    /**
+     * Returns the array of simplified artist
+     * @readonly
+     */
+    get artists(): SimplifiedArtist[] {
+        return this.data.artists.map(x => new SimplifiedArtist(x));
+    };
+
+    /**
+     * Returns the array of simplified tracks
+     * @readonly
+     */
+    get tracks(): SimplifiedTrack[] {
+        return this.data.tracks.items.map(x => new SimplifiedTrack(x));
     };
 
     /**
