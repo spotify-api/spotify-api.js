@@ -5,6 +5,7 @@
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 import PublicUser from "../structures/PublicUser";
+import SimplifiedPlaylist from "../structures/SimplifiedPlaylist";
 
 /**
  * Class of all methods related to users
@@ -24,11 +25,8 @@ class User extends Spotify {
         return new Promise(async (resolve, reject) => {
             try {
                 if(!id) reject(new MissingParamError("missing id to fetch user"));
-
-                const res = await this.fetch({ link: `v1/users/${id}` });
-                res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
-
-                resolve(new PublicUser(res));
+                
+                resolve(new PublicUser(await this.fetch({ link: `v1/users/${id}` })));
             } catch (e) {
                 reject(new UnexpectedError(e));
             };
@@ -44,15 +42,37 @@ class User extends Spotify {
      * 
      * @param id Id of the user
      */
-    async getPlaylists(id: string): Promise<any> {
+    async getPlaylists(
+        id: string,
+        options?: {
+            limit?: number;
+            advanced?: boolean;
+            params?: any;
+        }
+    ): Promise<SimplifiedPlaylist[]> {
 
         return new Promise(async (resolve, reject) => {
             try {
                 if(!id) reject(new MissingParamError("missing id to fetch user"));
+                if(!options) options = { limit: 20 };
 
-                const res = await this.fetch({
+                let res = await this.fetch({
                     link: `v1/users/${id}/playlists`,
+                    params: {
+                        limit: options.limit,
+                        ...options.params
+                    }
                 });
+
+                res = res.items.map(x => new SimplifiedPlaylist(x))
+
+                if(options.advanced){
+                    for(let i = 0; i < res.length; i++){
+                        let data = await this.getCodeImage(res[i].uri);
+                        res[i].codeImage = data.image;
+                        res[i].dominantColor = data.dominantColor;
+                    };
+                };
 
                 resolve(res);
             } catch (e) {

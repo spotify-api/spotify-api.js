@@ -33,7 +33,7 @@ class Album extends Spotify {
 
         return new Promise(async (resolve, reject) => {
             if (!q) throw new MissingParamError("missing query!");
-            if (!options) options = {};
+            if(!options) options = { limit: 20 };
 
             try {
                 const res = await this.fetch({
@@ -116,8 +116,8 @@ class Album extends Spotify {
     ): Promise<SimplifiedTrack[]> {
 
         return new Promise(async (resolve, reject) => {
-            if (!id) reject(new MissingParamError("missing id!"));
-            if (!options) options = {};
+            if(!id) reject(new MissingParamError("missing id!"));
+            if(!options) options = { limit: 20 };
 
             try {
                 const res = await this.fetch({

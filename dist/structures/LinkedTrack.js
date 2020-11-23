@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * LinkedTrack Structure
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,29 +9,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
 /**
- * Public User Class
+ * LinkedTrack Class
  */
-class PublicUser {
+class LinkedTrack {
     /**
      * **Example:**
      *
      * ```js
-     * const user = new PublicUser(data);
+     * const track = new LinkedTrack(data);
      * ```
      *
      * @param data Received raw data from the spotify api
      */
     constructor(data) {
-        Object.defineProperty(this, 'data', { value: data });
-        this.displayName = data.display_name;
+        Object.defineProperty(this, 'data', { value: data, writable: false });
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
-        this.followers = data.followers.total;
-        this.images = data.images;
-        this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
     }
     ;
     /**
@@ -47,5 +46,5 @@ class PublicUser {
     ;
 }
 ;
-exports.default = PublicUser;
-//# sourceMappingURL=PublicUser.js.map
+exports.default = LinkedTrack;
+//# sourceMappingURL=LinkedTrack.js.map

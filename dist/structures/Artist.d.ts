@@ -1,7 +1,7 @@
-import { Followers, Image } from './Interface';
+import { Image } from './Interface';
 import SimplifiedArtist from './SimplifiedArtist';
 declare class Artist extends SimplifiedArtist {
-    followers: Followers;
+    followers: number;
     genres: string;
     images: Image[];
     popularity: number;

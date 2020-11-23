@@ -1,26 +1,24 @@
 /**
  * Public User Structure
  */
-import { CodeImageReturn, Image } from "./Interface";
+import { CodeImageReturn } from "./Interface";
 /**
  * Public User Class
  */
-declare class PublicUser {
+declare class PlaylistOwner {
     data: any;
     displayName: string;
     externalUrls: any;
-    followers: number;
     href: string;
     id: string;
     type: string;
     uri: string;
-    images: Image[];
     codeImage: string;
     /**
      * **Example:**
      *
      * ```js
-     * const user = new PublicUser(data);
+     * const user = new PlaylistOwner(data);
      * ```
      *
      * @param data Received raw data from the spotify api
@@ -35,4 +33,4 @@ declare class PublicUser {
      */
     getURIData(): Promise<any>;
 }
-export default PublicUser;
+export default PlaylistOwner;

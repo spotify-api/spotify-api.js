@@ -1,49 +1,42 @@
 /**
- * Public User Structure
+ * LinkedTrack Structure
  */
-import { CodeImageReturn, Image } from "./Interface";
+
 import Util from '../Spotify';
+import { CodeImageReturn } from './Interface'
 
 const util = new Util();
 
 /**
- * Public User Class
+ * LinkedTrack Class
  */
-class PublicUser {
+class LinkedTrack{
 
     data: any;
-    displayName: string;
     externalUrls: any;
-    followers: number;
     href: string;
     id: string;
     type: string;
     uri: string;
-    images: Image[];
-    codeImage: string;
 
     /**
      * **Example:**
      * 
      * ```js
-     * const user = new PublicUser(data);
+     * const track = new LinkedTrack(data);
      * ```
      * 
      * @param data Received raw data from the spotify api
      */
     constructor(data){
 
-        Object.defineProperty(this, 'data', { value: data });
+        Object.defineProperty(this, 'data', { value: data, writable: false });
 
-        this.displayName = data.display_name;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
-        this.followers = data.followers.total;
-        this.images = data.images;
-        this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
 
     };
 
@@ -60,7 +53,7 @@ class PublicUser {
     async getURIData(): Promise<any> {
         return await util.getURIData(this.uri);
     };
-    
+
 };
 
-export default PublicUser;
+export default LinkedTrack;

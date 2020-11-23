@@ -1,51 +1,62 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const Spotify_1 = __importDefault(require("../Spotify"));
-const util = new Spotify_1.default();
+/**
+ * Public User Structure
+ */
+import { CodeImageReturn, Image } from "./Interface";
+import Util from '../Spotify';
+
+const util = new Util();
+
 /**
  * Public User Class
  */
-class PublicUser {
+class PlaylistOwner {
+
+    data: any;
+    displayName: string;
+    externalUrls: any;
+    href: string;
+    id: string;
+    type: string;
+    uri: string;
+    codeImage: string;
+
     /**
      * **Example:**
-     *
+     * 
      * ```js
-     * const user = new PublicUser(data);
+     * const user = new PlaylistOwner(data);
      * ```
-     *
+     * 
      * @param data Received raw data from the spotify api
      */
-    constructor(data) {
+    constructor(data){
+
         Object.defineProperty(this, 'data', { value: data });
+
         this.displayName = data.display_name;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
-        this.followers = data.followers.total;
-        this.images = data.images;
         this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
-    }
-    ;
+
+    };
+
     /**
      * Returns the code image with dominant color
      */
-    async getCodeImage() {
+    async getCodeImage(): Promise<CodeImageReturn> {
         return await util.getCodeImage(this.uri);
-    }
-    ;
+    };
+
     /**
      * Returns the uri data
      */
-    async getURIData() {
+    async getURIData(): Promise<any> {
         return await util.getURIData(this.uri);
-    }
-    ;
-}
-;
-exports.default = PublicUser;
-//# sourceMappingURL=PublicUser.js.map
+    };
+    
+};
+
+export default PlaylistOwner;

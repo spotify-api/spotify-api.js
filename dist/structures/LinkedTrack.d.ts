@@ -1,26 +1,22 @@
 /**
- * Public User Structure
+ * LinkedTrack Structure
  */
-import { CodeImageReturn, Image } from "./Interface";
+import { CodeImageReturn } from './Interface';
 /**
- * Public User Class
+ * LinkedTrack Class
  */
-declare class PublicUser {
+declare class LinkedTrack {
     data: any;
-    displayName: string;
     externalUrls: any;
-    followers: number;
     href: string;
     id: string;
     type: string;
     uri: string;
-    images: Image[];
-    codeImage: string;
     /**
      * **Example:**
      *
      * ```js
-     * const user = new PublicUser(data);
+     * const track = new LinkedTrack(data);
      * ```
      *
      * @param data Received raw data from the spotify api
@@ -35,4 +31,4 @@ declare class PublicUser {
      */
     getURIData(): Promise<any>;
 }
-export default PublicUser;
+export default LinkedTrack;

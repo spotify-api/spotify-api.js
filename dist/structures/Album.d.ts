@@ -6,7 +6,7 @@ import { CodeImageReturn } from './Interface';
  * Album structure class
  */
 declare class Album {
-    private data;
+    data: any;
     albumType: 'album' | 'single' | 'compilation';
     availableMarkets: string[];
     copyrights: Copyright[];

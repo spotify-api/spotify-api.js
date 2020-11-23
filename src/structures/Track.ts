@@ -1,12 +1,24 @@
-import { LinkedTrack, Restriction } from "./Interface";
+/**
+ * Track structure
+ */
+import Album from "./Album";
+import { Restriction, CodeImageReturn } from "./Interface";
+import Util from '../Spotify';
+import SimplifiedArtist from "./SimplifiedArtist";
+import LinkedTrack from "./LinkedTrack";
 
-export default class {
+const util = new Util();
 
-    album: any;
-    artists: any[];
+/**
+ * Track class
+ */
+class Track {
+
+    data: any;
+    album: Album;
     availableMarkets: string[];
     discNumber: number;
-    durationMs: number;
+    duration: number;
     explicit: boolean;
     externalIds: any;
     externalUrls: any;
@@ -18,17 +30,28 @@ export default class {
     trackNumber: number;
     type: string;
     uri: string;
+    local: boolean;
     playable?: boolean;
-    linkedForm?: LinkedTrack;
+    linkedFrom?: LinkedTrack;
     restrictions?: Restriction;
 
+    /**
+     * **Example:**
+     * 
+     * ```js
+     * const track = new Track(data);
+     * ```
+     * 
+     * @param data Received raw data from the spotify api
+     */
     constructor(data){
 
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+
         this.album = data.album;
-        this.artists = data.artists;
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
-        this.durationMs = data.duration_ms;
+        this.duration = data.duration_ms;
         this.explicit = data.explicit;
         this.externalIds = data.external_ids;
         this.externalUrls = data.external_urls;
@@ -41,8 +64,34 @@ export default class {
         this.type = data.type;
         this.uri = data.uri;
         this.playable = data.is_playable;
-        this.linkedForm = data.linked_form;
         this.restrictions = data.restrictions;
+        this.local = Boolean(data.is_local);
+        if('linked_from' in data) this.linkedFrom = data.linked_from;
         
     };
+
+    /**
+     * Returns the array of SimplifiedArtist
+     * @readonly
+     */
+    get artists(): SimplifiedArtist[] {
+        return this.data.map(x => new SimplifiedArtist(x));
+    };
+
+    /**
+     * Returns the code image with dominant color
+     */
+    async getCodeImage(): Promise<CodeImageReturn> {
+        return await util.getCodeImage(this.uri);
+    };
+
+    /**
+     * Returns the uri data
+     */
+    async getURIData(): Promise<any> {
+        return await util.getURIData(this.uri);
+    };
+
 };
+
+export default Track;

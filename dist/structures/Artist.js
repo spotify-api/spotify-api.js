@@ -7,7 +7,7 @@ const SimplifiedArtist_1 = __importDefault(require("./SimplifiedArtist"));
 class Artist extends SimplifiedArtist_1.default {
     constructor(data) {
         super(data);
-        this.followers = data.followers;
+        this.followers = data.followers.total;
         this.genres = data.genres;
         this.images = data.images;
         this.popularity = data.popularity;

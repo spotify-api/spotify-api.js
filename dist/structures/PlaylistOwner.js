@@ -8,12 +8,12 @@ const util = new Spotify_1.default();
 /**
  * Public User Class
  */
-class PublicUser {
+class PlaylistOwner {
     /**
      * **Example:**
      *
      * ```js
-     * const user = new PublicUser(data);
+     * const user = new PlaylistOwner(data);
      * ```
      *
      * @param data Received raw data from the spotify api
@@ -26,8 +26,6 @@ class PublicUser {
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
-        this.followers = data.followers.total;
-        this.images = data.images;
         this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
     }
     ;
@@ -47,5 +45,5 @@ class PublicUser {
     ;
 }
 ;
-exports.default = PublicUser;
-//# sourceMappingURL=PublicUser.js.map
+exports.default = PlaylistOwner;
+//# sourceMappingURL=PlaylistOwner.js.map

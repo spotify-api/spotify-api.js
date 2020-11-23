@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const PublicUser_1 = __importDefault(require("../structures/PublicUser"));
+const SimplifiedPlaylist_1 = __importDefault(require("../structures/SimplifiedPlaylist"));
 /**
  * Class of all methods related to users
  */
@@ -26,9 +27,7 @@ class User extends Spotify_1.default {
             try {
                 if (!id)
                     reject(new Error_1.MissingParamError("missing id to fetch user"));
-                const res = await this.fetch({ link: `v1/users/${id}` });
-                res.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
-                resolve(new PublicUser_1.default(res));
+                resolve(new PublicUser_1.default(await this.fetch({ link: `v1/users/${id}` })));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
@@ -45,14 +44,30 @@ class User extends Spotify_1.default {
      *
      * @param id Id of the user
      */
-    async getPlaylists(id) {
+    async getPlaylists(id, options) {
         return new Promise(async (resolve, reject) => {
             try {
                 if (!id)
                     reject(new Error_1.MissingParamError("missing id to fetch user"));
-                const res = await this.fetch({
+                if (!options)
+                    options = { limit: 20 };
+                let res = await this.fetch({
                     link: `v1/users/${id}/playlists`,
+                    params: {
+                        limit: options.limit,
+                        ...options.params
+                    }
                 });
+                res = res.items.map(x => new SimplifiedPlaylist_1.default(x));
+                if (options.advanced) {
+                    for (let i = 0; i < res.length; i++) {
+                        let data = await this.getCodeImage(res[i].uri);
+                        res[i].codeImage = data.image;
+                        res[i].dominantColor = data.dominantColor;
+                    }
+                    ;
+                }
+                ;
                 resolve(res);
             }
             catch (e) {

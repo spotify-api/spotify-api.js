@@ -29,7 +29,7 @@ class Album extends Spotify_1.default {
             if (!q)
                 throw new Error_1.MissingParamError("missing query!");
             if (!options)
-                options = {};
+                options = { limit: 20 };
             try {
                 const res = await this.fetch({
                     link: "v1/search",
@@ -98,7 +98,7 @@ class Album extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id!"));
             if (!options)
-                options = {};
+                options = { limit: 20 };
             try {
                 const res = await this.fetch({
                     link: `v1/albums/${id}/tracks`,

@@ -3,10 +3,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * SimplifiedTrack Structure
+ */
 const Artist_1 = __importDefault(require("./Artist"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
+/**
+ * SimplifiedTrack Class
+ */
 class SimplifiedTrack {
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const track = new SimplifiedTrack(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     */
     constructor(data) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
         this.availableMarkets = data.available_markets || [];

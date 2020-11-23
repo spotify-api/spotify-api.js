@@ -1,13 +1,19 @@
+/**
+ * SimplifiedTrack Structure
+ */
 import Artist from './Artist';
-import { DominantColor, CodeImageReturn, LinkedTrack, Restriction } from './Interface';
+import { DominantColor, CodeImageReturn, Restriction } from './Interface';
 import Util from '../Spotify';
+import LinkedTrack from "./LinkedTrack";
 
 const util = new Util();
 
+/**
+ * SimplifiedTrack Class
+ */
 class SimplifiedTrack {
 
-    private data: any;
-
+    data: any;
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -27,6 +33,15 @@ class SimplifiedTrack {
     codeImage?: string;
     dominantColor?: DominantColor;
 
+    /**
+     * **Example:**
+     * 
+     * ```js
+     * const track = new SimplifiedTrack(data);
+     * ```
+     * 
+     * @param data Received raw data from the spotify api
+     */
     constructor(data){
 
         Object.defineProperty(this, 'data', { value: data, writable: false });

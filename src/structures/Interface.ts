@@ -16,11 +16,6 @@ export interface CodeImageReturn {
     };
 };
 
-export interface Followers{
-    href?: null | string;
-    total: number;
-};
-
 export interface Copyright{
     text: string;
     type: string;
@@ -36,10 +31,7 @@ export interface Restriction{
     reason: string;
 };
 
-export interface LinkedTrack{
-    external_urls: any;
-    href: string;
-    id: string;
-    type: string;
-    uri: string;
+export interface ResumePoint{
+    fullyPlayed: boolean;
+    resumePoint: number;
 };
