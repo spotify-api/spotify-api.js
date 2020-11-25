@@ -1,7 +1,7 @@
 /**
  * SimplifiedPlaylist Structure
  */
-import { DominantColor, Image } from "./Interface";
+import { DominantColor, Image, CodeImageReturn } from "./Interface";
 import PlaylistTrack from "./PlaylistTrack";
 import PlaylistOwner from "./PlaylistOwner";
 /**
@@ -40,5 +40,13 @@ declare class SimplifiedPlaylist {
      * @readonly
      */
     get tracks(): PlaylistTrack[];
+    /**
+     * Returns the code image with dominant color
+     */
+    getCodeImage(): Promise<CodeImageReturn>;
+    /**
+     * Returns the uri data
+     */
+    getURIData(): Promise<any>;
 }
 export default SimplifiedPlaylist;

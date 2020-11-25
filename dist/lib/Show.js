@@ -21,7 +21,7 @@ class Show extends Spotify_1.default {
      * @param id Id of the show
      */
     async get(id) {
-        return new Promise(async (reject, resolve) => {
+        return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError('missing id'));
             try {
@@ -46,7 +46,7 @@ class Show extends Spotify_1.default {
      * @param limit Limit of your results
      */
     async getEpisodes(id, limit) {
-        return new Promise(async (reject, resolve) => {
+        return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError('missing id'));
             try {

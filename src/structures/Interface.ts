@@ -1,3 +1,5 @@
+import SimplifiedPlaylist from "./SimplifiedPlaylist";
+
 export interface DominantColor { 
     hex?: string; 
     rgb: number[] 
@@ -34,4 +36,18 @@ export interface Restriction{
 export interface ResumePoint{
     fullyPlayed: boolean;
     resumePoint: number;
+};
+
+export interface Category{
+    href: string;
+    icons: Image[];
+    id: string;
+    name: string;
+    codeImage?: string;
+    dominantColor?: DominantColor;
+};
+
+export interface FeaturedPlaylistReturn{
+    message: string;
+    playlists: SimplifiedPlaylist[]
 };

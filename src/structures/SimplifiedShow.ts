@@ -1,40 +1,40 @@
 /**
- * SimplifiedPlaylist Structure
+ * SimplifiedShow structure
  */
-import { DominantColor, Image, CodeImageReturn } from "./Interface";
-import PlaylistTrack from "./PlaylistTrack";
-import PlaylistOwner from "./PlaylistOwner";
+
 import Util from '../Spotify';
+import { CodeImageReturn, Copyright, Image } from "./Interface";
 
 const util = new Util();
+
 /**
- * SimplifiedPlaylist class
+ * SimplifiedShow class
  */
-class SimplifiedPlaylist {
+
+class SimplifiedShow {
 
     data: any;
-    collaborative: boolean;
-    description: string | null;
+    availableMarkets: string[];
+    copyrights: Copyright[];
+    description: string;
+    explicit: boolean;
     externalUrls: any;
     href: string;
     id: string;
     images: Image[];
+    isExternallyHosted: boolean;
+    languages: string[];
+    mediaType: string;
     name: string;
-    owner: PlaylistOwner;
-    primaryColor: any;
-    public: boolean | null;
-    snapshotId: string;
+    publisher: string;
     type: string;
     uri: string;
-    totalTracks: number;
-    codeImage?: string;
-    dominantColor?: DominantColor;
 
     /**
      * **Example:**
      * 
      * ```js
-     * const playlist = new SimplifiedPlaylist(data);
+     * const show = new SimplifiedShow(data);
      * ```
      * 
      * @param data Received raw data from the spotify api
@@ -43,29 +43,22 @@ class SimplifiedPlaylist {
 
         Object.defineProperty(this, 'data', { value: data });
 
-        this.collaborative = data.collaborative;
+        this.availableMarkets = data.available_markets;
+        this.copyrights = data.copyrights;
         this.description = data.description;
+        this.explicit = data.explicit;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.images = data.images;
+        this.isExternallyHosted = data.is_externally_hosted;
+        this.languages = data.languages;
+        this.mediaType = data.media_type;
         this.name = data.name;
-        this.owner = new PlaylistOwner(data.owner);
-        this.primaryColor = data.primary_color;
-        this.public = data.public;
-        this.snapshotId = data.snapshot_id;
+        this.publisher = data.publisher;
         this.type = data.type;
         this.uri = data.uri;
-        this.totalTracks = data.tracks.total;
 
-    };
-
-    /**
-     * Returns an array of simplified tracks
-     * @readonly
-     */
-    get tracks(): PlaylistTrack[] {
-        return this.data.tracks.items.map(x => new PlaylistTrack(x));
     };
 
     /**
@@ -84,4 +77,4 @@ class SimplifiedPlaylist {
 
 };
 
-export default SimplifiedPlaylist;
+export default SimplifiedShow

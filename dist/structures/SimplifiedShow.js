@@ -1,49 +1,43 @@
 "use strict";
+/**
+ * SimplifiedShow structure
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const PlaylistTrack_1 = __importDefault(require("./PlaylistTrack"));
-const PlaylistOwner_1 = __importDefault(require("./PlaylistOwner"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
 /**
- * SimplifiedPlaylist class
+ * SimplifiedShow class
  */
-class SimplifiedPlaylist {
+class SimplifiedShow {
     /**
      * **Example:**
      *
      * ```js
-     * const playlist = new SimplifiedPlaylist(data);
+     * const show = new SimplifiedShow(data);
      * ```
      *
      * @param data Received raw data from the spotify api
      */
     constructor(data) {
         Object.defineProperty(this, 'data', { value: data });
-        this.collaborative = data.collaborative;
+        this.availableMarkets = data.available_markets;
+        this.copyrights = data.copyrights;
         this.description = data.description;
+        this.explicit = data.explicit;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.images = data.images;
+        this.isExternallyHosted = data.is_externally_hosted;
+        this.languages = data.languages;
+        this.mediaType = data.media_type;
         this.name = data.name;
-        this.owner = new PlaylistOwner_1.default(data.owner);
-        this.primaryColor = data.primary_color;
-        this.public = data.public;
-        this.snapshotId = data.snapshot_id;
+        this.publisher = data.publisher;
         this.type = data.type;
         this.uri = data.uri;
-        this.totalTracks = data.tracks.total;
-    }
-    ;
-    /**
-     * Returns an array of simplified tracks
-     * @readonly
-     */
-    get tracks() {
-        return this.data.tracks.items.map(x => new PlaylistTrack_1.default(x));
     }
     ;
     /**
@@ -62,5 +56,5 @@ class SimplifiedPlaylist {
     ;
 }
 ;
-exports.default = SimplifiedPlaylist;
-//# sourceMappingURL=SimplifiedPlaylist.js.map
+exports.default = SimplifiedShow;
+//# sourceMappingURL=SimplifiedShow.js.map

@@ -1,7 +1,7 @@
 /**
  * SimplifiedAlbum Structure
  */
-import { CodeImageReturn, Image, Restriction } from "./Interface";
+import { CodeImageReturn, DominantColor, Image, Restriction } from "./Interface";
 import SimplifiedArtist from "./SimplifiedArtist";
 import Util from '../Spotify';
 
@@ -12,8 +12,7 @@ const util = new Util();
  */
 class SimplifiedAlbum {
 
-    private data: any;
-
+    data: any;
     albumGroup?: string;
     albumType: string;
     availableMarkets: string[];
@@ -28,6 +27,8 @@ class SimplifiedAlbum {
     type: string;
     uri: string;
     totalTracks?: number;
+    codeImage?: string;
+    dominantColor?: DominantColor;
 
     /**
      * **Example:**

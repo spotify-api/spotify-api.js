@@ -1,0 +1,13 @@
+export declare function belongs(set: any, element: any): boolean;
+export declare function isNull(set: any): boolean;
+export declare function isProper(set: any): boolean;
+export declare function sizeType(set: any): 'empty' | 'singleton' | 'many';
+export declare function overlaps(setX: any, setY: any): boolean;
+export declare function isEqual(setX: any, setY: any): boolean;
+export declare function subsets(set: any): any[];
+export declare function properSubsets(set: any): any[];
+export declare function union(setX: any, setY: any): any[];
+export declare function intersect(setX: any, setY: any): any[];
+export declare function subtract(setX: any, setY: any): any[];
+export declare function isSubset(setX: any, setY: any): boolean;
+export declare function isProperSubset(setX: any, setY: any): boolean;

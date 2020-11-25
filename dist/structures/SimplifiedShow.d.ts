@@ -1,35 +1,32 @@
-import SimplifiedShow from './SimplifiedShow';
-import { Image, DominantColor, ResumePoint, CodeImageReturn } from "./Interface";
 /**
- * Episode class
+ * SimplifiedShow structure
  */
-declare class Episode {
+import { CodeImageReturn, Copyright, Image } from "./Interface";
+/**
+ * SimplifiedShow class
+ */
+declare class SimplifiedShow {
     data: any;
-    audioPreviewUrl: string;
+    availableMarkets: string[];
+    copyrights: Copyright[];
     description: string;
-    duration: number;
     explicit: boolean;
     externalUrls: any;
     href: string;
     id: string;
     images: Image[];
     isExternallyHosted: boolean;
-    playable: boolean;
     languages: string[];
+    mediaType: string;
     name: string;
-    releaseDate: string;
-    releaseDatePrecision: string;
-    show: SimplifiedShow;
+    publisher: string;
     type: string;
     uri: string;
-    resumePoint?: ResumePoint;
-    codeImage?: string;
-    dominantColor?: DominantColor;
     /**
      * **Example:**
      *
      * ```js
-     * const episode = new Episode(data);
+     * const show = new SimplifiedShow(data);
      * ```
      *
      * @param data Received raw data from the spotify api
@@ -43,10 +40,5 @@ declare class Episode {
      * Returns the uri data
      */
     getURIData(): Promise<any>;
-    /**
-     * Returns date structure of this.releaseDate
-     * @readonly
-     */
-    get releasedAt(): Date;
 }
-export default Episode;
+export default SimplifiedShow;

@@ -19,7 +19,7 @@ class Show extends Spotify{
      */
     async get(id: string): Promise<any> {
 
-        return new Promise(async (reject, resolve) => {
+        return new Promise(async (resolve, reject) => {
             if(!id) reject(new MissingParamError('missing id'));
             
             try{
@@ -46,7 +46,7 @@ class Show extends Spotify{
      */
     async getEpisodes(id: string, limit?: number): Promise<any> {
 
-        return new Promise(async (reject, resolve) => {
+        return new Promise(async (resolve, reject) => {
             if(!id) reject(new MissingParamError('missing id'));
             
             try{

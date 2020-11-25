@@ -2,6 +2,7 @@
  * Episode Structure
  */
 import Util from '../Spotify';
+import SimplifiedShow from './SimplifiedShow';
 import { Image, DominantColor, ResumePoint, CodeImageReturn } from "./Interface";
 
 const util = new Util();
@@ -26,7 +27,7 @@ class Episode {
     name: string;
     releaseDate: string;
     releaseDatePrecision: string;
-    show: any;
+    show: SimplifiedShow;
     type: string;
     uri: string;
     resumePoint?: ResumePoint;
