@@ -56,7 +56,8 @@ class Show extends Spotify_1.default {
                     link: `v1/shows/${id}/episodes`,
                     params: {
                         market: 'US',
-                        limit: options.limit
+                        limit: options.limit,
+                        ...options.params
                     }
                 });
                 res = res.items.map(x => new SimplifiedEpisode_1.default(x));
