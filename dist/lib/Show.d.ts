@@ -1,4 +1,6 @@
 import Spotify from "../Spotify";
+import ShowStructure from "../structures/Show";
+import SimplifiedEpisode from "../structures/SimplifiedEpisode";
 /**
  * Class of all methods related to episode enpoints
  */
@@ -11,7 +13,7 @@ declare class Show extends Spotify {
      *
      * @param id Id of the show
      */
-    get(id: string): Promise<any>;
+    get(id: string): Promise<ShowStructure>;
     /**
      * **Example:**
      * ```js
@@ -21,6 +23,10 @@ declare class Show extends Spotify {
      * @param id Id of the show
      * @param limit Limit of your results
      */
-    getEpisodes(id: string, limit?: number): Promise<any>;
+    getEpisodes(id: string, options?: {
+        limit?: number;
+        advanced?: boolean;
+        params?: any;
+    }): Promise<SimplifiedEpisode[]>;
 }
 export default Show;

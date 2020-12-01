@@ -8,6 +8,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+const Show_1 = __importDefault(require("../structures/Show"));
+const SimplifiedEpisode_1 = __importDefault(require("../structures/SimplifiedEpisode"));
 /**
  * Class of all methods related to episode enpoints
  */
@@ -25,9 +27,7 @@ class Show extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError('missing id'));
             try {
-                resolve(await this.fetch({
-                    link: `v1/shows/${id}`
-                }));
+                resolve(new Show_1.default(await this.fetch({ link: `v1/shows/${id}` })));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
@@ -45,18 +45,31 @@ class Show extends Spotify_1.default {
      * @param id Id of the show
      * @param limit Limit of your results
      */
-    async getEpisodes(id, limit) {
+    async getEpisodes(id, options = {
+        limit: 20
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError('missing id'));
             try {
-                resolve(await this.fetch({
+                let res = await this.fetch({
                     link: `v1/shows/${id}/episodes`,
                     params: {
                         market: 'US',
-                        limit: limit || 20
+                        limit: options.limit
                     }
-                }));
+                });
+                res = res.items.map(x => new SimplifiedEpisode_1.default(x));
+                if (options.advanced) {
+                    for (let i = 0; i < res.length; i++) {
+                        let data = await this.getCodeImage(res[i].uri);
+                        res[i].codeImage = data.image;
+                        res[i].dominantColor = data.dominantColor;
+                    }
+                    ;
+                }
+                ;
+                resolve(res);
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
