@@ -14,6 +14,7 @@ declare class SimplifiedEpisode {
     images: Image[];
     isExternallyHosted: boolean;
     playable: boolean;
+    language?: string;
     languages: string[];
     name: string;
     releaseDate: string;

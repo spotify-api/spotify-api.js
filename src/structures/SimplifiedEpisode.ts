@@ -23,6 +23,7 @@ class SimplifiedEpisode {
     images: Image[];
     isExternallyHosted: boolean;
     playable: boolean;
+    language?: string;
     languages: string[];
     name: string;
     releaseDate: string;
@@ -56,6 +57,7 @@ class SimplifiedEpisode {
         this.images = data.images;
         this.isExternallyHosted = data.is_externally_hosted;
         this.playable = data.is_playable;
+        if('language' in data) this.language = data.language
         this.languages = data.languages;
         this.name = data.name;
         this.releaseDate = data.release_date;
