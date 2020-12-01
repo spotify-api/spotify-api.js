@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+const Episode_1 = __importDefault(require("../structures/Episode"));
 /**
  * Class of all methods related to episode enpoints
  */
@@ -25,9 +26,7 @@ class Episode extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError('missing id'));
             try {
-                resolve(await this.fetch({
-                    link: `v1/episodes/${id}`
-                }));
+                resolve(new Episode_1.default(await this.fetch({ link: `v1/episodes/${id}` })));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));

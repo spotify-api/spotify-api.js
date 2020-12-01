@@ -1,4 +1,5 @@
 import Spotify from "../Spotify";
+import EpisodeStructure from "../structures/Episode";
 /**
  * Class of all methods related to episode enpoints
  */
@@ -11,6 +12,6 @@ declare class Episode extends Spotify {
      *
      * @param id Id of the episode
      */
-    get(id: string): Promise<any>;
+    get(id: string): Promise<EpisodeStructure>;
 }
 export default Episode;
