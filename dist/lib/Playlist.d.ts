@@ -2,6 +2,9 @@
  * Playlist lib file
  */
 import Spotify from "../Spotify";
+import { Image } from "../structures/Interface";
+import PlaylistStructure from "../structures/Playlist";
+import PlaylistTrack from "../structures/PlaylistTrack";
 /**
  * Class of all methods related to playlists
  */
@@ -14,7 +17,7 @@ declare class Playlist extends Spotify {
      *
      * @param id Id of the playlist
      */
-    get(id: string): Promise<any>;
+    get(id: string): Promise<PlaylistStructure>;
     /**
      * **Example:**
      * ```js
@@ -25,9 +28,10 @@ declare class Playlist extends Spotify {
      * @param options Options to configure your search
      */
     getTracks(id: string, options?: {
-        limit?: null | string | number;
+        limit?: number;
         advanced?: boolean;
-    }): Promise<any>;
+        params?: any;
+    }): Promise<PlaylistTrack[]>;
     /**
      * **Example:**
      * ```js
@@ -36,7 +40,7 @@ declare class Playlist extends Spotify {
      *
      * @param id Playlist id
      */
-    getCoverImage(id: string): Promise<any>;
+    getCoverImage(id: string): Promise<Image[]>;
     /**
      * **Example:**
      * ```js

@@ -26,7 +26,14 @@ class PlaylistTrack {
         this.addedAt = data.added_at;
         this.addedBy = data.added_by;
         this.local = data.is_local;
-        this.track = data.track.description ? new Episode_1.default(data.track) : new Track_1.default(data.track);
+    }
+    ;
+    /**
+     * Full info of the track
+     * @readonly
+     */
+    get track() {
+        return this.data.track.description ? new Episode_1.default(this.data.track) : new Track_1.default(this.data.track);
     }
     ;
 }

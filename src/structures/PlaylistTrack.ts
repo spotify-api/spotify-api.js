@@ -11,10 +11,9 @@ import Episode from "./Episode";
 class PlaylistTrack{
 
     data: any;
-    addedAt: string;
-    addedBy: PublicUser;
+    addedAt: string | null;
+    addedBy: PublicUser | null;
     local: boolean;
-    track: Track | Episode;
 
     /**
      * **Example:**
@@ -32,8 +31,15 @@ class PlaylistTrack{
         this.addedAt = data.added_at;
         this.addedBy = data.added_by;
         this.local = data.is_local;
-        this.track = data.track.description ? new Episode(data.track) : new Track(data.track);
         
+    };
+
+    /**
+     * Full info of the track
+     * @readonly
+     */
+    get track(): Track | Episode {
+        return this.data.track.description ? new Episode(this.data.track) : new Track(this.data.track);
     };
 
 };

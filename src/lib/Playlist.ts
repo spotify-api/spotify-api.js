@@ -4,6 +4,9 @@
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import { Image } from "../structures/Interface";
+import PlaylistStructure from "../structures/Playlist";
+import PlaylistTrack from "../structures/PlaylistTrack";
 
 /**
  * Class of all methods related to playlists
@@ -18,20 +21,22 @@ class Playlist extends Spotify {
      * 
      * @param id Id of the playlist
      */
-    async get(id: string): Promise<any> {
+    async get(id: string): Promise<PlaylistStructure> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                const res = await this.fetch({
-                    link: `v1/playlists/${id}`,
-                    params: {
-                        market: "US",
-                    },
-                });
-                res.codeImg = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${res.uri}`;
-                resolve(res);
+                resolve(
+                    new PlaylistStructure(
+                        await this.fetch({
+                            link: `v1/playlists/${id}`,
+                            params: {
+                                market: "US",
+                            },
+                        })
+                    )
+                );
             } catch (e) {
                 reject(new UnexpectedError(e));
             }
@@ -50,15 +55,17 @@ class Playlist extends Spotify {
      */
     async getTracks(
         id: string,
-        options?: {
-            limit?: null | string | number;
+        options: {
+            limit?: number;
             advanced?: boolean;
+            params?: any;
+        } = {
+            limit: 20
         }
-    ): Promise<any> {
+    ): Promise<PlaylistTrack[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
-            if (!options) options = {};
 
             try {
                 const res = await this.fetch({
@@ -69,17 +76,7 @@ class Playlist extends Spotify {
                     },
                 });
 
-                let items = res.items;
-
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    };
-                };
-
-                resolve(items);
+                resolve(res.items.map(x => new PlaylistTrack(x)));
             } catch (e) {
                 reject(new UnexpectedError(e));
             }
@@ -94,7 +91,7 @@ class Playlist extends Spotify {
      * 
      * @param id Playlist id
      */
-    async getCoverImage(id: string): Promise<any> {
+    async getCoverImage(id: string): Promise<Image[]> {
 
         return new Promise(async(resolve, reject) => {
             try{

@@ -9,10 +9,9 @@ import Episode from "./Episode";
  */
 declare class PlaylistTrack {
     data: any;
-    addedAt: string;
-    addedBy: PublicUser;
+    addedAt: string | null;
+    addedBy: PublicUser | null;
     local: boolean;
-    track: Track | Episode;
     /**
      * **Example:**
      *
@@ -23,5 +22,10 @@ declare class PlaylistTrack {
      * @param data Received raw data from the spotify api
      */
     constructor(data: any);
+    /**
+     * Full info of the track
+     * @readonly
+     */
+    get track(): Track | Episode;
 }
 export default PlaylistTrack;
