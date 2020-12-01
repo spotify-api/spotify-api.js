@@ -72,7 +72,7 @@ class Playlist extends Spotify {
                     link: `v1/playlists/${id}/tracks`,
                     params: {
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
                     },
                 });
 
@@ -99,7 +99,7 @@ class Playlist extends Spotify {
 
                 resolve(
                     await this.fetch({
-                        link: `v1/me/playlists/${id}/images`
+                        link: `v1/playlists/${id}/images`
                     })
                 );
             }catch(e){

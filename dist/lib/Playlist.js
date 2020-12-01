@@ -60,7 +60,7 @@ class Playlist extends Spotify_1.default {
                     link: `v1/playlists/${id}/tracks`,
                     params: {
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
                     },
                 });
                 resolve(res.items.map(x => new PlaylistTrack_1.default(x)));
@@ -85,7 +85,7 @@ class Playlist extends Spotify_1.default {
                 if (!id)
                     reject(new Error_1.MissingParamError('missing playlist id'));
                 resolve(await this.fetch({
-                    link: `v1/me/playlists/${id}/images`
+                    link: `v1/playlists/${id}/images`
                 }));
             }
             catch (e) {

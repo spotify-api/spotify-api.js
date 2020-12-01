@@ -26,7 +26,8 @@ class PublicUser {
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
-        this.followers = data.followers.total;
+        if ('followers' in data)
+            this.totalFollowers = data.followers.total;
         this.images = data.images;
         this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
     }

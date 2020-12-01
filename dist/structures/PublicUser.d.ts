@@ -9,7 +9,7 @@ declare class PublicUser {
     data: any;
     displayName: string;
     externalUrls: any;
-    followers: number;
+    totalFollowers?: number;
     href: string;
     id: string;
     type: string;
