@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Spotify_1 = __importDefault(require("../Spotify"));
 const SimplifiedArtist_1 = __importDefault(require("./SimplifiedArtist"));
+const SimplifiedAlbum_1 = __importDefault(require("./SimplifiedAlbum"));
 const util = new Spotify_1.default();
 /**
  * Track class
@@ -21,7 +22,6 @@ class Track {
      */
     constructor(data) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
-        this.album = data.album;
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
@@ -41,6 +41,14 @@ class Track {
         this.local = Boolean(data.is_local);
         if ('linked_from' in data)
             this.linkedFrom = data.linked_from;
+    }
+    ;
+    /**
+     * Album object
+     * @readonly
+     */
+    get album() {
+        return new SimplifiedAlbum_1.default(this.album);
     }
     ;
     /**

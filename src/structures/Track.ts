@@ -6,6 +6,7 @@ import { Restriction, CodeImageReturn, DominantColor } from "./Interface";
 import Util from '../Spotify';
 import SimplifiedArtist from "./SimplifiedArtist";
 import LinkedTrack from "./LinkedTrack";
+import SimplifiedAlbum from "./SimplifiedAlbum";
 
 const util = new Util();
 
@@ -15,7 +16,6 @@ const util = new Util();
 class Track {
 
     data: any;
-    album: Album;
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -50,7 +50,6 @@ class Track {
 
         Object.defineProperty(this, 'data', { value: data, writable: false });
 
-        this.album = data.album;
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
@@ -70,6 +69,14 @@ class Track {
         this.local = Boolean(data.is_local);
         if('linked_from' in data) this.linkedFrom = data.linked_from;
         
+    };
+
+    /**
+     * Album object
+     * @readonly
+     */
+    get album(): SimplifiedAlbum {
+        return new SimplifiedAlbum(this.album);
     };
 
     /**

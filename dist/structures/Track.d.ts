@@ -1,16 +1,12 @@
-/**
- * Track structure
- */
-import Album from "./Album";
 import { Restriction, CodeImageReturn, DominantColor } from "./Interface";
 import SimplifiedArtist from "./SimplifiedArtist";
 import LinkedTrack from "./LinkedTrack";
+import SimplifiedAlbum from "./SimplifiedAlbum";
 /**
  * Track class
  */
 declare class Track {
     data: any;
-    album: Album;
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -41,6 +37,11 @@ declare class Track {
      * @param data Received raw data from the spotify api
      */
     constructor(data: any);
+    /**
+     * Album object
+     * @readonly
+     */
+    get album(): SimplifiedAlbum;
     /**
      * Returns the array of SimplifiedArtist
      * @readonly
