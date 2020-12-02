@@ -44,17 +44,18 @@ class User extends Spotify {
      */
     async getPlaylists(
         id: string,
-        options?: {
+        options: {
             limit?: number;
             advanced?: boolean;
             params?: any;
+        } = {
+            limit: 20
         }
     ): Promise<SimplifiedPlaylist[]> {
 
         return new Promise(async (resolve, reject) => {
             try {
                 if(!id) reject(new MissingParamError("missing id to fetch user"));
-                if(!options) options = { limit: 20 };
 
                 let res = await this.fetch({
                     link: `v1/users/${id}/playlists`,
