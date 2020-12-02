@@ -2,7 +2,7 @@
  * Track structure
  */
 import Album from "./Album";
-import { Restriction, CodeImageReturn } from "./Interface";
+import { Restriction, CodeImageReturn, DominantColor } from "./Interface";
 import Util from '../Spotify';
 import SimplifiedArtist from "./SimplifiedArtist";
 import LinkedTrack from "./LinkedTrack";
@@ -34,6 +34,8 @@ class Track {
     playable?: boolean;
     linkedFrom?: LinkedTrack;
     restrictions?: Restriction;
+    codeImage?: string;
+    dominantColor?: DominantColor;
 
     /**
      * **Example:**

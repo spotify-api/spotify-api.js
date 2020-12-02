@@ -45,7 +45,7 @@ class Auth {
     async get(options: {
         client_id: string;
         client_secret: string;
-    }): Promise<String> {
+    }): Promise<string> {
 
         return new Promise(async (resolve, reject) => {
             if (!options.client_id) reject(new MissingParamError("missing client id"));

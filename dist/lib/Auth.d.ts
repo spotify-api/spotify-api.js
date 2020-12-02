@@ -35,7 +35,7 @@ declare class Auth {
     get(options: {
         client_id: string;
         client_secret: string;
-    }): Promise<String>;
+    }): Promise<string>;
     /**
      * Refreshes an Authorization token
      *

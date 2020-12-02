@@ -10,6 +10,7 @@ import Artist from './lib/Artist';
 import Episode from './lib/Episode';
 import Show from './lib/Show';
 import Browse from './lib/Browse';
+import Spotify from './Spotify';
 import UserClient from './UserClient';
 /**
  * **Client class**
@@ -18,7 +19,7 @@ import UserClient from './UserClient';
  */
 export default class {
     token: string;
-    utils: any;
+    utils: Spotify;
     startedAt: number;
     oauth: Auth;
     users: User;
@@ -64,6 +65,27 @@ export default class {
      */
     search(q: string, options?: {
         limit?: number;
-        type?: ('track' | 'artist' | 'album')[];
+        type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[];
     }): Promise<any>;
+    /**
+     * **Example:**
+     * ```js
+     * client.request('me', {}, (err, data) => {
+     *     if(err) return console.error(err);
+     *     if(data) {
+     *         console.log('Success!');
+     *         console.log(data);
+     *     };
+     * });
+     * ```
+     *
+     * @param path Path to request
+     * @param options Options to request
+     * @param callback Callback when request is over
+     */
+    request(path: string, options: {
+        method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+        params?: any;
+        headers?: any;
+    }, callback: (err: any, data: any) => void): void;
 }

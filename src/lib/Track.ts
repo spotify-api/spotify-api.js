@@ -4,6 +4,8 @@
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import TrackStructure from "../structures/Track";
+import { TrackAudioFeatures, TrackAudioAnalysis } from "../structures/Interface";
 
 /**
  * Class of all methods related to tracks
@@ -25,15 +27,17 @@ class Track extends Spotify {
      */
     async search(
         q: string,
-        options?: {
+        options: {
             limit?: null | string | number;
             advanced?: boolean;
+            params?: any;
+        } = {
+            limit: 20
         }
-    ): Promise<any> {
+    ): Promise<TrackStructure[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!q) reject(new MissingParamError("missing query"));
-            if (!options) options = {};
 
             try {
                 const res = await this.fetch({
@@ -42,11 +46,12 @@ class Track extends Spotify {
                         q: encodeURIComponent(q),
                         type: "track",
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
+                        ...options.params
                     },
                 });
 
-                let items = res.tracks.items;
+                let items = res.tracks.items.map(x => new TrackStructure(x));
 
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
@@ -72,15 +77,14 @@ class Track extends Spotify {
      * 
      * @param id Id of the track
      */
-    async get(id: string): Promise<any> {
+    async get(id: string): Promise<TrackStructure> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                const data = await this.fetch({
-                    link: `v1/tracks/${id}`,
-                });
+                const data = new TrackStructure(await this.fetch({ link: `v1/tracks/${id}`, }));
+
                 const codeImage = await this.getCodeImage(data.uri);
                 data.codeImage = codeImage.image;
                 data.dominantColor = codeImage.dominantColor;
@@ -101,16 +105,13 @@ class Track extends Spotify {
      * 
      * @param id Id of the track
      */
-    async audioFeatures(id: string): Promise<any> {
+    async audioFeatures(id: string): Promise<TrackAudioFeatures> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                const res = await this.fetch({
-                    link: `v1/audio-features/${id}`,
-                });
-                resolve(res);
+                resolve(await this.fetch({ link: `v1/audio-features/${id}` }));
             } catch (e) {
                 reject(new UnexpectedError(e));
             }
@@ -126,20 +127,18 @@ class Track extends Spotify {
      * 
      * @param id Id of the track
      */
-    async audioAnalysis(id: string): Promise<any> {
+    async audioAnalysis(id: string): Promise<TrackAudioAnalysis> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                const res = await this.fetch({
-                    link: `v1/audio-analysis/${id}`,
-                });
-                resolve(res);
+                resolve(await this.fetch({ link: `v1/audio-analysis/${id}` }));
             } catch (e) {
                 reject(new UnexpectedError(e));
-            }
+            };
         });
+
     };
 
 };

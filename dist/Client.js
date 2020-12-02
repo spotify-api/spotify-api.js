@@ -91,12 +91,12 @@ class default_1 {
      * @param q Query
      * @param options Your options to selected
      */
-    async search(q, options) {
+    async search(q, options = {
+        type: ['track', 'album', 'artist', 'playlist', 'show', 'episode']
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!q)
                 reject(new Error_1.MissingParamError('missing query'));
-            if (!options)
-                options = {};
             if (!Array.isArray(options.type))
                 options.type = ['track', 'artist', 'album'];
             try {
@@ -115,6 +115,31 @@ class default_1 {
             }
             ;
         });
+    }
+    ;
+    /**
+     * **Example:**
+     * ```js
+     * client.request('me', {}, (err, data) => {
+     *     if(err) return console.error(err);
+     *     if(data) {
+     *         console.log('Success!');
+     *         console.log(data);
+     *     };
+     * });
+     * ```
+     *
+     * @param path Path to request
+     * @param options Options to request
+     * @param callback Callback when request is over
+     */
+    request(path, options, callback) {
+        this.utils.fetch({
+            link: path,
+            ...options
+        })
+            .then(x => callback(null, x))
+            .catch(x => callback(x, null));
     }
     ;
 }

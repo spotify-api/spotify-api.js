@@ -2,6 +2,8 @@
  * Track lib file
  */
 import Spotify from "../Spotify";
+import TrackStructure from "../structures/Track";
+import { TrackAudioFeatures, TrackAudioAnalysis } from "../structures/Interface";
 /**
  * Class of all methods related to tracks
  */
@@ -22,7 +24,8 @@ declare class Track extends Spotify {
     search(q: string, options?: {
         limit?: null | string | number;
         advanced?: boolean;
-    }): Promise<any>;
+        params?: any;
+    }): Promise<TrackStructure[]>;
     /**
      * **Example:**
      * ```js
@@ -31,7 +34,7 @@ declare class Track extends Spotify {
      *
      * @param id Id of the track
      */
-    get(id: string): Promise<any>;
+    get(id: string): Promise<TrackStructure>;
     /**
      * **Example:**
      * ```js
@@ -40,7 +43,7 @@ declare class Track extends Spotify {
      *
      * @param id Id of the track
      */
-    audioFeatures(id: string): Promise<any>;
+    audioFeatures(id: string): Promise<TrackAudioFeatures>;
     /**
      * **Example:**
      * ```js
@@ -49,6 +52,6 @@ declare class Track extends Spotify {
      *
      * @param id Id of the track
      */
-    audioAnalysis(id: string): Promise<any>;
+    audioAnalysis(id: string): Promise<TrackAudioAnalysis>;
 }
 export default Track;

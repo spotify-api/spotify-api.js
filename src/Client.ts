@@ -110,14 +110,15 @@ export default class {
      */
     async search(
         q: string, 
-        options?: {
-            limit?: number,
-            type?: ('track' | 'artist' | 'album')[]
+        options: {
+            limit?: number;
+            type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[];
+        } = {
+            type: ['track', 'album', 'artist', 'playlist', 'show', 'episode']
         }
     ): Promise<any> {
         return new Promise(async (resolve, reject) => {
             if(!q) reject(new MissingParamError('missing query'));
-            if(!options) options = {};
             if(!Array.isArray(options.type)) options.type = ['track', 'artist', 'album'];
 
             try{

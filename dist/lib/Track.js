@@ -8,6 +8,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+const Track_1 = __importDefault(require("../structures/Track"));
 /**
  * Class of all methods related to tracks
  */
@@ -25,12 +26,12 @@ class Track extends Spotify_1.default {
      * @param q Your query
      * @param options Options to configure your search...
      */
-    async search(q, options) {
+    async search(q, options = {
+        limit: 20
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!q)
                 reject(new Error_1.MissingParamError("missing query"));
-            if (!options)
-                options = {};
             try {
                 const res = await this.fetch({
                     link: `v1/search`,
@@ -38,10 +39,11 @@ class Track extends Spotify_1.default {
                         q: encodeURIComponent(q),
                         type: "track",
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
+                        ...options.params
                     },
                 });
-                let items = res.tracks.items;
+                let items = res.tracks.items.map(x => new Track_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
                         let data = await this.getCodeImage(items[i].uri);
@@ -72,9 +74,7 @@ class Track extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                const data = await this.fetch({
-                    link: `v1/tracks/${id}`,
-                });
+                const data = new Track_1.default(await this.fetch({ link: `v1/tracks/${id}`, }));
                 const codeImage = await this.getCodeImage(data.uri);
                 data.codeImage = codeImage.image;
                 data.dominantColor = codeImage.dominantColor;
@@ -99,10 +99,7 @@ class Track extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                const res = await this.fetch({
-                    link: `v1/audio-features/${id}`,
-                });
-                resolve(res);
+                resolve(await this.fetch({ link: `v1/audio-features/${id}` }));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
@@ -123,14 +120,12 @@ class Track extends Spotify_1.default {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                const res = await this.fetch({
-                    link: `v1/audio-analysis/${id}`,
-                });
-                resolve(res);
+                resolve(await this.fetch({ link: `v1/audio-analysis/${id}` }));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
             }
+            ;
         });
     }
     ;
