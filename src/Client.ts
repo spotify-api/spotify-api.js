@@ -25,7 +25,7 @@ import { MissingParamError, UnexpectedError } from './Error';
 export default class {
       
     token: string;
-    utils: any;
+    utils: Spotify;
     startedAt: number;
     
     oauth: Auth;
@@ -136,6 +136,39 @@ export default class {
                 reject(new UnexpectedError(e));
             };
         });
+    };
+
+    /**
+     * **Example:**
+     * ```js
+     * client.request('me', {}, (err, data) => {
+     *     if(err) return console.error(err);
+     *     if(data) {
+     *         console.log('Success!');
+     *         console.log(data);
+     *     };
+     * });
+     * ```
+     * 
+     * @param path Path to request
+     * @param options Options to request
+     * @param callback Callback when request is over
+     */
+    request(
+        path: string,
+        options: {
+            method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+            params?: any;
+            headers?: any;
+        },
+        callback: (err: any, data: any) => void
+    ): void {
+        this.utils.fetch({
+            link: path,
+            ...options
+        })
+        .then(x => callback(null, x))
+        .catch(x => callback(x, null))
     };
     
 };
