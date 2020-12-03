@@ -125,7 +125,7 @@ export default class {
                     await this.utils.fetch({
                         link: `v1/search`,
                         params: {
-                            q: encodeURIComponent(q),
+                            q,
                             type: options.type.join(','),
                             market: "US",
                             limit: options.limit || 20,

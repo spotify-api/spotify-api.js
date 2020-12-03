@@ -39,7 +39,7 @@ class Artist extends Spotify {
                 const res = await this.fetch({
                     link: `v1/search`,
                     params: {
-                        q: encodeURIComponent(q),
+                        q,
                         type: "artist",
                         market: "US",
                         limit: options.limit || 20,
