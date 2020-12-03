@@ -2,7 +2,7 @@
  * Playlist class
  */
 
-import PlaylistTrack from "../structures/PlaylistTrack";
+import { PlaylistTrack } from "./PlaylistUtils";
 import { CodeImageReturn } from "./Interface";
 import PublicUser from "./PublicUser";
 import Util from '../Spotify';
@@ -23,8 +23,7 @@ export default class Playlist {
     id: string;
     images: any[];
     name: string;
-    owner: PublicUser;
-    public: Boolean | null;
+    public: boolean | null;
     snapshotId: string;
     type: string;
     uri: string;
@@ -51,13 +50,20 @@ export default class Playlist {
         this.id = data.id;
         this.images = data.images;
         this.name = data.name;
-        this.owner = new PublicUser(data.owner);
         this.public = data.public;
         this.snapshotId = data.snapshot_id;
         this.type = data.type;
         this.uri = data.uri;
         this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${this.uri}`;
 
+    };
+
+    /**
+     * Owner user object
+     * @readonly
+     */
+    get owner(): PublicUser {
+        return new PublicUser(this.data.owner);
     };
 
     /**

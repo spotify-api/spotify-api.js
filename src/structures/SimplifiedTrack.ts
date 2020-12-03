@@ -3,8 +3,8 @@
  */
 import Artist from './Artist';
 import { DominantColor, CodeImageReturn, Restriction } from './Interface';
+import { LinkedTrack } from "./Track";
 import Util from '../Spotify';
-import LinkedTrack from "./LinkedTrack";
 
 const util = new Util();
 

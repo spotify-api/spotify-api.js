@@ -2,7 +2,6 @@
  * Episode Structure
  */
 import Util from '../Spotify';
-import SimplifiedShow from './SimplifiedShow';
 import { Image, DominantColor, ResumePoint, CodeImageReturn } from "./Interface";
 
 const util = new Util();

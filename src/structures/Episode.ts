@@ -27,7 +27,6 @@ class Episode {
     name: string;
     releaseDate: string;
     releaseDatePrecision: string;
-    show: SimplifiedShow;
     type: string;
     uri: string;
     resumePoint?: ResumePoint;
@@ -61,7 +60,6 @@ class Episode {
         this.name = data.name;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
-        this.show = data.show;
         this.type = data.type;
         this.uri = data.uri;
 
@@ -72,6 +70,14 @@ class Episode {
             };
         };
 
+    };
+
+    /**
+     * Show object
+     * @readonly
+     */
+    get show(): SimplifiedShow {
+        return new SimplifiedShow(this.data.show);
     };
 
     /**

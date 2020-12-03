@@ -2,8 +2,7 @@
  * SimplifiedPlaylist Structure
  */
 import { DominantColor, Image, CodeImageReturn } from "./Interface";
-import PlaylistTrack from "./PlaylistTrack";
-import PlaylistOwner from "./PlaylistOwner";
+import { PlaylistTrack, PlaylistOwner } from "./PlaylistUtils";
 import Util from '../Spotify';
 
 const util = new Util();
@@ -20,7 +19,6 @@ class SimplifiedPlaylist {
     id: string;
     images: Image[];
     name: string;
-    owner: PlaylistOwner;
     primaryColor: any;
     public: boolean | null;
     snapshotId: string;
@@ -50,7 +48,6 @@ class SimplifiedPlaylist {
         this.id = data.id;
         this.images = data.images;
         this.name = data.name;
-        this.owner = new PlaylistOwner(data.owner);
         this.primaryColor = data.primary_color;
         this.public = data.public;
         this.snapshotId = data.snapshot_id;
@@ -58,6 +55,14 @@ class SimplifiedPlaylist {
         this.uri = data.uri;
         this.totalTracks = data.tracks.total;
 
+    };
+
+    /**
+     * Owner object
+     * @readonly
+     */
+    get owner(): PlaylistOwner {
+        return new PlaylistOwner(this.data.owner);
     };
 
     /**

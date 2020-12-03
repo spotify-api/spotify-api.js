@@ -18,6 +18,8 @@ import Spotify from './Spotify';
 import UserClient from './UserClient';
 import UserPlayer from './UserPlayer';
 
+import * as Interface from "./structures/Interface";
+
 /**
  * To view up the version of the package.
  * 
@@ -45,22 +47,42 @@ export {
     Browse,
     UserClient,
     UserPlayer,
-    Spotify as Util
+    Spotify as Util,
+    Interface
+};
+
+import AlbumStructure from "./structures/Album";
+import ArtistStructure from "./structures/Artist";
+import EpisodeStructure from "./structures/Episode";
+import PlaylistStructure from "./structures/Playlist";
+import TrackStructure, { LinkedTrack } from "./structures/Track";
+import PublicUser from "./structures/PublicUser";
+import ShowStructure from "./structures/Show";
+import { PlaylistOwner, PlaylistTrack } from "./structures/PlaylistUtils"
+import SimplifiedAlbum from "./structures/SimplifiedAlbum";
+import SimplifiedArtist from "./structures/SimplifiedArtist";
+import SimplifiedEpisode from "./structures/SimplifiedEpisode";
+import SimplifiedPlaylist from "./structures/SimplifiedPlaylist";
+import SimplifiedShow from "./structures/SimplifiedShow";
+import SimplifiedTrack from "./structures/SimplifiedTrack";
+
+export const Structures = {
+    Track: TrackStructure,
+    Album: AlbumStructure,
+    Artist: ArtistStructure,
+    Episode: EpisodeStructure,
+    Playlist: PlaylistStructure,
+    Show: ShowStructure,
+    PlaylistOwner,
+    PlaylistTrack,
+    PublicUser,
+    LinkedTrack,
+    SimplifiedAlbum,
+    SimplifiedArtist,
+    SimplifiedEpisode,
+    SimplifiedPlaylist,
+    SimplifiedShow,
+    SimplifiedTrack
 };
   
-export default { 
-    version, 
-    Client,
-    Auth,
-    User,
-    Playlist,
-    Track,
-    Album,
-    Artist,
-    Episode,
-    Show,
-    Browse,
-    UserClient,
-    UserPlayer,
-    Util: Spotify
-};
+export default Client;
