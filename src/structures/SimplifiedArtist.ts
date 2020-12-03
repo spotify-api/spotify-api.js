@@ -3,7 +3,7 @@
  */
 
 import Util from '../Spotify';
-import { CodeImageReturn } from './Interface';
+import { CodeImageReturn, DominantColor } from './Interface';
 
 const util = new Util();
 
@@ -18,6 +18,8 @@ class SimplifiedArtist {
     name: string;
     type: string;
     uri: string;
+    codeImage?: string;
+    dominantColor?: DominantColor;
 
     /**
      * **Example:**

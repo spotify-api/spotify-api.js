@@ -73,12 +73,11 @@ class Album extends Spotify {
      * ```
      * 
      * @param id Id of the album
+     * @param options Only advanced options
      */
     async get(
         id: string,
-        options: {
-            advanced?: boolean
-        } = {}
+        options: { advanced?: boolean } = {}
     ): Promise<AlbumStructure> {
 
         return new Promise(async (resolve, reject) => {

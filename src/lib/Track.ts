@@ -28,7 +28,7 @@ class Track extends Spotify {
     async search(
         q: string,
         options: {
-            limit?: null | string | number;
+            limit?: number;
             advanced?: boolean;
             params?: any;
         } = {
@@ -76,21 +76,49 @@ class Track extends Spotify {
      * ```
      * 
      * @param id Id of the track
+     * @param options Options such as advanced
      */
-    async get(id: string): Promise<TrackStructure> {
+    async get(
+        id: string,
+        options: { advanced?: boolean } = {}
+    ): Promise<TrackStructure> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
-            try {
+            try{
                 const data = new TrackStructure(await this.fetch({ link: `v1/tracks/${id}`, }));
 
-                const codeImage = await this.getCodeImage(data.uri);
-                data.codeImage = codeImage.image;
-                data.dominantColor = codeImage.dominantColor;
+                if(options.advanced) {
+                    const codeImage = await this.getCodeImage(data.uri);
+                    data.codeImage = codeImage.image;
+                    data.dominantColor = codeImage.dominantColor;
+                };
 
                 resolve(data);
-            } catch (e) {
+            }catch(e){
+                reject(new UnexpectedError(e));
+            };
+        });
+
+    };
+
+    /**
+     * **Example:**
+     * ```js
+     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
+     * ```
+     * 
+     * @param id Id of the track
+     */
+    async audioFeatures(id: string): Promise<TrackAudioFeatures> {
+
+        return new Promise(async (resolve, reject) => {
+            if(!id) reject(new MissingParamError("missing id"));
+
+            try{
+                resolve(await this.fetch({ link: `v1/audio-features/${id}` }));
+            }catch(e){
                 reject(new UnexpectedError(e));
             }
         });
@@ -101,28 +129,6 @@ class Track extends Spotify {
      * **Example:**
      * ```js
      * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
-     * ```
-     * 
-     * @param id Id of the track
-     */
-    async audioFeatures(id: string): Promise<TrackAudioFeatures> {
-
-        return new Promise(async (resolve, reject) => {
-            if (!id) reject(new MissingParamError("missing id"));
-
-            try {
-                resolve(await this.fetch({ link: `v1/audio-features/${id}` }));
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
-
-    };
-
-    /**
-     * **Example:**
-     * ```js
-     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
      * ```
      * 
      * @param id Id of the track

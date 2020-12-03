@@ -2,8 +2,11 @@
  * Artist lib file
  */
 
+import Track from "../structures/Track";
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import ArtistStructure from "../structures/Artist";
+import SimplifiedAlbum from "../structures/SimplifiedAlbum";
 
 /**
  * Class of all methods related to artists
@@ -21,19 +24,21 @@ class Artist extends Spotify {
      * ```
      *
      * @param q Your search query
-     * @param options Options to configure your search
+     * @param options Options such as limit, advanced as params
      */
     async search(
         q: string,
-        options?: {
-            limit?: null | string | number;
+        options: {
+            limit?: number;
             advanced?: boolean;
+            params?: any;
+        } = {
+            limit: 20
         }
-    ): Promise<any> {
+    ): Promise<ArtistStructure[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!q) reject(new MissingParamError("missing query"));
-            if (!options) options = {};
 
             try {
                 const res = await this.fetch({
@@ -42,11 +47,12 @@ class Artist extends Spotify {
                         q: encodeURIComponent(q),
                         type: "artist",
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
+                        ...options.params
                     },
                 });
 
-                let items = res.artists.items;
+                let items = res.artists.items.map(x => new ArtistStructure(x));
 
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
@@ -72,19 +78,22 @@ class Artist extends Spotify {
      * 
      * @param id Id of the artist
      */
-    async get(id: string): Promise<any> {
+    async get(
+        id: string,
+        options: { advanced?: boolean } = {}
+    ): Promise<ArtistStructure> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                const data = await this.fetch({
-                    link: `v1/artists/${id}`,
-                });
+                const data = new ArtistStructure(await this.fetch({ link: `v1/artists/${id}` }));
 
-                const codeImage = await this.getCodeImage(data.uri);
-                data.codeImage = codeImage.image;
-                data.dominantColor = codeImage.dominantColor;
+                if(options.advanced) {
+                    const codeImage = await this.getCodeImage(data.uri);
+                    data.codeImage = codeImage.image;
+                    data.dominantColor = codeImage.dominantColor;
+                };
 
                 resolve(data);
             } catch (e) {
@@ -104,27 +113,30 @@ class Artist extends Spotify {
      */
     async getAlbums(
         id: string,
-        options?: {
-            limit?: null | string | number;
+        options: {
+            limit?: number;
             advanced?: boolean;
+            params?: any;
+        } = {
+            limit: 20
         }
-    ): Promise<any> {
+    ): Promise<SimplifiedAlbum[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
-            if (!options) options = {};
 
             try {
                 const res = await this.fetch({
                     link: `v1/artists/${id}/albums`,
                     params: {
-                        limit: options.limit || 20,
+                        limit: options.limit,
                         market: "US",
                         include_groups: "single",
+                        ...options.params
                     },
                 });
 
-                let items = res.items;
+                let items = res.items.map(x => new SimplifiedAlbum(x));
 
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
@@ -153,25 +165,25 @@ class Artist extends Spotify {
      */
     async topTracks(
         id: string,
-        options?: {
-            limit?: null | string | number;
+        options: {
             advanced?: boolean;
-        }
-    ): Promise<any> {
+            params?: any;
+        } = {}
+    ): Promise<Track[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
-            if (!options) options = {};
 
             try {
                 const res = await this.fetch({
                     link: `v1/artists/${id}/top-tracks`,
                     params: {
                         country: "US",
+                        ...options.params
                     },
                 });
 
-                let items = res.tracks;
+                let items = res.tracks.map(x => new Track(x));
 
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
@@ -200,14 +212,14 @@ class Artist extends Spotify {
      */
     async relatedArtists(
         id: string,
-        options?: {
+        options: {
             advanced?: boolean;
-        }
-    ): Promise<any> {
+            params?: any;
+        } = {}
+    ): Promise<ArtistStructure[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
-            if (!options) options = {};
 
             try {
                 const res = await this.fetch({
@@ -217,7 +229,7 @@ class Artist extends Spotify {
                     },
                 });
 
-                let items = res.artists;
+                let items = res.artists.map(x => new ArtistStructure(x));
 
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {

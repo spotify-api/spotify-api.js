@@ -9,7 +9,7 @@ import { Category, FeaturedPlaylistReturn } from "../structures/Interface";
 import SimplifiedAlbum from "../structures/SimplifiedAlbum";
 
 /**
- * Class of all methods related to browse enpoints
+ * Class of all methods related to browse endpoints
  */
 class Browse extends Spotify{
 
@@ -79,7 +79,7 @@ class Browse extends Spotify{
 
     /**
      * Get list of all categories
-     * @param limit Limit of your results
+     * @param options option object such as limit and params
      */
     async categories(
         options: {
@@ -110,7 +110,7 @@ class Browse extends Spotify{
 
     /**
      * Get list of all featured playlists
-     * @param limit Limit of results
+     * @param options Option object such as limit, advanced and params
      */
     async featuredPlaylists(
         options: {
@@ -145,7 +145,7 @@ class Browse extends Spotify{
 
     /**
      * Get list of all new releases
-     * @param limit Limit of results
+     * @param options options object such as limit advanced and params
      */
     async newReleases(
         options: {

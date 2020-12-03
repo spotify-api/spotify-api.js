@@ -25,7 +25,6 @@ class User extends Spotify {
         return new Promise(async (resolve, reject) => {
             try {
                 if(!id) reject(new MissingParamError("missing id to fetch user"));
-                
                 resolve(new PublicUser(await this.fetch({ link: `v1/users/${id}` })));
             } catch (e) {
                 reject(new UnexpectedError(e));

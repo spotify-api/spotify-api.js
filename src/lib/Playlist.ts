@@ -65,7 +65,7 @@ class Playlist extends Spotify {
     ): Promise<PlaylistTrack[]> {
 
         return new Promise(async (resolve, reject) => {
-            if (!id) reject(new MissingParamError("missing id"));
+            if(!id) reject(new MissingParamError("missing id"));
 
             try {
                 const res = await this.fetch({
@@ -73,6 +73,7 @@ class Playlist extends Spotify {
                     params: {
                         market: "US",
                         limit: options.limit,
+                        ...options.params
                     },
                 });
 
@@ -108,38 +109,7 @@ class Playlist extends Spotify {
         });
 
     };
-
-    /**
-     * **Example:**
-     * ```js
-     * const follows = await spotify.playlists.follows('playlistId', 'userId') // Check if a user or users follow a playlist
-     * ```
-     * 
-     * @param id Id of the playlist
-     * @param userIds List of user id
-     */
-    async follows(id: string, userIds: string[] | string): Promise<any> {
-
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing playlist id'));
-                if(!userIds || !Array.isArray(userIds)) reject(new MissingParamError('missing user ids'));
-
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/playlists/${id}/followers/contains`,
-                        params: {
-                            ids: (Array.isArray(userIds) ? userIds.join(',') : userIds)
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
-
-    };
-
+    
 };
 
 export default Playlist;
