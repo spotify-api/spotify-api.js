@@ -22,7 +22,7 @@ declare class Track extends Spotify {
      * @param options Options to configure your search...
      */
     search(q: string, options?: {
-        limit?: null | string | number;
+        limit?: number;
         advanced?: boolean;
         params?: any;
     }): Promise<TrackStructure[]>;
@@ -33,12 +33,15 @@ declare class Track extends Spotify {
      * ```
      *
      * @param id Id of the track
+     * @param options Options such as advanced
      */
-    get(id: string): Promise<TrackStructure>;
+    get(id: string, options?: {
+        advanced?: boolean;
+    }): Promise<TrackStructure>;
     /**
      * **Example:**
      * ```js
-     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
+     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
      * ```
      *
      * @param id Id of the track
@@ -47,7 +50,7 @@ declare class Track extends Spotify {
     /**
      * **Example:**
      * ```js
-     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
+     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
      * ```
      *
      * @param id Id of the track

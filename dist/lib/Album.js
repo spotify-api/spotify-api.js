@@ -64,6 +64,7 @@ class Album extends Spotify_1.default {
      * ```
      *
      * @param id Id of the album
+     * @param options Only advanced options
      */
     async get(id, options = {}) {
         return new Promise(async (resolve, reject) => {

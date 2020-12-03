@@ -61,6 +61,7 @@ class Playlist extends Spotify_1.default {
                     params: {
                         market: "US",
                         limit: options.limit,
+                        ...options.params
                     },
                 });
                 resolve(res.items.map(x => new PlaylistUtils_1.PlaylistTrack(x)));
@@ -86,36 +87,6 @@ class Playlist extends Spotify_1.default {
                     reject(new Error_1.MissingParamError('missing playlist id'));
                 resolve(await this.fetch({
                     link: `v1/playlists/${id}/images`
-                }));
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-            ;
-        });
-    }
-    ;
-    /**
-     * **Example:**
-     * ```js
-     * const follows = await spotify.playlists.follows('playlistId', 'userId') // Check if a user or users follow a playlist
-     * ```
-     *
-     * @param id Id of the playlist
-     * @param userIds List of user id
-     */
-    async follows(id, userIds) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                if (!id)
-                    reject(new Error_1.MissingParamError('missing playlist id'));
-                if (!userIds || !Array.isArray(userIds))
-                    reject(new Error_1.MissingParamError('missing user ids'));
-                resolve(await this.fetch({
-                    link: `v1/me/playlists/${id}/followers/contains`,
-                    params: {
-                        ids: (Array.isArray(userIds) ? userIds.join(',') : userIds)
-                    }
                 }));
             }
             catch (e) {

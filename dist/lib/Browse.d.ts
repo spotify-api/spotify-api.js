@@ -6,7 +6,7 @@ import SimplifiedPlaylist from "../structures/SimplifiedPlaylist";
 import { Category, FeaturedPlaylistReturn } from "../structures/Interface";
 import SimplifiedAlbum from "../structures/SimplifiedAlbum";
 /**
- * Class of all methods related to browse enpoints
+ * Class of all methods related to browse endpoints
  */
 declare class Browse extends Spotify {
     /**
@@ -26,7 +26,7 @@ declare class Browse extends Spotify {
     }): Promise<SimplifiedPlaylist[]>;
     /**
      * Get list of all categories
-     * @param limit Limit of your results
+     * @param options option object such as limit and params
      */
     categories(options?: {
         limit?: number;
@@ -34,7 +34,7 @@ declare class Browse extends Spotify {
     }): Promise<Category[]>;
     /**
      * Get list of all featured playlists
-     * @param limit Limit of results
+     * @param options Option object such as limit, advanced and params
      */
     featuredPlaylists(options?: {
         limit?: number;
@@ -43,7 +43,7 @@ declare class Browse extends Spotify {
     }): Promise<FeaturedPlaylistReturn>;
     /**
      * Get list of all new releases
-     * @param limit Limit of results
+     * @param options options object such as limit advanced and params
      */
     newReleases(options?: {
         limit?: number;

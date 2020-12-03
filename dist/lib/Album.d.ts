@@ -30,6 +30,7 @@ declare class Album extends Spotify {
      * ```
      *
      * @param id Id of the album
+     * @param options Only advanced options
      */
     get(id: string, options?: {
         advanced?: boolean;

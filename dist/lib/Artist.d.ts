@@ -1,7 +1,10 @@
 /**
  * Artist lib file
  */
+import Track from "../structures/Track";
 import Spotify from "../Spotify";
+import ArtistStructure from "../structures/Artist";
+import SimplifiedAlbum from "../structures/SimplifiedAlbum";
 /**
  * Class of all methods related to artists
  */
@@ -17,12 +20,13 @@ declare class Artist extends Spotify {
      * ```
      *
      * @param q Your search query
-     * @param options Options to configure your search
+     * @param options Options such as limit, advanced as params
      */
     search(q: string, options?: {
-        limit?: null | string | number;
+        limit?: number;
         advanced?: boolean;
-    }): Promise<any>;
+        params?: any;
+    }): Promise<ArtistStructure[]>;
     /**
      * **Example:**
      * ```js
@@ -31,7 +35,9 @@ declare class Artist extends Spotify {
      *
      * @param id Id of the artist
      */
-    get(id: string): Promise<any>;
+    get(id: string, options?: {
+        advanced?: boolean;
+    }): Promise<ArtistStructure>;
     /**
      * **Example:**
      * ```js
@@ -41,9 +47,10 @@ declare class Artist extends Spotify {
      * @param options Options to configure your search
      */
     getAlbums(id: string, options?: {
-        limit?: null | string | number;
+        limit?: number;
         advanced?: boolean;
-    }): Promise<any>;
+        params?: any;
+    }): Promise<SimplifiedAlbum[]>;
     /**
      * **Example:**
      * ```js
@@ -54,9 +61,9 @@ declare class Artist extends Spotify {
      * @param options Options to configure your search
      */
     topTracks(id: string, options?: {
-        limit?: null | string | number;
         advanced?: boolean;
-    }): Promise<any>;
+        params?: any;
+    }): Promise<Track[]>;
     /**
      * **Example:**
      * ```js
@@ -68,6 +75,7 @@ declare class Artist extends Spotify {
      */
     relatedArtists(id: string, options?: {
         advanced?: boolean;
-    }): Promise<any>;
+        params?: any;
+    }): Promise<ArtistStructure[]>;
 }
 export default Artist;

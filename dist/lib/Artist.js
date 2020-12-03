@@ -6,8 +6,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const Track_1 = __importDefault(require("../structures/Track"));
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
+const Artist_1 = __importDefault(require("../structures/Artist"));
+const SimplifiedAlbum_1 = __importDefault(require("../structures/SimplifiedAlbum"));
 /**
  * Class of all methods related to artists
  */
@@ -23,14 +26,14 @@ class Artist extends Spotify_1.default {
      * ```
      *
      * @param q Your search query
-     * @param options Options to configure your search
+     * @param options Options such as limit, advanced as params
      */
-    async search(q, options) {
+    async search(q, options = {
+        limit: 20
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!q)
                 reject(new Error_1.MissingParamError("missing query"));
-            if (!options)
-                options = {};
             try {
                 const res = await this.fetch({
                     link: `v1/search`,
@@ -38,10 +41,11 @@ class Artist extends Spotify_1.default {
                         q: encodeURIComponent(q),
                         type: "artist",
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
+                        ...options.params
                     },
                 });
-                let items = res.artists.items;
+                let items = res.artists.items.map(x => new Artist_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
                         let data = await this.getCodeImage(items[i].uri);
@@ -65,17 +69,18 @@ class Artist extends Spotify_1.default {
      *
      * @param id Id of the artist
      */
-    async get(id) {
+    async get(id, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                const data = await this.fetch({
-                    link: `v1/artists/${id}`,
-                });
-                const codeImage = await this.getCodeImage(data.uri);
-                data.codeImage = codeImage.image;
-                data.dominantColor = codeImage.dominantColor;
+                const data = new Artist_1.default(await this.fetch({ link: `v1/artists/${id}` }));
+                if (options.advanced) {
+                    const codeImage = await this.getCodeImage(data.uri);
+                    data.codeImage = codeImage.image;
+                    data.dominantColor = codeImage.dominantColor;
+                }
+                ;
                 resolve(data);
             }
             catch (e) {
@@ -91,22 +96,23 @@ class Artist extends Spotify_1.default {
      * @param id Id of the artist
      * @param options Options to configure your search
      */
-    async getAlbums(id, options) {
+    async getAlbums(id, options = {
+        limit: 20
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
-            if (!options)
-                options = {};
             try {
                 const res = await this.fetch({
                     link: `v1/artists/${id}/albums`,
                     params: {
-                        limit: options.limit || 20,
+                        limit: options.limit,
                         market: "US",
                         include_groups: "single",
+                        ...options.params
                     },
                 });
-                let items = res.items;
+                let items = res.items.map(x => new SimplifiedAlbum_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
                         let data = await this.getCodeImage(items[i].uri);
@@ -130,20 +136,19 @@ class Artist extends Spotify_1.default {
      * @param id Id of the artist
      * @param options Options to configure your search
      */
-    async topTracks(id, options) {
+    async topTracks(id, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
-            if (!options)
-                options = {};
             try {
                 const res = await this.fetch({
                     link: `v1/artists/${id}/top-tracks`,
                     params: {
                         country: "US",
+                        ...options.params
                     },
                 });
-                let items = res.tracks;
+                let items = res.tracks.map(x => new Track_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
                         let data = await this.getCodeImage(items[i].uri);
@@ -168,12 +173,10 @@ class Artist extends Spotify_1.default {
      * @param id Id of the artist
      * @param options Options to configure your search
      */
-    async relatedArtists(id, options) {
+    async relatedArtists(id, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
-            if (!options)
-                options = {};
             try {
                 const res = await this.fetch({
                     link: `v1/artists/${id}/related-artists`,
@@ -181,7 +184,7 @@ class Artist extends Spotify_1.default {
                         country: "US",
                     },
                 });
-                let items = res.artists;
+                let items = res.artists.map(x => new Artist_1.default(x));
                 if (options.advanced) {
                     for (let i = 0; i < items.length; i++) {
                         let data = await this.getCodeImage(items[i].uri);

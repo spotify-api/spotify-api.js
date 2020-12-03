@@ -11,7 +11,7 @@ const Spotify_1 = __importDefault(require("../Spotify"));
 const SimplifiedPlaylist_1 = __importDefault(require("../structures/SimplifiedPlaylist"));
 const SimplifiedAlbum_1 = __importDefault(require("../structures/SimplifiedAlbum"));
 /**
- * Class of all methods related to browse enpoints
+ * Class of all methods related to browse endpoints
  */
 class Browse extends Spotify_1.default {
     /**
@@ -72,7 +72,7 @@ class Browse extends Spotify_1.default {
     ;
     /**
      * Get list of all categories
-     * @param limit Limit of your results
+     * @param options option object such as limit and params
      */
     async categories(options = {
         limit: 20
@@ -97,7 +97,7 @@ class Browse extends Spotify_1.default {
     ;
     /**
      * Get list of all featured playlists
-     * @param limit Limit of results
+     * @param options Option object such as limit, advanced and params
      */
     async featuredPlaylists(options = {
         limit: 20
@@ -125,7 +125,7 @@ class Browse extends Spotify_1.default {
     ;
     /**
      * Get list of all new releases
-     * @param limit Limit of results
+     * @param options options object such as limit advanced and params
      */
     async newReleases(options = {
         limit: 20

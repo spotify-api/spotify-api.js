@@ -68,28 +68,33 @@ class Track extends Spotify_1.default {
      * ```
      *
      * @param id Id of the track
+     * @param options Options such as advanced
      */
-    async get(id) {
+    async get(id, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
                 const data = new Track_1.default(await this.fetch({ link: `v1/tracks/${id}`, }));
-                const codeImage = await this.getCodeImage(data.uri);
-                data.codeImage = codeImage.image;
-                data.dominantColor = codeImage.dominantColor;
+                if (options.advanced) {
+                    const codeImage = await this.getCodeImage(data.uri);
+                    data.codeImage = codeImage.image;
+                    data.dominantColor = codeImage.dominantColor;
+                }
+                ;
                 resolve(data);
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
             }
+            ;
         });
     }
     ;
     /**
      * **Example:**
      * ```js
-     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
+     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
      * ```
      *
      * @param id Id of the track
@@ -110,7 +115,7 @@ class Track extends Spotify_1.default {
     /**
      * **Example:**
      * ```js
-     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
+     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
      * ```
      *
      * @param id Id of the track

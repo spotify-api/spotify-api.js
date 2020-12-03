@@ -1,7 +1,7 @@
 /**
  * Simplified artist structure
  */
-import { CodeImageReturn } from './Interface';
+import { CodeImageReturn, DominantColor } from './Interface';
 /**
  * SimplifiedArtist Class
  */
@@ -12,6 +12,8 @@ declare class SimplifiedArtist {
     name: string;
     type: string;
     uri: string;
+    codeImage?: string;
+    dominantColor?: DominantColor;
     /**
      * **Example:**
      *

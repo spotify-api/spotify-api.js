@@ -41,15 +41,5 @@ declare class Playlist extends Spotify {
      * @param id Playlist id
      */
     getCoverImage(id: string): Promise<Image[]>;
-    /**
-     * **Example:**
-     * ```js
-     * const follows = await spotify.playlists.follows('playlistId', 'userId') // Check if a user or users follow a playlist
-     * ```
-     *
-     * @param id Id of the playlist
-     * @param userIds List of user id
-     */
-    follows(id: string, userIds: string[] | string): Promise<any>;
 }
 export default Playlist;
