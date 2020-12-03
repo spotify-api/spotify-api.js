@@ -170,5 +170,55 @@ export default class {
         .then(x => callback(null, x))
         .catch(x => callback(x, null))
     };
+
+    /**
+     * **Example:**
+     * 
+     * ```js
+     * let uriInfo = await client.getByURI("spotify:album:0sNOF9WDwhWunNAHPD3Baj");
+     * ```
+     * 
+     * @param uri Uri
+     */
+    async getByURI(uri: string): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            let split = uri.split(':');
+            let id = split[2];
+
+            try{
+                switch(split[1]) {
+                    case 'album':
+                        resolve(await this.albums.get(id));
+                        break;
+                    
+                    case 'artist':
+                        resolve(await this.artists.get(id));
+                        break;
+
+                    case 'episode':
+                        resolve(await this.episodes.get(id));
+                        break;
+
+                    case 'show':
+                        resolve(await this.shows.get(id));
+                        break;
+
+                    case 'track':
+                        resolve(await this.shows.get(id));
+                        break;
+
+                    case 'user':
+                        resolve(await this.shows.get(id));
+                        break;
+
+                    default:
+                        reject(new UnexpectedError('We could not resolve your given uri!'))
+                };
+            }catch(e){
+                reject(new UnexpectedError(e));
+            };
+        });
+        
+    };
     
 };

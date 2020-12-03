@@ -88,4 +88,13 @@ export default class {
         params?: any;
         headers?: any;
     }, callback: (err: any, data: any) => void): void;
+    /**
+     * **Example:**
+     * ```js
+     * let uriInfo = await client.getByURI("spotify:album:0sNOF9WDwhWunNAHPD3Baj");
+     * ```
+     *
+     * @param uri Uri
+     */
+    getByURI(uri: string): Promise<any>;
 }
