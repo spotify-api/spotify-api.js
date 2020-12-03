@@ -24,19 +24,19 @@ class Album extends Spotify_1.default {
      * @param q Your query
      * @param options Options such as limit, advanced and params
      */
-    async search(q, options) {
+    async search(q, options = {
+        limit: 20
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!q)
                 throw new Error_1.MissingParamError("missing query!");
-            if (!options)
-                options = { limit: 20 };
             try {
                 const res = await this.fetch({
                     link: "v1/search",
                     params: {
                         q: encodeURIComponent(q),
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
                         type: "album",
                         ...options.params
                     },
@@ -65,17 +65,18 @@ class Album extends Spotify_1.default {
      *
      * @param id Id of the album
      */
-    async get(id) {
+    async get(id, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                let res = new Album_1.default(await this.fetch({
-                    link: `v1/albums/${id}`,
-                }));
-                let uri = await this.getCodeImage(res.uri);
-                res.codeImage = uri.image;
-                res.dominantColor = uri.dominantColor;
+                let res = new Album_1.default(await this.fetch({ link: `v1/albums/${id}`, }));
+                if (options.advanced) {
+                    let uri = await this.getCodeImage(res.uri);
+                    res.codeImage = uri.image;
+                    res.dominantColor = uri.dominantColor;
+                }
+                ;
                 resolve(res);
             }
             catch (e) {
@@ -93,12 +94,12 @@ class Album extends Spotify_1.default {
      * @param id Id of the song
      * @param options Options such as limit, advanced and params
      */
-    async getTracks(id, options) {
+    async getTracks(id, options = {
+        limit: 20
+    }) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id!"));
-            if (!options)
-                options = { limit: 20 };
             try {
                 const res = await this.fetch({
                     link: `v1/albums/${id}/tracks`,
@@ -131,4 +132,3 @@ class Album extends Spotify_1.default {
 }
 ;
 exports.default = Album;
-//# sourceMappingURL=Album.js.map

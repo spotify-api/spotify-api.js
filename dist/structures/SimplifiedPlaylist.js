@@ -3,8 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const PlaylistTrack_1 = __importDefault(require("./PlaylistTrack"));
-const PlaylistOwner_1 = __importDefault(require("./PlaylistOwner"));
+const PlaylistUtils_1 = require("./PlaylistUtils");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
 /**
@@ -29,7 +28,6 @@ class SimplifiedPlaylist {
         this.id = data.id;
         this.images = data.images;
         this.name = data.name;
-        this.owner = new PlaylistOwner_1.default(data.owner);
         this.primaryColor = data.primary_color;
         this.public = data.public;
         this.snapshotId = data.snapshot_id;
@@ -39,11 +37,19 @@ class SimplifiedPlaylist {
     }
     ;
     /**
+     * Owner object
+     * @readonly
+     */
+    get owner() {
+        return new PlaylistUtils_1.PlaylistOwner(this.data.owner);
+    }
+    ;
+    /**
      * Returns an array of simplified tracks
      * @readonly
      */
     get tracks() {
-        return this.data.tracks.items.map(x => new PlaylistTrack_1.default(x));
+        return this.data.tracks.items.map(x => new PlaylistUtils_1.PlaylistTrack(x));
     }
     ;
     /**
@@ -63,4 +69,3 @@ class SimplifiedPlaylist {
 }
 ;
 exports.default = SimplifiedPlaylist;
-//# sourceMappingURL=SimplifiedPlaylist.js.map

@@ -292,4 +292,3 @@ class UserPlayer extends Spotify_1.default {
 }
 ;
 exports.default = UserPlayer;
-//# sourceMappingURL=UserPlayer.js.map

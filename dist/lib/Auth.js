@@ -123,4 +123,3 @@ class Auth {
 }
 ;
 exports.default = Auth;
-//# sourceMappingURL=Auth.js.map

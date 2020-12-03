@@ -82,4 +82,3 @@ class Show extends Spotify_1.default {
 }
 ;
 exports.default = Show;
-//# sourceMappingURL=Show.js.map

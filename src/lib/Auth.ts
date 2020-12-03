@@ -42,10 +42,12 @@ class Auth {
      * 
      * @param options Your client id and client secret in object form
      */
-    async get(options: {
-        client_id: string;
-        client_secret: string;
-    }): Promise<string> {
+    async get(
+        options: {
+            client_id: string;
+            client_secret: string;
+        }
+    ): Promise<string> {
 
         return new Promise(async (resolve, reject) => {
             if (!options.client_id) reject(new MissingParamError("missing client id"));
@@ -114,6 +116,7 @@ class Auth {
                             ).toString("base64"),
                     },
                 });
+
                 resolve(data);
             } catch (e) {
                 reject(new UnexpectedError(e));
@@ -127,11 +130,13 @@ class Auth {
      * 
      * @param options Your client id, redirect uri and scopes in object form
      */
-    build(options: {
-        client_id: string;
-        redirect_uri: string;
-        scopes?: string;
-    }): string {
+    build(
+        options: {
+            client_id: string;
+            redirect_uri: string;
+            scopes?: string;
+        }
+    ): string {
 
         if (!options.client_id) throw new MissingParamError("missing client id");
         if (!options.redirect_uri) throw new MissingParamError("missing redirect uri");

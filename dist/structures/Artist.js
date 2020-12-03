@@ -16,4 +16,3 @@ class Artist extends SimplifiedArtist_1.default {
 }
 ;
 exports.default = Artist;
-//# sourceMappingURL=Artist.js.map

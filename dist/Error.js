@@ -47,4 +47,3 @@ class UnexpectedError extends Error {
 }
 exports.UnexpectedError = UnexpectedError;
 ;
-//# sourceMappingURL=Error.js.map

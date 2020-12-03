@@ -14,6 +14,7 @@ import Browse from './lib/Browse';
 
 import Spotify from './Spotify';
 import UserClient from './UserClient';
+import { SearchReturn } from "./structures/Interface";
 
 import { MissingParamError, UnexpectedError } from './Error';
 
@@ -102,7 +103,7 @@ export default class {
     /**
      * **Example:**
      * ```js
-     * const search = await client.search('search', { limit: 10, search: ['track'] });
+     * const search = await client.search('search', { limit: 10, type: ['track'] });
      * ```
      * 
      * @param q Query
@@ -113,13 +114,11 @@ export default class {
         options: {
             limit?: number;
             type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[];
-        } = {
-            type: ['track', 'album', 'artist', 'playlist', 'show', 'episode']
-        }
+        } = {}
     ): Promise<any> {
         return new Promise(async (resolve, reject) => {
             if(!q) reject(new MissingParamError('missing query'));
-            if(!Array.isArray(options.type)) options.type = ['track', 'artist', 'album'];
+            if(!options.type) options.type = ['track', 'album', 'artist', 'playlist', 'show', 'episode'];
 
             try{
                 resolve(

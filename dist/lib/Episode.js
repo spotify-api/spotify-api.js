@@ -38,4 +38,3 @@ class Episode extends Spotify_1.default {
 }
 ;
 exports.default = Episode;
-//# sourceMappingURL=Episode.js.map

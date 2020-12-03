@@ -86,4 +86,3 @@ class Album {
 }
 ;
 exports.default = Album;
-//# sourceMappingURL=Album.js.map

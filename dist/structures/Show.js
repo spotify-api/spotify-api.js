@@ -64,4 +64,3 @@ class Show {
 }
 exports.default = Show;
 ;
-//# sourceMappingURL=Show.js.map

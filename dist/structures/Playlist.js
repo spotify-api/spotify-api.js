@@ -6,7 +6,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const PlaylistTrack_1 = __importDefault(require("../structures/PlaylistTrack"));
+const PlaylistUtils_1 = require("./PlaylistUtils");
 const PublicUser_1 = __importDefault(require("./PublicUser"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
@@ -33,7 +33,6 @@ class Playlist {
         this.id = data.id;
         this.images = data.images;
         this.name = data.name;
-        this.owner = new PublicUser_1.default(data.owner);
         this.public = data.public;
         this.snapshotId = data.snapshot_id;
         this.type = data.type;
@@ -42,11 +41,19 @@ class Playlist {
     }
     ;
     /**
+     * Owner user object
+     * @readonly
+     */
+    get owner() {
+        return new PublicUser_1.default(this.data.owner);
+    }
+    ;
+    /**
      * Returns the array of playlist tracks
      * @readonly
      */
     get tracks() {
-        return this.data.tracks.items.map(x => new PlaylistTrack_1.default(x));
+        return this.data.tracks.items.map(x => new PlaylistUtils_1.PlaylistTrack(x));
     }
     ;
     /**
@@ -66,4 +73,3 @@ class Playlist {
 }
 exports.default = Playlist;
 ;
-//# sourceMappingURL=Playlist.js.map

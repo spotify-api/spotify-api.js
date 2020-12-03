@@ -4,7 +4,7 @@
 import Spotify from "../Spotify";
 import { Image } from "../structures/Interface";
 import PlaylistStructure from "../structures/Playlist";
-import PlaylistTrack from "../structures/PlaylistTrack";
+import { PlaylistTrack } from "../structures/PlaylistUtils";
 /**
  * Class of all methods related to playlists
  */

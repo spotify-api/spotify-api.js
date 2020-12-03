@@ -1,7 +1,7 @@
 /**
  * Playlist class
  */
-import PlaylistTrack from "../structures/PlaylistTrack";
+import { PlaylistTrack } from "./PlaylistUtils";
 import { CodeImageReturn } from "./Interface";
 import PublicUser from "./PublicUser";
 /**
@@ -17,8 +17,7 @@ export default class Playlist {
     id: string;
     images: any[];
     name: string;
-    owner: PublicUser;
-    public: Boolean | null;
+    public: boolean | null;
     snapshotId: string;
     type: string;
     uri: string;
@@ -33,6 +32,11 @@ export default class Playlist {
      * @param data Received raw data from the spotify api
      */
     constructor(data: any);
+    /**
+     * Owner user object
+     * @readonly
+     */
+    get owner(): PublicUser;
     /**
      * Returns the array of playlist tracks
      * @readonly

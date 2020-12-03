@@ -136,3 +136,22 @@ export interface TrackAudioAnalysis{
         rhythm_version: number;
     };
 };
+
+export interface Paging<T>{
+    href: string;
+    items: T[];
+    limit: number;
+    next: string | null;
+    previous: string | null;
+    offset: number;
+    total: number;
+};
+
+export interface SearchReturn{
+    artists?: Paging<any>;
+    albums?: Paging<any>;
+    tracks?: Paging<any>;
+    shows?: Paging<any>;
+    episodes?: Paging<any>;
+    playlists?: Paging<any>;
+};

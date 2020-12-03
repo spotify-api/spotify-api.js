@@ -3,7 +3,6 @@ node_modules/
 
 # Testings
 test/
-index.js
 types/
 
 # Lock folder

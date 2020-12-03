@@ -80,4 +80,3 @@ class User extends Spotify_1.default {
 }
 ;
 exports.default = User;
-//# sourceMappingURL=User.js.map

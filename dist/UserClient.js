@@ -774,4 +774,3 @@ class UserClient extends Spotify_1.default {
 }
 ;
 exports.default = UserClient;
-//# sourceMappingURL=UserClient.js.map

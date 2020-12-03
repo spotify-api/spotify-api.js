@@ -19,7 +19,6 @@ declare class Episode {
     name: string;
     releaseDate: string;
     releaseDatePrecision: string;
-    show: SimplifiedShow;
     type: string;
     uri: string;
     resumePoint?: ResumePoint;
@@ -35,6 +34,11 @@ declare class Episode {
      * @param data Received raw data from the spotify api
      */
     constructor(data: any);
+    /**
+     * Show object
+     * @readonly
+     */
+    get show(): SimplifiedShow;
     /**
      * Returns the code image with dominant color
      */

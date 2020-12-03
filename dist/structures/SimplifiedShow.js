@@ -57,4 +57,3 @@ class SimplifiedShow {
 }
 ;
 exports.default = SimplifiedShow;
-//# sourceMappingURL=SimplifiedShow.js.map

@@ -2,8 +2,7 @@
  * SimplifiedPlaylist Structure
  */
 import { DominantColor, Image, CodeImageReturn } from "./Interface";
-import PlaylistTrack from "./PlaylistTrack";
-import PlaylistOwner from "./PlaylistOwner";
+import { PlaylistTrack, PlaylistOwner } from "./PlaylistUtils";
 /**
  * SimplifiedPlaylist class
  */
@@ -16,7 +15,6 @@ declare class SimplifiedPlaylist {
     id: string;
     images: Image[];
     name: string;
-    owner: PlaylistOwner;
     primaryColor: any;
     public: boolean | null;
     snapshotId: string;
@@ -35,6 +33,11 @@ declare class SimplifiedPlaylist {
      * @param data Received raw data from the spotify api
      */
     constructor(data: any);
+    /**
+     * Owner object
+     * @readonly
+     */
+    get owner(): PlaylistOwner;
     /**
      * Returns an array of simplified tracks
      * @readonly

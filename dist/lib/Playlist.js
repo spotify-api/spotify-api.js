@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Playlist_1 = __importDefault(require("../structures/Playlist"));
-const PlaylistTrack_1 = __importDefault(require("../structures/PlaylistTrack"));
+const PlaylistUtils_1 = require("../structures/PlaylistUtils");
 /**
  * Class of all methods related to playlists
  */
@@ -63,7 +63,7 @@ class Playlist extends Spotify_1.default {
                         limit: options.limit,
                     },
                 });
-                resolve(res.items.map(x => new PlaylistTrack_1.default(x)));
+                resolve(res.items.map(x => new PlaylistUtils_1.PlaylistTrack(x)));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));
@@ -128,4 +128,3 @@ class Playlist extends Spotify_1.default {
 }
 ;
 exports.default = Playlist;
-//# sourceMappingURL=Playlist.js.map

@@ -19,7 +19,7 @@ declare class Album extends Spotify {
      * @param options Options such as limit, advanced and params
      */
     search(q: string, options?: {
-        limit?: string | null | number;
+        limit?: number;
         advanced?: boolean;
         params?: any;
     }): Promise<SimplifiedAlbum[]>;
@@ -31,7 +31,9 @@ declare class Album extends Spotify {
      *
      * @param id Id of the album
      */
-    get(id: string): Promise<AlbumStructure>;
+    get(id: string, options?: {
+        advanced?: boolean;
+    }): Promise<AlbumStructure>;
     /**
      * **Example:**
      * ```js

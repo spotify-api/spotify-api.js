@@ -76,4 +76,3 @@ class SimplifiedTrack {
 }
 ;
 exports.default = SimplifiedTrack;
-//# sourceMappingURL=SimplifiedTrack.js.map

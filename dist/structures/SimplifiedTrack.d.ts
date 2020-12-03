@@ -3,7 +3,7 @@
  */
 import Artist from './Artist';
 import { DominantColor, CodeImageReturn, Restriction } from './Interface';
-import LinkedTrack from "./LinkedTrack";
+import { LinkedTrack } from "./Track";
 /**
  * SimplifiedTrack Class
  */

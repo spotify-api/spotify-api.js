@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Episode Structure
  */
 const Spotify_1 = __importDefault(require("../Spotify"));
+const SimplifiedShow_1 = __importDefault(require("./SimplifiedShow"));
 const util = new Spotify_1.default();
 /**
  * Episode class
@@ -37,7 +38,6 @@ class Episode {
         this.name = data.name;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
-        this.show = data.show;
         this.type = data.type;
         this.uri = data.uri;
         if ('resume_point' in data) {
@@ -47,6 +47,14 @@ class Episode {
             };
         }
         ;
+    }
+    ;
+    /**
+     * Show object
+     * @readonly
+     */
+    get show() {
+        return new SimplifiedShow_1.default(this.data.show);
     }
     ;
     /**
@@ -74,4 +82,3 @@ class Episode {
 }
 ;
 exports.default = Episode;
-//# sourceMappingURL=Episode.js.map

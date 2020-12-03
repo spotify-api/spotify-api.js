@@ -85,20 +85,18 @@ class default_1 {
     /**
      * **Example:**
      * ```js
-     * const search = await client.search('search', { limit: 10, search: ['track'] });
+     * const search = await client.search('search', { limit: 10, type: ['track'] });
      * ```
      *
      * @param q Query
      * @param options Your options to selected
      */
-    async search(q, options = {
-        type: ['track', 'album', 'artist', 'playlist', 'show', 'episode']
-    }) {
+    async search(q, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!q)
                 reject(new Error_1.MissingParamError('missing query'));
-            if (!Array.isArray(options.type))
-                options.type = ['track', 'artist', 'album'];
+            if (!options.type)
+                options.type = ['track', 'album', 'artist', 'playlist', 'show', 'episode'];
             try {
                 resolve(await this.utils.fetch({
                     link: `v1/search`,
@@ -145,4 +143,3 @@ class default_1 {
 }
 exports.default = default_1;
 ;
-//# sourceMappingURL=Client.js.map

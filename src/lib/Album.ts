@@ -24,16 +24,17 @@ class Album extends Spotify {
      */
     async search(
         q: string,
-        options?: {
-            limit?: string | null | number;
+        options: {
+            limit?: number;
             advanced?: boolean;
             params?: any;
+        } = {
+            limit: 20
         }
     ): Promise<SimplifiedAlbum[]> {
 
         return new Promise(async (resolve, reject) => {
             if (!q) throw new MissingParamError("missing query!");
-            if(!options) options = { limit: 20 };
 
             try {
                 const res = await this.fetch({
@@ -41,7 +42,7 @@ class Album extends Spotify {
                     params: {
                         q: encodeURIComponent(q),
                         market: "US",
-                        limit: options.limit || 20,
+                        limit: options.limit,
                         type: "album",
                         ...options.params
                     },
@@ -73,21 +74,24 @@ class Album extends Spotify {
      * 
      * @param id Id of the album
      */
-    async get(id: string): Promise<AlbumStructure> {
+    async get(
+        id: string,
+        options: {
+            advanced?: boolean
+        } = {}
+    ): Promise<AlbumStructure> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
 
             try {
-                let res = new AlbumStructure(
-                    await this.fetch({
-                        link: `v1/albums/${id}`,
-                    })
-                );
+                let res = new AlbumStructure(await this.fetch({ link: `v1/albums/${id}`, }));
 
-                let uri = await this.getCodeImage(res.uri);
-                res.codeImage = uri.image;
-                res.dominantColor = uri.dominantColor;
+                if(options.advanced) {
+                    let uri = await this.getCodeImage(res.uri);
+                    res.codeImage = uri.image;
+                    res.dominantColor = uri.dominantColor;
+                };
 
                 resolve(res);
             } catch (e) {
@@ -108,16 +112,17 @@ class Album extends Spotify {
      */
     async getTracks(
         id: string,
-        options?: {
+        options: {
             limit?: string | null | number;
             advanced?: boolean;
             params?: any;
+        } = {
+            limit: 20
         }
     ): Promise<SimplifiedTrack[]> {
 
         return new Promise(async (resolve, reject) => {
             if(!id) reject(new MissingParamError("missing id!"));
-            if(!options) options = { limit: 20 };
 
             try {
                 const res = await this.fetch({

@@ -10,7 +10,6 @@ docs/
 
 # Testings
 test/
-index.js
 
 # Github only files
 .github/

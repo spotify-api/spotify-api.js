@@ -70,4 +70,3 @@ class SimplifiedAlbum {
 }
 ;
 exports.default = SimplifiedAlbum;
-//# sourceMappingURL=SimplifiedAlbum.js.map

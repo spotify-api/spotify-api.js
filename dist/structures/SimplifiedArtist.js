@@ -47,4 +47,3 @@ class SimplifiedArtist {
 }
 ;
 exports.default = SimplifiedArtist;
-//# sourceMappingURL=SimplifiedArtist.js.map

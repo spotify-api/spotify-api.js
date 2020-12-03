@@ -49,4 +49,3 @@ class PublicUser {
 }
 ;
 exports.default = PublicUser;
-//# sourceMappingURL=PublicUser.js.map

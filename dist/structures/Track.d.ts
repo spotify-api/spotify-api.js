@@ -1,11 +1,42 @@
+/**
+ * Track structure
+ */
 import { Restriction, CodeImageReturn, DominantColor } from "./Interface";
 import SimplifiedArtist from "./SimplifiedArtist";
-import LinkedTrack from "./LinkedTrack";
 import SimplifiedAlbum from "./SimplifiedAlbum";
+/**
+ * LinkedTrack Class
+ */
+export declare class LinkedTrack {
+    data: any;
+    externalUrls: any;
+    href: string;
+    id: string;
+    type: string;
+    uri: string;
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const track = new LinkedTrack(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     */
+    constructor(data: any);
+    /**
+     * Returns the code image with dominant color
+     */
+    getCodeImage(): Promise<CodeImageReturn>;
+    /**
+     * Returns the uri data
+     */
+    getURIData(): Promise<any>;
+}
 /**
  * Track class
  */
-declare class Track {
+export default class Track {
     data: any;
     availableMarkets: string[];
     discNumber: number;
@@ -56,4 +87,3 @@ declare class Track {
      */
     getURIData(): Promise<any>;
 }
-export default Track;

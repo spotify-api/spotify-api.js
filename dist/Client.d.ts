@@ -57,7 +57,7 @@ export default class {
     /**
      * **Example:**
      * ```js
-     * const search = await client.search('search', { limit: 10, search: ['track'] });
+     * const search = await client.search('search', { limit: 10, type: ['track'] });
      * ```
      *
      * @param q Query
