@@ -11,11 +11,25 @@ import Episode from './lib/Episode';
 import Show from './lib/Show';
 import Browse from './lib/Browse';
 import TrackStructure from './structures/Track';
+import EpisodeStructure from './structures/Episode';
+import ShowStructure from './structures/Show';
+import PlaylistStructure from './structures/Playlist';
+import ArtistStructure from './structures/Artist';
+import AlbumStructure from './structures/Album';
+import PublicUser from './structures/PublicUser';
+import { Category } from './structures/Interface';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 import CacheManager from './CacheManager';
-export interface CacheOptions {
+interface CacheOptions {
     cacheTracks?: boolean;
+    cacheUsers?: boolean;
+    cacheCategories?: boolean;
+    cacheEpisodes?: boolean;
+    cacheShows?: boolean;
+    cachePlaylists?: boolean;
+    cacheArtists?: boolean;
+    cacheAlbums?: boolean;
 }
 /**
  * **Client class**
@@ -39,6 +53,13 @@ export default class Client {
     user: UserClient;
     cache: {
         tracks: CacheManager<string, TrackStructure>;
+        users: CacheManager<string, PublicUser>;
+        categories: CacheManager<string, Category>;
+        episodes: CacheManager<string, EpisodeStructure>;
+        shows: CacheManager<string, ShowStructure>;
+        playlists: CacheManager<string, PlaylistStructure>;
+        artists: CacheManager<string, ArtistStructure>;
+        albums: CacheManager<string, AlbumStructure>;
     };
     /**
      * @param oauth Token
@@ -75,6 +96,7 @@ export default class Client {
     search(q: string, options?: {
         limit?: number;
         type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[];
+        params?: any;
     }): Promise<any>;
     /**
      * **Example:**
@@ -105,6 +127,8 @@ export default class Client {
      * ```
      *
      * @param uri Uri
+     * @param force If true then will directly fetch instead of searching cache
      */
-    getByURI(uri: string): Promise<any>;
+    getByURI(uri: string, force?: boolean): Promise<any>;
 }
+export {};

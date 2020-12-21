@@ -1,13 +1,16 @@
 /**
  * Show Structure
  */
-import { Copyright, DominantColor, Image, CodeImageReturn } from "./Interface";
-import SimplifiedEpisode from "./SimplifiedEpisode";
+import { Copyright, Image } from "./Interface";
+import Episode from './Episode';
+import Client from '../Client';
 /**
  * Show Structure
  */
 export default class Show {
-    data: any;
+    readonly data: any;
+    readonly client: Client;
+    readonly episodes: Episode[];
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -24,8 +27,6 @@ export default class Show {
     type: string;
     uri: string;
     totalEpisodes?: number;
-    codeImage?: string;
-    dominantColor?: DominantColor;
     /**
      * **Example:**
      *
@@ -34,19 +35,23 @@ export default class Show {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Spotify Client
      */
-    constructor(data: any);
+    constructor(data: any, client: Client);
     /**
-     * Returns the array of simplified episodes
-     * @readonly
+     * Returns a code image
+     * @param color Hex color code
      */
-    get episodes(): SimplifiedEpisode[];
+    makeCodeImage(color?: string): string;
     /**
-     * Returns the code image with dominant color
+     * Refreshes this show in cache
      */
-    getCodeImage(): Promise<CodeImageReturn>;
+    fetch(): Promise<Show>;
     /**
-     * Returns the uri data
+     * Returns the episodes by fetching!
+     *
+     * @param force If true, will directly fetch else will search for cache
+     * @param limit Limit of your results
      */
-    getURIData(): Promise<any>;
+    getEpisodes(force?: boolean, limit?: number): Promise<Episode[]>;
 }

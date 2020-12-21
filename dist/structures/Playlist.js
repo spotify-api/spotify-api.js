@@ -1,16 +1,53 @@
 "use strict";
-//@ts-nocheck
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Playlist class
- */
-const PlaylistUtils_1 = require("./PlaylistUtils");
+exports.PlaylistTrack = void 0;
 const PublicUser_1 = __importDefault(require("./PublicUser"));
+const Track_1 = __importDefault(require("./Track"));
+const Episode_1 = __importDefault(require("./Episode"));
 const Spotify_1 = __importDefault(require("../Spotify"));
-const util = new Spotify_1.default();
+class PlaylistTrack {
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const track = new PlaylistTrack(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     * @param client Spotify Client
+     */
+    constructor(data, client) {
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
+        this.addedAt = data.added_at;
+        this.local = data.is_local;
+    }
+    ;
+    /**
+     * Added by user object
+     * @readonly
+     */
+    get addedBy() {
+        if ('added_by' in this.data)
+            return new PublicUser_1.default(this.data.added_by, this.client);
+        else
+            return null;
+    }
+    ;
+    /**
+     * Full info of the track
+     * @readonly
+     */
+    get track() {
+        return this.data.track.description ? new Episode_1.default(this.data.track, this.client) : new Track_1.default(this.data.track, this.client);
+    }
+    ;
+}
+exports.PlaylistTrack = PlaylistTrack;
+;
 /**
  * Playlist structure
  */
@@ -24,8 +61,9 @@ class Playlist {
      *
      * @param data Received raw data from the spotify api
      */
-    constructor(data) {
+    constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
         this.collaborative = data.collaborative;
         this.description = data.description;
         this.externalUrls = data.external_urls;
@@ -46,7 +84,7 @@ class Playlist {
      * @readonly
      */
     get owner() {
-        return new PublicUser_1.default(this.data.owner);
+        return new PublicUser_1.default(this.data.owner, this.client);
     }
     ;
     /**
@@ -54,23 +92,22 @@ class Playlist {
      * @readonly
      */
     get tracks() {
-        return this.data.tracks.items.map(x => new PlaylistUtils_1.PlaylistTrack(x));
+        return this.data.tracks.items.map(x => new PlaylistTrack(x, this.client));
     }
     ;
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    async getCodeImage() {
-        return await util.getCodeImage(this.uri);
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-    ;
     /**
-     * Returns the uri data
+     * Returns a fresh playlist without searching in the cache!
      */
-    async getURIData() {
-        return await util.getURIData(this.uri);
+    async fetch() {
+        return await this.client.playlists.get(this.id, true);
     }
-    ;
 }
 exports.default = Playlist;
 ;

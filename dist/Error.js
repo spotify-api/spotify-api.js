@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnexpectedError = exports.MissingParamError = exports.UtilityError = void 0;
 class UtilityError extends Error {
     /**
-     * This error occurs on the uitlity side (Spotify.ts)
+     * This error occurs on the uitlity side
      *
      * @param message Error message
      */

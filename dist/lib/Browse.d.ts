@@ -1,19 +1,24 @@
 /**
  * Browsing lib file
  */
-import Spotify from "../Spotify";
-import SimplifiedPlaylist from "../structures/SimplifiedPlaylist";
 import { Category, FeaturedPlaylistReturn } from "../structures/Interface";
-import SimplifiedAlbum from "../structures/SimplifiedAlbum";
+import Spotify from "../Spotify";
+import Client from "../Client";
+import Playlist from "../structures/Playlist";
+import Album from "../structures/Album";
 /**
  * Class of all methods related to browse endpoints
  */
 declare class Browse extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * Get information about a category by id
+     *
      * @param id category id
+     * @param force If true, will fetch else will try to fetch from cache!
      */
-    getCategory(id: string): Promise<Category>;
+    getCategory(id: string, force?: boolean): Promise<Category>;
     /**
      * Returns all playlists of the category by id
      * @param id Id of the category
@@ -21,11 +26,11 @@ declare class Browse extends Spotify {
      */
     getCategoryPlaylists(id: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedPlaylist[]>;
+    }): Promise<Playlist[]>;
     /**
      * Get list of all categories
+     *
      * @param options option object such as limit and params
      */
     categories(options?: {
@@ -34,6 +39,7 @@ declare class Browse extends Spotify {
     }): Promise<Category[]>;
     /**
      * Get list of all featured playlists
+     *
      * @param options Option object such as limit, advanced and params
      */
     featuredPlaylists(options?: {
@@ -46,8 +52,7 @@ declare class Browse extends Spotify {
      */
     newReleases(options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedAlbum[]>;
+    }): Promise<Album[]>;
 }
 export default Browse;

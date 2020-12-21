@@ -1,10 +1,12 @@
 import Spotify from "../Spotify";
+import Client from "../Client";
 import EpisodeStructure from "../structures/Episode";
-import SimplifiedEpisode from "../structures/SimplifiedEpisode";
 /**
  * Class of all methods related to episode enpoints
  */
 declare class Episode extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * **Example:**
      * ```js
@@ -16,9 +18,8 @@ declare class Episode extends Spotify {
      */
     search(q: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedEpisode[]>;
+    }): Promise<EpisodeStructure[]>;
     /**
      * **Example:**
      * ```js
@@ -28,8 +29,6 @@ declare class Episode extends Spotify {
      * @param id Id of the episode
      * @param options Advanced option
      */
-    get(id: string, options?: {
-        advanced?: boolean;
-    }): Promise<EpisodeStructure>;
+    get(id: string, force?: boolean): Promise<EpisodeStructure>;
 }
 export default Episode;

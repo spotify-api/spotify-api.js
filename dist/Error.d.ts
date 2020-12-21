@@ -4,7 +4,7 @@
 declare class UtilityError extends Error {
     name: string;
     /**
-     * This error occurs on the uitlity side (Spotify.ts)
+     * This error occurs on the uitlity side
      *
      * @param message Error message
      */

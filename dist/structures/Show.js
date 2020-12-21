@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const SimplifiedEpisode_1 = __importDefault(require("./SimplifiedEpisode"));
+const Episode_1 = __importDefault(require("./Episode"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
 /**
@@ -18,9 +18,11 @@ class Show {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Spotify Client
      */
-    constructor(data) {
+    constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
         this.availableMarkets = data.available_markets;
         this.copyrights = data.copyrights;
         this.description = data.description;
@@ -37,30 +39,36 @@ class Show {
         this.type = data.type;
         this.uri = data.uri;
         this.totalEpisodes = data.total_episodes;
+        Object.defineProperty(this, 'episodes', { get: () => this.data.episodes ? this.data.episodes.items.map(x => new Episode_1.default(x, this.client)) : [] });
     }
-    ;
     /**
-     * Returns the array of simplified episodes
-     * @readonly
+     * Returns a code image
+     * @param color Hex color code
      */
-    get episodes() {
-        return this.data.episodes.items.map(x => new SimplifiedEpisode_1.default(x));
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-    ;
     /**
-     * Returns the code image with dominant color
+     * Refreshes this show in cache
      */
-    async getCodeImage() {
-        return await util.getCodeImage(this.uri);
+    async fetch() {
+        return await this.client.shows.get(this.id, true);
     }
-    ;
     /**
-     * Returns the uri data
+     * Returns the episodes by fetching!
+     *
+     * @param force If true, will directly fetch else will search for cache
+     * @param limit Limit of your results
      */
-    async getURIData() {
-        return await util.getURIData(this.uri);
+    async getEpisodes(force = false, limit = 20) {
+        if (!force) {
+            if (this.data.episodes)
+                return this.episodes;
+        }
+        const data = await this.client.shows.getEpisodes(this.id, { limit });
+        Object.defineProperty(this, 'episodes', { value: data });
+        return data;
     }
-    ;
 }
 exports.default = Show;
 ;

@@ -2,18 +2,20 @@
  * Episode Structure
  */
 import Util from '../Spotify';
-import SimplifiedShow from './SimplifiedShow';
-import { Image, DominantColor, ResumePoint, CodeImageReturn } from "./Interface";
+import Client from '../Client';
+import Show from './Show';
 
-const util = new Util();
+import { Image, ResumePoint } from "./Interface";
 
 /**
  * Episode class
  */
 class Episode {
 
-    data: any;
-    audioPreviewUrl: string;
+    readonly data: any;
+    readonly client: Client;
+
+    audioPreviewUrl: string | null;
     description: string;
     duration: number;
     explicit: boolean;
@@ -30,8 +32,6 @@ class Episode {
     type: string;
     uri: string;
     resumePoint?: ResumePoint;
-    codeImage?: string;
-    dominantColor?: DominantColor;
 
     /**
      * **Example:**
@@ -41,10 +41,12 @@ class Episode {
      * ```
      * 
      * @param data Received raw data from the spotify api
+     * @param client Spotify client
      */
-    constructor(data){
+    constructor(data: any, client: Client){
 
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
 
         this.audioPreviewUrl = data.audio_preview_url;
         this.description = data.description;
@@ -73,25 +75,19 @@ class Episode {
     };
 
     /**
+     * Returns a code image
+     * @param color Hex color code
+     */
+    makeCodeImage(color: string = '1DB954'): string {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
+
+    /**
      * Show object
      * @readonly
      */
-    get show(): SimplifiedShow {
-        return new SimplifiedShow(this.data.show);
-    };
-
-    /**
-     * Returns the code image with dominant color
-     */
-    async getCodeImage(): Promise<CodeImageReturn> {
-        return await util.getCodeImage(this.uri);
-    };
-
-    /**
-     * Returns the uri data
-     */
-    async getURIData(): Promise<any> {
-        return await util.getURIData(this.uri);
+    get show(): Show | null {
+        return this.data.show ? new Show(this.data.show, this.client) : null;
     };
 
     /**
@@ -100,6 +96,13 @@ class Episode {
      */
     get releasedAt(): Date {
         return new Date(this.releaseDate);
+    };
+
+    /**
+     * Refreshes the episode info
+     */
+    async fetch(): Promise<Episode> {
+        return await this.client.episodes.get(this.id, true);
     };
 
 };

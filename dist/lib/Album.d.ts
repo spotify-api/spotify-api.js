@@ -2,13 +2,15 @@
  * Album lib file
  */
 import Spotify from "../Spotify";
+import Client from "../Client";
 import AlbumStructure from '../structures/Album';
-import SimplifiedAlbum from "../structures/SimplifiedAlbum";
-import SimplifiedTrack from "../structures/SimplifiedTrack";
+import Track from "../structures/Track";
 /**
  * Class of all methods related to albums
  */
 declare class Album extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * **Example:**
      * ```js
@@ -20,9 +22,8 @@ declare class Album extends Spotify {
      */
     search(q: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedAlbum[]>;
+    }): Promise<Album[]>;
     /**
      * **Example:**
      * ```js
@@ -30,11 +31,9 @@ declare class Album extends Spotify {
      * ```
      *
      * @param id Id of the album
-     * @param options Only advanced options
+     * @param force If true then will directly fetch instead of searching cache
      */
-    get(id: string, options?: {
-        advanced?: boolean;
-    }): Promise<AlbumStructure>;
+    get(id: string, force?: boolean): Promise<AlbumStructure>;
     /**
      * **Example:**
      * ```js
@@ -45,9 +44,8 @@ declare class Album extends Spotify {
      * @param options Options such as limit, advanced and params
      */
     getTracks(id: string, options?: {
-        limit?: string | null | number;
-        advanced?: boolean;
+        limit?: number;
         params?: any;
-    }): Promise<SimplifiedTrack[]>;
+    }): Promise<Track[]>;
 }
 export default Album;

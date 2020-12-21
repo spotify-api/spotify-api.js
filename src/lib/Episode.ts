@@ -3,13 +3,20 @@
  */
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import Client from "../Client";
 import EpisodeStructure from "../structures/Episode"
-import SimplifiedEpisode from "../structures/SimplifiedEpisode";
 
 /**
  * Class of all methods related to episode enpoints
  */
 class Episode extends Spotify{
+
+    client: Client;
+
+    constructor(token: string, client: Client){
+        super(token);
+        this.client = client;
+    }
 
     /**
      * **Example:**
@@ -20,47 +27,28 @@ class Episode extends Spotify{
      * @param q Your query
      * @param options Options such as limit, advanced and params
      */
-    async search(
-        q: string,
-        options: {
-            limit?: number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<EpisodeStructure[]> {
+
+        if(!q) throw new MissingParamError("missing query!");
+
+        try{
+            const data = await this.fetch({
+                link: "v1/search",
+                params: {
+                    q,
+                    market: "US",
+                    limit: options.limit,
+                    type: "episode",
+                    ...options.params
+                },
+            });
+
+            let items = data.episodes.items.map(x => new EpisodeStructure(x, this.client));
+            if(this.client.cacheOptions.cacheEpisodes) this.client.cache.episodes.push(...items);
+            return items;
+        }catch(e){
+            throw new UnexpectedError(e);
         }
-    ): Promise<SimplifiedEpisode[]> {
-
-        return new Promise(async (resolve, reject) => {
-            if (!q) throw new MissingParamError("missing query!");
-
-            try {
-                const res = await this.fetch({
-                    link: "v1/search",
-                    params: {
-                        q: encodeURIComponent(q),
-                        market: "US",
-                        limit: options.limit,
-                        type: "episode",
-                        ...options.params
-                    },
-                });
-
-                let items = res.episodes.items.map(x => new SimplifiedEpisode(x));
-
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-
-                resolve(items);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
 
     };
 
@@ -73,28 +61,21 @@ class Episode extends Spotify{
      * @param id Id of the episode
      * @param options Advanced option
      */
-    async get(
-        id: string,
-        options: { advanced?: boolean } = {}
-    ): Promise<EpisodeStructure> {
+    async get(id: string, force: boolean = false): Promise<EpisodeStructure> {
 
-        return new Promise(async (resolve, reject) => {
-            if(!id) reject(new MissingParamError('missing id'));
+        if(!id) new MissingParamError('missing id');
+        if(!force){
+            let existing = this.client.cache.episodes.get(id);
+            if(existing) return existing;
+        }
             
-            try{
-                let res = new EpisodeStructure(await this.fetch({ link: `v1/episodes/${id}` }));
-
-                if(options.advanced) {
-                    let data = await this.getCodeImage(res.uri);
-                    res.codeImage = data.image;
-                    res.dominantColor = data.dominantColor;
-                };
-
-                resolve(res);
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            const data = new EpisodeStructure(await this.fetch({ link: `v1/episodes/${id}` }), this.client);
+            if(this.client.cacheOptions.cacheEpisodes) this.client.cache.episodes.push(data);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        };
 
     };
 

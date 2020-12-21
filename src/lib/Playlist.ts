@@ -1,19 +1,24 @@
-// @ts-nocheck
-
 /**
  * Playlist lib file
  */
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import Client from "../Client";
 import { Image } from "../structures/Interface";
-import PlaylistStructure from "../structures/Playlist";
-import { PlaylistTrack } from "../structures/PlaylistUtils";
+import PlaylistStructure, { PlaylistTrack } from "../structures/Playlist";
 
 /**
  * Class of all methods related to playlists
  */
 class Playlist extends Spotify {
+
+    client: Client;
+
+    constructor(token: string, client: Client){
+        super(token);
+        this.client = client;
+    }
 
     /**
      * **Example:**
@@ -22,30 +27,23 @@ class Playlist extends Spotify {
      * ```
      * 
      * @param id Id of the playlist
-	 * @param options options to configure
+	 * @param force If true then will fetch directly instead of searching cache
      */
-    async get(
-	    id: string,
-		options: { advanced?: boolean } = {}
-	): Promise<PlaylistStructure> {
+    async get(id: string, force: boolean = false): Promise<PlaylistStructure> {
 
-        return new Promise(async (resolve, reject) => {
-            if (!id) reject(new MissingParamError("missing id"));
+        if(!id) throw new MissingParamError("missing id");
+        if(!force){
+            let existing = this.client.cache.playlists.get(id);
+            if(existing) return existing;
+        }
 			
-            try {
-				let res = await this.fetch({ link: `v1/playlists/${id}`, });
-				
-				if(options.advanced){
-					let data = await this.getCodeImage(res[i].uri);
-                    res.codeImage = data.image;
-                    res.dominantColor = data.dominantColor;
-				};
-				
-                resolve(new PlaylistStructure(res))
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
+        try {
+			const data = new PlaylistStructure(await this.fetch({ link: `v1/playlists/${id}` }), this.client);
+			if(this.client.cacheOptions.cachePlaylists) this.client.cache.playlists.push(data);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -58,60 +56,44 @@ class Playlist extends Spotify {
      * @param id Id of the playlist
      * @param options Options to configure your search
      */
-    async getTracks(
-        id: string,
-        options: {
-            limit?: number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
+    async getTracks(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<PlaylistTrack[]> {
+
+        if(!id) throw new MissingParamError("missing id");
+
+        try{
+            const data = await this.fetch({
+                link: `v1/playlists/${id}/tracks`,
+                params: {
+                    market: "US",
+                    limit: options.limit,
+                    ...options.params
+                },
+            });
+
+            return data.items.map(x => new PlaylistTrack(x, this.client));
+        }catch(e){
+            throw new UnexpectedError(e);
         }
-    ): Promise<PlaylistTrack[]> {
 
-        return new Promise(async (resolve, reject) => {
-            if(!id) reject(new MissingParamError("missing id"));
-
-            try {
-                const res = await this.fetch({
-                    link: `v1/playlists/${id}/tracks`,
-                    params: {
-                        market: "US",
-                        limit: options.limit,
-                        ...options.params
-                    },
-                });
-
-                resolve(res.items.map(x => new PlaylistTrack(x)));
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
     };
 
     /**
      * **Example:**
      * ```js
-     * const coverImage = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
+     * const [coverImage] = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
      * ```
      * 
      * @param id Playlist id
      */
-    async getCoverImage(id: string): Promise<Image[]> {
+    async getImages(id: string): Promise<Image[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing playlist id'));
+        if(!id) throw new MissingParamError('missing playlist id');
 
-                resolve(
-                    await this.fetch({
-                        link: `v1/playlists/${id}/images`
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            return await this.fetch({ link: `v1/playlists/${id}/images` });
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
     

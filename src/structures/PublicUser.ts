@@ -1,26 +1,29 @@
 /**
  * Public User Structure
  */
-import { CodeImageReturn, Image } from "./Interface";
-import Util from '../Spotify';
-
-const util = new Util();
+import { Image } from "./Interface";
+import Client from '../Client';
+import Playlist from './Playlist';
 
 /**
  * Public User Class
  */
 class PublicUser {
 
-    data: any;
-    displayName: string;
+    readonly data: any;
+    readonly client: Client;
+
+    name: string;
     externalUrls: any;
-    totalFollowers?: number;
     href: string;
     id: string;
     type: string;
     uri: string;
     images: Image[];
+    playlists: Playlist[];
     codeImage: string;
+
+    totalFollowers?: number;
 
     /**
      * **Example:**
@@ -30,36 +33,48 @@ class PublicUser {
      * ```
      * 
      * @param data Received raw data from the spotify api
+     * @param client Main client
      */
-    constructor(data){
+    constructor(data: any, client: Client){
 
-        Object.defineProperty(this, 'data', { value: data });
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
 
-        this.displayName = data.display_name;
+        this.name = data.display_name;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
-        if('followers' in data) this.totalFollowers = data.followers.total;
-        this.images = data.images;
+        this.images = data.images || [];
+        this.playlists = [];
         this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
+        if('followers' in data) this.totalFollowers = data.followers.total;
 
     };
 
     /**
-     * Returns the code image with dominant color
+     * Fetches tracks
      */
-    async getCodeImage(): Promise<CodeImageReturn> {
-        return await util.getCodeImage(this.uri);
-    };
+    async fetch(): Promise<PublicUser> {
+        return await this.client.users.get(this.id, true);
+    }
 
     /**
-     * Returns the uri data
+     * Returns you the user playlists
+     * 
+     * @param force If true will directly fetch and return else will return you from cache
+     * @param limit Limit of results
      */
-    async getURIData(): Promise<any> {
-        return await util.getURIData(this.uri);
-    };
+    async getPlaylists(force: boolean = false, limit: number = 20): Promise<Playlist[]> {
+        if(!force){
+            if(this.playlists.length) return this.playlists;
+        }
+
+        const data = await this.client.users.getPlaylists(this.id, { limit });
+        this.playlists = data;
+        return data;
+    }
     
 };
 

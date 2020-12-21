@@ -2,12 +2,15 @@
  * User lib file
  */
 import Spotify from "../Spotify";
+import Client from "../Client";
 import PublicUser from "../structures/PublicUser";
-import SimplifiedPlaylist from "../structures/SimplifiedPlaylist";
+import Playlist from "../structures/Playlist";
 /**
  * Class of all methods related to users
  */
 declare class User extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * **Example:**
      * ```js
@@ -16,7 +19,7 @@ declare class User extends Spotify {
      *
      * @param id Id of the user
      */
-    get(id: string): Promise<PublicUser>;
+    get(id: string, force?: boolean): Promise<PublicUser>;
     /**
      * **Example:**
      * ```js
@@ -27,8 +30,7 @@ declare class User extends Spotify {
      */
     getPlaylists(id: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedPlaylist[]>;
+    }): Promise<Playlist[]>;
 }
 export default User;

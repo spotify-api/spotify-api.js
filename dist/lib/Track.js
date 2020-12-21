@@ -37,7 +37,7 @@ class Track extends Spotify_1.default {
             const res = await this.fetch({
                 link: `v1/search`,
                 params: {
-                    q: encodeURIComponent(q),
+                    q,
                     type: "track",
                     market: "US",
                     limit: options.limit,

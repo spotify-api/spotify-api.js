@@ -1,9 +1,10 @@
 /**
  * Show Structure
  */
-import { Copyright, DominantColor, Image, CodeImageReturn } from "./Interface";
-import SimplifiedEpisode from "./SimplifiedEpisode";
+import { Copyright, Image } from "./Interface";
+import Episode from './Episode';
 import Util from '../Spotify';
+import Client from '../Client';
 
 const util = new Util();
 
@@ -12,7 +13,10 @@ const util = new Util();
  */
 export default class Show {
 
-    data: any;
+    readonly data: any;
+    readonly client: Client;
+    readonly episodes: Episode[];
+
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -29,8 +33,6 @@ export default class Show {
     type: string;
     uri: string;
     totalEpisodes?: number;
-    codeImage?: string;
-    dominantColor?: DominantColor;
 
     /**
      * **Example:**
@@ -40,10 +42,12 @@ export default class Show {
      * ```
      * 
      * @param data Received raw data from the spotify api
+     * @param client Spotify Client
      */
-    constructor(data){
+    constructor(data: any, client: Client){
 
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
 
         this.availableMarkets = data.available_markets;
         this.copyrights = data.copyrights;
@@ -62,28 +66,39 @@ export default class Show {
         this.uri = data.uri;
         this.totalEpisodes = data.total_episodes;
 
-    };
+        Object.defineProperty(this, 'episodes', { get: () => this.data.episodes ? this.data.episodes.items.map(x => new Episode(x, this.client)) : [] })
+
+    }
 
     /**
-     * Returns the array of simplified episodes
-     * @readonly
+     * Returns a code image
+     * @param color Hex color code
      */
-    get episodes(): SimplifiedEpisode[] {
-        return this.data.episodes.items.map(x => new SimplifiedEpisode(x));
-    };
+    makeCodeImage(color: string = '1DB954'): string {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
 
     /**
-     * Returns the code image with dominant color
+     * Refreshes this show in cache
      */
-    async getCodeImage(): Promise<CodeImageReturn> {
-        return await util.getCodeImage(this.uri);
-    };
+    async fetch(): Promise<Show> {
+        return await this.client.shows.get(this.id, true);
+    }
 
     /**
-     * Returns the uri data
+     * Returns the episodes by fetching!
+     * 
+     * @param force If true, will directly fetch else will search for cache
+     * @param limit Limit of your results
      */
-    async getURIData(): Promise<any> {
-        return await util.getURIData(this.uri);
-    };
+    async getEpisodes(force: boolean = false, limit: number = 20): Promise<Episode[]> {
+        if(!force){
+            if(this.data.episodes) return this.episodes;
+        }
+
+        const data = await this.client.shows.getEpisodes(this.id, { limit });
+        Object.defineProperty(this, 'episodes', { value: data });
+        return data;
+    }
 
 };

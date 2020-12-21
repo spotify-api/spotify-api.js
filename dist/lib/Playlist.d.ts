@@ -1,11 +1,16 @@
+/**
+ * Playlist lib file
+ */
 import Spotify from "../Spotify";
+import Client from "../Client";
 import { Image } from "../structures/Interface";
-import PlaylistStructure from "../structures/Playlist";
-import { PlaylistTrack } from "../structures/PlaylistUtils";
+import PlaylistStructure, { PlaylistTrack } from "../structures/Playlist";
 /**
  * Class of all methods related to playlists
  */
 declare class Playlist extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * **Example:**
      * ```js
@@ -13,11 +18,9 @@ declare class Playlist extends Spotify {
      * ```
      *
      * @param id Id of the playlist
-     * @param options options to configure
+     * @param force If true then will fetch directly instead of searching cache
      */
-    get(id: string, options?: {
-        advanced?: boolean;
-    }): Promise<PlaylistStructure>;
+    get(id: string, force?: boolean): Promise<PlaylistStructure>;
     /**
      * **Example:**
      * ```js
@@ -29,17 +32,16 @@ declare class Playlist extends Spotify {
      */
     getTracks(id: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
     }): Promise<PlaylistTrack[]>;
     /**
      * **Example:**
      * ```js
-     * const coverImage = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
+     * const [coverImage] = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
      * ```
      *
      * @param id Playlist id
      */
-    getCoverImage(id: string): Promise<Image[]>;
+    getImages(id: string): Promise<Image[]>;
 }
 export default Playlist;

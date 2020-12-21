@@ -56,17 +56,10 @@ export {
 import AlbumStructure from "./structures/Album";
 import ArtistStructure from "./structures/Artist";
 import EpisodeStructure from "./structures/Episode";
-import PlaylistStructure from "./structures/Playlist";
+import PlaylistStructure, { PlaylistTrack } from "./structures/Playlist";
 import TrackStructure, { LinkedTrack } from "./structures/Track";
 import PublicUser from "./structures/PublicUser";
 import ShowStructure from "./structures/Show";
-import { PlaylistOwner, PlaylistTrack } from "./structures/PlaylistUtils"
-import SimplifiedAlbum from "./structures/SimplifiedAlbum";
-import SimplifiedArtist from "./structures/SimplifiedArtist";
-import SimplifiedEpisode from "./structures/SimplifiedEpisode";
-import SimplifiedPlaylist from "./structures/SimplifiedPlaylist";
-import SimplifiedShow from "./structures/SimplifiedShow";
-import SimplifiedTrack from "./structures/SimplifiedTrack";
 
 export const Structures = {
     Track: TrackStructure,
@@ -75,16 +68,9 @@ export const Structures = {
     Episode: EpisodeStructure,
     Playlist: PlaylistStructure,
     Show: ShowStructure,
-    PlaylistOwner,
     PlaylistTrack,
     PublicUser,
-    LinkedTrack,
-    SimplifiedAlbum,
-    SimplifiedArtist,
-    SimplifiedEpisode,
-    SimplifiedPlaylist,
-    SimplifiedShow,
-    SimplifiedTrack
+    LinkedTrack
 };
   
 export default Client;

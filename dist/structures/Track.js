@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedTrack = void 0;
-const SimplifiedArtist_1 = __importDefault(require("./SimplifiedArtist"));
-const SimplifiedAlbum_1 = __importDefault(require("./SimplifiedAlbum"));
+const Artist_1 = __importDefault(require("./Artist"));
+const Album_1 = __importDefault(require("./Album"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 /**
  * LinkedTrack Class
@@ -80,21 +80,21 @@ class Track {
             this.simplified = false;
         }
         if ('linked_from' in data)
-            this.linkedFrom = data.linked_from;
+            this.linkedFrom = new LinkedTrack(data.linked_from);
     }
     /**
      * Album object
      * @readonly
      */
     get album() {
-        return new SimplifiedAlbum_1.default(this.data.album);
+        return new Album_1.default(this.data.album, this.client);
     }
     /**
      * Returns the array of SimplifiedArtist
      * @readonly
      */
     get artists() {
-        return this.data.artists.map(x => new SimplifiedArtist_1.default(x));
+        return this.data.artists.map(x => new Artist_1.default(x, this.client));
     }
     /**
      * Returns a code image

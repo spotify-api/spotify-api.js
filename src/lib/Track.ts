@@ -33,10 +33,7 @@ class Track extends Spotify {
      * @param q Your query
      * @param options Options to configure your search...
      */
-    async search(
-        q: string,
-        options: { limit?: number; params?: any; } = { limit: 20 }
-    ): Promise<TrackStructure[]> {
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<TrackStructure[]> {
 
         if(!q) throw new MissingParamError("missing query");
 
@@ -44,7 +41,7 @@ class Track extends Spotify {
             const res = await this.fetch({
                 link: `v1/search`,
                 params: {
-                    q: encodeURIComponent(q),
+                    q,
                     type: "track",
                     market: "US",
                     limit: options.limit,

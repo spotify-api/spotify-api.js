@@ -1,11 +1,13 @@
 import Spotify from "../Spotify";
+import Client from "../Client";
 import ShowStructure from "../structures/Show";
-import SimplifiedEpisode from "../structures/SimplifiedEpisode";
-import SimplifiedShow from "../structures/SimplifiedShow";
+import Episode from "../structures/Episode";
 /**
  * Class of all methods related to episode enpoints
  */
 declare class Show extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * **Example:**
      * ```js
@@ -17,9 +19,8 @@ declare class Show extends Spotify {
      */
     search(q: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedShow[]>;
+    }): Promise<ShowStructure[]>;
     /**
      * **Example:**
      * ```js
@@ -27,11 +28,9 @@ declare class Show extends Spotify {
      * ```
      *
      * @param id Id of the show
-     * @param options Options such as advanced
+     * @param force If true will fetch instead of search cache
      */
-    get(id: string, options?: {
-        advanced?: boolean;
-    }): Promise<ShowStructure>;
+    get(id: string, force?: boolean): Promise<ShowStructure>;
     /**
      * **Example:**
      * ```js
@@ -43,8 +42,7 @@ declare class Show extends Spotify {
      */
     getEpisodes(id: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedEpisode[]>;
+    }): Promise<Episode[]>;
 }
 export default Show;

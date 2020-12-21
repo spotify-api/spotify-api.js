@@ -4,13 +4,21 @@
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import Client from "../Client";
 import PublicUser from "../structures/PublicUser";
-import SimplifiedPlaylist from "../structures/SimplifiedPlaylist";
+import Playlist from "../structures/Playlist";
 
 /**
  * Class of all methods related to users
  */
 class User extends Spotify {
+
+    client: Client;
+
+    constructor(token: string, client: Client){
+        super(token);
+        this.client = client;
+    }
 
     /**
      * **Example:**
@@ -20,16 +28,21 @@ class User extends Spotify {
      * 
      * @param id Id of the user
      */
-    async get(id: string): Promise<PublicUser> {
+    async get(id: string, force: boolean = false): Promise<PublicUser> {
 
-        return new Promise(async (resolve, reject) => {
-            try {
-                if(!id) reject(new MissingParamError("missing id to fetch user"));
-                resolve(new PublicUser(await this.fetch({ link: `v1/users/${id}` })));
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            };
-        });
+        if(!id) throw new MissingParamError("missing id to fetch user");
+        if(!force){
+            let existing = this.client.cache.users.get(id);
+            if(existing) return existing;
+        }
+
+        try{
+            const data = new PublicUser(await this.fetch({ link: `v1/users/${id}` }), this.client);
+            if(this.client.cacheOptions.cacheUsers) this.client.cache.users.push(data);
+            return data;
+        }catch(e) {
+            throw new UnexpectedError(e);
+        };
 
     };
 
@@ -41,44 +54,25 @@ class User extends Spotify {
      * 
      * @param id Id of the user
      */
-    async getPlaylists(
-        id: string,
-        options: {
-            limit?: number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
-        }
-    ): Promise<SimplifiedPlaylist[]> {
+    async getPlaylists(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Playlist[]> {
 
-        return new Promise(async (resolve, reject) => {
-            try {
-                if(!id) reject(new MissingParamError("missing id to fetch user"));
+        try{
+            if(!id) throw new MissingParamError("missing id to fetch user");
 
-                let res = await this.fetch({
-                    link: `v1/users/${id}/playlists`,
-                    params: {
-                        limit: options.limit,
-                        ...options.params
-                    }
-                });
+            const data = await this.fetch({
+                link: `v1/users/${id}/playlists`,
+                params: {
+                    limit: options.limit,
+                    ...options.params
+                }
+            });
 
-                res = res.items.map(x => new SimplifiedPlaylist(x))
-
-                if(options.advanced){
-                    for(let i = 0; i < res.length; i++){
-                        let data = await this.getCodeImage(res[i].uri);
-                        res[i].codeImage = data.image;
-                        res[i].dominantColor = data.dominantColor;
-                    };
-                };
-
-                resolve(res);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            };
-        });
+            const items = data.items.map(x => new Playlist(x, this.client))
+            if(this.client.cacheOptions.cachePlaylists) this.client.cache.playlists.push(...items);
+            return items
+        }catch(e){
+            throw new UnexpectedError(e);
+        };
 
     };
 

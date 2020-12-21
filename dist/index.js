@@ -72,17 +72,10 @@ exports.version = version;
 const Album_2 = __importDefault(require("./structures/Album"));
 const Artist_2 = __importDefault(require("./structures/Artist"));
 const Episode_2 = __importDefault(require("./structures/Episode"));
-const Playlist_2 = __importDefault(require("./structures/Playlist"));
+const Playlist_2 = __importStar(require("./structures/Playlist"));
 const Track_2 = __importStar(require("./structures/Track"));
 const PublicUser_1 = __importDefault(require("./structures/PublicUser"));
 const Show_2 = __importDefault(require("./structures/Show"));
-const PlaylistUtils_1 = require("./structures/PlaylistUtils");
-const SimplifiedAlbum_1 = __importDefault(require("./structures/SimplifiedAlbum"));
-const SimplifiedArtist_1 = __importDefault(require("./structures/SimplifiedArtist"));
-const SimplifiedEpisode_1 = __importDefault(require("./structures/SimplifiedEpisode"));
-const SimplifiedPlaylist_1 = __importDefault(require("./structures/SimplifiedPlaylist"));
-const SimplifiedShow_1 = __importDefault(require("./structures/SimplifiedShow"));
-const SimplifiedTrack_1 = __importDefault(require("./structures/SimplifiedTrack"));
 exports.Structures = {
     Track: Track_2.default,
     Album: Album_2.default,
@@ -90,15 +83,8 @@ exports.Structures = {
     Episode: Episode_2.default,
     Playlist: Playlist_2.default,
     Show: Show_2.default,
-    PlaylistOwner: PlaylistUtils_1.PlaylistOwner,
-    PlaylistTrack: PlaylistUtils_1.PlaylistTrack,
+    PlaylistTrack: Playlist_2.PlaylistTrack,
     PublicUser: PublicUser_1.default,
-    LinkedTrack: Track_2.LinkedTrack,
-    SimplifiedAlbum: SimplifiedAlbum_1.default,
-    SimplifiedArtist: SimplifiedArtist_1.default,
-    SimplifiedEpisode: SimplifiedEpisode_1.default,
-    SimplifiedPlaylist: SimplifiedPlaylist_1.default,
-    SimplifiedShow: SimplifiedShow_1.default,
-    SimplifiedTrack: SimplifiedTrack_1.default
+    LinkedTrack: Track_2.LinkedTrack
 };
 exports.default = Client_1.default;

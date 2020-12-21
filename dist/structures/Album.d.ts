@@ -1,23 +1,21 @@
-import SimplifiedArtist from './SimplifiedArtist';
-import SimplifiedTrack from './SimplifiedTrack';
-import { Copyright, DominantColor, Image, Restriction } from './Interface';
-import { CodeImageReturn } from './Interface';
+import Artist from './Artist';
+import Track from './Track';
+import { Copyright, Image, Restriction } from './Interface';
+import Client from '../Client';
 /**
  * Album structure class
  */
 declare class Album {
-    data: any;
+    readonly data: any;
+    readonly client: Client;
+    readonly tracks: Track[];
     albumType: 'album' | 'single' | 'compilation';
     availableMarkets: string[];
-    copyrights: Copyright[];
-    externalIds: any;
     externalUrls: any;
-    genres: any[];
     href: string;
     id: string;
     images: Image[];
     name: string;
-    popularity: number;
     releaseDate: string;
     releaseDatePrecision: string;
     type: string;
@@ -25,8 +23,10 @@ declare class Album {
     label: string | null;
     restrictions: Restriction | null;
     totalTracks?: number;
-    codeImage?: string;
-    dominantColor?: DominantColor;
+    copyrights?: Copyright[];
+    externalIds?: any;
+    popularity?: number;
+    genres?: any[];
     /**
      * **Example:**
      *
@@ -35,30 +35,34 @@ declare class Album {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Spotify Client
      */
-    constructor(data: any);
+    constructor(data: any, client: Client);
+    /**
+     * Returns a code image
+     * @param color Hex color code
+     */
+    makeCodeImage(color?: string): string;
     /**
      * Returns the array of simplified artist
      * @readonly
      */
-    get artists(): SimplifiedArtist[];
-    /**
-     * Returns the array of simplified tracks
-     * @readonly
-     */
-    get tracks(): SimplifiedTrack[];
-    /**
-     * Returns the code image with dominant color
-     */
-    getCodeImage(): Promise<CodeImageReturn>;
-    /**
-     * Returns the uri data
-     */
-    getURIData(): Promise<any>;
+    get artists(): Artist[];
     /**
      * Returns date structure of this.releaseDate
      * @readonly
      */
     get releasedAt(): Date;
+    /**
+     * Returns a fresh current album object instead of caching
+     */
+    fetch(): Promise<Album>;
+    /**
+     * Returns the tracks of the album
+     *
+     * @param force If true will directly fetch instead of searching cache
+     * @param limit Limit your results
+     */
+    getTracks(force?: boolean, limit?: number): Promise<Track[]>;
 }
 export default Album;

@@ -4,6 +4,7 @@ node_modules/
 # Testings
 test/
 types/
+deprecated/
 
 # Lock folder
 package-lock.json

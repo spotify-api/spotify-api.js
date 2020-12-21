@@ -32,17 +32,10 @@ export { version, Client, Auth, User, Playlist, Track, Album, Artist, Episode, S
 import AlbumStructure from "./structures/Album";
 import ArtistStructure from "./structures/Artist";
 import EpisodeStructure from "./structures/Episode";
-import PlaylistStructure from "./structures/Playlist";
+import PlaylistStructure, { PlaylistTrack } from "./structures/Playlist";
 import TrackStructure, { LinkedTrack } from "./structures/Track";
 import PublicUser from "./structures/PublicUser";
 import ShowStructure from "./structures/Show";
-import { PlaylistOwner, PlaylistTrack } from "./structures/PlaylistUtils";
-import SimplifiedAlbum from "./structures/SimplifiedAlbum";
-import SimplifiedArtist from "./structures/SimplifiedArtist";
-import SimplifiedEpisode from "./structures/SimplifiedEpisode";
-import SimplifiedPlaylist from "./structures/SimplifiedPlaylist";
-import SimplifiedShow from "./structures/SimplifiedShow";
-import SimplifiedTrack from "./structures/SimplifiedTrack";
 export declare const Structures: {
     Track: typeof TrackStructure;
     Album: typeof AlbumStructure;
@@ -50,15 +43,8 @@ export declare const Structures: {
     Episode: typeof EpisodeStructure;
     Playlist: typeof PlaylistStructure;
     Show: typeof ShowStructure;
-    PlaylistOwner: typeof PlaylistOwner;
     PlaylistTrack: typeof PlaylistTrack;
     PublicUser: typeof PublicUser;
     LinkedTrack: typeof LinkedTrack;
-    SimplifiedAlbum: typeof SimplifiedAlbum;
-    SimplifiedArtist: typeof SimplifiedArtist;
-    SimplifiedEpisode: typeof SimplifiedEpisode;
-    SimplifiedPlaylist: typeof SimplifiedPlaylist;
-    SimplifiedShow: typeof SimplifiedShow;
-    SimplifiedTrack: typeof SimplifiedTrack;
 };
 export default Client;

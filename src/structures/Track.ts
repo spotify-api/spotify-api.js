@@ -2,8 +2,8 @@
  * Track structure
  */
 import { Restriction, TrackAudioFeatures, TrackAudioAnalysis } from "./Interface";
-import SimplifiedArtist from "./SimplifiedArtist";
-import SimplifiedAlbum from "./SimplifiedAlbum";
+import Artist from "./Artist";
+import Album from "./Album";
 import Util from '../Spotify';
 import Client from '../Client';
 
@@ -122,7 +122,7 @@ export default class Track {
             this.simplified = false;
         }
 
-        if('linked_from' in data) this.linkedFrom = data.linked_from;
+        if('linked_from' in data) this.linkedFrom = new LinkedTrack(data.linked_from);
         
     }
 
@@ -130,16 +130,16 @@ export default class Track {
      * Album object
      * @readonly
      */
-    get album(): SimplifiedAlbum {
-        return new SimplifiedAlbum(this.data.album);
+    get album(): Album {
+        return new Album(this.data.album, this.client);
     }
 
     /**
      * Returns the array of SimplifiedArtist
      * @readonly
      */
-    get artists(): SimplifiedArtist[] {
-        return this.data.artists.map(x => new SimplifiedArtist(x));
+    get artists(): Artist[] {
+        return this.data.artists.map(x => new Artist(x, this.client));
     }
 
     /**

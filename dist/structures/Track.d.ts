@@ -2,8 +2,8 @@
  * Track structure
  */
 import { Restriction, TrackAudioFeatures, TrackAudioAnalysis } from "./Interface";
-import SimplifiedArtist from "./SimplifiedArtist";
-import SimplifiedAlbum from "./SimplifiedAlbum";
+import Artist from "./Artist";
+import Album from "./Album";
 import Client from '../Client';
 /**
  * LinkedTrack Class
@@ -73,12 +73,12 @@ export default class Track {
      * Album object
      * @readonly
      */
-    get album(): SimplifiedAlbum;
+    get album(): Album;
     /**
      * Returns the array of SimplifiedArtist
      * @readonly
      */
-    get artists(): SimplifiedArtist[];
+    get artists(): Artist[];
     /**
      * Returns a code image
      * @param color Hex color code

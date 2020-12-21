@@ -1,11 +1,13 @@
-import SimplifiedShow from './SimplifiedShow';
-import { Image, DominantColor, ResumePoint, CodeImageReturn } from "./Interface";
+import Client from '../Client';
+import Show from './Show';
+import { Image, ResumePoint } from "./Interface";
 /**
  * Episode class
  */
 declare class Episode {
-    data: any;
-    audioPreviewUrl: string;
+    readonly data: any;
+    readonly client: Client;
+    audioPreviewUrl: string | null;
     description: string;
     duration: number;
     explicit: boolean;
@@ -22,8 +24,6 @@ declare class Episode {
     type: string;
     uri: string;
     resumePoint?: ResumePoint;
-    codeImage?: string;
-    dominantColor?: DominantColor;
     /**
      * **Example:**
      *
@@ -32,25 +32,27 @@ declare class Episode {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Spotify client
      */
-    constructor(data: any);
+    constructor(data: any, client: Client);
+    /**
+     * Returns a code image
+     * @param color Hex color code
+     */
+    makeCodeImage(color?: string): string;
     /**
      * Show object
      * @readonly
      */
-    get show(): SimplifiedShow;
-    /**
-     * Returns the code image with dominant color
-     */
-    getCodeImage(): Promise<CodeImageReturn>;
-    /**
-     * Returns the uri data
-     */
-    getURIData(): Promise<any>;
+    get show(): Show | null;
     /**
      * Returns date structure of this.releaseDate
      * @readonly
      */
     get releasedAt(): Date;
+    /**
+     * Refreshes the episode info
+     */
+    fetch(): Promise<Episode>;
 }
 export default Episode;

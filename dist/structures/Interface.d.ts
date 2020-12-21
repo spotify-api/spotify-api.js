@@ -1,4 +1,4 @@
-import SimplifiedPlaylist from "./SimplifiedPlaylist";
+import Playlist from "./Playlist";
 export interface DominantColor {
     hex?: string;
     rgb: number[];
@@ -35,12 +35,10 @@ export interface Category {
     icons: Image[];
     id: string;
     name: string;
-    codeImage?: string;
-    dominantColor?: DominantColor;
 }
 export interface FeaturedPlaylistReturn {
     message: string;
-    playlists: SimplifiedPlaylist[];
+    readonly playlists: Playlist[];
 }
 export interface TrackAudioFeatures {
     duration_ms: number;

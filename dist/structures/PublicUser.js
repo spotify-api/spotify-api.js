@@ -1,10 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Spotify_1 = __importDefault(require("../Spotify"));
-const util = new Spotify_1.default();
 /**
  * Public User Class
  */
@@ -17,35 +12,45 @@ class PublicUser {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Main client
      */
-    constructor(data) {
-        Object.defineProperty(this, 'data', { value: data });
-        this.displayName = data.display_name;
+    constructor(data, client) {
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
+        this.name = data.display_name;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.type = data.type;
         this.uri = data.uri;
+        this.images = data.images || [];
+        this.playlists = [];
+        this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
         if ('followers' in data)
             this.totalFollowers = data.followers.total;
-        this.images = data.images;
-        this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
     }
     ;
     /**
-     * Returns the code image with dominant color
+     * Fetches tracks
      */
-    async getCodeImage() {
-        return await util.getCodeImage(this.uri);
+    async fetch() {
+        return await this.client.users.get(this.id, true);
     }
-    ;
     /**
-     * Returns the uri data
+     * Returns you the user playlists
+     *
+     * @param force If true will directly fetch and return else will return you from cache
+     * @param limit Limit of results
      */
-    async getURIData() {
-        return await util.getURIData(this.uri);
+    async getPlaylists(force = false, limit = 20) {
+        if (!force) {
+            if (this.playlists.length)
+                return this.playlists;
+        }
+        const data = await this.client.users.getPlaylists(this.id, { limit });
+        this.playlists = data;
+        return data;
     }
-    ;
 }
 ;
 exports.default = PublicUser;

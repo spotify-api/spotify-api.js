@@ -3,14 +3,21 @@
  */
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import Client from "../Client";
 import ShowStructure from "../structures/Show";
-import SimplifiedEpisode from "../structures/SimplifiedEpisode"
-import SimplifiedShow from "../structures/SimplifiedShow";
+import Episode from "../structures/Episode";
 
 /**
  * Class of all methods related to episode enpoints
  */
 class Show extends Spotify{
+
+    client: Client;
+
+    constructor(token: string, client: Client){
+        super(token);
+        this.client = client;
+    }
 
     /**
      * **Example:**
@@ -21,47 +28,28 @@ class Show extends Spotify{
      * @param q Your query
      * @param options Options such as limit, advanced and params
      */
-    async search(
-        q: string,
-        options: {
-            limit?: number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<ShowStructure[]> {
+
+        if(!q) throw new MissingParamError("missing query!");
+
+        try{
+            const data = await this.fetch({
+                link: "v1/search",
+                params: {
+                    q,
+                    market: "US",
+                    limit: options.limit,
+                    type: "show",
+                    ...options.params
+                },
+            });
+
+            let items = data.episodes.items.map(x => new ShowStructure(x, this.client));
+            if(this.client.cacheOptions.cacheShows) this.client.cache.shows.push(...items);
+            return items;
+        }catch(e) {
+            throw new UnexpectedError(e);
         }
-    ): Promise<SimplifiedShow[]> {
-
-        return new Promise(async (resolve, reject) => {
-            if (!q) throw new MissingParamError("missing query!");
-
-            try {
-                const res = await this.fetch({
-                    link: "v1/search",
-                    params: {
-                        q: encodeURIComponent(q),
-                        market: "US",
-                        limit: options.limit,
-                        type: "show",
-                        ...options.params
-                    },
-                });
-
-                let items = res.episodes.items.map(x => new SimplifiedEpisode(x));
-
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-
-                resolve(items);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
 
     };
 
@@ -72,30 +60,23 @@ class Show extends Spotify{
      * ```
      * 
      * @param id Id of the show
-     * @param options Options such as advanced
+     * @param force If true will fetch instead of search cache
      */
-    async get(
-        id: string,
-        options: { advanced?: boolean; } = {}
-    ): Promise<ShowStructure> {
+    async get(id: string, force: boolean = false): Promise<ShowStructure> {
 
-        return new Promise(async (resolve, reject) => {
-            if(!id) reject(new MissingParamError('missing id'));
+        if(!id) throw new MissingParamError('missing id');
+        if(!force){
+            let existing = this.client.cache.shows.get(id);
+            if(existing) return existing;
+        }
             
-            try{
-                let res = new ShowStructure(await this.fetch({ link: `v1/shows/${id}` }));
-
-                if(options.advanced) {
-                    let data = await this.getCodeImage(res.uri);
-                    res.codeImage = data.image;
-                    res.dominantColor = data.dominantColor;
-                };
-
-                resolve(res);
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            const data = new ShowStructure(await this.fetch({ link: `v1/shows/${id}` }), this.client);
+            if(this.client.cacheOptions.cacheShows) this.client.cache.shows.push(data);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        };
 
     };
 
@@ -108,45 +89,26 @@ class Show extends Spotify{
      * @param id Id of the show
      * @param options Options such as limit, advanced and params
      */
-    async getEpisodes(
-        id: string,
-        options: {
-            limit?: number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
-        }
-    ): Promise<SimplifiedEpisode[]> {
+    async getEpisodes(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Episode[]> {
 
-        return new Promise(async (resolve, reject) => {
-            if(!id) reject(new MissingParamError('missing id'));
+        if(!id) throw new MissingParamError('missing id');
             
-            try{
-                let res = await this.fetch({
-                    link: `v1/shows/${id}/episodes`,
-                    params: {
-                        market: 'US',
-                        limit: options.limit,
-                        ...options.params
-                    }
-                });
+        try{
+            const data = await this.fetch({
+                link: `v1/shows/${id}/episodes`,
+                params: {
+                    market: 'US',
+                    limit: options.limit,
+                    ...options.params
+                }
+            });
                 
-                res = res.items.map(x => new SimplifiedEpisode(x));
-
-                if (options.advanced) {
-                    for (let i = 0; i < res.length; i++) {
-                        let data = await this.getCodeImage(res[i].uri);
-                        res[i].codeImage = data.image;
-                        res[i].dominantColor = data.dominantColor;
-                    };
-                };
-
-                resolve(res);
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+            let items = data.items.map(x => new Episode(x, this.client));
+            if(this.client.cacheOptions.cacheEpisodes) this.client.cache.episodes.push(...items);
+            return items;
+        }catch(e){
+            throw new UnexpectedError(e);
+        };
 
     };
 

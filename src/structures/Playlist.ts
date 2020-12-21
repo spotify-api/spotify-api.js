@@ -1,29 +1,75 @@
-//@ts-nocheck
-
 /**
  * Playlist class
  */
-
-import { PlaylistTrack } from "./PlaylistUtils";
-import { CodeImageReturn } from "./Interface";
+import { Image } from "./Interface";
 import PublicUser from "./PublicUser";
-import Util from '../Spotify';
+import Track from "./Track";
+import Episode from "./Episode";
+import Util from "../Spotify";
+import Client from "../Client";
 
-const util = new Util();
+export class PlaylistTrack{
+
+    readonly data: any;
+    readonly client: Client;
+
+    addedAt: string | null;
+    local: boolean;
+
+    /**
+     * **Example:**
+     * 
+     * ```js
+     * const track = new PlaylistTrack(data);
+     * ```
+     * 
+     * @param data Received raw data from the spotify api
+     * @param client Spotify Client
+     */
+    constructor(data: any, client: Client){
+        
+        Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
+
+        this.addedAt = data.added_at;
+        this.local = data.is_local;
+        
+    };
+
+    /**
+     * Added by user object
+     * @readonly
+     */
+    get addedBy(): PublicUser | null {
+        if('added_by' in this.data) return new PublicUser(this.data.added_by, this.client);
+        else return null;
+    };
+
+    /**
+     * Full info of the track
+     * @readonly
+     */
+    get track(): Track | Episode {
+        return this.data.track.description ? new Episode(this.data.track, this.client) : new Track(this.data.track, this.client);
+    };
+
+};
 
 /**
  * Playlist structure
  */
 export default class Playlist {
 
-    data: any;
+    readonly data: any;
+    readonly client: Client;
+
     collaborative: boolean;
     description: string;
     externalUrls: any;
-    totalFollowers: number;
+    totalFollowers?: number;
     href: string;
     id: string;
-    images: any[];
+    images: Image[];
     name: string;
     public: boolean | null;
     snapshotId: string;
@@ -40,9 +86,10 @@ export default class Playlist {
      * 
      * @param data Received raw data from the spotify api
      */
-    constructor(data){
+    constructor(data: any, client: Client){
 
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
 
         this.collaborative = data.collaborative;
         this.description = data.description;
@@ -65,7 +112,7 @@ export default class Playlist {
      * @readonly
      */
     get owner(): PublicUser {
-        return new PublicUser(this.data.owner);
+        return new PublicUser(this.data.owner, this.client);
     };
 
     /**
@@ -73,21 +120,22 @@ export default class Playlist {
      * @readonly
      */
     get tracks(): PlaylistTrack[] {
-        return this.data.tracks.items.map(x => new PlaylistTrack(x));
+        return this.data.tracks.items.map(x => new PlaylistTrack(x, this.client));
     };
 
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    async getCodeImage(): Promise<CodeImageReturn> {
-        return await util.getCodeImage(this.uri);
-    };
+    makeCodeImage(color: string = '1DB954'): string {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
 
     /**
-     * Returns the uri data
+     * Returns a fresh playlist without searching in the cache!
      */
-    async getURIData(): Promise<any> {
-        return await util.getURIData(this.uri);
-    };
+    async fetch(): Promise<Playlist> {
+        return await this.client.playlists.get(this.id, true);
+    }
 
 };

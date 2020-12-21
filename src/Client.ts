@@ -13,6 +13,13 @@ import Show from './lib/Show';
 import Browse from './lib/Browse';
 
 import TrackStructure from './structures/Track';
+import EpisodeStructure from './structures/Episode';
+import ShowStructure from './structures/Show';
+import PlaylistStructure from './structures/Playlist';
+import ArtistStructure from './structures/Artist';
+import AlbumStructure from './structures/Album';
+import PublicUser from './structures/PublicUser';
+import { Category } from './structures/Interface';
 
 import Spotify from './Spotify';
 import UserClient from './UserClient';
@@ -20,8 +27,15 @@ import CacheManager from './CacheManager';
 
 import { MissingParamError, UnexpectedError } from './Error';
 
-export interface CacheOptions{
+interface CacheOptions{
     cacheTracks?: boolean;
+    cacheUsers?: boolean;
+    cacheCategories?: boolean;
+    cacheEpisodes?: boolean;
+    cacheShows?: boolean;
+    cachePlaylists?: boolean;
+    cacheArtists?: boolean;
+    cacheAlbums?: boolean;
 }
 
 /**
@@ -48,7 +62,14 @@ export default class Client {
     user: UserClient;
 
     cache: {
-        tracks: CacheManager<string, TrackStructure>
+        tracks: CacheManager<string, TrackStructure>,
+        users: CacheManager<string, PublicUser>,
+        categories: CacheManager<string, Category>,
+        episodes: CacheManager<string, EpisodeStructure>,
+        shows: CacheManager<string, ShowStructure>,
+        playlists: CacheManager<string, PlaylistStructure>,
+        artists: CacheManager<string, ArtistStructure>,
+        albums: CacheManager<string, AlbumStructure>
     }
 
     /**
@@ -72,19 +93,27 @@ export default class Client {
         this.cacheOptions = cacheOptions;
 
         this.tracks = new Track(this.token, this);
-        this.oauth = new Auth(this.token);
-        this.users = new User(this.token);
-        this.playlists = new Playlist(this.token);
-        this.albums = new Album(this.token);
-        this.artists = new Artist(this.token);
-        this.episodes = new Episode(this.token);
-        this.shows = new Show(this.token);
-        this.browse = new Browse(this.token);
         this.user = new UserClient(this.token);
+        this.oauth = new Auth(this.token);
+        this.users = new User(this.token, this);
+        this.playlists = new Playlist(this.token, this);
+        this.albums = new Album(this.token, this);
+        this.artists = new Artist(this.token, this);
+        this.episodes = new Episode(this.token, this);
+        this.shows = new Show(this.token, this);
+        this.browse = new Browse(this.token, this);
 
         this.cache = {
-            tracks: new CacheManager<string, TrackStructure>('id')
+            tracks: new CacheManager<string, TrackStructure>('id'),
+            users: new CacheManager<string, PublicUser>('id'),
+            categories: new CacheManager<string, Category>('name'),
+            episodes: new CacheManager<string, EpisodeStructure>('id'),
+            shows: new CacheManager<string, ShowStructure>('id'),
+            playlists: new CacheManager<string, PlaylistStructure>('id'),
+            artists: new CacheManager<string, ArtistStructure>('id'),
+            albums: new CacheManager<string, AlbumStructure>('id')
         };
+
     };
 
     /**
@@ -103,14 +132,14 @@ export default class Client {
         this.startedAt = Date.now();
 
         this.oauth = new Auth(this.token);
-        this.users = new User(this.token);
-        this.playlists = new Playlist(this.token);
+        this.users = new User(this.token, this);
+        this.playlists = new Playlist(this.token, this);
         this.tracks = new Track(this.token, this);
-        this.albums = new Album(this.token);
-        this.artists = new Artist(this.token);
-        this.episodes = new Episode(this.token);
-        this.shows = new Show(this.token);
-        this.browse = new Browse(this.token);
+        this.albums = new Album(this.token, this);
+        this.artists = new Artist(this.token, this);
+        this.episodes = new Episode(this.token, this);
+        this.shows = new Show(this.token, this);
+        this.browse = new Browse(this.token, this);
         this.user = new UserClient(this.token);
     };
 
@@ -130,33 +159,23 @@ export default class Client {
      * @param q Query
      * @param options Your options to selected
      */
-    async search(
-        q: string, 
-        options: {
-            limit?: number;
-            type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[];
-        } = {}
-    ): Promise<any> {
-        return new Promise(async (resolve, reject) => {
-            if(!q) reject(new MissingParamError('missing query'));
-            if(!options.type) options.type = ['track', 'album', 'artist', 'playlist', 'show', 'episode'];
+    async search(q: string,  options: { limit?: number; type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[]; params?: any; } = {} ): Promise<any> {
+        if(!q) throw new MissingParamError('missing query');
+        if(!options.type) options.type = ['track', 'album', 'artist', 'playlist', 'show', 'episode'];
 
-            try{
-                resolve(
-                    await this.utils.fetch({
-                        link: `v1/search`,
-                        params: {
-                            q: encodeURIComponent(q),
-                            type: options.type.join(','),
-                            market: "US",
-                            limit: options.limit || 20,
-                        },
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            return await this.utils.fetch({
+                link: `v1/search`,
+                params: {
+                    q,
+                    type: options.type.join(','),
+                    market: "US",
+                    limit: options.limit || 20,
+                },
+            })
+        }catch(e){
+            throw new UnexpectedError(e);
+        };
     };
 
     /**
@@ -200,45 +219,22 @@ export default class Client {
      * ```
      * 
      * @param uri Uri
+     * @param force If true then will directly fetch instead of searching cache
      */
-    async getByURI(uri: string): Promise<any> {
-        return new Promise(async (resolve, reject) => {
-            let split = uri.split(':');
-            let id = split[2];
+    async getByURI(uri: string, force: boolean = false): Promise<any> {
+        if(!uri.match(/spotify\:(track|album|artist|episode|show|user)\:(.*?)/g)) throw new TypeError('Invalid uri form');
+        let split = uri.split(':');
+        let id = split[2];
 
-            try{
-                switch(split[1]) {
-                    case 'album':
-                        resolve(await this.albums.get(id));
-                        break;
-                    
-                    case 'artist':
-                        resolve(await this.artists.get(id));
-                        break;
-
-                    case 'episode':
-                        resolve(await this.episodes.get(id));
-                        break;
-
-                    case 'show':
-                        resolve(await this.shows.get(id));
-                        break;
-
-                    case 'track':
-                        resolve(await this.shows.get(id));
-                        break;
-
-                    case 'user':
-                        resolve(await this.shows.get(id));
-                        break;
-
-                    default:
-                        reject(new UnexpectedError('We could not resolve your given uri!'))
-                };
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        switch(split[1]) {
+            case 'album': return await this.albums.get(id, force);
+            case 'artist': return await this.artists.get(id, force);
+            case 'episode': return await this.episodes.get(id, force);
+            case 'show': return await this.shows.get(id, force);
+            case 'user': return await this.users.get(id, force);
+            case 'track': return await this.tracks.get(id, force);
+            default: throw new Error('Invalid uri form');
+        };
         
     };
     

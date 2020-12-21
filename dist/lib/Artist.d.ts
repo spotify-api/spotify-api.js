@@ -2,42 +2,39 @@
  * Artist lib file
  */
 import Track from "../structures/Track";
+import Client from "../Client";
 import Spotify from "../Spotify";
 import ArtistStructure from "../structures/Artist";
-import SimplifiedAlbum from "../structures/SimplifiedAlbum";
+import Album from "../structures/Album";
 /**
  * Class of all methods related to artists
  */
 declare class Artist extends Spotify {
+    client: Client;
+    constructor(token: string, client: Client);
     /**
      * **Example:**
      * ```js
      * const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
-       const advanced = await spotify.artists.search("alec benjamin", {
-           limit: 1,
-           advanced: true,
-       }); // Returns a `dominantColor` and `codeImage` key with the response..
      * ```
      *
      * @param q Your search query
-     * @param options Options such as limit, advanced as params
+     * @param options Options such as limit and params
      */
     search(q: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
     }): Promise<ArtistStructure[]>;
     /**
      * **Example:**
      * ```js
-     * const artist = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
+     * const artist = await spotify.artists.get("artist id"); // Get artists by id
      * ```
      *
      * @param id Id of the artist
+     * @param force If true will directly fetch else will search cache
      */
-    get(id: string, options?: {
-        advanced?: boolean;
-    }): Promise<ArtistStructure>;
+    get(id: string, force?: boolean): Promise<ArtistStructure>;
     /**
      * **Example:**
      * ```js
@@ -48,9 +45,8 @@ declare class Artist extends Spotify {
      */
     getAlbums(id: string, options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
-    }): Promise<SimplifiedAlbum[]>;
+    }): Promise<Album[]>;
     /**
      * **Example:**
      * ```js
@@ -61,7 +57,6 @@ declare class Artist extends Spotify {
      * @param options Options to configure your search
      */
     topTracks(id: string, options?: {
-        advanced?: boolean;
         params?: any;
     }): Promise<Track[]>;
     /**
@@ -74,7 +69,6 @@ declare class Artist extends Spotify {
      * @param options Options to configure your search
      */
     relatedArtists(id: string, options?: {
-        advanced?: boolean;
         params?: any;
     }): Promise<ArtistStructure[]>;
 }

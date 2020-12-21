@@ -4,14 +4,21 @@
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
+import Client from "../Client";
 import AlbumStructure from '../structures/Album';
-import SimplifiedAlbum from "../structures/SimplifiedAlbum";
-import SimplifiedTrack from "../structures/SimplifiedTrack";
+import Track from "../structures/Track";
 
 /**
  * Class of all methods related to albums
  */
 class Album extends Spotify {
+
+    client: Client;
+
+    constructor(token: string, client: Client){
+        super(token);
+        this.client = client;
+    }
 
     /**
      * **Example:**
@@ -22,47 +29,28 @@ class Album extends Spotify {
      * @param q Your query
      * @param options Options such as limit, advanced and params
      */
-    async search(
-        q: string,
-        options: {
-            limit?: number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Album[]> {
+
+        if(!q) throw new MissingParamError("missing query!");
+
+        try{
+            const data = await this.fetch({
+                link: "v1/search",
+                params: {
+                    q,
+                    market: "US",
+                    limit: options.limit,
+                    type: "album",
+                    ...options.params
+                },
+            });
+
+            let items = data.albums.items.map(x => new Album(x, this.client));
+            if(this.client.cacheOptions.cacheAlbums) this.client.cache.albums.push(...items);
+            return items;
+        }catch(e){
+            throw new UnexpectedError(e);
         }
-    ): Promise<SimplifiedAlbum[]> {
-
-        return new Promise(async (resolve, reject) => {
-            if (!q) throw new MissingParamError("missing query!");
-
-            try {
-                const res = await this.fetch({
-                    link: "v1/search",
-                    params: {
-                        q: encodeURIComponent(q),
-                        market: "US",
-                        limit: options.limit,
-                        type: "album",
-                        ...options.params
-                    },
-                });
-
-                let items = res.albums.items.map(x => new SimplifiedAlbum(x));
-
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-
-                resolve(items);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
 
     };
 
@@ -73,30 +61,23 @@ class Album extends Spotify {
      * ```
      * 
      * @param id Id of the album
-     * @param options Only advanced options
+     * @param force If true then will directly fetch instead of searching cache
      */
-    async get(
-        id: string,
-        options: { advanced?: boolean } = {}
-    ): Promise<AlbumStructure> {
+    async get(id: string, force: boolean = false): Promise<AlbumStructure> {
 
-        return new Promise(async (resolve, reject) => {
-            if (!id) reject(new MissingParamError("missing id"));
+        if(!id) throw new MissingParamError("missing id");
+        if(!force){
+            let existing = this.client.cache.albums.get(id);
+            if(existing) return existing;
+        }
 
-            try {
-                let res = new AlbumStructure(await this.fetch({ link: `v1/albums/${id}`, }));
-
-                if(options.advanced) {
-                    let uri = await this.getCodeImage(res.uri);
-                    res.codeImage = uri.image;
-                    res.dominantColor = uri.dominantColor;
-                };
-
-                resolve(res);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            }
-        });
+        try{
+            const data = new AlbumStructure(await this.fetch({ link: `v1/albums/${id}` }), this.client);
+            if(this.client.cacheOptions.cacheAlbums) this.client.cache.albums.push(data);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -109,47 +90,28 @@ class Album extends Spotify {
      * @param id Id of the song
      * @param options Options such as limit, advanced and params
      */
-    async getTracks(
-        id: string,
-        options: {
-            limit?: string | null | number;
-            advanced?: boolean;
-            params?: any;
-        } = {
-            limit: 20
-        }
-    ): Promise<SimplifiedTrack[]> {
+    async getTracks(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Track[]> {
 
-        return new Promise(async (resolve, reject) => {
-            if(!id) reject(new MissingParamError("missing id!"));
+        if(!id) throw new MissingParamError("missing id!");
 
-            try {
-                const res = await this.fetch({
-                    link: `v1/albums/${id}/tracks`,
-                    params: {
-                        limit: options.limit || 20,
-                        market: "US",
-                        offset: "0",
-                        ...options.params
-                    },
-                });
+        try{
+            const data = await this.fetch({
+                link: `v1/albums/${id}/tracks`,
+                params: {
+                    limit: options.limit || 20,
+                    market: "US",
+                    offset: "0",
+                    ...options.params
+                },
+            });
 
-                let items = res.items.map(x => new SimplifiedTrack(x));
+            let items = data.items.map(x => new Track(x, this.client));
+            if(this.client.cacheOptions.cacheTracks) this.client.cache.tracks.push(data);
+            return items;
+        }catch(e){
+            throw new UnexpectedError(e);
+        };
 
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    };
-                };
-
-                resolve(items);
-            } catch (e) {
-                reject(new UnexpectedError(e));
-            };
-
-        });
     };
 
 };

@@ -1,21 +1,25 @@
 /**
  * Public User Structure
  */
-import { CodeImageReturn, Image } from "./Interface";
+import { Image } from "./Interface";
+import Client from '../Client';
+import Playlist from './Playlist';
 /**
  * Public User Class
  */
 declare class PublicUser {
-    data: any;
-    displayName: string;
+    readonly data: any;
+    readonly client: Client;
+    name: string;
     externalUrls: any;
-    totalFollowers?: number;
     href: string;
     id: string;
     type: string;
     uri: string;
     images: Image[];
+    playlists: Playlist[];
     codeImage: string;
+    totalFollowers?: number;
     /**
      * **Example:**
      *
@@ -24,15 +28,19 @@ declare class PublicUser {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Main client
      */
-    constructor(data: any);
+    constructor(data: any, client: Client);
     /**
-     * Returns the code image with dominant color
+     * Fetches tracks
      */
-    getCodeImage(): Promise<CodeImageReturn>;
+    fetch(): Promise<PublicUser>;
     /**
-     * Returns the uri data
+     * Returns you the user playlists
+     *
+     * @param force If true will directly fetch and return else will return you from cache
+     * @param limit Limit of results
      */
-    getURIData(): Promise<any>;
+    getPlaylists(force?: boolean, limit?: number): Promise<Playlist[]>;
 }
 export default PublicUser;

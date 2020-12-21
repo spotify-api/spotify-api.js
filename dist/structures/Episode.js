@@ -7,8 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Episode Structure
  */
 const Spotify_1 = __importDefault(require("../Spotify"));
-const SimplifiedShow_1 = __importDefault(require("./SimplifiedShow"));
-const util = new Spotify_1.default();
+const Show_1 = __importDefault(require("./Show"));
 /**
  * Episode class
  */
@@ -21,9 +20,11 @@ class Episode {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client Spotify client
      */
-    constructor(data) {
+    constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
         this.audioPreviewUrl = data.audio_preview_url;
         this.description = data.description;
         this.duration = data.duration_ms;
@@ -50,25 +51,18 @@ class Episode {
     }
     ;
     /**
+     * Returns a code image
+     * @param color Hex color code
+     */
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
+    /**
      * Show object
      * @readonly
      */
     get show() {
-        return new SimplifiedShow_1.default(this.data.show);
-    }
-    ;
-    /**
-     * Returns the code image with dominant color
-     */
-    async getCodeImage() {
-        return await util.getCodeImage(this.uri);
-    }
-    ;
-    /**
-     * Returns the uri data
-     */
-    async getURIData() {
-        return await util.getURIData(this.uri);
+        return this.data.show ? new Show_1.default(this.data.show, this.client) : null;
     }
     ;
     /**
@@ -77,6 +71,13 @@ class Episode {
      */
     get releasedAt() {
         return new Date(this.releaseDate);
+    }
+    ;
+    /**
+     * Refreshes the episode info
+     */
+    async fetch() {
+        return await this.client.episodes.get(this.id, true);
     }
     ;
 }

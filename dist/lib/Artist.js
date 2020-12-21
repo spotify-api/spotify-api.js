@@ -1,93 +1,83 @@
 "use strict";
-// @ts-nocheck
+/**
+ * Artist lib file
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Artist lib file
- */
 const Track_1 = __importDefault(require("../structures/Track"));
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Artist_1 = __importDefault(require("../structures/Artist"));
-const SimplifiedAlbum_1 = __importDefault(require("../structures/SimplifiedAlbum"));
+const Album_1 = __importDefault(require("../structures/Album"));
 /**
  * Class of all methods related to artists
  */
 class Artist extends Spotify_1.default {
+    constructor(token, client) {
+        super(token);
+        this.client = client;
+    }
     /**
      * **Example:**
      * ```js
      * const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
-       const advanced = await spotify.artists.search("alec benjamin", {
-           limit: 1,
-           advanced: true,
-       }); // Returns a `dominantColor` and `codeImage` key with the response..
      * ```
      *
      * @param q Your search query
-     * @param options Options such as limit, advanced as params
+     * @param options Options such as limit and params
      */
-    async search(q, options = {
-        limit: 20
-    }) {
-        return new Promise(async (resolve, reject) => {
-            if (!q)
-                reject(new Error_1.MissingParamError("missing query"));
-            try {
-                const res = await this.fetch({
-                    link: `v1/search`,
-                    params: {
-                        q: encodeURIComponent(q),
-                        type: "artist",
-                        market: "US",
-                        limit: options.limit,
-                        ...options.params
-                    },
-                });
-                let items = res.artists.items.map(x => new Artist_1.default(x));
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-                resolve(items);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+    async search(q, options = { limit: 20 }) {
+        if (!q)
+            throw new Error_1.MissingParamError("missing query");
+        try {
+            const data = await this.fetch({
+                link: `v1/search`,
+                params: {
+                    q,
+                    type: "artist",
+                    market: "US",
+                    limit: options.limit,
+                    ...options.params
+                },
+            });
+            let items = data.artists.items.map(x => new Artist_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheArtists)
+                this.client.cache.artists.push(...items);
+            return items;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     ;
     /**
      * **Example:**
      * ```js
-     * const artist = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
+     * const artist = await spotify.artists.get("artist id"); // Get artists by id
      * ```
      *
      * @param id Id of the artist
+     * @param force If true will directly fetch else will search cache
      */
-    async get(id, options = {}) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                const data = new Artist_1.default(await this.fetch({ link: `v1/artists/${id}` }));
-                if (options.advanced) {
-                    const codeImage = await this.getCodeImage(data.uri);
-                    data.codeImage = codeImage.image;
-                    data.dominantColor = codeImage.dominantColor;
-                }
-                ;
-                resolve(data);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+    async get(id, force = false) {
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        if (!force) {
+            let existing = this.client.cache.artists.get(id);
+            if (existing)
+                return existing;
+        }
+        try {
+            const data = new Artist_1.default(await this.fetch({ link: `v1/artists/${id}` }), this.client);
+            if (this.client.cacheOptions.cacheArtists)
+                this.client.cache.artists.push(data);
+            return data;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     /**
      * **Example:**
@@ -97,36 +87,27 @@ class Artist extends Spotify_1.default {
      * @param id Id of the artist
      * @param options Options to configure your search
      */
-    async getAlbums(id, options = {
-        limit: 20
-    }) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                const res = await this.fetch({
-                    link: `v1/artists/${id}/albums`,
-                    params: {
-                        limit: options.limit,
-                        market: "US",
-                        include_groups: "single",
-                        ...options.params
-                    },
-                });
-                let items = res.items.map(x => new SimplifiedAlbum_1.default(x));
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-                resolve(items);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+    async getAlbums(id, options = { limit: 20 }) {
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        try {
+            const data = await this.fetch({
+                link: `v1/artists/${id}/albums`,
+                params: {
+                    limit: options.limit,
+                    market: "US",
+                    include_groups: "single",
+                    ...options.params
+                },
+            });
+            let items = data.items.map(x => new Album_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheAlbums)
+                this.client.cache.albums.push(...items);
+            return items;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     /**
      * **Example:**
@@ -138,31 +119,24 @@ class Artist extends Spotify_1.default {
      * @param options Options to configure your search
      */
     async topTracks(id, options = {}) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                const res = await this.fetch({
-                    link: `v1/artists/${id}/top-tracks`,
-                    params: {
-                        country: "US",
-                        ...options.params
-                    },
-                });
-                let items = res.tracks.map(x => new Track_1.default(x));
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-                resolve(items);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        try {
+            const data = await this.fetch({
+                link: `v1/artists/${id}/top-tracks`,
+                params: {
+                    country: "US",
+                    ...options.params
+                },
+            });
+            let items = data.tracks.map(x => new Track_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheTracks)
+                this.client.cache.tracks.push(...items);
+            return items;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     ;
     /**
@@ -175,30 +149,24 @@ class Artist extends Spotify_1.default {
      * @param options Options to configure your search
      */
     async relatedArtists(id, options = {}) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                const res = await this.fetch({
-                    link: `v1/artists/${id}/related-artists`,
-                    params: {
-                        country: "US",
-                    },
-                });
-                let items = res.artists.map(x => new Artist_1.default(x));
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                }
-                resolve(items);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        try {
+            const data = await this.fetch({
+                link: `v1/artists/${id}/related-artists`,
+                params: {
+                    country: "US",
+                    ...options.params
+                },
+            });
+            let items = data.artists.map(x => new Artist_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheArtists)
+                this.client.cache.artists.push(...items);
+            return items;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     ;
 }

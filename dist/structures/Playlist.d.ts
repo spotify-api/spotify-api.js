@@ -1,21 +1,51 @@
 /**
  * Playlist class
  */
-import { PlaylistTrack } from "./PlaylistUtils";
-import { CodeImageReturn } from "./Interface";
+import { Image } from "./Interface";
 import PublicUser from "./PublicUser";
+import Track from "./Track";
+import Episode from "./Episode";
+import Client from "../Client";
+export declare class PlaylistTrack {
+    readonly data: any;
+    readonly client: Client;
+    addedAt: string | null;
+    local: boolean;
+    /**
+     * **Example:**
+     *
+     * ```js
+     * const track = new PlaylistTrack(data);
+     * ```
+     *
+     * @param data Received raw data from the spotify api
+     * @param client Spotify Client
+     */
+    constructor(data: any, client: Client);
+    /**
+     * Added by user object
+     * @readonly
+     */
+    get addedBy(): PublicUser | null;
+    /**
+     * Full info of the track
+     * @readonly
+     */
+    get track(): Track | Episode;
+}
 /**
  * Playlist structure
  */
 export default class Playlist {
-    data: any;
+    readonly data: any;
+    readonly client: Client;
     collaborative: boolean;
     description: string;
     externalUrls: any;
-    totalFollowers: number;
+    totalFollowers?: number;
     href: string;
     id: string;
-    images: any[];
+    images: Image[];
     name: string;
     public: boolean | null;
     snapshotId: string;
@@ -31,7 +61,7 @@ export default class Playlist {
      *
      * @param data Received raw data from the spotify api
      */
-    constructor(data: any);
+    constructor(data: any, client: Client);
     /**
      * Owner user object
      * @readonly
@@ -43,11 +73,12 @@ export default class Playlist {
      */
     get tracks(): PlaylistTrack[];
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    getCodeImage(): Promise<CodeImageReturn>;
+    makeCodeImage(color?: string): string;
     /**
-     * Returns the uri data
+     * Returns a fresh playlist without searching in the cache!
      */
-    getURIData(): Promise<any>;
+    fetch(): Promise<Playlist>;
 }
