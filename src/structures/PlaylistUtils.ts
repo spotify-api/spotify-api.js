@@ -1,3 +1,4 @@
+//@ts-ignore
 /**
  * Playlist Utility Structures
  */
@@ -50,7 +51,8 @@ export class PlaylistTrack{
      * @readonly
      */
     get track(): Track | Episode {
-        return this.data.track.description ? new Episode(this.data.track) : new Track(this.data.track);
+        // return this.data.track.description ? new Episode(this.data.track) : new Track(this.data.track);
+        return new Episode({});
     };
 
 };

@@ -1,19 +1,19 @@
 /**
  * Track structure
  */
-import { Restriction, CodeImageReturn, DominantColor } from "./Interface";
-import Util from '../Spotify';
+import { Restriction, TrackAudioFeatures, TrackAudioAnalysis } from "./Interface";
 import SimplifiedArtist from "./SimplifiedArtist";
 import SimplifiedAlbum from "./SimplifiedAlbum";
-
-const util = new Util();
+import Util from '../Spotify';
+import Client from '../Client';
 
 /**
  * LinkedTrack Class
  */
 export class LinkedTrack{
 
-    data: any;
+    readonly data: any;
+
     externalUrls: any;
     href: string;
     id: string;
@@ -40,20 +40,14 @@ export class LinkedTrack{
         this.uri = data.uri;
 
     };
-
+    
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    async getCodeImage(): Promise<CodeImageReturn> {
-        return await util.getCodeImage(this.uri);
-    };
-
-    /**
-     * Returns the uri data
-     */
-    async getURIData(): Promise<any> {
-        return await util.getURIData(this.uri);
-    };
+    makeCodeImage(color: string = '1DB954'): string {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
 
 };
 
@@ -62,7 +56,10 @@ export class LinkedTrack{
  */
 export default class Track {
 
-    data: any;
+    readonly data: any;
+    readonly client: Client;
+    readonly simplified: boolean;
+
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -72,17 +69,18 @@ export default class Track {
     href: string;
     id: string;
     name: string;
-    popularity: number;
     previewUrl: string;
     trackNumber: number;
     type: string;
     uri: string;
     local: boolean;
+    restrictions: Restriction | null;
+    popularity: number | null;
+    auidoAnalysis: TrackAudioAnalysis | null;
+    audioFeatures: TrackAudioFeatures | null;
+
     playable?: boolean;
     linkedFrom?: LinkedTrack;
-    restrictions?: Restriction;
-    codeImage?: string;
-    dominantColor?: DominantColor;
 
     /**
      * **Example:**
@@ -92,60 +90,85 @@ export default class Track {
      * ```
      * 
      * @param data Received raw data from the spotify api
+     * @param client The client
      */
-    constructor(data){
+    constructor(data: any, client: Client){
 
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
 
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
         this.explicit = data.explicit;
-        this.externalIds = data.external_ids;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.name = data.name;
-        this.popularity = data.popularity;
         this.previewUrl = data.preview_url;
         this.trackNumber = data.track_number;
         this.type = data.type;
         this.uri = data.uri;
         this.playable = data.is_playable;
-        this.restrictions = data.restrictions;
         this.local = Boolean(data.is_local);
+        this.audioFeatures = null;
+        this.auidoAnalysis = null;
+        this.externalIds = data.external_ids || null;
+        this.popularity = data.popularity || null;
+        this.restrictions = data.restrictions || null;
+        this.simplified = true;
+
+        if('external_ids' in data){
+            this.simplified = false;
+        }
+
         if('linked_from' in data) this.linkedFrom = data.linked_from;
         
-    };
+    }
 
     /**
      * Album object
      * @readonly
      */
     get album(): SimplifiedAlbum {
-        return new SimplifiedAlbum(this.album);
-    };
+        return new SimplifiedAlbum(this.data.album);
+    }
 
     /**
      * Returns the array of SimplifiedArtist
      * @readonly
      */
     get artists(): SimplifiedArtist[] {
-        return this.data.map(x => new SimplifiedArtist(x));
-    };
+        return this.data.artists.map(x => new SimplifiedArtist(x));
+    }
 
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    async getCodeImage(): Promise<CodeImageReturn> {
-        return await util.getCodeImage(this.uri);
-    };
+    makeCodeImage(color: string = '1DB954'): string {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
 
     /**
-     * Returns the uri data
+     * Returns the audio features of the tracks
      */
-    async getURIData(): Promise<any> {
-        return await util.getURIData(this.uri);
-    };
+    async getAudioFeatures(): Promise<TrackAudioFeatures> {
+        return this.audioFeatures || await this.client.tracks.audioFeatures(this.id);
+    }
 
-};
+    /**
+     * Returns the audio analysis of the tracks
+     */
+    async getAudioAnalysis(): Promise<TrackAudioAnalysis> {
+        return this.auidoAnalysis || await this.client.tracks.audioAnalysis(this.id);
+    }
+
+    /**
+     * Fetches tracks
+     */
+    async fetch(): Promise<Track> {
+        return await this.client.tracks.get(this.id, true);
+    }
+
+}

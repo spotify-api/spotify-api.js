@@ -12,22 +12,29 @@ import Episode from './lib/Episode';
 import Show from './lib/Show';
 import Browse from './lib/Browse';
 
+import TrackStructure from './structures/Track';
+
 import Spotify from './Spotify';
 import UserClient from './UserClient';
-import { SearchReturn } from "./structures/Interface";
+import CacheManager from './CacheManager';
 
 import { MissingParamError, UnexpectedError } from './Error';
+
+export interface CacheOptions{
+    cacheTracks?: boolean;
+}
 
 /**
  * **Client class**
  * 
  * The class which collects all the methods
  */
-export default class {
+export default class Client {
       
     token: string;
     utils: Spotify;
     startedAt: number;
+    cacheOptions: CacheOptions;
     
     oauth: Auth;
     users: User;
@@ -40,6 +47,10 @@ export default class {
     browse: Browse;
     user: UserClient;
 
+    cache: {
+        tracks: CacheManager<string, TrackStructure>
+    }
+
     /**
      * @param oauth Token
      * 
@@ -49,21 +60,31 @@ export default class {
      * const client = new Spotify.Client('oauth token')
      * ```
      */
-    constructor(oauth?: string) {
+    constructor(
+        oauth?: string,
+        cacheOptions: CacheOptions = {
+            cacheTracks: false
+        }
+    ) {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify(this.token)
         this.startedAt = Date.now();
+        this.cacheOptions = cacheOptions;
 
+        this.tracks = new Track(this.token, this);
         this.oauth = new Auth(this.token);
         this.users = new User(this.token);
         this.playlists = new Playlist(this.token);
-        this.tracks = new Track(this.token);
         this.albums = new Album(this.token);
         this.artists = new Artist(this.token);
         this.episodes = new Episode(this.token);
         this.shows = new Show(this.token);
         this.browse = new Browse(this.token);
         this.user = new UserClient(this.token);
+
+        this.cache = {
+            tracks: new CacheManager<string, TrackStructure>('id')
+        };
     };
 
     /**
@@ -84,7 +105,7 @@ export default class {
         this.oauth = new Auth(this.token);
         this.users = new User(this.token);
         this.playlists = new Playlist(this.token);
-        this.tracks = new Track(this.token);
+        this.tracks = new Track(this.token, this);
         this.albums = new Album(this.token);
         this.artists = new Artist(this.token);
         this.episodes = new Episode(this.token);

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * Artist lib file
  */

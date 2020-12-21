@@ -25,7 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Structures = exports.Interface = exports.Util = exports.UserPlayer = exports.UserClient = exports.Browse = exports.Show = exports.Episode = exports.Artist = exports.Album = exports.Track = exports.Playlist = exports.User = exports.Auth = exports.Client = exports.version = void 0;
+exports.Structures = exports.Interface = exports.CacheManager = exports.Util = exports.UserPlayer = exports.UserClient = exports.Browse = exports.Show = exports.Episode = exports.Artist = exports.Album = exports.Track = exports.Playlist = exports.User = exports.Auth = exports.Client = exports.version = void 0;
 const Client_1 = __importDefault(require("./Client"));
 exports.Client = Client_1.default;
 const Auth_1 = __importDefault(require("./lib/Auth"));
@@ -52,6 +52,8 @@ const UserClient_1 = __importDefault(require("./UserClient"));
 exports.UserClient = UserClient_1.default;
 const UserPlayer_1 = __importDefault(require("./UserPlayer"));
 exports.UserPlayer = UserPlayer_1.default;
+const CacheManager_1 = __importDefault(require("./CacheManager"));
+exports.CacheManager = CacheManager_1.default;
 const Interface = __importStar(require("./structures/Interface"));
 exports.Interface = Interface;
 /**

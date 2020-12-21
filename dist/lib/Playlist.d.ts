@@ -1,6 +1,3 @@
-/**
- * Playlist lib file
- */
 import Spotify from "../Spotify";
 import { Image } from "../structures/Interface";
 import PlaylistStructure from "../structures/Playlist";
@@ -16,8 +13,11 @@ declare class Playlist extends Spotify {
      * ```
      *
      * @param id Id of the playlist
+     * @param options options to configure
      */
-    get(id: string): Promise<PlaylistStructure>;
+    get(id: string, options?: {
+        advanced?: boolean;
+    }): Promise<PlaylistStructure>;
     /**
      * **Example:**
      * ```js

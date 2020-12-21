@@ -11,7 +11,7 @@
         "lib": ["es2018", "dom"],
         "rootDir": "./src",
         "outDir": "./dist",
-        "strict": true
+        "strict": false
     },
     "include": ["src"],
     "exclude": ["node_modules", "types", "dist"]

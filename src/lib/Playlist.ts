@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * Playlist lib file
  */
@@ -20,23 +22,26 @@ class Playlist extends Spotify {
      * ```
      * 
      * @param id Id of the playlist
+	 * @param options options to configure
      */
-    async get(id: string): Promise<PlaylistStructure> {
+    async get(
+	    id: string,
+		options: { advanced?: boolean } = {}
+	): Promise<PlaylistStructure> {
 
         return new Promise(async (resolve, reject) => {
             if (!id) reject(new MissingParamError("missing id"));
-
+			
             try {
-                resolve(
-                    new PlaylistStructure(
-                        await this.fetch({
-                            link: `v1/playlists/${id}`,
-                            params: {
-                                market: "US",
-                            },
-                        })
-                    )
-                );
+				let res = await this.fetch({ link: `v1/playlists/${id}`, });
+				
+				if(options.advanced){
+					let data = await this.getCodeImage(res[i].uri);
+                    res.codeImage = data.image;
+                    res.dominantColor = data.dominantColor;
+				};
+				
+                resolve(new PlaylistStructure(res))
             } catch (e) {
                 reject(new UnexpectedError(e));
             }

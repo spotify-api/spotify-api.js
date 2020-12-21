@@ -17,13 +17,14 @@ const Show_1 = __importDefault(require("./lib/Show"));
 const Browse_1 = __importDefault(require("./lib/Browse"));
 const Spotify_1 = __importDefault(require("./Spotify"));
 const UserClient_1 = __importDefault(require("./UserClient"));
+const CacheManager_1 = __importDefault(require("./CacheManager"));
 const Error_1 = require("./Error");
 /**
  * **Client class**
  *
  * The class which collects all the methods
  */
-class default_1 {
+class Client {
     /**
      * @param oauth Token
      *
@@ -33,20 +34,26 @@ class default_1 {
      * const client = new Spotify.Client('oauth token')
      * ```
      */
-    constructor(oauth) {
+    constructor(oauth, cacheOptions = {
+        cacheTracks: false
+    }) {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify_1.default(this.token);
         this.startedAt = Date.now();
+        this.cacheOptions = cacheOptions;
+        this.tracks = new Track_1.default(this.token, this);
         this.oauth = new Auth_1.default(this.token);
         this.users = new User_1.default(this.token);
         this.playlists = new Playlist_1.default(this.token);
-        this.tracks = new Track_1.default(this.token);
         this.albums = new Album_1.default(this.token);
         this.artists = new Artist_1.default(this.token);
         this.episodes = new Episode_1.default(this.token);
         this.shows = new Show_1.default(this.token);
         this.browse = new Browse_1.default(this.token);
         this.user = new UserClient_1.default(this.token);
+        this.cache = {
+            tracks: new CacheManager_1.default('id')
+        };
     }
     ;
     /**
@@ -66,7 +73,7 @@ class default_1 {
         this.oauth = new Auth_1.default(this.token);
         this.users = new User_1.default(this.token);
         this.playlists = new Playlist_1.default(this.token);
-        this.tracks = new Track_1.default(this.token);
+        this.tracks = new Track_1.default(this.token, this);
         this.albums = new Album_1.default(this.token);
         this.artists = new Artist_1.default(this.token);
         this.episodes = new Episode_1.default(this.token);
@@ -142,6 +149,7 @@ class default_1 {
     ;
     /**
      * **Example:**
+     *
      * ```js
      * let uriInfo = await client.getByURI("spotify:album:0sNOF9WDwhWunNAHPD3Baj");
      * ```
@@ -185,5 +193,5 @@ class default_1 {
     }
     ;
 }
-exports.default = default_1;
+exports.default = Client;
 ;

@@ -1,11 +1,12 @@
 "use strict";
-/**
- * Artist lib file
- */
+// @ts-nocheck
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Artist lib file
+ */
 const Track_1 = __importDefault(require("../structures/Track"));
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));

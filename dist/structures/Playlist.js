@@ -1,11 +1,12 @@
 "use strict";
-/**
- * Playlist class
- */
+//@ts-nocheck
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Playlist class
+ */
 const PlaylistUtils_1 = require("./PlaylistUtils");
 const PublicUser_1 = __importDefault(require("./PublicUser"));
 const Spotify_1 = __importDefault(require("../Spotify"));

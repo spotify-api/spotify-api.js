@@ -1,14 +1,15 @@
 /**
  * Track structure
  */
-import { Restriction, CodeImageReturn, DominantColor } from "./Interface";
+import { Restriction, TrackAudioFeatures, TrackAudioAnalysis } from "./Interface";
 import SimplifiedArtist from "./SimplifiedArtist";
 import SimplifiedAlbum from "./SimplifiedAlbum";
+import Client from '../Client';
 /**
  * LinkedTrack Class
  */
 export declare class LinkedTrack {
-    data: any;
+    readonly data: any;
     externalUrls: any;
     href: string;
     id: string;
@@ -25,19 +26,18 @@ export declare class LinkedTrack {
      */
     constructor(data: any);
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    getCodeImage(): Promise<CodeImageReturn>;
-    /**
-     * Returns the uri data
-     */
-    getURIData(): Promise<any>;
+    makeCodeImage(color?: string): string;
 }
 /**
  * Track class
  */
 export default class Track {
-    data: any;
+    readonly data: any;
+    readonly client: Client;
+    readonly simplified: boolean;
     availableMarkets: string[];
     discNumber: number;
     duration: number;
@@ -47,17 +47,17 @@ export default class Track {
     href: string;
     id: string;
     name: string;
-    popularity: number;
     previewUrl: string;
     trackNumber: number;
     type: string;
     uri: string;
     local: boolean;
+    restrictions: Restriction | null;
+    popularity: number | null;
+    auidoAnalysis: TrackAudioAnalysis | null;
+    audioFeatures: TrackAudioFeatures | null;
     playable?: boolean;
     linkedFrom?: LinkedTrack;
-    restrictions?: Restriction;
-    codeImage?: string;
-    dominantColor?: DominantColor;
     /**
      * **Example:**
      *
@@ -66,8 +66,9 @@ export default class Track {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client The client
      */
-    constructor(data: any);
+    constructor(data: any, client: Client);
     /**
      * Album object
      * @readonly
@@ -79,11 +80,20 @@ export default class Track {
      */
     get artists(): SimplifiedArtist[];
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    getCodeImage(): Promise<CodeImageReturn>;
+    makeCodeImage(color?: string): string;
     /**
-     * Returns the uri data
+     * Returns the audio features of the tracks
      */
-    getURIData(): Promise<any>;
+    getAudioFeatures(): Promise<TrackAudioFeatures>;
+    /**
+     * Returns the audio analysis of the tracks
+     */
+    getAudioAnalysis(): Promise<TrackAudioAnalysis>;
+    /**
+     * Fetches tracks
+     */
+    fetch(): Promise<Track>;
 }

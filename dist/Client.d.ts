@@ -10,17 +10,23 @@ import Artist from './lib/Artist';
 import Episode from './lib/Episode';
 import Show from './lib/Show';
 import Browse from './lib/Browse';
+import TrackStructure from './structures/Track';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
+import CacheManager from './CacheManager';
+export interface CacheOptions {
+    cacheTracks?: boolean;
+}
 /**
  * **Client class**
  *
  * The class which collects all the methods
  */
-export default class {
+export default class Client {
     token: string;
     utils: Spotify;
     startedAt: number;
+    cacheOptions: CacheOptions;
     oauth: Auth;
     users: User;
     playlists: Playlist;
@@ -31,6 +37,9 @@ export default class {
     shows: Show;
     browse: Browse;
     user: UserClient;
+    cache: {
+        tracks: CacheManager<string, TrackStructure>;
+    };
     /**
      * @param oauth Token
      *
@@ -40,7 +49,7 @@ export default class {
      * const client = new Spotify.Client('oauth token')
      * ```
      */
-    constructor(oauth?: string);
+    constructor(oauth?: string, cacheOptions?: CacheOptions);
     /**
      * **Example:**
      * ```js
@@ -90,6 +99,7 @@ export default class {
     }, callback: (err: any, data: any) => void): void;
     /**
      * **Example:**
+     *
      * ```js
      * let uriInfo = await client.getByURI("spotify:album:0sNOF9WDwhWunNAHPD3Baj");
      * ```

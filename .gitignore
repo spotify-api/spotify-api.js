@@ -12,6 +12,7 @@ package-lock.json
 .vscode/
 test.md
 run.sh
+tsconfig.json
 
 # Doc Gen File
 doc-gen.js

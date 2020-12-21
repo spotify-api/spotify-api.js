@@ -115,7 +115,6 @@ class Browse extends Spotify{
     async featuredPlaylists(
         options: {
             limit?: number;
-            advanced?: boolean;
             params?: any;
         } = {
             limit: 20

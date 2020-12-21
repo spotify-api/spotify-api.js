@@ -13,6 +13,10 @@ const Track_1 = __importDefault(require("../structures/Track"));
  * Class of all methods related to tracks
  */
 class Track extends Spotify_1.default {
+    constructor(token, client) {
+        super(token);
+        this.client = client;
+    }
     /**
      * **Example:**
      * ```js
@@ -26,39 +30,28 @@ class Track extends Spotify_1.default {
      * @param q Your query
      * @param options Options to configure your search...
      */
-    async search(q, options = {
-        limit: 20
-    }) {
-        return new Promise(async (resolve, reject) => {
-            if (!q)
-                reject(new Error_1.MissingParamError("missing query"));
-            try {
-                const res = await this.fetch({
-                    link: `v1/search`,
-                    params: {
-                        q: encodeURIComponent(q),
-                        type: "track",
-                        market: "US",
-                        limit: options.limit,
-                        ...options.params
-                    },
-                });
-                let items = res.tracks.items.map(x => new Track_1.default(x));
-                if (options.advanced) {
-                    for (let i = 0; i < items.length; i++) {
-                        let data = await this.getCodeImage(items[i].uri);
-                        items[i].codeImage = data.image;
-                        items[i].dominantColor = data.dominantColor;
-                    }
-                    ;
-                }
-                ;
-                resolve(items);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+    async search(q, options = { limit: 20 }) {
+        if (!q)
+            throw new Error_1.MissingParamError("missing query");
+        try {
+            const res = await this.fetch({
+                link: `v1/search`,
+                params: {
+                    q: encodeURIComponent(q),
+                    type: "track",
+                    market: "US",
+                    limit: options.limit,
+                    ...options.params
+                },
+            });
+            let items = res.tracks.items.map(x => new Track_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheTracks)
+                this.client.cache.tracks.push(...items);
+            return items;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     ;
     /**
@@ -68,27 +61,26 @@ class Track extends Spotify_1.default {
      * ```
      *
      * @param id Id of the track
-     * @param options Options such as advanced
+     * @param options Options such as force fetch
      */
-    async get(id, options = {}) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                const data = new Track_1.default(await this.fetch({ link: `v1/tracks/${id}`, }));
-                if (options.advanced) {
-                    const codeImage = await this.getCodeImage(data.uri);
-                    data.codeImage = codeImage.image;
-                    data.dominantColor = codeImage.dominantColor;
-                }
-                ;
-                resolve(data);
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-            ;
-        });
+    async get(id, force = false) {
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        if (!force) {
+            let existing = this.client.cache.tracks.get(id);
+            if (existing)
+                return existing;
+        }
+        try {
+            const data = new Track_1.default(await this.fetch({ link: `v1/tracks/${id}` }), this.client);
+            if (this.client.cacheOptions.cacheTracks)
+                this.client.cache.tracks.push(data);
+            return data;
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
+        ;
     }
     ;
     /**
@@ -100,16 +92,14 @@ class Track extends Spotify_1.default {
      * @param id Id of the track
      */
     async audioFeatures(id) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                resolve(await this.fetch({ link: `v1/audio-features/${id}` }));
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-        });
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        try {
+            return await this.fetch({ link: `v1/audio-features/${id}` });
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
     }
     ;
     /**
@@ -121,17 +111,15 @@ class Track extends Spotify_1.default {
      * @param id Id of the track
      */
     async audioAnalysis(id) {
-        return new Promise(async (resolve, reject) => {
-            if (!id)
-                reject(new Error_1.MissingParamError("missing id"));
-            try {
-                resolve(await this.fetch({ link: `v1/audio-analysis/${id}` }));
-            }
-            catch (e) {
-                reject(new Error_1.UnexpectedError(e));
-            }
-            ;
-        });
+        if (!id)
+            throw new Error_1.MissingParamError("missing id");
+        try {
+            return await this.fetch({ link: `v1/audio-analysis/${id}` });
+        }
+        catch (e) {
+            throw new Error_1.UnexpectedError(e);
+        }
+        ;
     }
     ;
 }

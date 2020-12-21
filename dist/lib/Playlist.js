@@ -1,11 +1,12 @@
 "use strict";
-/**
- * Playlist lib file
- */
+// @ts-nocheck
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Playlist lib file
+ */
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Playlist_1 = __importDefault(require("../structures/Playlist"));
@@ -21,18 +22,21 @@ class Playlist extends Spotify_1.default {
      * ```
      *
      * @param id Id of the playlist
+     * @param options options to configure
      */
-    async get(id) {
+    async get(id, options = {}) {
         return new Promise(async (resolve, reject) => {
             if (!id)
                 reject(new Error_1.MissingParamError("missing id"));
             try {
-                resolve(new Playlist_1.default(await this.fetch({
-                    link: `v1/playlists/${id}`,
-                    params: {
-                        market: "US",
-                    },
-                })));
+                let res = await this.fetch({ link: `v1/playlists/${id}`, });
+                if (options.advanced) {
+                    let data = await this.getCodeImage(res[i].uri);
+                    res.codeImage = data.image;
+                    res.dominantColor = data.dominantColor;
+                }
+                ;
+                resolve(new Playlist_1.default(res));
             }
             catch (e) {
                 reject(new Error_1.UnexpectedError(e));

@@ -38,7 +38,6 @@ declare class Browse extends Spotify {
      */
     featuredPlaylists(options?: {
         limit?: number;
-        advanced?: boolean;
         params?: any;
     }): Promise<FeaturedPlaylistReturn>;
     /**

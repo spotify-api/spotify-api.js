@@ -29,7 +29,7 @@ class Util {
      *
      * Function used to convert the hex string to rgb array.
      */
-    hexToRgb(hex) {
+    static hexToRgb(hex) {
         if (typeof hex == "string" && /^([0-9A-F]{3}){1,2}$/i.test(hex))
             throw new Error_1.UtilityError("Invalid hex code provided!");
         hex = hex.replace(/^#/, "");
@@ -51,6 +51,14 @@ class Util {
         const green = (num >> 8) & 255;
         const blue = num & 255;
         return [red, green, blue, alpha];
+    }
+    /**
+     * @param hex Hex to be converted
+     *
+     * Function used to convert the hex string to rgb array.
+     */
+    hexToRgb(hex) {
+        return Util.hexToRgb(hex);
     }
     /**
      * @param options Fetch options

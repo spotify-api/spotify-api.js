@@ -4,10 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedTrack = void 0;
-const Spotify_1 = __importDefault(require("../Spotify"));
 const SimplifiedArtist_1 = __importDefault(require("./SimplifiedArtist"));
 const SimplifiedAlbum_1 = __importDefault(require("./SimplifiedAlbum"));
-const util = new Spotify_1.default();
+const Spotify_1 = __importDefault(require("../Spotify"));
 /**
  * LinkedTrack Class
  */
@@ -31,19 +30,12 @@ class LinkedTrack {
     }
     ;
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    async getCodeImage() {
-        return await util.getCodeImage(this.uri);
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-    ;
-    /**
-     * Returns the uri data
-     */
-    async getURIData() {
-        return await util.getURIData(this.uri);
-    }
-    ;
 }
 exports.LinkedTrack = LinkedTrack;
 ;
@@ -59,60 +51,75 @@ class Track {
      * ```
      *
      * @param data Received raw data from the spotify api
+     * @param client The client
      */
-    constructor(data) {
+    constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
+        Object.defineProperty(this, 'client', { value: client, writable: false });
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
         this.explicit = data.explicit;
-        this.externalIds = data.external_ids;
         this.externalUrls = data.external_urls;
         this.href = data.href;
         this.id = data.id;
         this.name = data.name;
-        this.popularity = data.popularity;
         this.previewUrl = data.preview_url;
         this.trackNumber = data.track_number;
         this.type = data.type;
         this.uri = data.uri;
         this.playable = data.is_playable;
-        this.restrictions = data.restrictions;
         this.local = Boolean(data.is_local);
+        this.audioFeatures = null;
+        this.auidoAnalysis = null;
+        this.externalIds = data.external_ids || null;
+        this.popularity = data.popularity || null;
+        this.restrictions = data.restrictions || null;
+        this.simplified = true;
+        if ('external_ids' in data) {
+            this.simplified = false;
+        }
         if ('linked_from' in data)
             this.linkedFrom = data.linked_from;
     }
-    ;
     /**
      * Album object
      * @readonly
      */
     get album() {
-        return new SimplifiedAlbum_1.default(this.album);
+        return new SimplifiedAlbum_1.default(this.data.album);
     }
-    ;
     /**
      * Returns the array of SimplifiedArtist
      * @readonly
      */
     get artists() {
-        return this.data.map(x => new SimplifiedArtist_1.default(x));
+        return this.data.artists.map(x => new SimplifiedArtist_1.default(x));
     }
-    ;
     /**
-     * Returns the code image with dominant color
+     * Returns a code image
+     * @param color Hex color code
      */
-    async getCodeImage() {
-        return await util.getCodeImage(this.uri);
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-    ;
     /**
-     * Returns the uri data
+     * Returns the audio features of the tracks
      */
-    async getURIData() {
-        return await util.getURIData(this.uri);
+    async getAudioFeatures() {
+        return this.audioFeatures || await this.client.tracks.audioFeatures(this.id);
     }
-    ;
+    /**
+     * Returns the audio analysis of the tracks
+     */
+    async getAudioAnalysis() {
+        return this.auidoAnalysis || await this.client.tracks.audioAnalysis(this.id);
+    }
+    /**
+     * Fetches tracks
+     */
+    async fetch() {
+        return await this.client.tracks.get(this.id, true);
+    }
 }
 exports.default = Track;
-;

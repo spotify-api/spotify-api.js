@@ -4,10 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaylistOwner = exports.PlaylistTrack = void 0;
-/**
- * Playlist Utility Structures
- */
-const Track_1 = __importDefault(require("./Track"));
 const PublicUser_1 = __importDefault(require("./PublicUser"));
 const Episode_1 = __importDefault(require("./Episode"));
 const Spotify_1 = __importDefault(require("../Spotify"));
@@ -47,7 +43,8 @@ class PlaylistTrack {
      * @readonly
      */
     get track() {
-        return this.data.track.description ? new Episode_1.default(this.data.track) : new Track_1.default(this.data.track);
+        // return this.data.track.description ? new Episode(this.data.track) : new Track(this.data.track);
+        return new Episode_1.default({});
     }
     ;
 }

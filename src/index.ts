@@ -17,6 +17,7 @@ import Show from './lib/Show';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 import UserPlayer from './UserPlayer';
+import CacheManager from './CacheManager';
 
 import * as Interface from "./structures/Interface";
 
@@ -48,6 +49,7 @@ export {
     UserClient,
     UserPlayer,
     Spotify as Util,
+    CacheManager,
     Interface
 };
 

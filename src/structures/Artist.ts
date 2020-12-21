@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Image } from './Interface';
 import SimplifiedArtist from './SimplifiedArtist';
 

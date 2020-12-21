@@ -29,6 +29,12 @@ declare class Util {
      *
      * Function used to convert the hex string to rgb array.
      */
+    static hexToRgb(hex: string): number[];
+    /**
+     * @param hex Hex to be converted
+     *
+     * Function used to convert the hex string to rgb array.
+     */
     hexToRgb(hex: string): number[];
     /**
      * @param options Fetch options
