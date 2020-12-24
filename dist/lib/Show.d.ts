@@ -44,5 +44,19 @@ declare class Show extends Spotify {
         limit?: number;
         params?: any;
     }): Promise<Episode[]>;
+    /**
+     * This method uses client.user.deleteShow
+     * This method deletes the show from your saved list
+     *
+     * @param ids Id of the show or shows
+     */
+    delete(ids: string | string[]): Promise<void>;
+    /**
+     * This method uses client.user.addShow
+     * This method adds the show to your saved list
+     *
+     * @param ids Id of the show or shows
+     */
+    add(ids: string | string[]): Promise<void>;
 }
 export default Show;

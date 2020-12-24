@@ -96,4 +96,14 @@ export default class Track {
      * Fetches tracks
      */
     fetch(): Promise<Track>;
+    /**
+     * This method uses the client.user.deleteTrack
+     * This method will delete this track from your save list
+     */
+    delete(): Promise<void>;
+    /**
+     * This method uses client.user.addTrack
+     * This method adds this track to your save list
+     */
+    add(): Promise<void>;
 }

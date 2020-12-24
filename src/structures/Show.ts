@@ -5,6 +5,7 @@ import { Copyright, Image } from "./Interface";
 import Episode from './Episode';
 import Util from '../Spotify';
 import Client from '../Client';
+import CacheManager from '../CacheManager';
 
 const util = new Util();
 
@@ -14,9 +15,9 @@ const util = new Util();
 export default class Show {
 
     readonly data: any;
-    readonly client: Client;
-    readonly episodes: Episode[];
+    readonly client!: Client;
 
+    episodes: Episode[] | CacheManager<string, Episode>;
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -65,8 +66,7 @@ export default class Show {
         this.type = data.type;
         this.uri = data.uri;
         this.totalEpisodes = data.total_episodes;
-
-        Object.defineProperty(this, 'episodes', { get: () => this.data.episodes ? this.data.episodes.items.map(x => new Episode(x, this.client)) : [] })
+        this.episodes = [];
 
     }
 
@@ -97,8 +97,24 @@ export default class Show {
         }
 
         const data = await this.client.shows.getEpisodes(this.id, { limit });
-        Object.defineProperty(this, 'episodes', { value: data });
+        this.episodes = data;
         return data;
+    }
+
+    /**
+     * This method uses the client.user.deleteShow method
+     * This method deletes this show from your saved list
+     */
+    async delete(): Promise<void> {
+        await this.client.user.deleteShow(this.id);
+    }
+
+    /**
+     * This method uses the client.user.addShow method
+     * This method adds this show to your saved list
+     */
+    async add(): Promise<void> {
+        await this.client.user.addShow(this.id);
     }
 
 };

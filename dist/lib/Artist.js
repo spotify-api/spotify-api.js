@@ -169,6 +169,22 @@ class Artist extends Spotify_1.default {
         }
     }
     ;
+    /**
+     * Verify if you follow the artists by ids but only if you have the required scopes
+     *
+     * @param ids Ids of the artist or artists
+     */
+    async follows(...ids) {
+        return await this.client.user.followsArtist(...ids);
+    }
+    /**
+     * Follows the artists
+     *
+     * @param ids Ids of the artist or artists
+     */
+    async follow(...ids) {
+        await this.client.user.followArtist(...ids);
+    }
 }
 ;
 exports.default = Artist;

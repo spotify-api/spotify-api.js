@@ -92,7 +92,18 @@ class Album {
         Object.defineProperty(this, 'tracks', { value: data });
         return data;
     }
-    ;
+    /**
+     * Deletes the album from your saved list
+     */
+    async delete() {
+        await this.client.user.deleteAlbum(this.id);
+    }
+    /**
+     * Adds this album to your saved list
+     */
+    async add() {
+        await this.client.user.addAlbum(this.id);
+    }
 }
 ;
 exports.default = Album;

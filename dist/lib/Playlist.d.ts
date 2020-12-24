@@ -43,5 +43,11 @@ declare class Playlist extends Spotify {
      * @param id Playlist id
      */
     getImages(id: string): Promise<Image[]>;
+    /**
+     * Follow a playlist by id
+     *
+     * @param id Id of the playlist
+     */
+    follow(id: string): Promise<void>;
 }
 export default Playlist;

@@ -70,7 +70,8 @@ class Util {
             method: (options.method || 'GET'),
             url: ("https://api.spotify.com/" + options.link),
             headers: { Authorization: `Bearer ${this.token}`, ...options.headers },
-            params: options.params || {}
+            params: options.params || {},
+            data: options.body || {}
         });
         return data;
     }

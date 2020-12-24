@@ -130,6 +130,26 @@ class Track extends Spotify {
 
     };
 
+    /**
+     * This method uses client.user.deleteTrack
+     * This method deletes the track from your save list
+     * 
+     * @param ids Ids od the track or tracks
+     */
+    async delete(ids: string | string[]): Promise<void> {
+        await this.client.user.deleteTrack(ids);
+    }
+
+    /**
+     * This method uses client.user.addTrack
+     * This method adds the track from your save list
+     * 
+     * @param ids Ids od the track or tracks
+     */
+    async add(ids: string | string[]): Promise<void> {
+        await this.client.user.addTrack(ids);
+    }
+
 };
 
 export default Track;

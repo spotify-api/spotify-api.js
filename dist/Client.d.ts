@@ -30,6 +30,8 @@ interface CacheOptions {
     cachePlaylists?: boolean;
     cacheArtists?: boolean;
     cacheAlbums?: boolean;
+    cacheCurrentUser?: boolean;
+    cacheFollowers?: boolean | null;
 }
 /**
  * **Client class**
@@ -37,6 +39,7 @@ interface CacheOptions {
  * The class which collects all the methods
  */
 export default class Client {
+    private cacheOnReady;
     token: string;
     utils: Spotify;
     startedAt: number;
@@ -71,6 +74,10 @@ export default class Client {
      * ```
      */
     constructor(oauth?: string, cacheOptions?: CacheOptions);
+    /**
+     * Private caching init function
+     */
+    private makeCache;
     /**
      * **Example:**
      * ```js

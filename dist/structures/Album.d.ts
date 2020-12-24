@@ -64,5 +64,13 @@ declare class Album {
      * @param limit Limit your results
      */
     getTracks(force?: boolean, limit?: number): Promise<Track[]>;
+    /**
+     * Deletes the album from your saved list
+     */
+    delete(): Promise<void>;
+    /**
+     * Adds this album to your saved list
+     */
+    add(): Promise<void>;
 }
 export default Album;

@@ -176,6 +176,24 @@ class Artist extends Spotify {
 
     };
 
+    /**
+     * Verify if you follow the artists by ids but only if you have the required scopes
+     * 
+     * @param ids Ids of the artist or artists
+     */
+    async follows(...ids: string[]): Promise<boolean[]> {
+        return await this.client.user.followsArtist(...ids);
+    }
+
+    /**
+     * Follows the artists
+     * 
+     * @param ids Ids of the artist or artists
+     */
+    async follow(...ids: string[]): Promise<void> {
+        await this.client.user.followArtist(...ids);
+    }
+
 };
 
 export default Artist;

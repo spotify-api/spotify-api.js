@@ -11,6 +11,7 @@ export interface getOptions {
     headers?: any;
     params?: any;
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    body?: any;
 }
 /**
  * Spotify utility class

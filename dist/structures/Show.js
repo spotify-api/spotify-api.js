@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Episode_1 = __importDefault(require("./Episode"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 const util = new Spotify_1.default();
 /**
@@ -39,7 +38,7 @@ class Show {
         this.type = data.type;
         this.uri = data.uri;
         this.totalEpisodes = data.total_episodes;
-        Object.defineProperty(this, 'episodes', { get: () => this.data.episodes ? this.data.episodes.items.map(x => new Episode_1.default(x, this.client)) : [] });
+        this.episodes = [];
     }
     /**
      * Returns a code image
@@ -66,8 +65,22 @@ class Show {
                 return this.episodes;
         }
         const data = await this.client.shows.getEpisodes(this.id, { limit });
-        Object.defineProperty(this, 'episodes', { value: data });
+        this.episodes = data;
         return data;
+    }
+    /**
+     * This method uses the client.user.deleteShow method
+     * This method deletes this show from your saved list
+     */
+    async delete() {
+        await this.client.user.deleteShow(this.id);
+    }
+    /**
+     * This method uses the client.user.addShow method
+     * This method adds this show to your saved list
+     */
+    async add() {
+        await this.client.user.addShow(this.id);
     }
 }
 exports.default = Show;

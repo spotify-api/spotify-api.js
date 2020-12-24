@@ -114,9 +114,7 @@ class Browse extends Spotify{
 
             return {
                 message: data.message,
-                get playlists(){
-                    return data.playlists.items.map(x => new Playlist(x, this.client));
-                }
+                playlists: data.playlists.items.map(x => new Playlist(x, this.client))
             };
         }catch(e){
             throw new UnexpectedError(e);

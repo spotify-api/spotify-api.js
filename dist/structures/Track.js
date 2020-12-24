@@ -121,5 +121,19 @@ class Track {
     async fetch() {
         return await this.client.tracks.get(this.id, true);
     }
+    /**
+     * This method uses the client.user.deleteTrack
+     * This method will delete this track from your save list
+     */
+    async delete() {
+        await this.client.user.deleteTrack(this.id);
+    }
+    /**
+     * This method uses client.user.addTrack
+     * This method adds this track to your save list
+     */
+    async add() {
+        await this.client.user.addTrack(this.id);
+    }
 }
 exports.default = Track;

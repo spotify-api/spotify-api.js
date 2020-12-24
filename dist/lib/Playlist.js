@@ -111,6 +111,14 @@ class Playlist extends Spotify_1.default {
         }
     }
     ;
+    /**
+     * Follow a playlist by id
+     *
+     * @param id Id of the playlist
+     */
+    async follow(id) {
+        await this.client.user.followPlaylist(id);
+    }
 }
 ;
 exports.default = Playlist;

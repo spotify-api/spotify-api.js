@@ -11,7 +11,7 @@ import Client from "../Client";
 export class PlaylistTrack{
 
     readonly data: any;
-    readonly client: Client;
+    readonly client!: Client;
 
     addedAt: string | null;
     local: boolean;
@@ -61,7 +61,7 @@ export class PlaylistTrack{
 export default class Playlist {
 
     readonly data: any;
-    readonly client: Client;
+    readonly client!: Client;
 
     collaborative: boolean;
     description: string;
@@ -136,6 +136,20 @@ export default class Playlist {
      */
     async fetch(): Promise<Playlist> {
         return await this.client.playlists.get(this.id, true);
+    }
+
+    /**
+     * Follows this playlist
+     */
+    async follow(): Promise<void> {
+        await this.client.user.followPlaylist(this.id);
+    }
+
+    /**
+     * Unfollows a playlist
+     */
+    async unfollow(): Promise<void> {
+        await this.client.user.unfollowPlaylist(this.id);
     }
 
 };

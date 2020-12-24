@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Public User Class
  */
-class PublicUser {
+class User {
     /**
      * **Example:**
      *
@@ -51,6 +51,25 @@ class PublicUser {
         this.playlists = data;
         return data;
     }
+    /**
+     * Verify if this user is followed by the current user but only if you have the required scopes
+     * This method uses the client.user.followsUser
+     */
+    async follows() {
+        return (await this.client.user.followsUser(this.id))[0];
+    }
+    /**
+     * Follow this user
+     */
+    async follow() {
+        await this.client.user.followUser(this.id);
+    }
+    /**
+     * Unfollows a user
+     */
+    async unfollow() {
+        await this.client.user.unfollowUser(this.id);
+    }
 }
+exports.default = User;
 ;
-exports.default = PublicUser;

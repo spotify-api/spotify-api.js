@@ -1,23 +1,53 @@
+import Auth from './lib/Auth';
+import { AffinityOptions, ExplicitContent, Image, LimitOffsetOptions } from "./structures/Interface";
+import Client from "./Client";
 import Spotify from "./Spotify";
 import UserPlayer from "./UserPlayer";
-import Auth from './lib/Auth';
+import Artist from "./structures/Artist";
+import Track from "./structures/Track";
+import Playlist from "./structures/Playlist";
+import Album from "./structures/Album";
+import Show from "./structures/Show";
+import CacheManager from "./CacheManager";
+import User from "./structures/PublicUser";
 /**
  * User client class which can be used to access user client only
  * You can still access this by Client class but this class
  * needs a scoped token only
  */
 declare class UserClient extends Spotify {
+    readonly client: Client;
     auth: Auth;
     player: UserPlayer;
     startedAt: number;
+    playlists: CacheManager<string, Playlist>;
+    albums: CacheManager<string, Album>;
+    shows: CacheManager<string, Show>;
+    tracks: CacheManager<string, Track>;
+    followers: {
+        users: CacheManager<string, User>;
+        artists: CacheManager<string, Artist>;
+    };
+    country: string | null;
+    name: string | null;
+    externalUrls: any;
+    totalFollowers: number | null;
+    href: string | null;
+    id: string | null;
+    images: Image[];
+    product: string | null;
+    uri: string | null;
+    explicitContent?: ExplicitContent;
+    email?: string;
     /**
      * **Example:**
      * ```js
      * const user = new UserClient('token');
      * ```
      * @param token Scoped token
+     * @param client Spotify Client
      */
-    constructor(token?: string);
+    constructor(token: string | undefined, client: Client);
     /**
      * **Example"**
      * ```js
@@ -35,7 +65,7 @@ declare class UserClient extends Spotify {
      *
      * Returns the user information
      */
-    info(): Promise<any>;
+    info(): Promise<UserClient>;
     /**
      * **Example"**
      * ```js
@@ -43,8 +73,10 @@ declare class UserClient extends Spotify {
      * ```
      *
      * Top artists based on your affinity
+     *
+     * @param options AffinityOptions
      */
-    getTopArtists(): Promise<any>;
+    getTopArtists(options?: AffinityOptions): Promise<Artist[]>;
     /**
      * **Example"**
      * ```js
@@ -52,8 +84,10 @@ declare class UserClient extends Spotify {
      * ```
      *
      * Top tracks based on your affinity
+     *
+     * @param options AffinityOptions
      */
-    getTopTracks(): Promise<any>;
+    getTopTracks(options?: AffinityOptions): Promise<Track[]>;
     /**
      * **Example:**
      * ```js
@@ -65,7 +99,7 @@ declare class UserClient extends Spotify {
      *
      * @param type Affinity type
      */
-    getAffinity(type: 'track' | 'artist'): Promise<any>;
+    getAffinity(type: 'track' | 'artist', options?: AffinityOptions): Promise<any>;
     /**
      * **Example:**
      * ```js
@@ -74,9 +108,10 @@ declare class UserClient extends Spotify {
      *
      * Returns your saved playlists
      *
-     * @param limit Limit of your results
+     * @param options Options to configure results
+     * @param force If true then will directly fetch instead of caching
      */
-    getPlaylists(limit?: number): Promise<any>;
+    getPlaylists(options?: LimitOffsetOptions, force?: boolean): Promise<Playlist[]>;
     /**
      * **Example:**
      * ```js
@@ -85,9 +120,10 @@ declare class UserClient extends Spotify {
      *
      * Returns your saved albums
      *
-     * @param limit Limit of your results
+     * @param options Options to configure results
+     * @param force If true then will directly fetch instead of caching
      */
-    getAlbums(limit?: number): Promise<any>;
+    getAlbums(options?: LimitOffsetOptions, force?: boolean): Promise<Album[]>;
     /**
      * **Example:**
      * ```js
@@ -96,9 +132,10 @@ declare class UserClient extends Spotify {
      *
      * Returns your saved shows
      *
-     * @param limit Limit of your results
+     * @param options Options to configure your results
+     * @param force If true then will directly fetch instead of caching
      */
-    getShows(limit?: number): Promise<any>;
+    getShows(options?: LimitOffsetOptions, force?: boolean): Promise<Show[]>;
     /**
      * **Example:**
      * ```js
@@ -107,128 +144,129 @@ declare class UserClient extends Spotify {
      *
      * Returns user's saved tracks
      *
-     * @param limit Limit of your results
+     * @param options Configure your options
+     * @param force If true then will directly fetch instead of searching in cache
      */
-    getTracks(limit?: number): Promise<any>;
+    getTracks(options?: LimitOffsetOptions, force?: boolean): Promise<Track[]>;
     /**
      * **Example:**
      * ```js
      * user.deleteAlbum('id');
-     * user.deleteAlbum('id1,id2,id3'); // For multiple deletion use commas
+     * user.deleteAlbum(['id1', 'id2', 'id3']);
      * ```
      *
      * Deletes your saved album
      *
-     * @param id Id of the album
+     * @param id Id of the album or albums
      */
-    deleteAlbum(id: string): Promise<any>;
+    deleteAlbum(id: string | string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.deleteTrack('id');
-     * user.deleteTrack('id1,id2,id3'); // For multiple deletion use commas
+     * user.deleteTrack(['id1', 'id2', 'id3']);
      * ```
      *
      * Deletes your saved track
      *
-     * @param id Id of the track
+     * @param id Id of the track or tracks
      */
-    deleteTrack(id: string): Promise<any>;
+    deleteTrack(id: string | string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.deleteShow('id');
-     * user.deleteShow('id1,id2,id3'); // For multiple deletion use commas
+     * user.deleteShow(['id1', 'id2', 'id3']);
      * ```
      *
      * Deletes your saved show
      *
-     * @param id Id of the show
+     * @param id Id of the show or shows
      */
-    deleteShow(id: string): Promise<any>;
+    deleteShow(id: string | string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.addAlbum('id');
-     * user.addAlbum('id1,id2,id3'); // For multiple use commas
+     * user.addAlbum(['id1', 'id2', 'id3']);
      * ```
      *
-     * Add albums to your saved list
+     * Saves a new album
      *
-     * @param id Id of the album
+     * @param id Id of the album or albums
      */
-    addAlbum(id: string): Promise<any>;
+    addAlbum(id: string | string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.addTrack('id');
-     * user.addTrack('id1,id2,id3'); // For multiple use commas
+     * user.addTrack(['id1', 'id2', 'id3']);
      * ```
      *
-     * Add tracks to your saved list
+     * Saves a new track
      *
-     * @param id Id of the track
+     * @param id Id of the track or tracks
      */
-    addTrack(id: string): Promise<any>;
+    addTrack(id: string | string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
-     * user.addShpw('id');
-     * user.addShow('id1,id2,id3'); // For multiple use commas
+     * user.addShow('id');
+     * user.addShow(['id1', 'id2', 'id3']);
      * ```
      *
-     * Add albums to your saved list
+     * Saves a new show
      *
-     * @param id Id of the album
+     * @param id Id of the track or tracks
      */
-    addShow(id: string): Promise<any>;
+    addShow(id: string | string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.followsUser('id');
-     * user.followsUser('id1,id2,id3'); // For multiple verification
+     * user.followsUser('id1', 'id2', 'id3'); // For multiple verification
      * ```
      *
      * Verify if the current user follows the user
      *
-     * @param id Id of the user
+     * @param ids All ids of the user to verify!
      */
-    followsUser(id: string): Promise<any>;
+    followsUser(...ids: string[]): Promise<boolean[]>;
     /**
      * **Example:**
      * ```js
      * user.followsArtist('id');
-     * user.followsArtist('id1,id2,id3'); // For multiple verification
+     * user.followsArtist('id1', 'id2', 'id3'); // For multiple verification
      * ```
      *
      * Verify if the current user follows the artist
      *
-     * @param id Id of the artist
+     * @param ids All ids of the artists to verify!
      */
-    followsArtist(id: string): Promise<any>;
+    followsArtist(...ids: string[]): Promise<boolean[]>;
     /**
      * **Example:**
      * ```js
-     * const followsUser = await user.follows('id', false); // false if the id is a user's id, by default it is false
-     * const followsArtist = await user.follows('id', true); // true if the id is a artist's id.
+     * const followsUser = await user.follows('user', 'id', 'id2');
+     * const followsArtist = await user.follows('artist', 'id', 'id2')
      * ```
      *
      * Verify if the current user follows the user or artist
      *
-     * @param id Id of the user
-     * @param isArtist Boolean states the user is an artist or not
+     * @param type Type could be artist or user which will state that whose id you have provided artist or user?
+     * @param ids Ids of the user or artist
      */
-    follows(id: string, isArtist?: boolean): Promise<any>;
+    follows(type: 'artist' | 'user', ...ids: string[]): Promise<boolean[]>;
     /**
      * **Example:**
      * ```js
      * user.followUser('id');
-     * user.followUser('id1,id2,id3'); // To follow many
+     * user.followUser('id1', 'id2', 'id3'); // To follow many
      * ```
      *
-     * @param id Id of the user
+     * @param ids Ids of the user or users
      */
-    followUser(id: string): Promise<any>;
+    followUser(...ids: string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
@@ -237,34 +275,34 @@ declare class UserClient extends Spotify {
      *
      * @param id Id of the playlist
      */
-    followPlaylist(id: string): Promise<any>;
+    followPlaylist(id: string): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.followArtist('id');
-     * user.followArtist('id1,id2,id3'); // To follow many
+     * user.followArtist('id1', 'id2', 'id3'); // To follow many
      * ```
      *
-     * @param id Id of the artist
+     * @param ids Ids of the artist or artists
      */
-    followArtist(id: string): Promise<any>;
+    followArtist(...ids: string[]): Promise<void>;
     /**
      * Aliases of the followUser followPlaylist and followArtist
      *
-     * @param id Id of the artist, user or playlist
-     * @param type type of the id
+     * @param type Type of the id. User, Artist or Playlist
+     * @param ids Ids of the user or artist. Only 1 id can be used to follow playlist
      */
-    follow(id: string, type: 'user' | 'artist' | 'playlist'): Promise<any>;
+    follow(type?: 'user' | 'artist' | 'playlist', ...ids: string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.unfollowUser('id');
-     * user.unfollowUser('id1,id2,id3'); // For many unfollow
+     * user.unfollowUser('id1', 'id2', 'id3'); // To follow many
      * ```
      *
-     * @param id Id of the user
+     * @param ids Ids of the user or users
      */
-    unfollowUser(id: string): Promise<any>;
+    unfollowUser(...ids: string[]): Promise<void>;
     /**
      * **Example:**
      * ```js
@@ -273,37 +311,36 @@ declare class UserClient extends Spotify {
      *
      * @param id Id of the playlist
      */
-    unfollowPlaylist(id: string): Promise<any>;
+    unfollowPlaylist(id: string): Promise<void>;
     /**
      * **Example:**
      * ```js
      * user.unfollowArtist('id');
-     * user.unfollowArtist('id1,id2,id3'); // For many unfollow
+     * user.unfollowArtist('id1', 'id2', 'id3'); // To follow many
      * ```
      *
-     * @param id Id of the artist
+     * @param ids Ids of the artist or artists
      */
-    unfollowArtist(id: string): Promise<any>;
-    async: any;
-    /**
-     * **Example:**
-     * ```js
-     * const usersFollowing = await user.following();
-     * const artistsFollowing = await user.following(true);
-     * ```
-     *
-     * Get the list of followers of the current user
-     *
-     * @param isArtist Should the list be of artist then true else false
-     */
-    following(isArtist?: boolean): Promise<any>;
+    unfollowArtist(...ids: string[]): Promise<void>;
     /**
      * Aliases of the unfollowUser unfollowPlaylist and unfollowArtist
      *
-     * @param id Id of the artist, user or playlist
-     * @param type type of the id
+     * @param type Type of the id. User, Artist or Playlist
+     * @param ids Ids of the user or artist. Only 1 id can be used to unfollow playlist
      */
-    unfollow(id: string, type: 'user' | 'artist' | 'playlist'): Promise<any>;
+    unfollow(type?: 'user' | 'artist' | 'playlist', ...ids: string[]): Promise<void>;
+    /**
+     * **Example:**
+     * ```js
+     * const usersFollowers = await user.getFollowers();
+     * const artistsFollowers = await user.getFollowers('artist');
+     * ```
+     *
+     * Get the list of followers of the current user By default will return user followers
+     *
+     * @param type Type of followers needs to be returned! User or artist!
+     */
+    getFollowers(type?: 'user' | 'artist'): Promise<Artist[] | User[]>;
     /**
      * **Example:**
      * ```js

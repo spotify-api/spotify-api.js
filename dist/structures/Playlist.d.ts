@@ -81,4 +81,12 @@ export default class Playlist {
      * Returns a fresh playlist without searching in the cache!
      */
     fetch(): Promise<Playlist>;
+    /**
+     * Follows this playlist
+     */
+    follow(): Promise<void>;
+    /**
+     * Unfollows a playlist
+     */
+    unfollow(): Promise<void>;
 }

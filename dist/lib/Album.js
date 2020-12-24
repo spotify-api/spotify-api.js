@@ -112,6 +112,26 @@ class Album extends Spotify_1.default {
         ;
     }
     ;
+    /**
+     * This is uses the client.user.deleteAlbum method
+     * This deletes from your savelist
+     *
+     * @param ids Id of the album or albums
+     */
+    async delete(ids) {
+        await this.client.user.deleteAlbum(ids);
+    }
+    ;
+    /**
+     * This uses the client.user.addAlbum method
+     * This adds new albums to the saved list
+     *
+     * @param ids Id of the album or albums
+     */
+    async add(ids) {
+        await this.client.user.addAlbum(ids);
+    }
+    ;
 }
 ;
 exports.default = Album;

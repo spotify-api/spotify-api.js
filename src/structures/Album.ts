@@ -13,8 +13,8 @@ import Client from '../Client';
 class Album {
 
     readonly data: any;
-    readonly client: Client;
-    readonly tracks: Track[];
+    readonly client!: Client;
+    readonly tracks!: Track[];
 
     albumType: 'album' | 'single' | 'compilation';
     availableMarkets: string[];
@@ -119,7 +119,21 @@ class Album {
         const data = await this.client.albums.getTracks(this.id);
         Object.defineProperty(this, 'tracks', { value: data });
         return data;
-    };
+    }
+
+    /**
+     * Deletes the album from your saved list
+     */
+    async delete(): Promise<void> {
+        await this.client.user.deleteAlbum(this.id);
+    }
+
+    /**
+     * Adds this album to your saved list
+     */
+    async add(): Promise<void> {
+        await this.client.user.addAlbum(this.id);
+    }
 
 };
 

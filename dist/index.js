@@ -76,6 +76,7 @@ const Playlist_2 = __importStar(require("./structures/Playlist"));
 const Track_2 = __importStar(require("./structures/Track"));
 const PublicUser_1 = __importDefault(require("./structures/PublicUser"));
 const Show_2 = __importDefault(require("./structures/Show"));
+const Player_1 = require("./structures/Player");
 exports.Structures = {
     Track: Track_2.default,
     Album: Album_2.default,
@@ -85,6 +86,9 @@ exports.Structures = {
     Show: Show_2.default,
     PlaylistTrack: Playlist_2.PlaylistTrack,
     PublicUser: PublicUser_1.default,
-    LinkedTrack: Track_2.LinkedTrack
+    LinkedTrack: Track_2.LinkedTrack,
+    Device: Player_1.Device,
+    Playback: Player_1.Playback,
+    PlayHistory: Player_1.PlayHistory
 };
 exports.default = Client_1.default;

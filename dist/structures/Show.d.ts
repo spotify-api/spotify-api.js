@@ -4,13 +4,14 @@
 import { Copyright, Image } from "./Interface";
 import Episode from './Episode';
 import Client from '../Client';
+import CacheManager from '../CacheManager';
 /**
  * Show Structure
  */
 export default class Show {
     readonly data: any;
     readonly client: Client;
-    readonly episodes: Episode[];
+    episodes: Episode[] | CacheManager<string, Episode>;
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -54,4 +55,14 @@ export default class Show {
      * @param limit Limit of your results
      */
     getEpisodes(force?: boolean, limit?: number): Promise<Episode[]>;
+    /**
+     * This method uses the client.user.deleteShow method
+     * This method deletes this show from your saved list
+     */
+    delete(): Promise<void>;
+    /**
+     * This method uses the client.user.addShow method
+     * This method adds this show to your saved list
+     */
+    add(): Promise<void>;
 }

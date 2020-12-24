@@ -48,5 +48,18 @@ declare class Artist {
      * @param force If true will directly fetch else will return from cache
      */
     getRelatedArtists(force?: boolean): Promise<Artist[]>;
+    /**
+     * Verify if this artist is followed by the current user but only if you have the required scopes for the current user
+     * This method uses the client.user.followsArtist method
+     */
+    follows(): Promise<boolean>;
+    /**
+     * Follows this artist
+     */
+    follow(): Promise<void>;
+    /**
+     * Unfollows a artist
+     */
+    unfollow(): Promise<void>;
 }
 export default Artist;

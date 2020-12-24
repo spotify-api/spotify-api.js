@@ -8,10 +8,10 @@ import Playlist from './Playlist';
 /**
  * Public User Class
  */
-class PublicUser {
+export default class User {
 
     readonly data: any;
-    readonly client: Client;
+    readonly client!: Client;
 
     name: string;
     externalUrls: any;
@@ -56,7 +56,7 @@ class PublicUser {
     /**
      * Fetches tracks
      */
-    async fetch(): Promise<PublicUser> {
+    async fetch(): Promise<User> {
         return await this.client.users.get(this.id, true);
     }
 
@@ -75,7 +75,27 @@ class PublicUser {
         this.playlists = data;
         return data;
     }
+
+    /**
+     * Verify if this user is followed by the current user but only if you have the required scopes
+     * This method uses the client.user.followsUser
+     */
+    async follows(): Promise<boolean> {
+        return (await this.client.user.followsUser(this.id))[0];
+    }
+
+    /**
+     * Follow this user
+     */
+    async follow(): Promise<void> {
+        await this.client.user.followUser(this.id);
+    }
+
+    /**
+     * Unfollows a user
+     */
+    async unfollow(): Promise<void> {
+        await this.client.user.unfollowUser(this.id);
+    }
     
 };
-
-export default PublicUser;

@@ -7,7 +7,7 @@ import Track from './Track';
 class Artist{
 
     readonly data: any;
-    readonly client: Client;
+    readonly client!: Client;
 
     externalUrls: any;
     href: string;
@@ -110,6 +110,28 @@ class Artist{
         const data = await this.client.artists.relatedArtists(this.id);
         this.relatedArtists = data;
         return data;
+    }
+
+    /**
+     * Verify if this artist is followed by the current user but only if you have the required scopes for the current user
+     * This method uses the client.user.followsArtist method
+     */
+    async follows(): Promise<boolean> {
+        return (await this.client.user.followsArtist(this.id))[0];
+    }
+
+    /**
+     * Follows this artist
+     */
+    async follow(): Promise<void> {
+        await this.client.user.followArtist(this.id);
+    }
+
+    /**
+     * Unfollows a artist
+     */
+    async unfollow(): Promise<void> {
+        await this.client.user.unfollowArtist(this.id);
     }
 
 };

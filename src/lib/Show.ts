@@ -112,6 +112,26 @@ class Show extends Spotify{
 
     };
 
+    /**
+     * This method uses client.user.deleteShow
+     * This method deletes the show from your saved list
+     * 
+     * @param ids Id of the show or shows
+     */
+    async delete(ids: string | string[]): Promise<void> {
+        await this.client.user.deleteShow(ids);
+    }
+
+    /**
+     * This method uses client.user.addShow
+     * This method adds the show to your saved list
+     * 
+     * @param ids Id of the show or shows
+     */
+    async add(ids: string | string[]): Promise<void> {
+        await this.client.user.addShow(ids);
+    }
+
 };
 
 export default Show;

@@ -36,6 +36,7 @@ import PlaylistStructure, { PlaylistTrack } from "./structures/Playlist";
 import TrackStructure, { LinkedTrack } from "./structures/Track";
 import PublicUser from "./structures/PublicUser";
 import ShowStructure from "./structures/Show";
+import { Device, Playback, PlayHistory } from "./structures/Player";
 export declare const Structures: {
     Track: typeof TrackStructure;
     Album: typeof AlbumStructure;
@@ -46,5 +47,8 @@ export declare const Structures: {
     PlaylistTrack: typeof PlaylistTrack;
     PublicUser: typeof PublicUser;
     LinkedTrack: typeof LinkedTrack;
+    Device: typeof Device;
+    Playback: typeof Playback;
+    PlayHistory: typeof PlayHistory;
 };
 export default Client;

@@ -108,6 +108,18 @@ class Playlist {
     async fetch() {
         return await this.client.playlists.get(this.id, true);
     }
+    /**
+     * Follows this playlist
+     */
+    async follow() {
+        await this.client.user.followPlaylist(this.id);
+    }
+    /**
+     * Unfollows a playlist
+     */
+    async unfollow() {
+        await this.client.user.unfollowPlaylist(this.id);
+    }
 }
 exports.default = Playlist;
 ;

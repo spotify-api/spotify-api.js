@@ -71,5 +71,17 @@ declare class Artist extends Spotify {
     relatedArtists(id: string, options?: {
         params?: any;
     }): Promise<ArtistStructure[]>;
+    /**
+     * Verify if you follow the artists by ids but only if you have the required scopes
+     *
+     * @param ids Ids of the artist or artists
+     */
+    follows(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Follows the artists
+     *
+     * @param ids Ids of the artist or artists
+     */
+    follow(...ids: string[]): Promise<void>;
 }
 export default Artist;

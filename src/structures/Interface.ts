@@ -1,4 +1,6 @@
+import Episode from "./Episode";
 import Playlist from "./Playlist";
+import Track from "./Track";
 
 export interface DominantColor { 
     hex?: string; 
@@ -152,4 +154,86 @@ export interface SearchReturn{
     shows?: Paging<any>;
     episodes?: Paging<any>;
     playlists?: Paging<any>;
+};
+
+export interface ExplicitContent{
+    filterEnabled: boolean;
+    filterLocked: boolean;
+};
+
+export interface AffinityOptions{
+    limit?: number;
+    offset?: number;
+    time_range?: number;
+};
+
+export interface LimitOffsetOptions{ 
+    limit?: number; 
+    offset?: number; 
+}
+
+export interface Device{
+    id: string;
+    isActive: boolean;
+    isRestricted: boolean;
+    name: string;
+    type: string;
+    volume: number;
+}
+
+export interface Context{
+    uri: string;
+    href: string | null;
+    externalUrls: any;
+    type: 'album' | 'artist' | 'playlist';
+}
+
+export interface Playback{
+    readonly device: Device;
+    timestamp: number;
+    progress: string | null;
+    isPlaying: boolean;
+    currentPlayingType: 'track' | 'episode' | 'ad' | 'unknown';
+    actions: { disallows: any };
+    item: Track | Episode | null;
+    shuffle: boolean;
+    repeat: 'off' | 'track' | 'context';
+    context: Context | null;
+}
+
+export interface PlayHistory{
+    track: Track;
+    playedAt: string;
+    context: Context;
+};
+
+export interface RecentlyPlayed{
+    items: PlayHistory[];
+    cursors: {
+        after: string;
+        before: string;
+    };
+};
+
+export type AdditionalTypes = 'track' | 'episode';
+
+export interface CurrentlyPlaying{
+    context: Context | null,
+    timestamp: number;
+    progress: number | null;
+    isPlaying: boolean;
+    item: Track | Episode | null;
+    currentPlayingType: 'track' | 'episode' | 'ad' | 'unknown';
+    actions: { disallows: any };
+};
+
+export interface PlayOptions{
+    device?: string;
+    context?: string;
+    uris?: string[];
+    offset?: {
+        position: string;
+        uri: string;
+    };
+    position?: string | number;
 };

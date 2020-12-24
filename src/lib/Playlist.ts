@@ -96,6 +96,15 @@ class Playlist extends Spotify {
         }
 
     };
+
+    /**
+     * Follow a playlist by id
+     * 
+     * @param id Id of the playlist
+     */
+    async follow(id: string): Promise<void> {
+        await this.client.user.followPlaylist(id);
+    }
     
 };
 

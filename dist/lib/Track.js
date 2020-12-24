@@ -122,6 +122,24 @@ class Track extends Spotify_1.default {
         ;
     }
     ;
+    /**
+     * This method uses client.user.deleteTrack
+     * This method deletes the track from your save list
+     *
+     * @param ids Ids od the track or tracks
+     */
+    async delete(ids) {
+        await this.client.user.deleteTrack(ids);
+    }
+    /**
+     * This method uses client.user.addTrack
+     * This method adds the track from your save list
+     *
+     * @param ids Ids od the track or tracks
+     */
+    async add(ids) {
+        await this.client.user.addTrack(ids);
+    }
 }
 ;
 exports.default = Track;

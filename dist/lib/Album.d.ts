@@ -47,5 +47,19 @@ declare class Album extends Spotify {
         limit?: number;
         params?: any;
     }): Promise<Track[]>;
+    /**
+     * This is uses the client.user.deleteAlbum method
+     * This deletes from your savelist
+     *
+     * @param ids Id of the album or albums
+     */
+    delete(ids: string | string[]): Promise<void>;
+    /**
+     * This uses the client.user.addAlbum method
+     * This adds new albums to the saved list
+     *
+     * @param ids Id of the album or albums
+     */
+    add(ids: string | string[]): Promise<void>;
 }
 export default Album;

@@ -60,6 +60,7 @@ import PlaylistStructure, { PlaylistTrack } from "./structures/Playlist";
 import TrackStructure, { LinkedTrack } from "./structures/Track";
 import PublicUser from "./structures/PublicUser";
 import ShowStructure from "./structures/Show";
+import { Device, Playback, PlayHistory } from "./structures/Player";
 
 export const Structures = {
     Track: TrackStructure,
@@ -70,7 +71,10 @@ export const Structures = {
     Show: ShowStructure,
     PlaylistTrack,
     PublicUser,
-    LinkedTrack
+    LinkedTrack,
+    Device,
+    Playback,
+    PlayHistory
 };
   
 export default Client;

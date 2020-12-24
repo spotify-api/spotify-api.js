@@ -3,9 +3,18 @@
  * Class which is for scoped tokens
  */
 import { MissingParamError, UnexpectedError } from "./Error";
+import Auth from './lib/Auth';
+import { AffinityOptions, ExplicitContent, Image, LimitOffsetOptions } from "./structures/Interface";
+import Client from "./Client";
 import Spotify from "./Spotify";
 import UserPlayer from "./UserPlayer";
-import Auth from './lib/Auth';
+import Artist from "./structures/Artist";
+import Track from "./structures/Track";
+import Playlist from "./structures/Playlist";
+import Album from "./structures/Album";
+import Show from "./structures/Show";
+import CacheManager from "./CacheManager";
+import User from "./structures/PublicUser";
 
 /**
  * User client class which can be used to access user client only
@@ -14,9 +23,32 @@ import Auth from './lib/Auth';
  */
 class UserClient extends Spotify{
 
+    readonly client!: Client;
+
     auth: Auth;
     player: UserPlayer;
     startedAt: number;
+
+    playlists: CacheManager<string, Playlist>;
+    albums: CacheManager<string, Album>;
+    shows: CacheManager<string, Show>;
+    tracks: CacheManager<string, Track>;
+    followers: {
+        users: CacheManager<string, User>,
+        artists: CacheManager<string, Artist>
+    }
+
+    country: string | null;
+    name: string | null;
+    externalUrls: any;
+    totalFollowers: number | null;
+    href: string | null;
+    id: string | null;
+    images: Image[];
+    product: string | null;
+    uri: string | null;
+    explicitContent?: ExplicitContent;
+    email?: string;
 
     /**
      * **Example:**
@@ -24,13 +56,37 @@ class UserClient extends Spotify{
      * const user = new UserClient('token');
      * ```
      * @param token Scoped token
+     * @param client Spotify Client
      */
-    constructor(token?: string){
+    constructor(token: string = 'NO TOKEN', client: Client){
+
         super(token);
 
+        Object.defineProperty(this, 'client', { value: client, writable: false });
+
         this.auth = new Auth();
-        this.player = new UserPlayer(this.token);
+        this.player = new UserPlayer(this.token, this.client);
         this.startedAt = Date.now();
+
+        this.playlists = new CacheManager<string, Playlist>('id');
+        this.albums = new CacheManager<string, Album>('id');
+        this.shows = new CacheManager<string, Show>('id');
+        this.tracks = new CacheManager<string, Track>('id');
+        this.followers = {
+            users: new CacheManager<string, User>('id'),
+            artists: new CacheManager<string, Artist>('id')
+        };
+
+        this.country = null;
+        this.name = null;
+        this.externalUrls = null;
+        this.totalFollowers = null;
+        this.href = null;
+        this.id = null;
+        this.uri = null;
+        this.product = null;
+        this.images = [];
+
     };
 
     /**
@@ -53,19 +109,30 @@ class UserClient extends Spotify{
      * 
      * Returns the user information
      */
-    async info(): Promise<any> {
+    async info(): Promise<UserClient> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me`
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            const data = await this.fetch({ link: 'v1/me' });
+
+            this.country = data.country;
+            this.name = data.display_name;
+            this.externalUrls = data.external_urls;
+            this.totalFollowers = data.followers.total;
+            this.href = data.href;
+            this.id = data.id;
+            this.uri = data.uri;
+            this.images = data.images;
+            if(data.email) this.email = data.email;
+            if(data.explicit_content) this.explicitContent = {
+                filterEnabled: data.explicit_content.filter_enabled,
+                filterLocked: data.explicit_content.filter_locked
+            }
+            if(data.product) this.product = data.product;
+
+            return this;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -76,20 +143,19 @@ class UserClient extends Spotify{
      * ```
      * 
      * Top artists based on your affinity
+     * 
+     * @param options AffinityOptions
      */
-    async getTopArtists(): Promise<any> {
+    async getTopArtists(options: AffinityOptions = {}): Promise<Artist[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/top/artists`
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            const data = await this.fetch({ link: `v1/me/top/artists`, params: options });
+            const items = data.map(x => new Artist(x, this.client));
+            if(this.client.cacheOptions.cacheArtists) this.client.cache.artists.push(...items);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -100,20 +166,19 @@ class UserClient extends Spotify{
      * ```
      * 
      * Top tracks based on your affinity
+     * 
+     * @param options AffinityOptions
      */
-    async getTopTracks(): Promise<any> {
+    async getTopTracks(options: AffinityOptions = {}): Promise<Track[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/top/tracks`
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            const data = await this.fetch({ link: `v1/me/top/tracks`, params: options });
+            const items = data.map(x => new Track(x, this.client));
+            if(this.client.cacheOptions.cacheTracks) this.client.cache.tracks.push(...items);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -128,15 +193,10 @@ class UserClient extends Spotify{
      * 
      * @param type Affinity type
      */
-    async getAffinity(type: 'track' | 'artist'): Promise<any> {
+    async getAffinity(type: 'track' | 'artist', options: AffinityOptions = {}): Promise<any> {
 
-        return new Promise(async(resolve, reject) => {
-            resolve(
-                type == 'track' ?
-                await this.getTopTracks() :
-                await this.getTopArtists()
-            );
-        });
+        return type == 'track' ? await this.getTopTracks(options) : await this.getTopArtists(options);
+
     };
 
     /**
@@ -147,24 +207,22 @@ class UserClient extends Spotify{
      * 
      * Returns your saved playlists
      * 
-     * @param limit Limit of your results
+     * @param options Options to configure results
+     * @param force If true then will directly fetch instead of caching
      */
-    async getPlaylists(limit?: number): Promise<any> {
+    async getPlaylists(options: LimitOffsetOptions = {}, force: boolean = false): Promise<Playlist[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/playlists`,
-                        params: {
-                            limit
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        if(!force && this.playlists.length) return this.playlists;
+
+        try{
+            const data = await this.fetch({ link: `v1/me/playlists`, params: options });
+            const items = data.map(x => new Playlist(x, this.client));
+            if(this.client.cacheOptions.cachePlaylists) this.client.cache.playlists.push(...items);
+            this.playlists.push(...items);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -176,24 +234,22 @@ class UserClient extends Spotify{
      * 
      * Returns your saved albums
      * 
-     * @param limit Limit of your results
+     * @param options Options to configure results
+     * @param force If true then will directly fetch instead of caching
      */
-    async getAlbums(limit?: number): Promise<any> {
+    async getAlbums(options: LimitOffsetOptions = {}, force: boolean = false): Promise<Album[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/albums`,
-                        params: {
-                            limit
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        if(!force && this.albums.length) return this.albums;
+
+        try{
+            const data = await this.fetch({ link: `v1/me/albums`, params: options });
+            const items = data.map(x => new Album(x, this.client));
+            if(this.client.cacheOptions.cacheAlbums) this.client.cache.albums.push(...items);
+            this.albums.push(...items);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -205,24 +261,22 @@ class UserClient extends Spotify{
      * 
      * Returns your saved shows
      * 
-     * @param limit Limit of your results
+     * @param options Options to configure your results
+     * @param force If true then will directly fetch instead of caching
      */
-    async getShows(limit?: number): Promise<any> {
+    async getShows(options: LimitOffsetOptions = {}, force: boolean = false): Promise<Show[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/shows`,
-                        params: {
-                            limit
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        if(!force && this.shows.length) return this.shows;
+
+        try{
+            const data = await this.fetch({ link: `v1/me/shows`, params: options });
+            const items = data.map(x => new Show(x, this.client));
+            if(this.client.cacheOptions.cacheShows) this.client.cache.shows.push(...items);
+            this.shows.push(...items);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -234,24 +288,22 @@ class UserClient extends Spotify{
      * 
      * Returns user's saved tracks
      * 
-     * @param limit Limit of your results
+     * @param options Configure your options
+     * @param force If true then will directly fetch instead of searching in cache
      */
-    async getTracks(limit?: number): Promise<any> {
+    async getTracks(options: LimitOffsetOptions = {}, force: boolean = false): Promise<Track[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/tracks`,
-                        params: {
-                            limit
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        if(!force && this.tracks.length) return this.tracks;
+
+        try{
+            const data = await this.fetch({ link: `v1/me/tracks`, params: options });
+            const items = data.map(x => new Track(x, this.client));
+            if(this.client.cacheOptions.cacheTracks) this.client.cache.tracks.push(...items);
+            this.tracks.push(...items);
+            return data;
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -259,32 +311,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.deleteAlbum('id');
-     * user.deleteAlbum('id1,id2,id3'); // For multiple deletion use commas
+     * user.deleteAlbum(['id1', 'id2', 'id3']);  
      * ```
      * 
      * Deletes your saved album
      * 
-     * @param id Id of the album
+     * @param id Id of the album or albums
      */
-    async deleteAlbum(id: string): Promise<any> {
+    async deleteAlbum(id: string | string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'DELETE',
-                        link: `v1/me/albums`,
-                        params: {
-                            ids: id
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'DELETE', link: `v1/me/albums`, params: { ids: Array.isArray(id) ? id.join(',') : id }})
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -292,32 +332,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.deleteTrack('id');
-     * user.deleteTrack('id1,id2,id3'); // For multiple deletion use commas
+     * user.deleteTrack(['id1', 'id2', 'id3']);  
      * ```
      * 
      * Deletes your saved track
      * 
-     * @param id Id of the track
+     * @param id Id of the track or tracks
      */
-    async deleteTrack(id: string): Promise<any> {
+    async deleteTrack(id: string | string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'DELETE',
-                        link: `v1/me/tracks`,
-                        params: {
-                            ids: id
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'DELETE', link: `v1/me/tracks`, params: { ids: Array.isArray(id) ? id.join(',') : id }})
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -325,32 +353,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.deleteShow('id');
-     * user.deleteShow('id1,id2,id3'); // For multiple deletion use commas
+     * user.deleteShow(['id1', 'id2', 'id3']);  
      * ```
      * 
      * Deletes your saved show
      * 
-     * @param id Id of the show
+     * @param id Id of the show or shows
      */
-    async deleteShow(id: string): Promise<any> {
+    async deleteShow(id: string | string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'DELETE',
-                        link: `v1/me/shows`,
-                        params: {
-                            ids: id
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'DELETE', link: `v1/me/shows`, params: { ids: Array.isArray(id) ? id.join(',') : id }})
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -358,32 +374,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.addAlbum('id');
-     * user.addAlbum('id1,id2,id3'); // For multiple use commas
+     * user.addAlbum(['id1', 'id2', 'id3']);  
      * ```
      * 
-     * Add albums to your saved list
+     * Saves a new album
      * 
-     * @param id Id of the album
+     * @param id Id of the album or albums
      */
-    async addAlbum(id: string): Promise<any> {
+    async addAlbum(id: string | string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'PUT',
-                        link: `v1/me/albums`,
-                        params: {
-                            ids: id
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/me/albums`, params: { ids: Array.isArray(id) ? id.join(',') : id }})
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -391,65 +395,41 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.addTrack('id');
-     * user.addTrack('id1,id2,id3'); // For multiple use commas
+     * user.addTrack(['id1', 'id2', 'id3']);  
      * ```
      * 
-     * Add tracks to your saved list
+     * Saves a new track
      * 
-     * @param id Id of the track
+     * @param id Id of the track or tracks
      */
-    async addTrack(id: string): Promise<any> {
+    async addTrack(id: string | string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'PUT',
-                        link: `v1/me/tracks`,
-                        params: {
-                            ids: id
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/me/tracks`, params: { ids: Array.isArray(id) ? id.join(',') : id }})
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
     /**
      * **Example:**
      * ```js
-     * user.addShpw('id');
-     * user.addShow('id1,id2,id3'); // For multiple use commas
+     * user.addShow('id');
+     * user.addShow(['id1', 'id2', 'id3']);  
      * ```
      * 
-     * Add albums to your saved list
+     * Saves a new show
      * 
-     * @param id Id of the album
+     * @param id Id of the track or tracks
      */
-    async addShow(id: string): Promise<any> {
+    async addShow(id: string | string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'PUT',
-                        link: `v1/me/shows`,
-                        params: {
-                            ids: id
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/me/shows`, params: { ids: Array.isArray(id) ? id.join(',') : id }})
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -457,32 +437,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.followsUser('id');
-     * user.followsUser('id1,id2,id3'); // For multiple verification
+     * user.followsUser('id1', 'id2', 'id3'); // For multiple verification
      * ```
      * 
      * Verify if the current user follows the user
      * 
-     * @param id Id of the user
+     * @param ids All ids of the user to verify!
      */
-    async followsUser(id: string): Promise<any> {
+    async followsUser(...ids: string[]): Promise<boolean[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/following/contains`,
-                        params: {
-                            ids: id,
-                            type: 'user'
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            return await this.fetch({ link: 'v1/me/following/contains', params: { type: 'user', ids: ids.join(',') } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -490,58 +458,40 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.followsArtist('id');
-     * user.followsArtist('id1,id2,id3'); // For multiple verification
+     * user.followsArtist('id1', 'id2', 'id3'); // For multiple verification
      * ```
      * 
      * Verify if the current user follows the artist
      * 
-     * @param id Id of the artist
+     * @param ids All ids of the artists to verify!
      */
-    async followsArtist(id: string): Promise<any> {
+    async followsArtist(...ids: string[]): Promise<boolean[]> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
+        if(!ids.length) throw new MissingParamError('There should be atleast 1 id to verify!');
 
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/following/contains`,
-                        params: {
-                            ids: id,
-                            type: 'artist'
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            return await this.fetch({ link: 'v1/me/following/contains', params: { type: 'artist', ids: ids.join(',') } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
     /**
      * **Example:**
      * ```js
-     * const followsUser = await user.follows('id', false); // false if the id is a user's id, by default it is false
-     * const followsArtist = await user.follows('id', true); // true if the id is a artist's id.
+     * const followsUser = await user.follows('user', 'id', 'id2'); 
+     * const followsArtist = await user.follows('artist', 'id', 'id2')
      * ```
      * 
      * Verify if the current user follows the user or artist
      * 
-     * @param id Id of the user
-     * @param isArtist Boolean states the user is an artist or not
+     * @param type Type could be artist or user which will state that whose id you have provided artist or user?
+     * @param ids Ids of the user or artist
      */
-    async follows(id: string, isArtist?: boolean): Promise<any> {
+    async follows(type: 'artist' | 'user', ...ids: string[]): Promise<boolean[]> {
 
-        return new Promise(async(resolve, reject) => {
-            if(!id) reject(new MissingParamError('missing id'));
-
-            resolve(
-                isArtist ?
-                await this.followsArtist(id) :
-                await this.followsUser(id)
-            );
-        });
+        return type == 'artist' ? await this.followsArtist(...ids) : await this.followsUser(...ids);
 
     };
 
@@ -549,33 +499,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.followUser('id');
-     * user.followUser('id1,id2,id3'); // To follow many
+     * user.followUser('id1', 'id2', 'id3'); // To follow many
      * ```
-     * 
-     * @param id Id of the user
+     *  
+     * @param ids Ids of the user or users
      */
-    async followUser(id: string): Promise<any> {
+    async followUser(...ids: string[]): Promise<void> {
+        
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/me/following`, params: { ids: ids.join(','), type: 'user' } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'PUT',
-                        link: `v1/me/following`,
-                        params: {
-                            ids: id,
-                            type: 'user'
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
-
-    };
+    }
 
     /**
      * **Example:**
@@ -585,25 +522,13 @@ class UserClient extends Spotify{
      * 
      * @param id Id of the playlist
      */
-    async followPlaylist(id: string): Promise<any> {
+    async followPlaylist(id: string): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'PUT',
-                        link: `v1/playlists/${id}/followers`,
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/playlists/${id}/followers`, headers: { "Content-Type": "application/json" } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -611,50 +536,32 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.followArtist('id');
-     * user.followArtist('id1,id2,id3'); // To follow many
+     * user.followArtist('id1', 'id2', 'id3'); // To follow many
      * ```
-     * 
-     * @param id Id of the artist
+     *  
+     * @param ids Ids of the artist or artists
      */
-    async followArtist(id: string): Promise<any> {
+    async followArtist(...ids: string[]): Promise<void> {
+        
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/me/following`, params: { ids: ids.join(','), type: 'artist' } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'PUT',
-                        link: `v1/me/following`,
-                        params: {
-                            ids: id,
-                            type: 'artist'
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
-
-    };
+    }
 
     /**
      * Aliases of the followUser followPlaylist and followArtist
      * 
-     * @param id Id of the artist, user or playlist
-     * @param type type of the id
+     * @param type Type of the id. User, Artist or Playlist
+     * @param ids Ids of the user or artist. Only 1 id can be used to follow playlist
      */
-    async follow(id: string, type: 'user' | 'artist' | 'playlist'): Promise<any> {
+    async follow(type: 'user' | 'artist' | 'playlist' = 'user', ...ids: string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            if(!id) reject(new MissingParamError('missing id'));
-
-            if(type == 'user') resolve(await this.followUser(id));
-            else if(type == 'artist') resolve(await this.followArtist(id));
-            else if(type == 'playlist') resolve(await this.followPlaylist(id));
-            else reject(new UnexpectedError('invalid type provided'));
-        });
+        if(type == 'user') await this.followUser(...ids);
+        else if(type == 'artist') await this.followArtist(...ids);
+        else await this.followPlaylist(ids[0]);
 
     };
 
@@ -662,33 +569,20 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.unfollowUser('id');
-     * user.unfollowUser('id1,id2,id3'); // For many unfollow
+     * user.unfollowUser('id1', 'id2', 'id3'); // To follow many
      * ```
-     * 
-     * @param id Id of the user
+     *  
+     * @param ids Ids of the user or users
      */
-    async unfollowUser(id: string): Promise<any> {
+    async unfollowUser(...ids: string[]): Promise<void> {
+        
+        try{
+            await this.fetch({ method: 'PUT', link: `v1/me/following`, params: { ids: ids.join(','), type: 'user' } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'DELETE',
-                        link: `v1/me/following`,
-                        params: {
-                            ids: id,
-                            type: 'user'
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
-
-    };
+    }
 
     /**
      * **Example:**
@@ -698,25 +592,13 @@ class UserClient extends Spotify{
      * 
      * @param id Id of the playlist
      */
-    async unfollowPlaylist(id: string): Promise<any> {
+    async unfollowPlaylist(id: string): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'DELETE',
-                        link: `v1/playlists/${id}/followers`,
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
+        try{
+            await this.fetch({ method: 'DELETE', link: `v1/playlists/${id}/followers`, headers: { "Content-Type": "application/json" } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -724,82 +606,65 @@ class UserClient extends Spotify{
      * **Example:**
      * ```js
      * user.unfollowArtist('id');
-     * user.unfollowArtist('id1,id2,id3'); // For many unfollow
+     * user.unfollowArtist('id1', 'id2', 'id3'); // To follow many
      * ```
-     * 
-     * @param id Id of the artist
+     *  
+     * @param ids Ids of the artist or artists
      */
-    async unfollowArtist(id: string): Promise<any> {
+    async unfollowArtist(...ids: string[]): Promise<void> {
+        
+        try{
+            await this.fetch({ method: 'DELETE', link: `v1/me/following`, params: { ids: ids.join(','), type: 'artist' } })
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
-        return new Promise(async(resolve, reject) => {
-            try{
-                if(!id) reject(new MissingParamError('missing id'));
-
-                resolve(
-                    await this.fetch({
-                        method: 'DELETE',
-                        link: `v1/me/following`,
-                        params: {
-                            ids: id,
-                            type: 'artist'
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
-
-    };
-
-    async 
-
-    /**
-     * **Example:**
-     * ```js
-     * const usersFollowing = await user.following();
-     * const artistsFollowing = await user.following(true);
-     * ```
-     * 
-     * Get the list of followers of the current user
-     * 
-     * @param isArtist Should the list be of artist then true else false
-     */
-    async following(isArtist?: boolean): Promise<any> {
-
-        return new Promise(async(resolve, reject) => {
-            try{
-                resolve(
-                    await this.fetch({
-                        link: `v1/me/following`,
-                        params: {
-                            type: (isArtist ? 'artist' : 'user')
-                        }
-                    })
-                );
-            }catch(e){
-                reject(new UnexpectedError(e));
-            };
-        });
-
-    };
+    }
 
     /**
      * Aliases of the unfollowUser unfollowPlaylist and unfollowArtist
      * 
-     * @param id Id of the artist, user or playlist
-     * @param type type of the id
+     * @param type Type of the id. User, Artist or Playlist
+     * @param ids Ids of the user or artist. Only 1 id can be used to unfollow playlist
      */
-    async unfollow(id: string, type: 'user' | 'artist' | 'playlist'): Promise<any> {
+    async unfollow(type: 'user' | 'artist' | 'playlist' = 'user', ...ids: string[]): Promise<void> {
 
-        return new Promise(async(resolve, reject) => {
-            if(!id) reject(new MissingParamError('missing id'));
+        if(type == 'user') await this.unfollowUser(...ids);
+        else if(type == 'artist') await this.unfollowArtist(...ids);
+        else await this.unfollowPlaylist(ids[0]);
 
-            if(type == 'user') resolve(await this.unfollowUser(id));
-            else if(type == 'artist') resolve(await this.unfollowArtist(id));
-            else if(type == 'playlist') resolve(await this.unfollowPlaylist(id));
-            else reject(new UnexpectedError('invalid type provided'));
-        });
+    };
+
+    /**
+     * **Example:**
+     * ```js
+     * const usersFollowers = await user.getFollowers();
+     * const artistsFollowers = await user.getFollowers('artist');
+     * ```
+     * 
+     * Get the list of followers of the current user By default will return user followers
+     * 
+     * @param type Type of followers needs to be returned! User or artist!
+     */
+    async getFollowers(type: 'user' | 'artist' = 'user'): Promise<Artist[] | User[]> {
+
+        try{
+            let data = await this.fetch({ link: `v1/me/following`, params: { type } });
+
+            if(type == 'user'){
+                data = data.map(x => new User(x, this.client));
+                if(this.client.cacheOptions.cacheUsers) this.client.cache.users.push(...data);
+                if(this.client.cacheOptions.cacheFollowers) this.followers.users.push(...data);
+                return data;
+            }else{
+                data = data.map(x => new Artist(x, this.client));
+                if(this.client.cacheOptions.cacheArtists) this.client.cache.artists.push(...data);
+                if(this.client.cacheOptions.cacheFollowers) this.followers.artists.push(...data);
+                return data;
+            }
+        }catch(e){
+            throw new UnexpectedError(e);
+        }
 
     };
 
@@ -825,7 +690,7 @@ class UserClient extends Spotify{
         }
     ): Promise<void> {
         this.token = (await this.auth.refresh(options)).access_token;
-        this.player = new UserPlayer(this.token);
+        this.player = new UserPlayer(this.token, this.client);
         this.startedAt = Date.now();
     };
     

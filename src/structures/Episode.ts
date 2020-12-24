@@ -13,7 +13,7 @@ import { Image, ResumePoint } from "./Interface";
 class Episode {
 
     readonly data: any;
-    readonly client: Client;
+    readonly client!: Client;
 
     audioPreviewUrl: string | null;
     description: string;

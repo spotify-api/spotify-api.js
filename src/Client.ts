@@ -36,7 +36,22 @@ interface CacheOptions{
     cachePlaylists?: boolean;
     cacheArtists?: boolean;
     cacheAlbums?: boolean;
+    cacheCurrentUser?: boolean;
+    cacheFollowers?: boolean | null;
 }
+
+const DefaultCacheOptions = {
+    cacheTracks: false,
+    cacheUsers: false,
+    cacheCategories: false,
+    cacheEpisodes: false,
+    cacheShows: false,
+    cachePlaylists: false,
+    cacheArtists: false,
+    cacheAlbums: false,
+    cacheCurrentUser: false,
+    cacheFollowers: null
+};
 
 /**
  * **Client class**
@@ -44,6 +59,8 @@ interface CacheOptions{
  * The class which collects all the methods
  */
 export default class Client {
+
+    private cacheOnReady: (err?: any) => void;
       
     token: string;
     utils: Spotify;
@@ -81,19 +98,16 @@ export default class Client {
      * const client = new Spotify.Client('oauth token')
      * ```
      */
-    constructor(
-        oauth?: string,
-        cacheOptions: CacheOptions = {
-            cacheTracks: false
-        }
-    ) {
+    constructor(oauth?: string, cacheOptions: CacheOptions = DefaultCacheOptions) {
+
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify(this.token)
         this.startedAt = Date.now();
         this.cacheOptions = cacheOptions;
+        this.cacheOnReady = () => {};
 
         this.tracks = new Track(this.token, this);
-        this.user = new UserClient(this.token);
+        this.user = new UserClient(this.token, this);
         this.oauth = new Auth(this.token);
         this.users = new User(this.token, this);
         this.playlists = new Playlist(this.token, this);
@@ -114,6 +128,30 @@ export default class Client {
             albums: new CacheManager<string, AlbumStructure>('id')
         };
 
+        this.makeCache();
+
+    };
+    
+    /**
+     * Private caching init function
+     */
+    private async makeCache(): Promise<void> {
+        const reject = e => this.cacheOnReady(e);
+
+        if(this.cacheOptions.cacheCurrentUser){
+            try{
+                await this.user.info();
+            }catch(e){ reject(e) } 
+        }
+
+        if((this.cacheOptions.cacheCurrentUser && this.cacheOptions.cacheFollowers == null) || this.cacheOptions.cacheFollowers) {
+            try{
+                await this.user.getFollowers();
+                await this.user.getFollowers('artist');
+            }catch(e){ reject(e) }
+        }
+
+        this.cacheOnReady(null);
     };
 
     /**
@@ -140,7 +178,7 @@ export default class Client {
         this.episodes = new Episode(this.token, this);
         this.shows = new Show(this.token, this);
         this.browse = new Browse(this.token, this);
-        this.user = new UserClient(this.token);
+        this.user = new UserClient(this.token, this);
     };
 
     /**

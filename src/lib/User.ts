@@ -76,6 +76,24 @@ class User extends Spotify {
 
     };
 
+    /**
+     * Verify if current user follows this user but only if you have the required scopes
+     * 
+     * @param ids Ids of the user or users
+     */
+    async follows(...ids: string[]): Promise<boolean[]> {
+        return await this.client.user.followsUser(...ids);
+    }
+
+    /**
+     * Follows a user by id
+     * 
+     * @param ids Ids of the user or users
+     */
+    async follow(...ids: string[]): Promise<void> {
+        await this.client.user.followsUser(...ids);
+    }
+
 };
 
 export default User;

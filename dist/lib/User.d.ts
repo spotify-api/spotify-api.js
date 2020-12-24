@@ -32,5 +32,17 @@ declare class User extends Spotify {
         limit?: number;
         params?: any;
     }): Promise<Playlist[]>;
+    /**
+     * Verify if current user follows this user but only if you have the required scopes
+     *
+     * @param ids Ids of the user or users
+     */
+    follows(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Follows a user by id
+     *
+     * @param ids Ids of the user or users
+     */
+    follow(...ids: string[]): Promise<void>;
 }
 export default User;

@@ -7,7 +7,7 @@ import Playlist from './Playlist';
 /**
  * Public User Class
  */
-declare class PublicUser {
+export default class User {
     readonly data: any;
     readonly client: Client;
     name: string;
@@ -34,7 +34,7 @@ declare class PublicUser {
     /**
      * Fetches tracks
      */
-    fetch(): Promise<PublicUser>;
+    fetch(): Promise<User>;
     /**
      * Returns you the user playlists
      *
@@ -42,5 +42,17 @@ declare class PublicUser {
      * @param limit Limit of results
      */
     getPlaylists(force?: boolean, limit?: number): Promise<Playlist[]>;
+    /**
+     * Verify if this user is followed by the current user but only if you have the required scopes
+     * This method uses the client.user.followsUser
+     */
+    follows(): Promise<boolean>;
+    /**
+     * Follow this user
+     */
+    follow(): Promise<void>;
+    /**
+     * Unfollows a user
+     */
+    unfollow(): Promise<void>;
 }
-export default PublicUser;

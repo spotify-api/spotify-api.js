@@ -111,9 +111,7 @@ class Browse extends Spotify_1.default {
             });
             return {
                 message: data.message,
-                get playlists() {
-                    return data.playlists.items.map(x => new Playlist_1.default(x, this.client));
-                }
+                playlists: data.playlists.items.map(x => new Playlist_1.default(x, this.client))
             };
         }
         catch (e) {

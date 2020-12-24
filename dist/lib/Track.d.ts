@@ -56,5 +56,19 @@ declare class Track extends Spotify {
      * @param id Id of the track
      */
     audioAnalysis(id: string): Promise<TrackAudioAnalysis>;
+    /**
+     * This method uses client.user.deleteTrack
+     * This method deletes the track from your save list
+     *
+     * @param ids Ids od the track or tracks
+     */
+    delete(ids: string | string[]): Promise<void>;
+    /**
+     * This method uses client.user.addTrack
+     * This method adds the track from your save list
+     *
+     * @param ids Ids od the track or tracks
+     */
+    add(ids: string | string[]): Promise<void>;
 }
 export default Track;

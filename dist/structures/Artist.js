@@ -83,6 +83,25 @@ class Artist {
         this.relatedArtists = data;
         return data;
     }
+    /**
+     * Verify if this artist is followed by the current user but only if you have the required scopes for the current user
+     * This method uses the client.user.followsArtist method
+     */
+    async follows() {
+        return (await this.client.user.followsArtist(this.id))[0];
+    }
+    /**
+     * Follows this artist
+     */
+    async follow() {
+        await this.client.user.followArtist(this.id);
+    }
+    /**
+     * Unfollows a artist
+     */
+    async unfollow() {
+        await this.client.user.unfollowArtist(this.id);
+    }
 }
 ;
 exports.default = Artist;

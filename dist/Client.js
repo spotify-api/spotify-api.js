@@ -19,6 +19,18 @@ const Spotify_1 = __importDefault(require("./Spotify"));
 const UserClient_1 = __importDefault(require("./UserClient"));
 const CacheManager_1 = __importDefault(require("./CacheManager"));
 const Error_1 = require("./Error");
+const DefaultCacheOptions = {
+    cacheTracks: false,
+    cacheUsers: false,
+    cacheCategories: false,
+    cacheEpisodes: false,
+    cacheShows: false,
+    cachePlaylists: false,
+    cacheArtists: false,
+    cacheAlbums: false,
+    cacheCurrentUser: false,
+    cacheFollowers: null
+};
 /**
  * **Client class**
  *
@@ -34,15 +46,14 @@ class Client {
      * const client = new Spotify.Client('oauth token')
      * ```
      */
-    constructor(oauth, cacheOptions = {
-        cacheTracks: false
-    }) {
+    constructor(oauth, cacheOptions = DefaultCacheOptions) {
         this.token = oauth || 'NO TOKEN';
         this.utils = new Spotify_1.default(this.token);
         this.startedAt = Date.now();
         this.cacheOptions = cacheOptions;
+        this.cacheOnReady = () => { };
         this.tracks = new Track_1.default(this.token, this);
-        this.user = new UserClient_1.default(this.token);
+        this.user = new UserClient_1.default(this.token, this);
         this.oauth = new Auth_1.default(this.token);
         this.users = new User_1.default(this.token, this);
         this.playlists = new Playlist_1.default(this.token, this);
@@ -61,6 +72,32 @@ class Client {
             artists: new CacheManager_1.default('id'),
             albums: new CacheManager_1.default('id')
         };
+        this.makeCache();
+    }
+    ;
+    /**
+     * Private caching init function
+     */
+    async makeCache() {
+        const reject = e => this.cacheOnReady(e);
+        if (this.cacheOptions.cacheCurrentUser) {
+            try {
+                await this.user.info();
+            }
+            catch (e) {
+                reject(e);
+            }
+        }
+        if ((this.cacheOptions.cacheCurrentUser && this.cacheOptions.cacheFollowers == null) || this.cacheOptions.cacheFollowers) {
+            try {
+                await this.user.getFollowers();
+                await this.user.getFollowers('artist');
+            }
+            catch (e) {
+                reject(e);
+            }
+        }
+        this.cacheOnReady(null);
     }
     ;
     /**
@@ -86,7 +123,7 @@ class Client {
         this.episodes = new Episode_1.default(this.token, this);
         this.shows = new Show_1.default(this.token, this);
         this.browse = new Browse_1.default(this.token, this);
-        this.user = new UserClient_1.default(this.token);
+        this.user = new UserClient_1.default(this.token, this);
     }
     ;
     /**
