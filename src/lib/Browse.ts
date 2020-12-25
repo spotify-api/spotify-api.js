@@ -112,9 +112,12 @@ class Browse extends Spotify{
                 }
             });
 
+            const playlists = data.playlists.items.map(x => new Playlist(x, this.client));
+            if(this.client.cacheOptions.cachePlaylists) this.client.cache.playlists.push(...playlists);
+
             return {
                 message: data.message,
-                playlists: data.playlists.items.map(x => new Playlist(x, this.client))
+                playlists
             };
         }catch(e){
             throw new UnexpectedError(e);
