@@ -19,7 +19,7 @@ import PlaylistStructure from './structures/Playlist';
 import ArtistStructure from './structures/Artist';
 import AlbumStructure from './structures/Album';
 import PublicUser from './structures/PublicUser';
-import { Category } from './structures/Interface';
+import { Category, RawObject } from './structures/Interface';
 
 import Spotify from './Spotify';
 import UserClient from './UserClient';
@@ -203,13 +203,7 @@ export default class Client {
 
         try{
             return await this.utils.fetch({
-                link: `v1/search`,
-                params: {
-                    q,
-                    type: options.type.join(','),
-                    market: "US",
-                    limit: options.limit || 20,
-                },
+                link: `v1/search?q=${encodeURIComponent(q)}&type=${options.type.join(',')}&market=US&limit=${options.limit || 20}`,
             })
         }catch(e){
             throw new UnexpectedError(e);
@@ -234,19 +228,10 @@ export default class Client {
      */
     request(
         path: string,
-        options: {
-            method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-            params?: any;
-            headers?: any;
-        },
+        options: RawObject,
         callback: (err: any, data: any) => void
     ): void {
-        this.utils.fetch({
-            link: path,
-            ...options
-        })
-        .then(x => callback(null, x))
-        .catch(x => callback(x, null))
+        this.utils.fetch({ link: path, ...options  }).then(x => callback(null, x), x => callback(x, null))
     };
 
     /**

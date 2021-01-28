@@ -129,3 +129,37 @@ const { refresh_token } = auth.refresh({
     redirect_uri: 'redirect uri' // Redirect uri which you used while auth, which is only for verification
 });
 ```
+
+## Caching
+
+We have built an easy cache system to prevent you from spamming the spotify api!
+
+> Note : By Default cache option is turned off to prevent unwanted memory leak so we recommend you to only use it in case of high usage.
+
+```js
+const Spotify = require('spotify-api.js');
+
+// Defining cache options
+const DefaultCacheOptions = {
+    cacheTracks: true, // incase I only want to cache the tracks only I will this to true
+    cacheUsers: false,
+    cacheCategories: false,
+    cacheEpisodes: false,
+    cacheShows: false,
+    cachePlaylists: false,
+    cacheArtists: false,
+    cacheAlbums: false,
+    cacheCurrentUser: false,
+    cacheFollowers: null
+};
+
+const client = new Spotify.Client("TOKEN", DefaultCacheOptions) // passing the cache options
+await client.tracks.get("ID"); // The track is now cached
+client.cache.tracks.get("ID"); // Returns TrackStructure which is been fetched previously else will return null
+await client.tracks.get("ID"); // Second time using the function will return cache one
+await client.tracks.get("ID", true); // Using second param will force fetch instead of searching cache!
+```
+
+# Important
+
+Currently the package might have bugs so kindly make issues to fix in upcomming versions and there is a lack of documentation which will also be released in the next version! For further doubts join our discord server!

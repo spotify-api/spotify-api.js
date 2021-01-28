@@ -5,18 +5,7 @@
 
 import { UtilityError } from "./Error";
 import axios from "axios";
-import { CodeImageReturn } from './structures/Interface'
-
-/**
- * Interface of this.fetch options
- */
-export interface getOptions {
-    link: string;
-    headers?: any;
-    params?: any;
-    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-    body?: any;
-};
+import { GetOptions } from './structures/Interface'
 
 /**
  * Spotify utility class
@@ -80,61 +69,22 @@ class Util {
      * 
      * Quick way to access spotify api without large fetching codes through axios....
      */
-    async fetch(options: getOptions): Promise<any> {
+    async fetch(options: GetOptions): Promise<any> {
 
         const { data } = await axios({
             method: (options.method || 'GET'),
             url: ("https://api.spotify.com/" + options.link),
-            headers: { Authorization: `Bearer ${this.token}`, ...options.headers },
-            params: options.params || {},
-            data: options.body || {}
+            headers: { 
+                Authorization: `Bearer ${this.token}`, 
+                Accept: 'application/json',
+                ...options.headers 
+            },
+            params: options.params || {}
         });
+
         return data;
 
     }
-
-    /**
-     * @param uri Uri of spotify data
-     * 
-     * Get spotify uri data...
-     */
-    async getURIData(uri: string): Promise<any> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const { data } = await axios.get('https://open.spotify.com/embed?uri=' + uri);
-
-                resolve(
-                    JSON.parse(
-                        decodeURIComponent(
-                            data
-                            .split('<script id="resource" type="application/json">')[1]
-                            .split('</script>')[0]
-                        )
-                    )
-                );
-            } catch(e) {
-                reject(e);
-            };
-        });
-    };
-
-    /**
-     * @param uri Spotify data
-     * 
-     * Get code image of advanced options...
-     */
-    async getCodeImage(uri: string): Promise<CodeImageReturn> {
-        const data = await this.getURIData(uri);
-        let match = this.hexToRgb(data.dominantColor);
-
-        return {
-            image: `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${match[0] > 150 ? "black" : "white"}/1080/${uri}`,
-            dominantColor: {
-                hex: data.dominantColor,
-                rgb: match,
-            },
-        };
-    };
 
 };
 

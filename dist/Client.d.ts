@@ -17,7 +17,7 @@ import PlaylistStructure from './structures/Playlist';
 import ArtistStructure from './structures/Artist';
 import AlbumStructure from './structures/Album';
 import PublicUser from './structures/PublicUser';
-import { Category } from './structures/Interface';
+import { Category, RawObject } from './structures/Interface';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 import CacheManager from './CacheManager';
@@ -121,11 +121,7 @@ export default class Client {
      * @param options Options to request
      * @param callback Callback when request is over
      */
-    request(path: string, options: {
-        method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-        params?: any;
-        headers?: any;
-    }, callback: (err: any, data: any) => void): void;
+    request(path: string, options: RawObject, callback: (err: any, data: any) => void): void;
     /**
      * **Example:**
      *

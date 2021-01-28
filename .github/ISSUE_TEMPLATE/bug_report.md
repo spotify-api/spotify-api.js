@@ -6,7 +6,7 @@ about: Create a report to help us improve
 
 # Bug Report
 
-## My version of spotify-api.py
+## My version of spotify-api.js
 <!-- What version are you using? -->
 
 ## What i expected...

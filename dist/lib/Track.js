@@ -37,7 +37,7 @@ class Track extends Spotify_1.default {
             const res = await this.fetch({
                 link: `v1/search`,
                 params: {
-                    q,
+                    q: encodeURIComponent(q),
                     type: "track",
                     market: "US",
                     limit: options.limit,
@@ -72,7 +72,7 @@ class Track extends Spotify_1.default {
                 return existing;
         }
         try {
-            const data = new Track_1.default(await this.fetch({ link: `v1/tracks/${id}` }), this.client);
+            const data = new Track_1.default(await this.fetch({ link: `v1/tracks/${id}?market=US` }), this.client);
             if (this.client.cacheOptions.cacheTracks)
                 this.client.cache.tracks.push(data);
             return data;

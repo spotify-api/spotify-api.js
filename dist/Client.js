@@ -149,13 +149,7 @@ class Client {
             options.type = ['track', 'album', 'artist', 'playlist', 'show', 'episode'];
         try {
             return await this.utils.fetch({
-                link: `v1/search`,
-                params: {
-                    q,
-                    type: options.type.join(','),
-                    market: "US",
-                    limit: options.limit || 20,
-                },
+                link: `v1/search?q=${encodeURIComponent(q)}&type=${options.type.join(',')}&market=US&limit=${options.limit || 20}`,
             });
         }
         catch (e) {
@@ -181,12 +175,7 @@ class Client {
      * @param callback Callback when request is over
      */
     request(path, options, callback) {
-        this.utils.fetch({
-            link: path,
-            ...options
-        })
-            .then(x => callback(null, x))
-            .catch(x => callback(x, null));
+        this.utils.fetch({ link: path, ...options }).then(x => callback(null, x), x => callback(x, null));
     }
     ;
     /**

@@ -9,7 +9,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("./Error");
 const axios_1 = __importDefault(require("axios"));
-;
 /**
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
@@ -69,49 +68,15 @@ class Util {
         const { data } = await axios_1.default({
             method: (options.method || 'GET'),
             url: ("https://api.spotify.com/" + options.link),
-            headers: { Authorization: `Bearer ${this.token}`, ...options.headers },
-            params: options.params || {},
-            data: options.body || {}
+            headers: {
+                Authorization: `Bearer ${this.token}`,
+                Accept: 'application/json',
+                ...options.headers
+            },
+            params: options.params || {}
         });
         return data;
     }
-    /**
-     * @param uri Uri of spotify data
-     *
-     * Get spotify uri data...
-     */
-    async getURIData(uri) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const { data } = await axios_1.default.get('https://open.spotify.com/embed?uri=' + uri);
-                resolve(JSON.parse(decodeURIComponent(data
-                    .split('<script id="resource" type="application/json">')[1]
-                    .split('</script>')[0])));
-            }
-            catch (e) {
-                reject(e);
-            }
-            ;
-        });
-    }
-    ;
-    /**
-     * @param uri Spotify data
-     *
-     * Get code image of advanced options...
-     */
-    async getCodeImage(uri) {
-        const data = await this.getURIData(uri);
-        let match = this.hexToRgb(data.dominantColor);
-        return {
-            image: `https://scannables.scdn.co/uri/plain/jpeg/${data.dominantColor.slice(1)}/${match[0] > 150 ? "black" : "white"}/1080/${uri}`,
-            dominantColor: {
-                hex: data.dominantColor,
-                rgb: match,
-            },
-        };
-    }
-    ;
 }
 ;
 exports.default = Util;

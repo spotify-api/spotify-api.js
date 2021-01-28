@@ -2,17 +2,7 @@
  * File of basic utility
  * All the lib files extends to this class to make work faster
  */
-import { CodeImageReturn } from './structures/Interface';
-/**
- * Interface of this.fetch options
- */
-export interface getOptions {
-    link: string;
-    headers?: any;
-    params?: any;
-    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
-    body?: any;
-}
+import { GetOptions } from './structures/Interface';
 /**
  * Spotify utility class
  * You can access this uility class through the `spotify.Client.utils`
@@ -42,18 +32,6 @@ declare class Util {
      *
      * Quick way to access spotify api without large fetching codes through axios....
      */
-    fetch(options: getOptions): Promise<any>;
-    /**
-     * @param uri Uri of spotify data
-     *
-     * Get spotify uri data...
-     */
-    getURIData(uri: string): Promise<any>;
-    /**
-     * @param uri Spotify data
-     *
-     * Get code image of advanced options...
-     */
-    getCodeImage(uri: string): Promise<CodeImageReturn>;
+    fetch(options: GetOptions): Promise<any>;
 }
 export default Util;

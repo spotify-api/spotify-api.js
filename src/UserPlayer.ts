@@ -2,6 +2,7 @@
  * UserPlayer which access the user player only if the scoped token
  * has those correct scopes
  */
+import axios from 'axios';
 import Client from "./Client";
 import Spotify from "./Spotify";
 import CacheManager from "./CacheManager";
@@ -281,15 +282,17 @@ class UserPlayer extends Spotify{
     async play(options: PlayOptions = {}): Promise<void> {
         
         try{
-            const body = {
+            const data = {
                 context_uri: options.context,
                 uris: options.uris,
                 offset: options.offset,
                 position_ms: options.position
             };
 
-            if(options.device) await this.fetch({ method: 'PUT', link: `v1/me/player/play`, body, params: { device_id: options.device } });
-            else await this.fetch({ method: 'PUT', link: `v1/me/player/play`, body });
+            const token = `Bearer ${this.token}`;
+
+            if(options.device) await axios({ method: 'PUT', url: `https://api.spotify.com/v1/me/player/play`, data, params: { device_id: options.device }, headers: { Authorization: token } });
+            else await axios({ method: 'PUT', url: `https://api.spotify.com/v1/me/player/play`, data, headers: { Authorization: token } });
         }catch(e){
             throw new UnexpectedError(e);
         }

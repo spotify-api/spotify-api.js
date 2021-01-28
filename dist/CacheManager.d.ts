@@ -2,7 +2,7 @@
  * Cachemanager to store data of spotify api in cache and avoid hitting spotify api to prevent 429
  */
 export default class CacheManager<K, V> extends Array<V> {
-    key: string;
+    readonly key: string;
     /**
      * ```js
      * const cache = CacheManager.create('key', [

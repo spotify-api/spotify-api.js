@@ -3,6 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * UserPlayer which access the user player only if the scoped token
+ * has those correct scopes
+ */
+const axios_1 = __importDefault(require("axios"));
 const Spotify_1 = __importDefault(require("./Spotify"));
 const CacheManager_1 = __importDefault(require("./CacheManager"));
 const Error_1 = require("./Error");
@@ -274,16 +279,17 @@ class UserPlayer extends Spotify_1.default {
      */
     async play(options = {}) {
         try {
-            const body = {
+            const data = {
                 context_uri: options.context,
                 uris: options.uris,
                 offset: options.offset,
                 position_ms: options.position
             };
+            const token = `Bearer ${this.token}`;
             if (options.device)
-                await this.fetch({ method: 'PUT', link: `v1/me/player/play`, body, params: { device_id: options.device } });
+                await axios_1.default({ method: 'PUT', url: `https://api.spotify.com/v1/me/player/play`, data, params: { device_id: options.device }, headers: { Authorization: token } });
             else
-                await this.fetch({ method: 'PUT', link: `v1/me/player/play`, body });
+                await axios_1.default({ method: 'PUT', url: `https://api.spotify.com/v1/me/player/play`, data, headers: { Authorization: token } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);

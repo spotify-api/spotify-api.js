@@ -216,3 +216,12 @@ export interface PlayOptions {
     };
     position?: string | number;
 }
+export interface RawObject {
+    [key: string]: any;
+}
+export interface GetOptions {
+    link: string;
+    headers?: RawObject;
+    params?: RawObject;
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+}

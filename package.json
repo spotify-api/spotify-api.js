@@ -1,6 +1,6 @@
 {
   "name": "spotify-api.js",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "A complete node js wrapper of spotify api with oauth support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,7 @@
   "author": "Abh80",
   "license": "MIT",
   "dependencies": {
-    "@spotify-api.js/spotify-uri-info": "^1.0.0",
-    "axios": "^0.21.0"
+    "axios": ">=0.21.1"
   },
   "contributors": [
     {
@@ -37,11 +36,9 @@
     }
   ],
   "devDependencies": {
-    "events": "^3.2.0",
+    "@types/node": "^14.14.22",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "gh-pages": "^3.1.0",
-    "lodash": "^4.17.20",
-    "showdown": "^1.9.1"
+    "lodash": "^4.17.20"
   }
 }

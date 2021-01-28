@@ -4,6 +4,18 @@ Version history of spotify-api.js since v4.0.5
 
 ---
 
+## v6.0.0
+
+- New cache manager
+- Fixed encoded uri errors
+- All v5 bug fixes
+- Axios security fix
+- Fixed structures and use functions within them
+- Full cache with supported options!
+
+**Status:** To be published | **Released:** Beta usage
+---
+
 ## v5.0.0
 
 - Better documentation and updated readme
@@ -16,7 +28,7 @@ Version history of spotify-api.js since v4.0.5
 - Added UserPlayer class
 - Updated Playlist and User class
 
-**Status:** Published | **Released:** Not yet released
+**Status:** Published & Not good for use | **Released:** Released
 
 ---
 

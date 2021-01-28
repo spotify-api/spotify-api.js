@@ -1,7 +1,3 @@
-/**
- * UserPlayer which access the user player only if the scoped token
- * has those correct scopes
- */
 import Client from "./Client";
 import Spotify from "./Spotify";
 import CacheManager from "./CacheManager";

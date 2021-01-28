@@ -3,7 +3,7 @@
  */
 export default class CacheManager<K, V> extends Array<V>{
 
-    key: string;
+    readonly key: string;
 
     /**
      * ```js
