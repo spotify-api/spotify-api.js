@@ -39,7 +39,7 @@ interface CacheOptions {
  * The class which collects all the methods
  */
 export default class Client {
-    private cacheOnReady;
+    cacheOnReady: (err?: any) => void;
     token: string;
     utils: Spotify;
     startedAt: number;

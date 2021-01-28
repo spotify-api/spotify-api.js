@@ -60,8 +60,8 @@ const DefaultCacheOptions = {
  */
 export default class Client {
 
-    private cacheOnReady: (err?: any) => void;
-      
+    cacheOnReady: (err?: any) => void;
+    
     token: string;
     utils: Spotify;
     startedAt: number;
