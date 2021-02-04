@@ -11,9 +11,8 @@
 # Quick Intro
 
 Spotify-api.js is a promise based quick wrapper for spotify web api which covers the all the api endpoints!<br/>
-You can read the docs of this package by clicking [here](https://spotify-api.js.org)<br/>
 You can join our discord server for additional support from [here](https://discord.gg/FrduEZd).<br/>
-**WARNING:** Make sure you are using v6 of spotify-api.js as v5 has many bugs and axios security fix!
+**WARNING:** Make sure you are using v6 of spotify-api.js as v5 has many bugs and axios security fix! Secondly docs is outdated and not meant for v6!
 
 # Installation
 
