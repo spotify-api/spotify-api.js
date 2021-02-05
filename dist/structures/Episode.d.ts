@@ -2,7 +2,7 @@ import Client from '../Client';
 import Show from './Show';
 import { Image, ResumePoint } from "./Interface";
 /**
- * Episode class
+ * Spotify Api's Episode Object!
  */
 declare class Episode {
     readonly data: any;
@@ -25,14 +25,11 @@ declare class Episode {
     uri: string;
     resumePoint?: ResumePoint;
     /**
-     * **Example:**
-     *
-     * ```js
-     * const episode = new Episode(data);
-     * ```
+     * Spotify Api's Episode Object!
      *
      * @param data Received raw data from the spotify api
-     * @param client Spotify client
+     * @param client Your Spotify client
+     * @example const episode = new Episode(data, client);
      */
     constructor(data: any, client: Client);
     /**
@@ -41,17 +38,17 @@ declare class Episode {
      */
     makeCodeImage(color?: string): string;
     /**
-     * Show object
+     * Returns the Spotify Show Object which the episode belongs to. Will return null if none!
      * @readonly
      */
     get show(): Show | null;
     /**
-     * Returns date structure of this.releaseDate
+     * Returns the Date object when the episode was released at!
      * @readonly
      */
     get releasedAt(): Date;
     /**
-     * Refreshes the episode info
+     * Refetches the Episode and refreshes the cache!
      */
     fetch(): Promise<Episode>;
 }

@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Playlist lib file
+ * Playlist Manager file
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -29,21 +29,24 @@ const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Playlist_1 = __importStar(require("../structures/Playlist"));
 /**
- * Class of all methods related to playlists
+ * Class of all Spotify Api Methods related to playlists
  */
-class Playlist extends Spotify_1.default {
-    constructor(token, client) {
-        super(token);
+class PlaylistManager extends Spotify_1.default {
+    /**
+     * Class of all Spotify Api Methods related to playlists
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client) {
+        super(client.token);
         this.client = client;
     }
     /**
-     * **Example:**
-     * ```js
-     * const playlist = await spotify.playlists.get("id"); // Get playlist data by id
-     * ```
+     * Returns the information of Spotify Playlist by its id!
      *
      * @param id Id of the playlist
      * @param force If true then will fetch directly instead of searching cache
+     * @example const playlist = await spotify.playlists.get("id"); // Get playlist data by id
      */
     async get(id, force = false) {
         if (!id)
@@ -65,13 +68,11 @@ class Playlist extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
-     * ```
+     * Returns the tracks of the playlist by the playlist id!
      *
      * @param id Id of the playlist
      * @param options Options to configure your search
+     * @example const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
      */
     async getTracks(id, options = { limit: 20 }) {
         if (!id)
@@ -93,12 +94,10 @@ class Playlist extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const [coverImage] = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
-     * ```
+     * Returns the images of the playlist by the playlist id!
      *
      * @param id Playlist id
+     * @example const [coverImage] = await spotify.playlists.getCoverImage('id') // Get cover image of the playlist by id
      */
     async getImages(id) {
         if (!id)
@@ -112,13 +111,21 @@ class Playlist extends Spotify_1.default {
     }
     ;
     /**
-     * Follow a playlist by id
+     * Follow a playlist by id! Will work only if you have a current user token!
      *
      * @param id Id of the playlist
      */
     async follow(id) {
         await this.client.user.followPlaylist(id);
     }
+    /**
+     * Unfollow a playlist by id! Will work only if you have a current user token!
+     *
+     * @param id Id of the playlist
+     */
+    async unfollow(id) {
+        await this.client.user.unfollowPlaylist(id);
+    }
 }
+exports.default = PlaylistManager;
 ;
-exports.default = Playlist;

@@ -1,44 +1,43 @@
 import Spotify from "../Spotify";
 import Client from "../Client";
-import ShowStructure from "../structures/Show";
+import Show from "../structures/Show";
 import Episode from "../structures/Episode";
 /**
- * Class of all methods related to episode enpoints
+ * Class of all Spotify Api Methods related to shows
  */
-declare class Show extends Spotify {
+export default class ShowManager extends Spotify {
     client: Client;
-    constructor(token: string, client: Client);
     /**
-     * **Example:**
-     * ```js
-     * const [show] = await spotify.shows.search("search", { limit: 1 }); // Returns the very first search
-     * ```
+     * Class of all Spotify Api Methods related to shows
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client);
+    /**
+     * Search shows efficiently!
      *
      * @param q Your query
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const [show] = await spotify.shows.search("search", { limit: 1 }); // Returns the very first search
      */
     search(q: string, options?: {
         limit?: number;
         params?: any;
-    }): Promise<ShowStructure[]>;
+    }): Promise<Show[]>;
     /**
-     * **Example:**
-     * ```js
-     * const show = await spotify.shows.get('id'); // Returns show information by id
-     * ```
+     * Returns a Spotify Show Information by its Id!
      *
      * @param id Id of the show
      * @param force If true will fetch instead of search cache
+     * @example const show = await spotify.shows.get('id'); // Returns show information by id
      */
-    get(id: string, force?: boolean): Promise<ShowStructure>;
+    get(id: string, force?: boolean): Promise<Show>;
     /**
-     * **Example:**
-     * ```js
-     * const episode = await spotify.shows.getEpisodes('id'); // Returns all episodes of show by id
-     * ```
+     * Returns the episodes of the show by the episode id!
      *
      * @param id Id of the show
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const episode = await spotify.shows.getEpisodes('id'); // Returns all episodes of show by id
      */
     getEpisodes(id: string, options?: {
         limit?: number;
@@ -50,13 +49,12 @@ declare class Show extends Spotify {
      *
      * @param ids Id of the show or shows
      */
-    delete(ids: string | string[]): Promise<void>;
+    delete(...ids: string[]): Promise<void>;
     /**
      * This method uses client.user.addShow
      * This method adds the show to your saved list
      *
      * @param ids Id of the show or shows
      */
-    add(ids: string | string[]): Promise<void>;
+    add(...ids: string[]): Promise<void>;
 }
-export default Show;

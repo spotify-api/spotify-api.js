@@ -1,33 +1,36 @@
 /**
- * Album lib file
+ * Album Manager file
  */
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 import Client from "../Client";
-import AlbumStructure from '../structures/Album';
+import Album from '../structures/Album';
 import Track from "../structures/Track";
 
 /**
- * Class of all methods related to albums
+ * Class of all Spotify Api Methods related to albums
  */
-class Album extends Spotify {
+export default class AlbumManager extends Spotify {
 
     client: Client;
 
-    constructor(token: string, client: Client){
-        super(token);
+    /**
+     * Class of all Spotify Api Methods related to playlists
+     * 
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client){
+        super(client.token);
         this.client = client;
     }
 
     /**
-     * **Example:**
-     * ```js
-     * const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
-     * ```
+     * Search albums across spotify api efficiently!
      * 
      * @param q Your query
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album.
      */
     async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Album[]> {
 
@@ -55,15 +58,13 @@ class Album extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const album = await spotify.albums.get("album id"); // Get album by id...
-     * ```
+     * Returns a Spotify Album information by Album id!
      * 
      * @param id Id of the album
      * @param force If true then will directly fetch instead of searching cache
+     * @example const album = await spotify.albums.get("album id"); // Get album by id...
      */
-    async get(id: string, force: boolean = false): Promise<AlbumStructure> {
+    async get(id: string, force: boolean = false): Promise<Album> {
 
         if(!id) throw new MissingParamError("missing id");
         if(!force){
@@ -72,7 +73,7 @@ class Album extends Spotify {
         }
 
         try{
-            const data = new AlbumStructure(await this.fetch({ link: `v1/albums/${id}` }), this.client);
+            const data = new Album(await this.fetch({ link: `v1/albums/${id}` }), this.client);
             if(this.client.cacheOptions.cacheAlbums) this.client.cache.albums.push(data);
             return data;
         }catch(e){
@@ -82,13 +83,11 @@ class Album extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
-     * ```
+     * Returns array of tracks present in the album by album id!
      * 
      * @param id Id of the song
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album.
      */
     async getTracks(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Track[]> {
 
@@ -118,22 +117,20 @@ class Album extends Spotify {
      * This is uses the client.user.deleteAlbum method
      * This deletes from your savelist
      * 
-     * @param ids Id of the album or albums
+     * @param ids Id of the albums
      */
-    async delete(ids: string | string[]): Promise<void> {
-        await this.client.user.deleteAlbum(ids);
+    async delete(...ids: string[]): Promise<void> {
+        await this.client.user.deleteAlbum(...ids);
     };
 
     /**
      * This uses the client.user.addAlbum method
      * This adds new albums to the saved list 
      * 
-     * @param ids Id of the album or albums
+     * @param ids Id of the albums
      */
-    async add(ids: string | string[]): Promise<void> {
-        await this.client.user.addAlbum(ids);
+    async add(...ids: string[]): Promise<void> {
+        await this.client.user.addAlbum(...ids);
     };
 
 };
-
-export default Album;

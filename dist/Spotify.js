@@ -11,22 +11,23 @@ const Error_1 = require("./Error");
 const axios_1 = __importDefault(require("axios"));
 /**
  * Spotify utility class
- * You can access this uility class through the `spotify.Client.utils`
+ * This class is actually not meant for use! It is just used to write codes shortly instead of long things!
  */
 class Util {
     /**
-     * @param oauth Your auth token
+     * The main utility class
      *
-     * Library class
+     * @param oauth Your auth token
      */
     constructor(oauth) {
         this.token = oauth || 'NO TOKEN';
     }
     ;
     /**
-     * @param hex Hex to be converted
-     *
      * Function used to convert the hex string to rgb array.
+     * This is used in makeCodeImage functions!
+     *
+     * @param hex Hex to be converted
      */
     static hexToRgb(hex) {
         if (typeof hex == "string" && /^([0-9A-F]{3}){1,2}$/i.test(hex))
@@ -52,17 +53,19 @@ class Util {
         return [red, green, blue, alpha];
     }
     /**
-     * @param hex Hex to be converted
-     *
      * Function used to convert the hex string to rgb array.
+     * The same function which is in static!
+     *
+     * @param hex Hex to be converted
      */
     hexToRgb(hex) {
         return Util.hexToRgb(hex);
     }
     /**
-     * @param options Fetch options
-     *
      * Quick way to access spotify api without large fetching codes through axios....
+     * Instead of using this, you can use the client.request method!
+     *
+     * @param options Fetch options
      */
     async fetch(options) {
         const { data } = await axios_1.default({

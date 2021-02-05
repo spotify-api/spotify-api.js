@@ -10,7 +10,7 @@ const Spotify_1 = __importDefault(require("../Spotify"));
 const Artist_1 = __importDefault(require("./Artist"));
 const Track_1 = __importDefault(require("./Track"));
 /**
- * Album structure class
+ * Structure for the Spotify Api's Album Object!
  */
 class Album {
     /**
@@ -46,18 +46,24 @@ class Album {
             this.copyrights = data.copyrights;
             this.externalIds = data.external_ids;
         }
-        Object.defineProperty(this, 'tracks', { get: () => this.data.tracks.items.map(x => new Track_1.default(x, this.client)) });
     }
     ;
     /**
-     * Returns a code image
+     * Returns a code image of the Album!
      * @param color Hex color code
      */
     makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     /**
-     * Returns the array of simplified artist
+     * Returns the array of tracks in the album!
+     * @readonly
+     */
+    get tracks() {
+        return this.data.tracks.items.map(x => new Track_1.default(x, this.client));
+    }
+    /**
+     * Returns the array of artists of the album!
      * @readonly
      */
     get artists() {
@@ -65,41 +71,40 @@ class Album {
     }
     ;
     /**
-     * Returns date structure of this.releaseDate
+     * Returns the Date object when the album was released!
      * @readonly
      */
     get releasedAt() {
-        return new Date(this.releaseDate);
+        return new Date(this.releaseDatePrecision);
     }
     ;
     /**
-     * Returns a fresh current album object instead of caching
+     * Refetches the album and refreshes the cache!
      */
     async fetch() {
         return await this.client.albums.get(this.id, true);
     }
     ;
     /**
-     * Returns the tracks of the album
+     * Refetches the tracks of the album!
      *
-     * @param force If true will directly fetch instead of searching cache
      * @param limit Limit your results
+     * @param force If true will directly fetch instead of searching cache
      */
-    async getTracks(force = false, limit = 20) {
+    async getTracks(limit = 20, force = false) {
         if (!force && this.tracks.length)
             return this.tracks;
-        const data = await this.client.albums.getTracks(this.id);
-        Object.defineProperty(this, 'tracks', { value: data });
+        const data = await this.client.albums.getTracks(this.id, { limit });
         return data;
     }
     /**
-     * Deletes the album from your saved list
+     * Deletes the album from your saved list! Will only work if you have a current user token!
      */
     async delete() {
         await this.client.user.deleteAlbum(this.id);
     }
     /**
-     * Adds this album to your saved list
+     * Adds this album to your saved list! Deletes the album from your saved list! Will only work if you have a current user token!
      */
     async add() {
         await this.client.user.addAlbum(this.id);

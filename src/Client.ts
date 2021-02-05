@@ -2,43 +2,30 @@
  * File where Client class exists...
  */
 
-import Auth from './lib/Auth';
-import User from './lib/User';
-import Playlist from './lib/Playlist';
-import Track from './lib/Track';
-import Album from './lib/Album';
-import Artist from './lib/Artist'
-import Episode from './lib/Episode';
-import Show from './lib/Show';
-import Browse from './lib/Browse';
+import AuthManager from './lib/Auth';
+import UserManager from './lib/User';
+import PlaylistManager from './lib/Playlist';
+import TrackManager from './lib/Track';
+import AlbumManager from './lib/Album';
+import ArtistManager from './lib/Artist'
+import EpisodeManager from './lib/Episode';
+import ShowManager from './lib/Show';
+import BrowseManager from './lib/Browse';
 
-import TrackStructure from './structures/Track';
-import EpisodeStructure from './structures/Episode';
-import ShowStructure from './structures/Show';
-import PlaylistStructure from './structures/Playlist';
-import ArtistStructure from './structures/Artist';
-import AlbumStructure from './structures/Album';
-import PublicUser from './structures/PublicUser';
-import { Category, RawObject } from './structures/Interface';
+import Track from './structures/Track';
+import Episode from './structures/Episode';
+import Show from './structures/Show';
+import Playlist from './structures/Playlist';
+import Artist from './structures/Artist';
+import Album from './structures/Album';
+import User from './structures/User';
+import { Category, RawObject, CacheOptions } from './structures/Interface';
 
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 import CacheManager from './CacheManager';
 
 import { MissingParamError, UnexpectedError } from './Error';
-
-interface CacheOptions{
-    cacheTracks?: boolean;
-    cacheUsers?: boolean;
-    cacheCategories?: boolean;
-    cacheEpisodes?: boolean;
-    cacheShows?: boolean;
-    cachePlaylists?: boolean;
-    cacheArtists?: boolean;
-    cacheAlbums?: boolean;
-    cacheCurrentUser?: boolean;
-    cacheFollowers?: boolean | null;
-}
 
 const DefaultCacheOptions = {
     cacheTracks: false,
@@ -49,14 +36,13 @@ const DefaultCacheOptions = {
     cachePlaylists: false,
     cacheArtists: false,
     cacheAlbums: false,
-    cacheCurrentUser: false,
-    cacheFollowers: null
+    cacheCurrentUser: false
 };
 
 /**
- * **Client class**
+ * **The Spotify Api Client**
  * 
- * The class which collects all the methods
+ * The class which collects all the spotiify api methods
  */
 export default class Client {
 
@@ -66,66 +52,67 @@ export default class Client {
     utils: Spotify;
     startedAt: number;
     cacheOptions: CacheOptions;
+    madeCache: boolean;
     
-    oauth: Auth;
-    users: User;
-    playlists: Playlist;
-    tracks: Track;
-    albums: Album;
-    artists: Artist;
-    episodes: Episode;
-    shows: Show;
-    browse: Browse;
+    oauth: AuthManager;
+    users: UserManager;
+    playlists: PlaylistManager;
+    tracks: TrackManager;
+    albums: AlbumManager;
+    artists: ArtistManager;
+    episodes: EpisodeManager;
+    shows: ShowManager;
+    browse: BrowseManager;
     user: UserClient;
 
     cache: {
-        tracks: CacheManager<string, TrackStructure>,
-        users: CacheManager<string, PublicUser>,
-        categories: CacheManager<string, Category>,
-        episodes: CacheManager<string, EpisodeStructure>,
-        shows: CacheManager<string, ShowStructure>,
-        playlists: CacheManager<string, PlaylistStructure>,
-        artists: CacheManager<string, ArtistStructure>,
-        albums: CacheManager<string, AlbumStructure>
+        tracks: CacheManager<Track>,
+        users: CacheManager<User>,
+        categories: CacheManager<Category>,
+        episodes: CacheManager<Episode>,
+        shows: CacheManager<Show>,
+        playlists: CacheManager<Playlist>,
+        artists: CacheManager<Artist>,
+        albums: CacheManager<Album>
     }
 
     /**
-     * @param oauth Token
+     * The constructor of the main spotify class
      * 
-     * Pass the spotify oauth `token`
-     * ```js
-     * const Spotify = require('spotify-api.js')
-     * const client = new Spotify.Client('oauth token')
-     * ```
+     * @param oauth Your spotify oauth token
+     * @param cacheOptions Your cache options to set mostly all of the options are set to false
+     * @example const Spotify = require('spotify-api.js');
+     * const client = new Spotify.Client('oauth token');
      */
     constructor(oauth?: string, cacheOptions: CacheOptions = DefaultCacheOptions) {
 
         this.token = oauth || 'NO TOKEN';
-        this.utils = new Spotify(this.token)
+        this.utils = new Spotify(this.token);
         this.startedAt = Date.now();
         this.cacheOptions = cacheOptions;
         this.cacheOnReady = () => {};
+        this.madeCache = false;
 
-        this.tracks = new Track(this.token, this);
-        this.user = new UserClient(this.token, this);
-        this.oauth = new Auth(this.token);
-        this.users = new User(this.token, this);
-        this.playlists = new Playlist(this.token, this);
-        this.albums = new Album(this.token, this);
-        this.artists = new Artist(this.token, this);
-        this.episodes = new Episode(this.token, this);
-        this.shows = new Show(this.token, this);
-        this.browse = new Browse(this.token, this);
+        this.tracks = new TrackManager(this);
+        this.user = new UserClient(this);
+        this.oauth = new AuthManager(this.token);
+        this.users = new UserManager(this);
+        this.playlists = new PlaylistManager(this);
+        this.albums = new AlbumManager(this);
+        this.artists = new ArtistManager(this);
+        this.episodes = new EpisodeManager(this);
+        this.shows = new ShowManager(this);
+        this.browse = new BrowseManager(this);
 
         this.cache = {
-            tracks: new CacheManager<string, TrackStructure>('id'),
-            users: new CacheManager<string, PublicUser>('id'),
-            categories: new CacheManager<string, Category>('name'),
-            episodes: new CacheManager<string, EpisodeStructure>('id'),
-            shows: new CacheManager<string, ShowStructure>('id'),
-            playlists: new CacheManager<string, PlaylistStructure>('id'),
-            artists: new CacheManager<string, ArtistStructure>('id'),
-            albums: new CacheManager<string, AlbumStructure>('id')
+            tracks: new CacheManager<Track>('id'),
+            users: new CacheManager<User>('id'),
+            categories: new CacheManager<Category>('name'),
+            episodes: new CacheManager<Episode>('id'),
+            shows: new CacheManager<Show>('id'),
+            playlists: new CacheManager<Playlist>('id'),
+            artists: new CacheManager<Artist>('id'),
+            albums: new CacheManager<Album>('id')
         };
 
         this.makeCache();
@@ -134,6 +121,7 @@ export default class Client {
     
     /**
      * Private caching init function
+     * @private
      */
     private async makeCache(): Promise<void> {
         const reject = e => this.cacheOnReady(e);
@@ -144,23 +132,15 @@ export default class Client {
             }catch(e){ reject(e) } 
         }
 
-        if((this.cacheOptions.cacheCurrentUser && this.cacheOptions.cacheFollowers == null) || this.cacheOptions.cacheFollowers) {
-            try{
-                await this.user.getFollowers();
-                await this.user.getFollowers('artist');
-            }catch(e){ reject(e) }
-        }
-
         this.cacheOnReady(null);
+        this.madeCache = true;
     };
 
     /**
-     * **Example:**
-     * ```js
-     * client.login('token');
-     * ```
+     * Login to the client with a different token!
      * 
      * @param token string
+     * @example client.login(token);
      */
     login(token: string): void {
         if(!token) throw new MissingParamError('missing token');
@@ -168,34 +148,36 @@ export default class Client {
         this.token = token;
         this.utils = new Spotify(this.token);
         this.startedAt = Date.now();
+        this.madeCache = false;
 
-        this.oauth = new Auth(this.token);
-        this.users = new User(this.token, this);
-        this.playlists = new Playlist(this.token, this);
-        this.tracks = new Track(this.token, this);
-        this.albums = new Album(this.token, this);
-        this.artists = new Artist(this.token, this);
-        this.episodes = new Episode(this.token, this);
-        this.shows = new Show(this.token, this);
-        this.browse = new Browse(this.token, this);
-        this.user = new UserClient(this.token, this);
+        this.oauth = new AuthManager(this.token);
+        this.users = new UserManager(this);
+        this.playlists = new PlaylistManager(this);
+        this.tracks = new TrackManager(this);
+        this.albums = new AlbumManager(this);
+        this.artists = new ArtistManager(this);
+        this.episodes = new EpisodeManager(this);
+        this.shows = new ShowManager(this);
+        this.browse = new BrowseManager(this);
+        this.user = new UserClient(this);
+
+        this.makeCache();
     };
 
     /**
-     * Uptime of the client
+     * Returns the uptime of the client in ms
+     * @readonly
      */
     get uptime(): number {
         return Date.now() - this.startedAt;
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const search = await client.search('search', { limit: 10, type: ['track'] });
-     * ```
+     * Search across spotify api!
      * 
      * @param q Query
      * @param options Your options to selected
+     * @example const search = await client.search('search', { limit: 10, type: ['track'] });
      */
     async search(q: string,  options: { limit?: number; type?: ('track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode')[]; params?: any; } = {} ): Promise<any> {
         if(!q) throw new MissingParamError('missing query');
@@ -211,20 +193,18 @@ export default class Client {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * client.request('me', {}, (err, data) => {
+     * Do a custom request on the spotify api
+     * 
+     * @param path Path to request
+     * @param options Options to request
+     * @param callback Callback when request is over
+     * @example client.request('v1/me', {}, (err, data) => {
      *     if(err) return console.error(err);
      *     if(data) {
      *         console.log('Success!');
      *         console.log(data);
      *     };
      * });
-     * ```
-     * 
-     * @param path Path to request
-     * @param options Options to request
-     * @param callback Callback when request is over
      */
     request(
         path: string,
@@ -232,33 +212,6 @@ export default class Client {
         callback: (err: any, data: any) => void
     ): void {
         this.utils.fetch({ link: path, ...options  }).then(x => callback(null, x), x => callback(x, null))
-    };
-
-    /**
-     * **Example:**
-     * 
-     * ```js
-     * let uriInfo = await client.getByURI("spotify:album:0sNOF9WDwhWunNAHPD3Baj");
-     * ```
-     * 
-     * @param uri Uri
-     * @param force If true then will directly fetch instead of searching cache
-     */
-    async getByURI(uri: string, force: boolean = false): Promise<any> {
-        if(!uri.match(/spotify\:(track|album|artist|episode|show|user)\:(.*?)/g)) throw new TypeError('Invalid uri form');
-        let split = uri.split(':');
-        let id = split[2];
-
-        switch(split[1]) {
-            case 'album': return await this.albums.get(id, force);
-            case 'artist': return await this.artists.get(id, force);
-            case 'episode': return await this.episodes.get(id, force);
-            case 'show': return await this.shows.get(id, force);
-            case 'user': return await this.users.get(id, force);
-            case 'track': return await this.tracks.get(id, force);
-            default: throw new Error('Invalid uri form');
-        };
-        
     };
     
 };

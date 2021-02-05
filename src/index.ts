@@ -30,9 +30,9 @@ import * as Interface from "./structures/Interface";
  * console.log(spotify.version);
  * ```
  * 
- * Always try to update your spotify-api.js to v4.x.x
+ * Always try to update your spotify-api.js to v7.x.x
  */
-const version = '5.0.0'
+const version = '7.0.0'
   
 export { 
     version, 
@@ -58,7 +58,7 @@ import ArtistStructure from "./structures/Artist";
 import EpisodeStructure from "./structures/Episode";
 import PlaylistStructure, { PlaylistTrack } from "./structures/Playlist";
 import TrackStructure, { LinkedTrack } from "./structures/Track";
-import PublicUser from "./structures/PublicUser";
+import PublicUser from "./structures/User";
 import ShowStructure from "./structures/Show";
 import { Device, Playback, PlayHistory } from "./structures/Player";
 

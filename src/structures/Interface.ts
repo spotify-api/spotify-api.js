@@ -242,9 +242,36 @@ export interface RawObject{
     [key: string]: any;
 }
 
-export interface GetOptions {
+export interface FetchOptions {
     link: string;
     headers?: RawObject;
     params?: RawObject;
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 };
+
+export interface CacheOptions{
+    cacheTracks?: boolean;
+    cacheUsers?: boolean;
+    cacheCategories?: boolean;
+    cacheEpisodes?: boolean;
+    cacheShows?: boolean;
+    cachePlaylists?: boolean;
+    cacheArtists?: boolean;
+    cacheAlbums?: boolean;
+    cacheCurrentUser?: boolean;
+}
+
+export interface AuthRefresh {
+    accessToken: string;
+    tokenType: string;
+    expiresIn: number;
+    refreshToken: string;
+    scope: string;
+}
+
+export interface AuthRefreshOptions{
+    clientId: string;
+    clientSecret: string;
+    redirectUrl: string;
+    code: string;
+}

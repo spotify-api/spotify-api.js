@@ -1,7 +1,13 @@
+/**
+ * Artist Structure
+ */
 import { Image } from './Interface';
 import Client from '../Client';
 import Album from './Album';
 import Track from './Track';
+/**
+ * Structure for the Spotify Api's Artist Object!
+ */
 declare class Artist {
     readonly data: any;
     readonly client: Client;
@@ -16,30 +22,37 @@ declare class Artist {
     topTracks: Track[];
     relatedArtists: Artist[];
     simplified: boolean;
-    followers?: number;
+    totalFollowers?: number;
     genres?: string;
     popularity?: number;
+    /**
+     * Structure for the Spotify Api's Artist Object!
+     *
+     * @param data Received Raw data by the Spotify Api!
+     * @param client Your Spotify Client!
+     * @example const artist = new Artist(data, client);
+     */
     constructor(data: any, client: Client);
     /**
-     * Returns a code image
+     * Returns a code image of the artist!
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
     /**
-     * Returns a fresh artist without searching in the cache!
+     * Refetches the artist and refreshes the cache!
      */
     fetch(): Promise<Artist>;
     /**
      * Returns the albums of the artist
      *
-     * @param force If true will directly fetch else will return from cache
      * @param limit Limit of your results
+     * @param force If true will directly fetch else will return from cache
      */
-    getAlbums(force?: boolean, limit?: number): Promise<Album[]>;
+    getAlbums(limit?: number, force?: boolean): Promise<Album[]>;
     /**
      * Returns the top tracks of the artist
      *
-     * @param force If true will directly fetch else will return from cache
+     * @param force If true will directly fetch else will return from the cache!
      */
     getTopTracks(force?: boolean): Promise<Track[]>;
     /**
@@ -54,11 +67,11 @@ declare class Artist {
      */
     follows(): Promise<boolean>;
     /**
-     * Follows this artist
+     * Follow this artist
      */
     follow(): Promise<void>;
     /**
-     * Unfollows a artist
+     * Unfollow this artist
      */
     unfollow(): Promise<void>;
 }

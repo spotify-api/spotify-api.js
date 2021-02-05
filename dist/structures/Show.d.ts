@@ -4,14 +4,13 @@
 import { Copyright, Image } from "./Interface";
 import Episode from './Episode';
 import Client from '../Client';
-import CacheManager from '../CacheManager';
 /**
- * Show Structure
+ * Spotify Api's Show Object!
  */
 export default class Show {
     readonly data: any;
     readonly client: Client;
-    episodes: Episode[] | CacheManager<string, Episode>;
+    episodes: Episode[];
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -29,32 +28,30 @@ export default class Show {
     uri: string;
     totalEpisodes?: number;
     /**
-     * **Example:**
-     *
-     * ```js
-     * const show = new Show(data);
-     * ```
+     * Spotify Api's Show Object!
      *
      * @param data Received raw data from the spotify api
      * @param client Spotify Client
+     * @example const show = new Show(data, client);
      */
     constructor(data: any, client: Client);
     /**
-     * Returns a code image
+     * Returns a code image of the Show!
+     *
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
     /**
-     * Refreshes this show in cache
+     * Refreshes this show in cache and returns you the new one!
      */
     fetch(): Promise<Show>;
     /**
      * Returns the episodes by fetching!
      *
-     * @param force If true, will directly fetch else will search for cache
      * @param limit Limit of your results
+     * @param force If true, will directly fetch else will search for cache
      */
-    getEpisodes(force?: boolean, limit?: number): Promise<Episode[]>;
+    getEpisodes(limit?: number, force?: boolean): Promise<Episode[]>;
     /**
      * This method uses the client.user.deleteShow method
      * This method deletes this show from your saved list

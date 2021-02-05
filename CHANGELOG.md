@@ -4,6 +4,18 @@ Version history of spotify-api.js since v4.0.5
 
 ---
 
+## v7.0.0
+
+- Clear documentation
+- Cleared unwanted codes
+- Perfect typings
+- Bugs fix
+- Unwanted functions deprecated!
+
+**Status:** To be published | **Released:** Not yet released
+
+---
+
 ## v6.0.0
 
 - New cache manager
@@ -13,7 +25,7 @@ Version history of spotify-api.js since v4.0.5
 - Fixed structures and use functions within them
 - Full cache with supported options!
 
-**Status:** To be published | **Released:** Beta usage
+**Status:** Published & Unclear Documentation | **Released:** Released
 ---
 
 ## v5.0.0

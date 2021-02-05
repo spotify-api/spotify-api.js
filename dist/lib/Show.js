@@ -4,28 +4,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * Show lib file
+ * Show Manager file
  */
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Show_1 = __importDefault(require("../structures/Show"));
 const Episode_1 = __importDefault(require("../structures/Episode"));
 /**
- * Class of all methods related to episode enpoints
+ * Class of all Spotify Api Methods related to shows
  */
-class Show extends Spotify_1.default {
-    constructor(token, client) {
-        super(token);
+class ShowManager extends Spotify_1.default {
+    /**
+     * Class of all Spotify Api Methods related to shows
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client) {
+        super(client.token);
         this.client = client;
     }
     /**
-     * **Example:**
-     * ```js
-     * const [show] = await spotify.shows.search("search", { limit: 1 }); // Returns the very first search
-     * ```
+     * Search shows efficiently!
      *
      * @param q Your query
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const [show] = await spotify.shows.search("search", { limit: 1 }); // Returns the very first search
      */
     async search(q, options = { limit: 20 }) {
         if (!q)
@@ -52,13 +55,11 @@ class Show extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const show = await spotify.shows.get('id'); // Returns show information by id
-     * ```
+     * Returns a Spotify Show Information by its Id!
      *
      * @param id Id of the show
      * @param force If true will fetch instead of search cache
+     * @example const show = await spotify.shows.get('id'); // Returns show information by id
      */
     async get(id, force = false) {
         if (!id)
@@ -81,13 +82,11 @@ class Show extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const episode = await spotify.shows.getEpisodes('id'); // Returns all episodes of show by id
-     * ```
+     * Returns the episodes of the show by the episode id!
      *
      * @param id Id of the show
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const episode = await spotify.shows.getEpisodes('id'); // Returns all episodes of show by id
      */
     async getEpisodes(id, options = { limit: 20 }) {
         if (!id)
@@ -118,8 +117,8 @@ class Show extends Spotify_1.default {
      *
      * @param ids Id of the show or shows
      */
-    async delete(ids) {
-        await this.client.user.deleteShow(ids);
+    async delete(...ids) {
+        await this.client.user.deleteShow(...ids);
     }
     /**
      * This method uses client.user.addShow
@@ -127,9 +126,9 @@ class Show extends Spotify_1.default {
      *
      * @param ids Id of the show or shows
      */
-    async add(ids) {
-        await this.client.user.addShow(ids);
+    async add(...ids) {
+        await this.client.user.addShow(...ids);
     }
 }
+exports.default = ShowManager;
 ;
-exports.default = Show;

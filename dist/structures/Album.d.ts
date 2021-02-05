@@ -3,12 +3,11 @@ import Track from './Track';
 import { Copyright, Image, Restriction } from './Interface';
 import Client from '../Client';
 /**
- * Album structure class
+ * Structure for the Spotify Api's Album Object!
  */
 declare class Album {
     readonly data: any;
     readonly client: Client;
-    readonly tracks: Track[];
     albumType: 'album' | 'single' | 'compilation';
     availableMarkets: string[];
     externalUrls: any;
@@ -39,37 +38,42 @@ declare class Album {
      */
     constructor(data: any, client: Client);
     /**
-     * Returns a code image
+     * Returns a code image of the Album!
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
     /**
-     * Returns the array of simplified artist
+     * Returns the array of tracks in the album!
+     * @readonly
+     */
+    get tracks(): Track[];
+    /**
+     * Returns the array of artists of the album!
      * @readonly
      */
     get artists(): Artist[];
     /**
-     * Returns date structure of this.releaseDate
+     * Returns the Date object when the album was released!
      * @readonly
      */
     get releasedAt(): Date;
     /**
-     * Returns a fresh current album object instead of caching
+     * Refetches the album and refreshes the cache!
      */
     fetch(): Promise<Album>;
     /**
-     * Returns the tracks of the album
+     * Refetches the tracks of the album!
      *
-     * @param force If true will directly fetch instead of searching cache
      * @param limit Limit your results
+     * @param force If true will directly fetch instead of searching cache
      */
-    getTracks(force?: boolean, limit?: number): Promise<Track[]>;
+    getTracks(limit?: number, force?: boolean): Promise<Track[]>;
     /**
-     * Deletes the album from your saved list
+     * Deletes the album from your saved list! Will only work if you have a current user token!
      */
     delete(): Promise<void>;
     /**
-     * Adds this album to your saved list
+     * Adds this album to your saved list! Deletes the album from your saved list! Will only work if you have a current user token!
      */
     add(): Promise<void>;
 }

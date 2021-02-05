@@ -4,27 +4,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * Episode lib file
+ * Episode Manager file
  */
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Episode_1 = __importDefault(require("../structures/Episode"));
 /**
- * Class of all methods related to episode enpoints
+ * Class of all Spotify Api Methods related to episodes!
  */
-class Episode extends Spotify_1.default {
-    constructor(token, client) {
-        super(token);
+class EpisodeManager extends Spotify_1.default {
+    /**
+     * Class of all Spotify Api Methods related to episodes!
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client) {
+        super(client.token);
         this.client = client;
     }
     /**
-     * **Example:**
-     * ```js
-     * const [episode] = await spotify.episodes.search("search", { limit: 1 }); // Returns the very first search
-     * ```
+     * Search episodes efficiently!
      *
      * @param q Your query
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const [episode] = await spotify.episodes.search("search", { limit: 1 }); // Returns the very first search
      */
     async search(q, options = { limit: 20 }) {
         if (!q)
@@ -51,13 +54,11 @@ class Episode extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const episode = await spotify.episodes.get('id'); // Returns the episode information by id
-     * ```
+     * Returns the information of the Spotify Episode by its id!
      *
      * @param id Id of the episode
-     * @param options Advanced option
+     * @param force If true, will force fetch else will search first in cache!
+     * @example const episode = await spotify.episodes.get('id'); // Returns the episode information by id
      */
     async get(id, force = false) {
         if (!id)
@@ -80,5 +81,5 @@ class Episode extends Spotify_1.default {
     }
     ;
 }
+exports.default = EpisodeManager;
 ;
-exports.default = Episode;

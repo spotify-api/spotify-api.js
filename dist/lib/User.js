@@ -1,6 +1,6 @@
 "use strict";
 /**
- * User lib file
+ * User Manager file
  */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -8,23 +8,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
-const PublicUser_1 = __importDefault(require("../structures/PublicUser"));
+const User_1 = __importDefault(require("../structures/User"));
 const Playlist_1 = __importDefault(require("../structures/Playlist"));
 /**
- * Class of all methods related to users
+ * Class of all Spotify Api Methods related to users
  */
-class User extends Spotify_1.default {
-    constructor(token, client) {
-        super(token);
+class UserManager extends Spotify_1.default {
+    /**
+     * Class of all Spotify Api Methods related to users!
+     *
+     * @param client Your spotify client!
+     */
+    constructor(client) {
+        super(client.token);
         this.client = client;
     }
     /**
-     * **Example:**
-     * ```js
-     * const user = await spotify.users.get("id"); // Returns the user details by id...
-     * ```
+     * Returns the spotify user information by its id!
      *
-     * @param id Id of the user
+     * @param id Spotify id of the user
+     * @param force If true, will forcefully fetch data else will search for cache!
+     * @example const user = await spotify.users.get("id"); // Returns the user details by id...
      */
     async get(id, force = false) {
         if (!id)
@@ -35,7 +39,7 @@ class User extends Spotify_1.default {
                 return existing;
         }
         try {
-            const data = new PublicUser_1.default(await this.fetch({ link: `v1/users/${id}` }), this.client);
+            const data = new User_1.default(await this.fetch({ link: `v1/users/${id}` }), this.client);
             if (this.client.cacheOptions.cacheUsers)
                 this.client.cache.users.push(data);
             return data;
@@ -47,17 +51,16 @@ class User extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
-     * ```
+     * Get a spotify user's playlists by the user's id!
      *
      * @param id Id of the user
+     * @param options Options to make your data collection better!
+     * @example const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
      */
     async getPlaylists(id, options = { limit: 20 }) {
         try {
             if (!id)
-                throw new Error_1.MissingParamError("missing id to fetch user");
+                throw new Error_1.MissingParamError("Missing id to fetch user!");
             const data = await this.fetch({
                 link: `v1/users/${id}/playlists`,
                 params: {
@@ -77,7 +80,8 @@ class User extends Spotify_1.default {
     }
     ;
     /**
-     * Verify if current user follows this user but only if you have the required scopes
+     * Verify if current user follows this user!
+     * Will only work if you have a current user token!
      *
      * @param ids Ids of the user or users
      */
@@ -85,13 +89,23 @@ class User extends Spotify_1.default {
         return await this.client.user.followsUser(...ids);
     }
     /**
-     * Follows a user by id
+     * Follow a user by id!
+     * Will only work if you have a current user token!
      *
      * @param ids Ids of the user or users
      */
     async follow(...ids) {
-        await this.client.user.followsUser(...ids);
+        await this.client.user.followUser(...ids);
+    }
+    /**
+     * Unfollow a user by id!
+     * Will only work if you have a current user token!
+     *
+     * @param ids Ids of the user or users
+     */
+    async unfollow(...ids) {
+        await this.client.user.unfollowUser(...ids);
     }
 }
+exports.default = UserManager;
 ;
-exports.default = User;

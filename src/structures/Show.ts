@@ -5,19 +5,16 @@ import { Copyright, Image } from "./Interface";
 import Episode from './Episode';
 import Util from '../Spotify';
 import Client from '../Client';
-import CacheManager from '../CacheManager';
-
-const util = new Util();
 
 /**
- * Show Structure
+ * Spotify Api's Show Object!
  */
 export default class Show {
 
     readonly data: any;
     readonly client!: Client;
 
-    episodes: Episode[] | CacheManager<string, Episode>;
+    episodes: Episode[];
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -36,14 +33,11 @@ export default class Show {
     totalEpisodes?: number;
 
     /**
-     * **Example:**
-     * 
-     * ```js
-     * const show = new Show(data);
-     * ```
+     * Spotify Api's Show Object!
      * 
      * @param data Received raw data from the spotify api
      * @param client Spotify Client
+     * @example const show = new Show(data, client);
      */
     constructor(data: any, client: Client){
 
@@ -71,7 +65,8 @@ export default class Show {
     }
 
     /**
-     * Returns a code image
+     * Returns a code image of the Show!
+     * 
      * @param color Hex color code
      */
     makeCodeImage(color: string = '1DB954'): string {
@@ -79,7 +74,7 @@ export default class Show {
     }
 
     /**
-     * Refreshes this show in cache
+     * Refreshes this show in cache and returns you the new one!
      */
     async fetch(): Promise<Show> {
         return await this.client.shows.get(this.id, true);
@@ -88,13 +83,11 @@ export default class Show {
     /**
      * Returns the episodes by fetching!
      * 
-     * @param force If true, will directly fetch else will search for cache
      * @param limit Limit of your results
+     * @param force If true, will directly fetch else will search for cache
      */
-    async getEpisodes(force: boolean = false, limit: number = 20): Promise<Episode[]> {
-        if(!force){
-            if(this.data.episodes) return this.episodes;
-        }
+    async getEpisodes(limit: number = 20, force: boolean = false): Promise<Episode[]> {
+        if(!force && this.episodes.length) return this.episodes;
 
         const data = await this.client.shows.getEpisodes(this.id, { limit });
         this.episodes = data;

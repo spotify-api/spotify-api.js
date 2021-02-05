@@ -3,55 +3,44 @@
  */
 
 import { MissingParamError, UnexpectedError } from "../Error";
+import { AuthRefresh } from "../structures/Interface";
 import axios from "axios";
-
-/**
- * Interface of Auth.refresh return object
- */
-export interface AuthRefresh {
-    access_token: string;
-    token_type: string;
-    expires_in: number;
-    refresh_token: string;
-    scope: string;
-}
 
 /**
  * Class of all methods related to auth
  */
-class Auth {
+export default class AuthManager {
 
     token: string;
 
     /**
+     * Class of all methods related to auth
+     * 
      * @param oauth Your token
-     * Auth class
      */
     constructor(oauth?: string) {
         this.token = oauth || 'NO TOKEN';
     };
 
     /**
-     * **Example:**
-     * ```js
-     * client.oauth.get({
+     * The method used to get a new token by client id and client secret!
+     * 
+     * @param options Your client id and client secret in object form
+     * @example client.oauth.get({
      *     client_id: 'your-client-id',
      *     client_secret: 'your-client-secret'
      * }).then(console.log) // Will return you the token!
-     * ```
-     * 
-     * @param options Your client id and client secret in object form
      */
     async get(
         options: {
-            client_id: string;
-            client_secret: string;
+            clientId: string;
+            clientSecret: string;
         }
     ): Promise<string> {
 
         return new Promise(async (resolve, reject) => {
-            if (!options.client_id) reject(new MissingParamError("missing client id"));
-            if (!options.client_secret) reject(new MissingParamError("missing client secret"));
+            if (!options.clientId) reject(new MissingParamError("missing client id"));
+            if (!options.clientSecret) reject(new MissingParamError("missing client secret"));
 
             const token = this.token;
 
@@ -62,8 +51,8 @@ class Auth {
                     params: {
                         grant_type: "client_credentials",
                         token,
-                        client_id: options.client_id,
-                        client_secret: options.client_secret,
+                        client_id: options.clientId,
+                        client_secret: options.clientSecret,
                     },
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
@@ -79,23 +68,23 @@ class Auth {
     };
 
     /**
-     * Refreshes an Authorization token
+     * Used to refresh an current user token or get a new one!
      * 
      * @param options Your client id, client secret, redirect uri and refresh token aka code
      */
     async refresh(
         options: {
-            client_id: string;
-            client_secret: string;
-            redirect_uri: string;
+            clientId: string;
+            clientSecret: string;
+            redirectUrl: string;
             code: string;
         }
     ): Promise<AuthRefresh> {
 
         return new Promise(async (resolve, reject) => {
-            if (!options.client_id) reject(new MissingParamError("missing client id"));
-            if (!options.client_secret) reject(new MissingParamError("missing client secret"));
-            if (!options.redirect_uri) reject(new MissingParamError("missing redirect uri"));
+            if (!options.clientId) reject(new MissingParamError("missing client id"));
+            if (!options.clientSecret) reject(new MissingParamError("missing client secret"));
+            if (!options.redirectUrl) reject(new MissingParamError("missing redirect uri"));
             if (!options.code) reject(new MissingParamError("missing code"));
 
             try {
@@ -105,19 +94,25 @@ class Auth {
                     params: {
                         grant_type: "authorization_code",
                         code: options.code,
-                        redirect_uri: options.redirect_uri,
+                        redirect_uri: options.redirectUrl,
                     },
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         Authorization:
                             "Basic " +
                             Buffer.from(
-                                options.client_id + ":" + options.client_secret
+                                options.clientId + ":" + options.clientSecret
                             ).toString("base64"),
                     },
                 });
 
-                resolve(data);
+                resolve({
+                    accessToken: data.access_token,
+                    tokenType: data.token_type,
+                    scope: data.scope,
+                    refreshToken: data.refresh_token,
+                    expiresIn: data.expires_in
+                });
             } catch (e) {
                 reject(new UnexpectedError(e));
             }
@@ -125,36 +120,4 @@ class Auth {
 
     };
 
-    /**
-     * Builds an Authorization url string.
-     * 
-     * @param options Your client id, redirect uri and scopes in object form
-     */
-    build(
-        options: {
-            client_id: string;
-            redirect_uri: string;
-            scopes?: string;
-        }
-    ): string {
-
-        if (!options.client_id) throw new MissingParamError("missing client id");
-        if (!options.redirect_uri) throw new MissingParamError("missing redirect uri");
-
-        return (
-            "https://accounts.spotify.com/en/authorize?" +
-            "client_id=" +
-            options.client_id +
-            "&" +
-            "redirect_uri=" +
-            encodeURIComponent(options.redirect_uri) +
-            "&" +
-            "response_type=code" + 
-            "&" + 
-            (options.scopes ? `scope=${encodeURIComponent(options.scopes)}`: '')
-        );
-    };
-
 };
-
-export default Auth;

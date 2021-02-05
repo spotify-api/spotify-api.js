@@ -8,7 +8,7 @@ import Util from '../Spotify';
 import Client from '../Client';
 
 /**
- * LinkedTrack Class
+ * Spotify Api's Linked Track object!
  */
 export class LinkedTrack{
 
@@ -21,13 +21,10 @@ export class LinkedTrack{
     uri: string;
 
     /**
-     * **Example:**
-     * 
-     * ```js
-     * const track = new LinkedTrack(data);
-     * ```
+     * Spotify Api's Linked Track object!
      * 
      * @param data Received raw data from the spotify api
+     * @example const track = new LinkedTrack(data, client);
      */
     constructor(data){
 
@@ -52,7 +49,7 @@ export class LinkedTrack{
 };
 
 /**
- * Track class
+ * Spotify Api's Track Object!
  */
 export default class Track {
 
@@ -83,14 +80,11 @@ export default class Track {
     linkedFrom?: LinkedTrack;
 
     /**
-     * **Example:**
-     * 
-     * ```js
-     * const track = new Track(data);
-     * ```
+     * The Spotify Api's Track Object!
      * 
      * @param data Received raw data from the spotify api
      * @param client The client
+     * @example const track = new Track(data, client);
      */
     constructor(data: any, client: Client){
 
@@ -118,16 +112,14 @@ export default class Track {
         this.restrictions = data.restrictions || null;
         this.simplified = true;
 
-        if('external_ids' in data){
-            this.simplified = false;
-        }
-
+        if('external_ids' in data) this.simplified = false;
         if('linked_from' in data) this.linkedFrom = new LinkedTrack(data.linked_from);
         
     }
 
     /**
-     * Album object
+     * Returns the album of the track!
+     * 
      * @readonly
      */
     get album(): Album {
@@ -135,7 +127,8 @@ export default class Track {
     }
 
     /**
-     * Returns the array of SimplifiedArtist
+     * Returns the array of Artist who made the track!
+     * 
      * @readonly
      */
     get artists(): Artist[] {
@@ -143,7 +136,8 @@ export default class Track {
     }
 
     /**
-     * Returns a code image
+     * Returns a code image of the track!
+     * 
      * @param color Hex color code
      */
     makeCodeImage(color: string = '1DB954'): string {
@@ -151,21 +145,21 @@ export default class Track {
     }
 
     /**
-     * Returns the audio features of the tracks
+     * Returns the audio features of the track!
      */
     async getAudioFeatures(): Promise<TrackAudioFeatures> {
         return this.audioFeatures || await this.client.tracks.audioFeatures(this.id);
     }
 
     /**
-     * Returns the audio analysis of the tracks
+     * Returns the audio analysis of the track!
      */
     async getAudioAnalysis(): Promise<TrackAudioAnalysis> {
         return this.auidoAnalysis || await this.client.tracks.audioAnalysis(this.id);
     }
 
     /**
-     * Fetches tracks
+     * Fetches tracks and refreshes the cache!
      */
     async fetch(): Promise<Track> {
         return await this.client.tracks.get(this.id, true);

@@ -8,17 +8,14 @@ const Artist_1 = __importDefault(require("./Artist"));
 const Album_1 = __importDefault(require("./Album"));
 const Spotify_1 = __importDefault(require("../Spotify"));
 /**
- * LinkedTrack Class
+ * Spotify Api's Linked Track object!
  */
 class LinkedTrack {
     /**
-     * **Example:**
-     *
-     * ```js
-     * const track = new LinkedTrack(data);
-     * ```
+     * Spotify Api's Linked Track object!
      *
      * @param data Received raw data from the spotify api
+     * @example const track = new LinkedTrack(data, client);
      */
     constructor(data) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
@@ -40,18 +37,15 @@ class LinkedTrack {
 exports.LinkedTrack = LinkedTrack;
 ;
 /**
- * Track class
+ * Spotify Api's Track Object!
  */
 class Track {
     /**
-     * **Example:**
-     *
-     * ```js
-     * const track = new Track(data);
-     * ```
+     * The Spotify Api's Track Object!
      *
      * @param data Received raw data from the spotify api
      * @param client The client
+     * @example const track = new Track(data, client);
      */
     constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
@@ -76,47 +70,49 @@ class Track {
         this.popularity = data.popularity || null;
         this.restrictions = data.restrictions || null;
         this.simplified = true;
-        if ('external_ids' in data) {
+        if ('external_ids' in data)
             this.simplified = false;
-        }
         if ('linked_from' in data)
             this.linkedFrom = new LinkedTrack(data.linked_from);
     }
     /**
-     * Album object
+     * Returns the album of the track!
+     *
      * @readonly
      */
     get album() {
         return new Album_1.default(this.data.album, this.client);
     }
     /**
-     * Returns the array of SimplifiedArtist
+     * Returns the array of Artist who made the track!
+     *
      * @readonly
      */
     get artists() {
         return this.data.artists.map(x => new Artist_1.default(x, this.client));
     }
     /**
-     * Returns a code image
+     * Returns a code image of the track!
+     *
      * @param color Hex color code
      */
     makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     /**
-     * Returns the audio features of the tracks
+     * Returns the audio features of the track!
      */
     async getAudioFeatures() {
         return this.audioFeatures || await this.client.tracks.audioFeatures(this.id);
     }
     /**
-     * Returns the audio analysis of the tracks
+     * Returns the audio analysis of the track!
      */
     async getAudioAnalysis() {
         return this.auidoAnalysis || await this.client.tracks.audioAnalysis(this.id);
     }
     /**
-     * Fetches tracks
+     * Fetches tracks and refreshes the cache!
      */
     async fetch() {
         return await this.client.tracks.get(this.id, true);

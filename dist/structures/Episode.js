@@ -9,18 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Show_1 = __importDefault(require("./Show"));
 /**
- * Episode class
+ * Spotify Api's Episode Object!
  */
 class Episode {
     /**
-     * **Example:**
-     *
-     * ```js
-     * const episode = new Episode(data);
-     * ```
+     * Spotify Api's Episode Object!
      *
      * @param data Received raw data from the spotify api
-     * @param client Spotify client
+     * @param client Your Spotify client
+     * @example const episode = new Episode(data, client);
      */
     constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
@@ -58,7 +55,7 @@ class Episode {
         return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     /**
-     * Show object
+     * Returns the Spotify Show Object which the episode belongs to. Will return null if none!
      * @readonly
      */
     get show() {
@@ -66,15 +63,15 @@ class Episode {
     }
     ;
     /**
-     * Returns date structure of this.releaseDate
+     * Returns the Date object when the episode was released at!
      * @readonly
      */
     get releasedAt() {
-        return new Date(this.releaseDate);
+        return new Date(this.releaseDatePrecision);
     }
     ;
     /**
-     * Refreshes the episode info
+     * Refetches the Episode and refreshes the cache!
      */
     async fetch() {
         return await this.client.episodes.get(this.id, true);

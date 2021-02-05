@@ -1,11 +1,15 @@
 /**
- * Playlist class
+ * Playlist Related Structures
  */
 import { Image } from "./Interface";
-import PublicUser from "./PublicUser";
+import User from "./User";
 import Track from "./Track";
 import Episode from "./Episode";
 import Client from "../Client";
+/**
+ * Spotify Api's Playlist Track Object
+ * This is a extended form object used in playlist's tracks!
+ */
 export declare class PlaylistTrack {
     readonly data: any;
     readonly client: Client;
@@ -15,7 +19,7 @@ export declare class PlaylistTrack {
      * **Example:**
      *
      * ```js
-     * const track = new PlaylistTrack(data);
+     * const track = new PlaylistTrack(data, client);
      * ```
      *
      * @param data Received raw data from the spotify api
@@ -23,18 +27,18 @@ export declare class PlaylistTrack {
      */
     constructor(data: any, client: Client);
     /**
-     * Added by user object
+     * Returns a Spotify User who added this track to the playlist! If no one did, will return null!
      * @readonly
      */
-    get addedBy(): PublicUser | null;
+    get addedBy(): User | null;
     /**
-     * Full info of the track
+     * Full info of the track!
      * @readonly
      */
     get track(): Track | Episode;
 }
 /**
- * Playlist structure
+ * Spotify Api's Playlist Object
  */
 export default class Playlist {
     readonly data: any;
@@ -51,42 +55,41 @@ export default class Playlist {
     snapshotId: string;
     type: string;
     uri: string;
-    codeImage: string;
     /**
-     * **Example:**
-     *
-     * ```js
-     * const playlist = new Playlist(data);
-     * ```
+     * Spotify Api's Playlist Object
      *
      * @param data Received raw data from the spotify api
+     * @param client Your Spotify Client!
+     * @example const playlist = new Playlist(data, client);
      */
     constructor(data: any, client: Client);
     /**
-     * Owner user object
+     * Returns the Spotify User who created the playlist!
      * @readonly
      */
-    get owner(): PublicUser;
+    get owner(): User;
     /**
-     * Returns the array of playlist tracks
+     * Returns the total tracks of playlist in the form of array of PlaylistTracks!
      * @readonly
      */
     get tracks(): PlaylistTrack[];
     /**
-     * Returns a code image
+     * Returns a code image of the Playlist!
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
     /**
-     * Returns a fresh playlist without searching in the cache!
+     * Refetches the playlist and returns you the new one and updates the cache too!
      */
     fetch(): Promise<Playlist>;
     /**
-     * Follows this playlist
+     * Follows this playlist!
+     * Will work only if you have a current user token!
      */
     follow(): Promise<void>;
     /**
-     * Unfollows a playlist
+     * Unfollows this playlist!
+     * Will work only if you have a current user token!
      */
     unfollow(): Promise<void>;
 }
