@@ -8,80 +8,133 @@
   </div><br>
 </div>
 
-# About
+# Quick Intro
 
-Spotify-api.js was initially started as an alternative for basic spotify api fetching! Then soon people needed upgrades, so we worked on it and we have made a fully working typed library for spotify api! This package still might have bugs which will be fixed in future slowly. You can create an issue now to fix it as soon as possible!
+Spotify-api.js is a promise based quick wrapper for spotify web api which covers the all the api endpoints!<br/>
+You can join our discord server for additional support from [here](https://discord.gg/FrduEZd).<br/>
+**WARNING:** Make sure you are using v6 of spotify-api.js as v5 has many bugs and axios security fix! Secondly docs is outdated and not meant for v6!
 
-# Features 
+# Installation
 
-- Full Typescript Support
-- Object oriented
-- Easy to learn
-- Covers 90% of spotify api methods as javascript functions
-- Works with browser too!
-
-# Examples
-
-## Getting started
-
-Installing the package!
-
-```sh
-npm i spotify-api.js@latest
+```bash
+npm i spotify-api.js
 ```
 
-Getting your client id and client secret from [here](https://developer.spotify.com/dashboard/)
+# Getting Started
 
-## Setting up Spotify Client!
+Please make an App from here https://developer.spotify.com/dashboard/
+
+# Contents
+
+- [Client](https://spotify-api.js.org/#/docs/class/Client)
+- [Authorization](https://spotify-api.js.org/#/docs/class/Auth)
+- [Current user client](https://spotify-api.js.org/#/docs/class/UserClient)
+- [Current user player](https://spotify-api.js.org/#/docs/class/UserPlayer)
+
+# Getting Access Token
 
 ```js
 const Spotify = require("spotify-api.js");
 const Auth = new Spotify.Auth();
 
 const token = await Auth.get({
-    clientId: "client id",
-    clientSecret: "client secret",
-});
+    client_id: "client id",
+    client_secret: "client secret",
+}); // Will return a promise of token 
 
-const Client = new Spotify.Client(token);
+console.log(token); // Spotify resets its token each every 1-5 minutes to prevent api spam!
 ```
 
-## Getting a current user token!
+> Remember that you need scoped token for Client.user and Client.user.player which uses current user api endpoints...
 
-Get a current user authorized token or just refresh to get a new one!
+# Examples
+
+These are just some small examples, you can view the docs for a more brief documentation...
+
+## Tracks
+
+```js
+const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1 }); // Searches for the track and limit will be 20 by default
+const advanced = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, advanced: true, }); // Same but this will return a `codeImage` and `dominantColor` key with it!
+const get = await spotify.tracks.get("track id"); // Get tracks by id...
+const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
+const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
+```
+
+## Artists
+
+```js
+const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
+const advanced = await spotify.artists.search("alec benjamin", { limit: 1, advanced: true, }); // Returns a `dominantColor` and `codeImage` key with the response../
+const get = await spotify.artists.get("artist id"); // Get artists by id. Has advanced option too...
+const albums = await spotify.artists.getAlbums("artist id"); // Get artist albums by id. Has advanced and limit option too...
+const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
+const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists. Has advanced and limit option too...
+```
+
+## Albums
+
+```js
+const album = await spotify.albums.search("these two windows", { limit: 1 }); // Searches for an album. Has advanced option too...
+const get = await spotify.albums.get("album id"); // Get album by id...
+const tracks = await spotify.albums.getTracks("album id", { limit: 5 }); // Get all tracks of an album. Has advanced option too...
+```
+
+## Users
+
+```js
+const user = await spotify.users.get("id"); // Returns the user details by id...
+```
+
+## Playlists
+
+```js
+const playlist = await spotify.playlists.get("id"); // Get playlist data by id
+const tracks = await spotify.playlists.getTracks("id", { limit: 1 }); // Get all tracks in an album by id. Has advanced option too...
+```
+
+# Examples
+
+## Advanced Option
+
+Take the following code for example
+
+```js
+const { Client } = require("spotify-api.js"); // Import package
+const spotify = new Client("token"); // Load client with token or using oauth
+
+const track = await spotify.tracks.search("oh my god by alec benjamin", {
+    limit: 1,
+    advanced: true,
+}); // Search albums
+console.log(track[0].codeImage); // Get the code image for advanced...
+console.log(track[0].dominantColor); // Get the dominant color... Returns { hex: string, rgb: [r, g, b, a] }
+```
+
+**Code Image:**<br/>
+<img src = "https://scannables.scdn.co/uri/plain/jpeg/786a95/white/1080/spotify:track:44I5NYJ7CGEcaLOuG2zJsU" width = '600' height = "150"></img>
+
+## Getting scoped token
+
+To refresh or to get a scoped token
 
 ```js
 const Spotify = require('spotify-api.js');
-const Auth = new Spotify.Auth();
+const auth = new Spotify.Auth();
 
-const Token = await Auth.refresh({
-    clientId: 'id', // Your app client id
-    clientSecret: 'secret', // Your app client secret
-    code: 'token or code', // To get new one, enter the code received by spotify api or to refresh to get a new one, enter the refreshToken!
-    redirectUrl: 'redirect uri' // Redirect uri which you used while auth, which is only for verification
+const { refresh_token } = auth.refresh({
+    client_id: 'id', // Your app client id
+    client_secret: 'secret', // Your app client secret
+    code: 'token or code', // The code you received from the search query. You can use refresh token to get new access_token also
+    redirect_uri: 'redirect uri' // Redirect uri which you used while auth, which is only for verification
 });
-
-console.log(Token.accessToken);
 ```
-
-## UserClient and UserPlayer
-
-Spotify-api.js newer version helps you access the current user and its player efficiently.
-
-```js
-const Client = new Spotify.Client("USERTOKEN");
-const User = Client.user;
-
-User.followArtist("SOME ARTIST ID");
-```
-
-And most of the player methods of the current user are not tested as it needs spotify premium. So if you found any kind of bugs please create an issue!
 
 ## Caching
 
 We have built an easy cache system to prevent you from spamming the spotify api!
 
-> Note: By Default cache option is turned off to prevent unwanted memory leak so we recommend you to only use it in case of high usage.
+> Note : By Default cache option is turned off to prevent unwanted memory leak so we recommend you to only use it in case of high usage.
 
 ```js
 const Spotify = require('spotify-api.js');
@@ -107,19 +160,6 @@ await client.tracks.get("ID"); // Second time using the function will return cac
 await client.tracks.get("ID", true); // Using second param will force fetch instead of searching cache!
 ```
 
-Incase if you have selected cacheCurrentUser option, the client will fetch and cache the current user details on the client start so sometimes the program will start early before client caches so you can do something like this!
+# Important
 
-```js
-const Client = new Spotify.Client("USER_TOKEN", { cacheCurrentuser: true });
-
-function onCacheReady(){
-    console.log('Client cache is ready!');
-}
-
-if(!Client.madeCache) Client.cacheOnReady = onCacheReady;
-else onCacheReady();
-```
-
-There is a small event for caching! You can view up those in the v7 docs!
-
-# readme to be updated...
+Currently the package might have bugs so kindly make issues to fix in upcomming versions and there is a lack of documentation which will also be released in the next version! For further doubts join our discord server!
