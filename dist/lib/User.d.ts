@@ -1,48 +1,59 @@
 /**
- * User lib file
+ * User Manager file
  */
 import Spotify from "../Spotify";
 import Client from "../Client";
-import PublicUser from "../structures/PublicUser";
+import User from "../structures/User";
 import Playlist from "../structures/Playlist";
 /**
- * Class of all methods related to users
+ * Class of all Spotify Api Methods related to users
  */
-declare class User extends Spotify {
+export default class UserManager extends Spotify {
     client: Client;
-    constructor(token: string, client: Client);
     /**
-     * **Example:**
-     * ```js
-     * const user = await spotify.users.get("id"); // Returns the user details by id...
-     * ```
+     * Class of all Spotify Api Methods related to users!
      *
-     * @param id Id of the user
+     * @param client Your spotify client!
      */
-    get(id: string, force?: boolean): Promise<PublicUser>;
+    constructor(client: Client);
     /**
-     * **Example:**
-     * ```js
-     * const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
-     * ```
+     * Returns the spotify user information by its id!
+     *
+     * @param id Spotify id of the user
+     * @param force If true, will forcefully fetch data else will search for cache!
+     * @example const user = await spotify.users.get("id"); // Returns the user details by id...
+     */
+    get(id: string, force?: boolean): Promise<User>;
+    /**
+     * Get a spotify user's playlists by the user's id!
      *
      * @param id Id of the user
+     * @param options Options to make your data collection better!
+     * @example const playlists = await spotify.users.getPlaylists("id"); // Returns the user playlists by id...
      */
     getPlaylists(id: string, options?: {
         limit?: number;
         params?: any;
     }): Promise<Playlist[]>;
     /**
-     * Verify if current user follows this user but only if you have the required scopes
+     * Verify if current user follows this user!
+     * Will only work if you have a current user token!
      *
      * @param ids Ids of the user or users
      */
     follows(...ids: string[]): Promise<boolean[]>;
     /**
-     * Follows a user by id
+     * Follow a user by id!
+     * Will only work if you have a current user token!
      *
      * @param ids Ids of the user or users
      */
     follow(...ids: string[]): Promise<void>;
+    /**
+     * Unfollow a user by id!
+     * Will only work if you have a current user token!
+     *
+     * @param ids Ids of the user or users
+     */
+    unfollow(...ids: string[]): Promise<void>;
 }
-export default User;

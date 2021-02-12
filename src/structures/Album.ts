@@ -8,13 +8,12 @@ import { Copyright, Image, Restriction } from './Interface';
 import Client from '../Client';
 
 /**
- * Album structure class
+ * Structure for the Spotify Api's Album Object!
  */
 class Album {
 
     readonly data: any;
     readonly client!: Client;
-    readonly tracks!: Track[];
 
     albumType: 'album' | 'single' | 'compilation';
     availableMarkets: string[];
@@ -72,12 +71,10 @@ class Album {
             this.externalIds = data.external_ids;
         }
 
-        Object.defineProperty(this, 'tracks', { get: () => this.data.tracks.items.map(x => new Track(x, this.client)) });
-
     };
 
     /**
-     * Returns a code image
+     * Returns a code image of the Album!
      * @param color Hex color code
      */
     makeCodeImage(color: string = '1DB954'): string {
@@ -85,7 +82,15 @@ class Album {
     }
 
     /**
-     * Returns the array of simplified artist
+     * Returns the array of tracks in the album!
+     * @readonly
+     */
+    get tracks(): Track[] {
+        return this.data.tracks.items.map(x => new Track(x, this.client));
+    }
+
+    /**
+     * Returns the array of artists of the album!
      * @readonly
      */
     get artists(): Artist[] {
@@ -93,43 +98,42 @@ class Album {
     };
 
     /**
-     * Returns date structure of this.releaseDate
+     * Returns the Date object when the album was released!
      * @readonly
      */
     get releasedAt(): Date {
-        return new Date(this.releaseDate);
+        return new Date(this.releaseDatePrecision);
     };
 
     /**
-     * Returns a fresh current album object instead of caching
+     * Refetches the album and refreshes the cache!
      */
     async fetch(): Promise<Album> {
         return await this.client.albums.get(this.id, true);
     };
 
     /**
-     * Returns the tracks of the album
+     * Refetches the tracks of the album!
      * 
-     * @param force If true will directly fetch instead of searching cache
      * @param limit Limit your results
+     * @param force If true will directly fetch instead of searching cache
      */
-    async getTracks(force: boolean = false, limit: number = 20): Promise<Track[]> {
+    async getTracks(limit: number = 20, force: boolean = false): Promise<Track[]> {
         if(!force && this.tracks.length) return this.tracks;
 
-        const data = await this.client.albums.getTracks(this.id);
-        Object.defineProperty(this, 'tracks', { value: data });
+        const data = await this.client.albums.getTracks(this.id, { limit });
         return data;
     }
 
     /**
-     * Deletes the album from your saved list
+     * Deletes the album from your saved list! Will only work if you have a current user token!
      */
     async delete(): Promise<void> {
         await this.client.user.deleteAlbum(this.id);
     }
 
     /**
-     * Adds this album to your saved list
+     * Adds this album to your saved list! Deletes the album from your saved list! Will only work if you have a current user token!
      */
     async add(): Promise<void> {
         await this.client.user.addAlbum(this.id);

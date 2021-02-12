@@ -1,22 +1,22 @@
 /**
  * Cachemanager to store data of spotify api in cache and avoid hitting spotify api to prevent 429
  */
-export default class CacheManager<K, V> extends Array<V>{
+export default class CacheManager<T = unknown> extends Array<T>{
 
     readonly key: string;
 
     /**
-     * ```js
-     * const cache = CacheManager.create('key', [
-     *     { key: 0, value: 1 },
-     *     { key: 1, value: 2 }
-     * ]);
-     * 
-     * cache.get(0); // Will return you { key: 0, value: 1 }
-     * // If inavlid key then will return null
-     * ```
+     * Cachemanager is something like Map to store data of spotify api in cache and avoid hitting spotify api to prevent 429
      * 
      * @param key The object key which will act as id
+     * @example const cache = new CacheManager('key');
+     * cache.push(...[
+     *     { key: 0, value: 1 },
+     *     { key: 1, value: 2 }
+     * ])
+     * 
+     * cache.get(0); // Will return you { key: 0, value: 1 }
+     * // If invalid key then will return null
      */
     constructor(key: string){
         super();
@@ -28,14 +28,14 @@ export default class CacheManager<K, V> extends Array<V>{
      * 
      * @param id Id of the object to find
      */
-    get(id: string): V | null {
-        return this.find(x => x[this.key] === id) || null;
+    get(id: string): T | null {
+        return this.find(x => x[this.key] == id) || null;
     }
 
     /**
      * Will return a random element from the array!
      */
-    random(): V {
+    random(): T {
         return this[Math.floor(Math.random() * this.length)];
     }
 
@@ -55,7 +55,10 @@ export default class CacheManager<K, V> extends Array<V>{
      * @param id Id of the object
      */
     has(id: string): boolean {
-        return Boolean(this.find(x => x[this.key] === id));
+        for(let i = 0; i < this.length; i++){
+            if(this[i][this.key] == id) return true;
+        }
+        return false;
     }
 
     /**
@@ -63,15 +66,26 @@ export default class CacheManager<K, V> extends Array<V>{
      * 
      * @param items Args of items to push into the array
      */
-    push(...items: V[]): number {
-        return super.push(...items.filter(x => !this.has(x[this.key])))
+    push(...items: T[]): number {
+        let initialLength = this.length;
+
+        for(let i = 0; i < items.length; i++){
+            let item = items[i];
+            if(!this.has(item[this.key])){
+                initialLength++
+                this[initialLength] = item;
+            }
+        }
+
+        return this.length;
     }
 
     /**
      * Returns a key value based object to perform analysis!
+     * @example cache.toKeyValue(); // Returns array of CacheDataset<T>!
      */
-    toKeyValue(): { key: K; value: V; }[] {
-        let res: Array<{ key: K; value: V; }> = [];
+    toKeyValue(): { key: string; value: T; }[] {
+        let res: Array<{ key: string; value: T; }> = [];
         for(let i = 0; i < this.length; i++) res.push({ key: this[i][this.key], value: this[i] });
         return res;
     }
@@ -81,9 +95,10 @@ export default class CacheManager<K, V> extends Array<V>{
      * 
      * @param id Object key name which will be the id
      * @param items Arguments to push into the new cachemanager
+     * @example CacheManager.create<string>('id'); // Creates new cache manager!
      */
-    static create<K, V>(id: string, ...items: V[]): CacheManager<K, V> {
-        let cache = new CacheManager<K, V>(id);
+    static create<T>(id: string, ...items: T[]): CacheManager<T> {
+        let cache = new CacheManager<T>(id);
         cache.push(...items);
         return cache;
     }

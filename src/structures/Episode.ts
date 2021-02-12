@@ -8,7 +8,7 @@ import Show from './Show';
 import { Image, ResumePoint } from "./Interface";
 
 /**
- * Episode class
+ * Spotify Api's Episode Object!
  */
 class Episode {
 
@@ -34,14 +34,11 @@ class Episode {
     resumePoint?: ResumePoint;
 
     /**
-     * **Example:**
-     * 
-     * ```js
-     * const episode = new Episode(data);
-     * ```
+     * Spotify Api's Episode Object!
      * 
      * @param data Received raw data from the spotify api
-     * @param client Spotify client
+     * @param client Your Spotify client
+     * @example const episode = new Episode(data, client);
      */
     constructor(data: any, client: Client){
 
@@ -83,7 +80,7 @@ class Episode {
     }
 
     /**
-     * Show object
+     * Returns the Spotify Show Object which the episode belongs to. Will return null if none!
      * @readonly
      */
     get show(): Show | null {
@@ -91,15 +88,15 @@ class Episode {
     };
 
     /**
-     * Returns date structure of this.releaseDate
+     * Returns the Date object when the episode was released at!
      * @readonly
      */
     get releasedAt(): Date {
-        return new Date(this.releaseDate);
+        return new Date(this.releaseDatePrecision);
     };
 
     /**
-     * Refreshes the episode info
+     * Refetches the Episode and refreshes the cache!
      */
     async fetch(): Promise<Episode> {
         return await this.client.episodes.get(this.id, true);

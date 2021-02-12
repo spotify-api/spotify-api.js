@@ -5,17 +5,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 class CacheManager extends Array {
     /**
-     * ```js
-     * const cache = CacheManager.create('key', [
-     *     { key: 0, value: 1 },
-     *     { key: 1, value: 2 }
-     * ]);
-     *
-     * cache.get(0); // Will return you { key: 0, value: 1 }
-     * // If inavlid key then will return null
-     * ```
+     * Cachemanager is something like Map to store data of spotify api in cache and avoid hitting spotify api to prevent 429
      *
      * @param key The object key which will act as id
+     * @example const cache = new CacheManager('key');
+     * cache.push(...[
+     *     { key: 0, value: 1 },
+     *     { key: 1, value: 2 }
+     * ])
+     *
+     * cache.get(0); // Will return you { key: 0, value: 1 }
+     * // If invalid key then will return null
      */
     constructor(key) {
         super();
@@ -27,7 +27,7 @@ class CacheManager extends Array {
      * @param id Id of the object to find
      */
     get(id) {
-        return this.find(x => x[this.key] === id) || null;
+        return this.find(x => x[this.key] == id) || null;
     }
     /**
      * Will return a random element from the array!
@@ -51,7 +51,11 @@ class CacheManager extends Array {
      * @param id Id of the object
      */
     has(id) {
-        return Boolean(this.find(x => x[this.key] === id));
+        for (let i = 0; i < this.length; i++) {
+            if (this[i][this.key] == id)
+                return true;
+        }
+        return false;
     }
     /**
      * Will push new elements to the array
@@ -59,10 +63,19 @@ class CacheManager extends Array {
      * @param items Args of items to push into the array
      */
     push(...items) {
-        return super.push(...items.filter(x => !this.has(x[this.key])));
+        let initialLength = this.length;
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            if (!this.has(item[this.key])) {
+                initialLength++;
+                this[initialLength] = item;
+            }
+        }
+        return this.length;
     }
     /**
      * Returns a key value based object to perform analysis!
+     * @example cache.toKeyValue(); // Returns array of CacheDataset<T>!
      */
     toKeyValue() {
         let res = [];
@@ -75,6 +88,7 @@ class CacheManager extends Array {
      *
      * @param id Object key name which will be the id
      * @param items Arguments to push into the new cachemanager
+     * @example CacheManager.create<string>('id'); // Creates new cache manager!
      */
     static create(id, ...items) {
         let cache = new CacheManager(id);

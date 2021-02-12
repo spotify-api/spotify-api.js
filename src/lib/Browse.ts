@@ -12,19 +12,24 @@ import Album from "../structures/Album";
 /**
  * Class of all methods related to browse endpoints
  */
-class Browse extends Spotify{
+export default class BrowseManager extends Spotify{
 
     client: Client;
 
-    constructor(token: string, client: Client){
-        super(token);
+    /**
+     * Class of all methods related to browse endpoints
+     * 
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client){
+        super(client.token);
         this.client = client;
     }
 
     /**
      * Get information about a category by id
      * 
-     * @param id category id
+     * @param id ID of the catrgory
      * @param force If true, will fetch else will try to fetch from cache!
      */
     async getCategory(id: string, force: boolean = false): Promise<Category> {
@@ -46,9 +51,10 @@ class Browse extends Spotify{
     };
 
     /**
-     * Returns all playlists of the category by id
+     * Returns all playlists of the category by id!
+     * 
      * @param id Id of the category
-     * @param limit Limit of results
+     * @param options Options such as limit and params!
      */
     async getCategoryPlaylists(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Playlist[]> {
         
@@ -99,7 +105,7 @@ class Browse extends Spotify{
     /**
      * Get list of all featured playlists
      * 
-     * @param options Option object such as limit, advanced and params
+     * @param options Option object such as limit and params
      */
     async featuredPlaylists(options: { limit?: number; params?: any; } = { limit: 20 }): Promise<FeaturedPlaylistReturn> {
         
@@ -126,8 +132,9 @@ class Browse extends Spotify{
     };
 
     /**
-     * Get list of all new releases
-     * @param options options object such as limit advanced and params
+     * Get list of all new album releases
+     * 
+     * @param options options object such as limit and params
      */
     async newReleases(options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Album[]> {
         
@@ -150,5 +157,3 @@ class Browse extends Spotify{
     };
 
 };
-
-export default Browse;

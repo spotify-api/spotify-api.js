@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Track lib file
+ * Track Manager file
  */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -10,25 +10,24 @@ const Error_1 = require("../Error");
 const Spotify_1 = __importDefault(require("../Spotify"));
 const Track_1 = __importDefault(require("../structures/Track"));
 /**
- * Class of all methods related to tracks
+ * Class of all Spotify Api Methods related to tracks
  */
-class Track extends Spotify_1.default {
-    constructor(token, client) {
-        super(token);
+class TrackManager extends Spotify_1.default {
+    /**
+     * Class of all Spotify Api Methods related to shows
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client) {
+        super(client.token);
         this.client = client;
     }
     /**
-     * **Example:**
-     * ```js
-     * const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, }); // Searches for the track and limit will be 20 by default
-       const advanced = await spotify.tracks.search("oh my god by alec benjamin", {
-           limit: 1,
-           advanced: true,
-       }); // Same but this will return a `codeImage` and `dominantColor` key with it!
-     * ```
+     * Search tracks efficiently across spotify api!
      *
      * @param q Your query
      * @param options Options to configure your search...
+     * @example const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, }); // Searches for the track and limit will be 20 by default
      */
     async search(q, options = { limit: 20 }) {
         if (!q)
@@ -55,13 +54,11 @@ class Track extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const track = await spotify.tracks.get("track id"); // Get tracks by id...
-     * ```
+     * Returns Spotify Track information by the track id!
      *
      * @param id Id of the track
-     * @param options Options such as force fetch
+     * @param force If true will force fetch, if false then will first search cache!
+     * @example const track = await spotify.tracks.get("track id"); // Get tracks by id...
      */
     async get(id, force = false) {
         if (!id)
@@ -84,12 +81,10 @@ class Track extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
-     * ```
+     * Returns the audio features of the track by the track id!
      *
      * @param id Id of the track
+     * @example const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
      */
     async audioFeatures(id) {
         if (!id)
@@ -103,12 +98,10 @@ class Track extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
-     * ```
+     * Returns the audio analysis of the track by the track id!
      *
      * @param id Id of the track
+     * @example const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
      */
     async audioAnalysis(id) {
         if (!id)
@@ -126,20 +119,20 @@ class Track extends Spotify_1.default {
      * This method uses client.user.deleteTrack
      * This method deletes the track from your save list
      *
-     * @param ids Ids od the track or tracks
+     * @param ids Ids od the tracks
      */
-    async delete(ids) {
-        await this.client.user.deleteTrack(ids);
+    async delete(...ids) {
+        await this.client.user.deleteTrack(...ids);
     }
     /**
      * This method uses client.user.addTrack
      * This method adds the track from your save list
      *
-     * @param ids Ids od the track or tracks
+     * @param ids Ids of the track or tracks
      */
-    async add(ids) {
-        await this.client.user.addTrack(ids);
+    async add(...ids) {
+        await this.client.user.addTrack(...ids);
     }
 }
+exports.default = TrackManager;
 ;
-exports.default = Track;

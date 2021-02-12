@@ -1,42 +1,30 @@
 /**
  * File where Client class exists...
  */
-import Auth from './lib/Auth';
-import User from './lib/User';
-import Playlist from './lib/Playlist';
-import Track from './lib/Track';
-import Album from './lib/Album';
-import Artist from './lib/Artist';
-import Episode from './lib/Episode';
-import Show from './lib/Show';
-import Browse from './lib/Browse';
-import TrackStructure from './structures/Track';
-import EpisodeStructure from './structures/Episode';
-import ShowStructure from './structures/Show';
-import PlaylistStructure from './structures/Playlist';
-import ArtistStructure from './structures/Artist';
-import AlbumStructure from './structures/Album';
-import PublicUser from './structures/PublicUser';
-import { Category, RawObject } from './structures/Interface';
+import AuthManager from './lib/Auth';
+import UserManager from './lib/User';
+import PlaylistManager from './lib/Playlist';
+import TrackManager from './lib/Track';
+import AlbumManager from './lib/Album';
+import ArtistManager from './lib/Artist';
+import EpisodeManager from './lib/Episode';
+import ShowManager from './lib/Show';
+import BrowseManager from './lib/Browse';
+import Track from './structures/Track';
+import Episode from './structures/Episode';
+import Show from './structures/Show';
+import Playlist from './structures/Playlist';
+import Artist from './structures/Artist';
+import Album from './structures/Album';
+import User from './structures/User';
+import { Category, RawObject, CacheOptions } from './structures/Interface';
 import Spotify from './Spotify';
 import UserClient from './UserClient';
 import CacheManager from './CacheManager';
-interface CacheOptions {
-    cacheTracks?: boolean;
-    cacheUsers?: boolean;
-    cacheCategories?: boolean;
-    cacheEpisodes?: boolean;
-    cacheShows?: boolean;
-    cachePlaylists?: boolean;
-    cacheArtists?: boolean;
-    cacheAlbums?: boolean;
-    cacheCurrentUser?: boolean;
-    cacheFollowers?: boolean | null;
-}
 /**
- * **Client class**
+ * **The Spotify Api Client**
  *
- * The class which collects all the methods
+ * The class which collects all the spotiify api methods
  */
 export default class Client {
     cacheOnReady: (err?: any) => void;
@@ -44,61 +32,59 @@ export default class Client {
     utils: Spotify;
     startedAt: number;
     cacheOptions: CacheOptions;
-    oauth: Auth;
-    users: User;
-    playlists: Playlist;
-    tracks: Track;
-    albums: Album;
-    artists: Artist;
-    episodes: Episode;
-    shows: Show;
-    browse: Browse;
+    madeCache: boolean;
+    oauth: AuthManager;
+    users: UserManager;
+    playlists: PlaylistManager;
+    tracks: TrackManager;
+    albums: AlbumManager;
+    artists: ArtistManager;
+    episodes: EpisodeManager;
+    shows: ShowManager;
+    browse: BrowseManager;
     user: UserClient;
     cache: {
-        tracks: CacheManager<string, TrackStructure>;
-        users: CacheManager<string, PublicUser>;
-        categories: CacheManager<string, Category>;
-        episodes: CacheManager<string, EpisodeStructure>;
-        shows: CacheManager<string, ShowStructure>;
-        playlists: CacheManager<string, PlaylistStructure>;
-        artists: CacheManager<string, ArtistStructure>;
-        albums: CacheManager<string, AlbumStructure>;
+        tracks: CacheManager<Track>;
+        users: CacheManager<User>;
+        categories: CacheManager<Category>;
+        episodes: CacheManager<Episode>;
+        shows: CacheManager<Show>;
+        playlists: CacheManager<Playlist>;
+        artists: CacheManager<Artist>;
+        albums: CacheManager<Album>;
     };
     /**
-     * @param oauth Token
+     * The constructor of the main spotify class
      *
-     * Pass the spotify oauth `token`
-     * ```js
-     * const Spotify = require('spotify-api.js')
-     * const client = new Spotify.Client('oauth token')
-     * ```
+     * @param oauth Your spotify oauth token
+     * @param cacheOptions Your cache options to set mostly all of the options are set to false
+     * @example const Spotify = require('spotify-api.js');
+     * const client = new Spotify.Client('oauth token');
      */
     constructor(oauth?: string, cacheOptions?: CacheOptions);
     /**
      * Private caching init function
+     * @private
      */
     private makeCache;
     /**
-     * **Example:**
-     * ```js
-     * client.login('token');
-     * ```
+     * Login to the client with a different token!
      *
      * @param token string
+     * @example client.login(token);
      */
     login(token: string): void;
     /**
-     * Uptime of the client
+     * Returns the uptime of the client in ms
+     * @readonly
      */
     get uptime(): number;
     /**
-     * **Example:**
-     * ```js
-     * const search = await client.search('search', { limit: 10, type: ['track'] });
-     * ```
+     * Search across spotify api!
      *
      * @param q Query
      * @param options Your options to selected
+     * @example const search = await client.search('search', { limit: 10, type: ['track'] });
      */
     search(q: string, options?: {
         limit?: number;
@@ -106,32 +92,18 @@ export default class Client {
         params?: any;
     }): Promise<any>;
     /**
-     * **Example:**
-     * ```js
-     * client.request('me', {}, (err, data) => {
+     * Do a custom request on the spotify api
+     *
+     * @param path Path to request
+     * @param options Options to request
+     * @param callback Callback when request is over
+     * @example client.request('v1/me', {}, (err, data) => {
      *     if(err) return console.error(err);
      *     if(data) {
      *         console.log('Success!');
      *         console.log(data);
      *     };
      * });
-     * ```
-     *
-     * @param path Path to request
-     * @param options Options to request
-     * @param callback Callback when request is over
      */
     request(path: string, options: RawObject, callback: (err: any, data: any) => void): void;
-    /**
-     * **Example:**
-     *
-     * ```js
-     * let uriInfo = await client.getByURI("spotify:album:0sNOF9WDwhWunNAHPD3Baj");
-     * ```
-     *
-     * @param uri Uri
-     * @param force If true then will directly fetch instead of searching cache
-     */
-    getByURI(uri: string, force?: boolean): Promise<any>;
 }
-export {};

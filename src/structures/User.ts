@@ -1,12 +1,13 @@
 /**
  * Public User Structure
  */
-import { Image } from "./Interface";
+import { Image, RawObject } from "./Interface";
 import Client from '../Client';
 import Playlist from './Playlist';
+import Util from '../Spotify';
 
 /**
- * Public User Class
+ * Spotify Api's User object!
  */
 export default class User {
 
@@ -14,26 +15,22 @@ export default class User {
     readonly client!: Client;
 
     name: string;
-    externalUrls: any;
+    externalUrls: RawObject;
     href: string;
     id: string;
-    type: string;
     uri: string;
     images: Image[];
     playlists: Playlist[];
-    codeImage: string;
+    type: string;
 
     totalFollowers?: number;
 
     /**
-     * **Example:**
+     * The Spotify Api's User object!
      * 
-     * ```js
-     * const user = new PublicUser(data);
-     * ```
-     * 
-     * @param data Received raw data from the spotify api
-     * @param client Main client
+     * @param data The raw spotify user data!
+     * @param client The spotify client
+     * @example const user = new PublicUser(data, client);
      */
     constructor(data: any, client: Client){
 
@@ -48,28 +45,36 @@ export default class User {
         this.uri = data.uri;
         this.images = data.images || [];
         this.playlists = [];
-        this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${data.uri}`;
         if('followers' in data) this.totalFollowers = data.followers.total;
 
     };
 
     /**
-     * Fetches tracks
+     * Fetches tracks and refreshes the cach!
+     * 
+     * @example user.fetch();
      */
     async fetch(): Promise<User> {
         return await this.client.users.get(this.id, true);
     }
 
     /**
-     * Returns you the user playlists
+     * Returns a code image
      * 
-     * @param force If true will directly fetch and return else will return you from cache
-     * @param limit Limit of results
+     * @param color Hex color code
      */
-    async getPlaylists(force: boolean = false, limit: number = 20): Promise<Playlist[]> {
-        if(!force){
-            if(this.playlists.length) return this.playlists;
-        }
+    makeCodeImage(color: string = '1DB954'): string {
+        return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    }
+
+    /**
+     * Returns the user's saved playlists!
+     * 
+     * @param limit Limit of results
+     * @param force If true will directly fetch and return else will return you from cache
+     */
+    async getPlaylists(limit: number = 20, force: boolean = false): Promise<Playlist[]> {
+        if(!force && this.playlists.length) return this.playlists;
 
         const data = await this.client.users.getPlaylists(this.id, { limit });
         this.playlists = data;
@@ -85,14 +90,14 @@ export default class User {
     }
 
     /**
-     * Follow this user
+     * Follow this user!
      */
     async follow(): Promise<void> {
         await this.client.user.followUser(this.id);
     }
 
     /**
-     * Unfollows a user
+     * Unfollow this user!
      */
     async unfollow(): Promise<void> {
         await this.client.user.unfollowUser(this.id);

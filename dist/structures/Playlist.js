@@ -4,16 +4,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaylistTrack = void 0;
-const PublicUser_1 = __importDefault(require("./PublicUser"));
+const User_1 = __importDefault(require("./User"));
 const Track_1 = __importDefault(require("./Track"));
 const Episode_1 = __importDefault(require("./Episode"));
 const Spotify_1 = __importDefault(require("../Spotify"));
+/**
+ * Spotify Api's Playlist Track Object
+ * This is a extended form object used in playlist's tracks!
+ */
 class PlaylistTrack {
     /**
      * **Example:**
      *
      * ```js
-     * const track = new PlaylistTrack(data);
+     * const track = new PlaylistTrack(data, client);
      * ```
      *
      * @param data Received raw data from the spotify api
@@ -27,18 +31,18 @@ class PlaylistTrack {
     }
     ;
     /**
-     * Added by user object
+     * Returns a Spotify User who added this track to the playlist! If no one did, will return null!
      * @readonly
      */
     get addedBy() {
         if ('added_by' in this.data)
-            return new PublicUser_1.default(this.data.added_by, this.client);
+            return new User_1.default(this.data.added_by, this.client);
         else
             return null;
     }
     ;
     /**
-     * Full info of the track
+     * Full info of the track!
      * @readonly
      */
     get track() {
@@ -49,17 +53,15 @@ class PlaylistTrack {
 exports.PlaylistTrack = PlaylistTrack;
 ;
 /**
- * Playlist structure
+ * Spotify Api's Playlist Object
  */
 class Playlist {
     /**
-     * **Example:**
-     *
-     * ```js
-     * const playlist = new Playlist(data);
-     * ```
+     * Spotify Api's Playlist Object
      *
      * @param data Received raw data from the spotify api
+     * @param client Your Spotify Client!
+     * @example const playlist = new Playlist(data, client);
      */
     constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
@@ -76,19 +78,18 @@ class Playlist {
         this.snapshotId = data.snapshot_id;
         this.type = data.type;
         this.uri = data.uri;
-        this.codeImage = `https://scannables.scdn.co/uri/plain/jpeg/e8e6e6/black/1080/${this.uri}`;
     }
     ;
     /**
-     * Owner user object
+     * Returns the Spotify User who created the playlist!
      * @readonly
      */
     get owner() {
-        return new PublicUser_1.default(this.data.owner, this.client);
+        return new User_1.default(this.data.owner, this.client);
     }
     ;
     /**
-     * Returns the array of playlist tracks
+     * Returns the total tracks of playlist in the form of array of PlaylistTracks!
      * @readonly
      */
     get tracks() {
@@ -96,26 +97,28 @@ class Playlist {
     }
     ;
     /**
-     * Returns a code image
+     * Returns a code image of the Playlist!
      * @param color Hex color code
      */
     makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     /**
-     * Returns a fresh playlist without searching in the cache!
+     * Refetches the playlist and returns you the new one and updates the cache too!
      */
     async fetch() {
         return await this.client.playlists.get(this.id, true);
     }
     /**
-     * Follows this playlist
+     * Follows this playlist!
+     * Will work only if you have a current user token!
      */
     async follow() {
         await this.client.user.followPlaylist(this.id);
     }
     /**
-     * Unfollows a playlist
+     * Unfollows this playlist!
+     * Will work only if you have a current user token!
      */
     async unfollow() {
         await this.client.user.unfollowPlaylist(this.id);

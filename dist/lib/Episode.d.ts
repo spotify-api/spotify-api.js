@@ -1,34 +1,34 @@
 import Spotify from "../Spotify";
 import Client from "../Client";
-import EpisodeStructure from "../structures/Episode";
+import Episode from "../structures/Episode";
 /**
- * Class of all methods related to episode enpoints
+ * Class of all Spotify Api Methods related to episodes!
  */
-declare class Episode extends Spotify {
+export default class EpisodeManager extends Spotify {
     client: Client;
-    constructor(token: string, client: Client);
     /**
-     * **Example:**
-     * ```js
-     * const [episode] = await spotify.episodes.search("search", { limit: 1 }); // Returns the very first search
-     * ```
+     * Class of all Spotify Api Methods related to episodes!
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client);
+    /**
+     * Search episodes efficiently!
      *
      * @param q Your query
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const [episode] = await spotify.episodes.search("search", { limit: 1 }); // Returns the very first search
      */
     search(q: string, options?: {
         limit?: number;
         params?: any;
-    }): Promise<EpisodeStructure[]>;
+    }): Promise<Episode[]>;
     /**
-     * **Example:**
-     * ```js
-     * const episode = await spotify.episodes.get('id'); // Returns the episode information by id
-     * ```
+     * Returns the information of the Spotify Episode by its id!
      *
      * @param id Id of the episode
-     * @param options Advanced option
+     * @param force If true, will force fetch else will search first in cache!
+     * @example const episode = await spotify.episodes.get('id'); // Returns the episode information by id
      */
-    get(id: string, force?: boolean): Promise<EpisodeStructure>;
+    get(id: string, force?: boolean): Promise<Episode>;
 }
-export default Episode;

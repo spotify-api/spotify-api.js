@@ -1,33 +1,36 @@
 /**
- * Episode lib file
+ * Episode Manager file
  */
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
 import Client from "../Client";
-import EpisodeStructure from "../structures/Episode"
+import Episode from "../structures/Episode"
 
 /**
- * Class of all methods related to episode enpoints
+ * Class of all Spotify Api Methods related to episodes!
  */
-class Episode extends Spotify{
+export default class EpisodeManager extends Spotify{
 
     client: Client;
 
-    constructor(token: string, client: Client){
-        super(token);
+    /**
+     * Class of all Spotify Api Methods related to episodes!
+     * 
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client){
+        super(client.token);
         this.client = client;
     }
 
     /**
-     * **Example:**
-     * ```js
-     * const [episode] = await spotify.episodes.search("search", { limit: 1 }); // Returns the very first search
-     * ```
+     * Search episodes efficiently!
      * 
      * @param q Your query
-     * @param options Options such as limit, advanced and params
+     * @param options Options such as limit and params
+     * @example const [episode] = await spotify.episodes.search("search", { limit: 1 }); // Returns the very first search
      */
-    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<EpisodeStructure[]> {
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Episode[]> {
 
         if(!q) throw new MissingParamError("missing query!");
 
@@ -43,7 +46,7 @@ class Episode extends Spotify{
                 },
             });
 
-            let items = data.episodes.items.map(x => new EpisodeStructure(x, this.client));
+            let items = data.episodes.items.map(x => new Episode(x, this.client));
             if(this.client.cacheOptions.cacheEpisodes) this.client.cache.episodes.push(...items);
             return items;
         }catch(e){
@@ -53,15 +56,13 @@ class Episode extends Spotify{
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const episode = await spotify.episodes.get('id'); // Returns the episode information by id
-     * ```
+     * Returns the information of the Spotify Episode by its id!
      * 
      * @param id Id of the episode
-     * @param options Advanced option
+     * @param force If true, will force fetch else will search first in cache!
+     * @example const episode = await spotify.episodes.get('id'); // Returns the episode information by id
      */
-    async get(id: string, force: boolean = false): Promise<EpisodeStructure> {
+    async get(id: string, force: boolean = false): Promise<Episode> {
 
         if(!id) new MissingParamError('missing id');
         if(!force){
@@ -70,7 +71,7 @@ class Episode extends Spotify{
         }
             
         try{
-            const data = new EpisodeStructure(await this.fetch({ link: `v1/episodes/${id}` }), this.client);
+            const data = new Episode(await this.fetch({ link: `v1/episodes/${id}` }), this.client);
             if(this.client.cacheOptions.cacheEpisodes) this.client.cache.episodes.push(data);
             return data;
         }catch(e){
@@ -80,5 +81,3 @@ class Episode extends Spotify{
     };
 
 };
-
-export default Episode;

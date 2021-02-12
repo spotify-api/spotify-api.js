@@ -1,6 +1,6 @@
 "use strict";
 /**
- * Artist lib file
+ * Artist Manager file
  */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -14,19 +14,22 @@ const Album_1 = __importDefault(require("../structures/Album"));
 /**
  * Class of all methods related to artists
  */
-class Artist extends Spotify_1.default {
-    constructor(token, client) {
-        super(token);
+class ArtistManager extends Spotify_1.default {
+    /**
+     * Class of all methods related to artists
+     *
+     * @param client Your Spotify Client
+     */
+    constructor(client) {
+        super(client.token);
         this.client = client;
     }
     /**
-     * **Example:**
-     * ```js
-     * const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
-     * ```
+     * Search artists efficiently!
      *
      * @param q Your search query
      * @param options Options such as limit and params
+     * @example const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
      */
     async search(q, options = { limit: 20 }) {
         if (!q)
@@ -53,13 +56,11 @@ class Artist extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const artist = await spotify.artists.get("artist id"); // Get artists by id
-     * ```
+     * Retruns Spotify Artist information by id!
      *
      * @param id Id of the artist
      * @param force If true will directly fetch else will search cache
+     * @example const artist = await spotify.artists.get("artist id"); // Get artists by id
      */
     async get(id, force = false) {
         if (!id)
@@ -80,12 +81,11 @@ class Artist extends Spotify_1.default {
         }
     }
     /**
-     * **Example:**
-     * ```js
-     * const albums = await spotify.artists.getAlbums("artist id"); // Get albums of the artists by id. Has advanced and limit option too...
-     * ```
+     * Returns the albums of the artist by id!
+     *
      * @param id Id of the artist
      * @param options Options to configure your search
+     * @example const albums = await spotify.artists.getAlbums("artist id"); // Get albums of the artists by id.
      */
     async getAlbums(id, options = { limit: 20 }) {
         if (!id)
@@ -110,22 +110,20 @@ class Artist extends Spotify_1.default {
         }
     }
     /**
-     * **Example:**
-     * ```js
-     * const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
-     * ```
+     * Returns the top tracks of the Spotify Artist by id!
      *
      * @param id Id of the artist
      * @param options Options to configure your search
+     * @example const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
      */
-    async topTracks(id, options = {}) {
+    async getTopTracks(id, options = {}) {
         if (!id)
             throw new Error_1.MissingParamError("missing id");
         try {
             const data = await this.fetch({
                 link: `v1/artists/${id}/top-tracks`,
                 params: {
-                    country: "US",
+                    limit: options.limit,
                     ...options.params
                 },
             });
@@ -140,22 +138,20 @@ class Artist extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists. Has advanced and limit option too...
-     * ```
+     * Returns the related artists of the Spotify Artist by id!
      *
      * @param id Id of the artist
      * @param options Options to configure your search
+     * @example const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists.
      */
-    async relatedArtists(id, options = {}) {
+    async getRelatedArtists(id, options = {}) {
         if (!id)
             throw new Error_1.MissingParamError("missing id");
         try {
             const data = await this.fetch({
                 link: `v1/artists/${id}/related-artists`,
                 params: {
-                    country: "US",
+                    limit: options.limit,
                     ...options.params
                 },
             });
@@ -170,7 +166,7 @@ class Artist extends Spotify_1.default {
     }
     ;
     /**
-     * Verify if you follow the artists by ids but only if you have the required scopes
+     * Verify if you follow the artists by ids! Will work only if you have a current user token!
      *
      * @param ids Ids of the artist or artists
      */
@@ -178,13 +174,21 @@ class Artist extends Spotify_1.default {
         return await this.client.user.followsArtist(...ids);
     }
     /**
-     * Follows the artists
+     * Follow artists by their id's! Will work only if you have a current user token!
      *
      * @param ids Ids of the artist or artists
      */
     async follow(...ids) {
         await this.client.user.followArtist(...ids);
     }
+    /**
+     * Unfollow artists by their id's! Will work only if you have a current user token!
+     *
+     * @param ids Ids of the artist or artists
+     */
+    async unfollow(...ids) {
+        await this.client.user.unfollowArtist(...ids);
+    }
 }
+exports.default = ArtistManager;
 ;
-exports.default = Artist;

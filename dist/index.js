@@ -65,16 +65,16 @@ exports.Interface = Interface;
  * console.log(spotify.version);
  * ```
  *
- * Always try to update your spotify-api.js to v4.x.x
+ * Always try to update your spotify-api.js to v7.x.x
  */
-const version = '5.0.0';
+const version = '7.0.0';
 exports.version = version;
 const Album_2 = __importDefault(require("./structures/Album"));
 const Artist_2 = __importDefault(require("./structures/Artist"));
 const Episode_2 = __importDefault(require("./structures/Episode"));
 const Playlist_2 = __importStar(require("./structures/Playlist"));
 const Track_2 = __importStar(require("./structures/Track"));
-const PublicUser_1 = __importDefault(require("./structures/PublicUser"));
+const User_2 = __importDefault(require("./structures/User"));
 const Show_2 = __importDefault(require("./structures/Show"));
 const Player_1 = require("./structures/Player");
 exports.Structures = {
@@ -85,7 +85,7 @@ exports.Structures = {
     Playlist: Playlist_2.default,
     Show: Show_2.default,
     PlaylistTrack: Playlist_2.PlaylistTrack,
-    PublicUser: PublicUser_1.default,
+    PublicUser: User_2.default,
     LinkedTrack: Track_2.LinkedTrack,
     Device: Player_1.Device,
     Playback: Player_1.Playback,

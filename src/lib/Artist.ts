@@ -1,36 +1,39 @@
 /**
- * Artist lib file
+ * Artist Manager file
  */
 
 import Track from "../structures/Track";
 import Client from "../Client";
 import { MissingParamError, UnexpectedError } from "../Error";
 import Spotify from "../Spotify";
-import ArtistStructure from "../structures/Artist";
+import Artist from "../structures/Artist";
 import Album from "../structures/Album";
 
 /**
  * Class of all methods related to artists
  */
-class Artist extends Spotify {
+export default class ArtistManager extends Spotify {
 
     client: Client;
 
-    constructor(token: string, client: Client){
-        super(token);
+    /**
+     * Class of all methods related to artists
+     * 
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client){
+        super(client.token);
         this.client = client;
     }
 
     /**
-     * **Example:**
-     * ```js
-     * const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
-     * ```
+     * Search artists efficiently!
      *
      * @param q Your search query
      * @param options Options such as limit and params
+     * @example const artist = await spotify.artists.search("alec benjamin", { limit: 1 }); // Searches for the artist with a default limit as 1...
      */
-    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<ArtistStructure[]> {
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Artist[]> {
 
         if(!q) throw new MissingParamError("missing query");
 
@@ -46,7 +49,7 @@ class Artist extends Spotify {
                 },
             });
 
-            let items = data.artists.items.map(x => new ArtistStructure(x, this.client));
+            let items = data.artists.items.map(x => new Artist(x, this.client));
             if(this.client.cacheOptions.cacheArtists) this.client.cache.artists.push(...items);
             return items;
         }catch(e){
@@ -56,15 +59,13 @@ class Artist extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const artist = await spotify.artists.get("artist id"); // Get artists by id
-     * ```
+     * Retruns Spotify Artist information by id!
      * 
      * @param id Id of the artist
      * @param force If true will directly fetch else will search cache
+     * @example const artist = await spotify.artists.get("artist id"); // Get artists by id
      */
-    async get(id: string, force: boolean = false): Promise<ArtistStructure> {
+    async get(id: string, force: boolean = false): Promise<Artist> {
 
         if(!id) throw new MissingParamError("missing id");
         if(!force){
@@ -73,7 +74,7 @@ class Artist extends Spotify {
         }
 
         try {
-            const data = new ArtistStructure(await this.fetch({ link: `v1/artists/${id}` }), this.client);
+            const data = new Artist(await this.fetch({ link: `v1/artists/${id}` }), this.client);
             if(this.client.cacheOptions.cacheArtists) this.client.cache.artists.push(data);
             return data;
         }catch(e){
@@ -83,12 +84,11 @@ class Artist extends Spotify {
     }
 
     /**
-     * **Example:**
-     * ```js
-     * const albums = await spotify.artists.getAlbums("artist id"); // Get albums of the artists by id. Has advanced and limit option too...
-     * ```
+     * Returns the albums of the artist by id!
+     * 
      * @param id Id of the artist
      * @param options Options to configure your search
+     * @example const albums = await spotify.artists.getAlbums("artist id"); // Get albums of the artists by id.
      */
     async getAlbums(id: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Album[]> {
 
@@ -115,15 +115,13 @@ class Artist extends Spotify {
     }
 
     /**
-     * **Example:**
-     * ```js
-     * const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
-     * ```
+     * Returns the top tracks of the Spotify Artist by id!
      * 
      * @param id Id of the artist
      * @param options Options to configure your search
+     * @example const topTracks = await spotify.artists.topTracks("artist id"); // Returns top tracks of the artist. Has advanced and limit option too...
      */
-    async topTracks(id: string, options: { params?: any; } = {}): Promise<Track[]> {
+    async getTopTracks(id: string, options: { limit?: string, params?: any; } = {}): Promise<Track[]> {
 
         if(!id) throw new MissingParamError("missing id");
 
@@ -131,7 +129,7 @@ class Artist extends Spotify {
             const data = await this.fetch({
                 link: `v1/artists/${id}/top-tracks`,
                 params: {
-                    country: "US",
+                    limit: options.limit,
                     ...options.params
                 },
             });
@@ -146,15 +144,13 @@ class Artist extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists. Has advanced and limit option too...
-     * ```
+     * Returns the related artists of the Spotify Artist by id!
      * 
      * @param id Id of the artist
      * @param options Options to configure your search
+     * @example const relatedArtists = await spotify.artists.relatedArtists("artist id"); // Returns related artists.
      */
-    async relatedArtists(id: string, options: { params?: any; } = {}): Promise<ArtistStructure[]> {
+    async getRelatedArtists(id: string, options: { limit?: string, params?: any; } = {}): Promise<Artist[]> {
 
         if(!id) throw new MissingParamError("missing id");
 
@@ -162,12 +158,12 @@ class Artist extends Spotify {
             const data = await this.fetch({
                 link: `v1/artists/${id}/related-artists`,
                 params: {
-                    country: "US",
+                    limit: options.limit,
                     ...options.params
                 },
             });
 
-            let items = data.artists.map(x => new ArtistStructure(x, this.client));
+            let items = data.artists.map(x => new Artist(x, this.client));
             if(this.client.cacheOptions.cacheArtists) this.client.cache.artists.push(...items);
             return items;
         }catch(e){
@@ -177,7 +173,7 @@ class Artist extends Spotify {
     };
 
     /**
-     * Verify if you follow the artists by ids but only if you have the required scopes
+     * Verify if you follow the artists by ids! Will work only if you have a current user token!
      * 
      * @param ids Ids of the artist or artists
      */
@@ -186,7 +182,7 @@ class Artist extends Spotify {
     }
 
     /**
-     * Follows the artists
+     * Follow artists by their id's! Will work only if you have a current user token! 
      * 
      * @param ids Ids of the artist or artists
      */
@@ -194,6 +190,13 @@ class Artist extends Spotify {
         await this.client.user.followArtist(...ids);
     }
 
-};
+    /**
+     * Unfollow artists by their id's! Will work only if you have a current user token! 
+     * 
+     * @param ids Ids of the artist or artists
+     */
+    async unfollow(...ids: string[]): Promise<void> {
+        await this.client.user.unfollowArtist(...ids);
+    }
 
-export default Artist;
+};

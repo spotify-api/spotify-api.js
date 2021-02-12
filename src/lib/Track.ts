@@ -1,39 +1,38 @@
 /**
- * Track lib file
+ * Track Manager file
  */
 
 import { MissingParamError, UnexpectedError } from "../Error";
 import { TrackAudioFeatures, TrackAudioAnalysis } from "../structures/Interface";
 import Client from '../Client';
 import Spotify from "../Spotify";
-import TrackStructure from "../structures/Track";
+import Track from "../structures/Track";
 
 /**
- * Class of all methods related to tracks
+ * Class of all Spotify Api Methods related to tracks
  */
-class Track extends Spotify {
+export default class TrackManager extends Spotify {
 
     client: Client;
 
-    constructor(token: string, client: Client){
-        super(token);
+    /**
+     * Class of all Spotify Api Methods related to shows
+     * 
+     * @param client Your Spotify Client
+     */
+    constructor(client: Client){
+        super(client.token);
         this.client = client;
     }
 
     /**
-     * **Example:**
-     * ```js
-     * const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, }); // Searches for the track and limit will be 20 by default
-       const advanced = await spotify.tracks.search("oh my god by alec benjamin", {
-           limit: 1,
-           advanced: true,
-       }); // Same but this will return a `codeImage` and `dominantColor` key with it!
-     * ```
+     * Search tracks efficiently across spotify api!
      *
      * @param q Your query
      * @param options Options to configure your search...
+     * @example const track = await spotify.tracks.search("oh my god by alec benjamin", { limit: 1, }); // Searches for the track and limit will be 20 by default
      */
-    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<TrackStructure[]> {
+    async search(q: string, options: { limit?: number; params?: any; } = { limit: 20 }): Promise<Track[]> {
 
         if(!q) throw new MissingParamError("missing query");
 
@@ -49,7 +48,7 @@ class Track extends Spotify {
                 },
             });
 
-            let items = res.tracks.items.map(x => new TrackStructure(x, this.client));
+            let items = res.tracks.items.map(x => new Track(x, this.client));
             if(this.client.cacheOptions.cacheTracks) this.client.cache.tracks.push(...items);
 
             return items;
@@ -60,18 +59,13 @@ class Track extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const track = await spotify.tracks.get("track id"); // Get tracks by id...
-     * ```
+     * Returns Spotify Track information by the track id!
      * 
      * @param id Id of the track
-     * @param options Options such as force fetch
+     * @param force If true will force fetch, if false then will first search cache!
+     * @example const track = await spotify.tracks.get("track id"); // Get tracks by id...
      */
-    async get(
-        id: string,
-        force: boolean = false
-    ): Promise<TrackStructure> {
+    async get(id: string, force: boolean = false): Promise<Track> {
 
         if(!id) throw new MissingParamError("missing id");
 
@@ -81,7 +75,7 @@ class Track extends Spotify {
         }
 
         try{
-            const data = new TrackStructure(await this.fetch({ link: `v1/tracks/${id}?market=US` }), this.client);
+            const data = new Track(await this.fetch({ link: `v1/tracks/${id}?market=US` }), this.client);
             if(this.client.cacheOptions.cacheTracks) this.client.cache.tracks.push(data);
             return data;
         }catch(e){
@@ -91,12 +85,10 @@ class Track extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
-     * ```
+     * Returns the audio features of the track by the track id!
      * 
      * @param id Id of the track
+     * @example const audioFeatures = await spotify.tracks.audioFeatures("track id"); // Get audio features of the track
      */
     async audioFeatures(id: string): Promise<TrackAudioFeatures> {
 
@@ -111,12 +103,10 @@ class Track extends Spotify {
     };
 
     /**
-     * **Example:**
-     * ```js
-     * const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
-     * ```
+     * Returns the audio analysis of the track by the track id!
      * 
      * @param id Id of the track
+     * @example const audioAnalysis = await spotify.tracks.audioAnalysis("track id"); // Get audio analysis of the track
      */
     async audioAnalysis(id: string): Promise<TrackAudioAnalysis> {
 
@@ -134,22 +124,20 @@ class Track extends Spotify {
      * This method uses client.user.deleteTrack
      * This method deletes the track from your save list
      * 
-     * @param ids Ids od the track or tracks
+     * @param ids Ids od the tracks
      */
-    async delete(ids: string | string[]): Promise<void> {
-        await this.client.user.deleteTrack(ids);
+    async delete(...ids: string[]): Promise<void> {
+        await this.client.user.deleteTrack(...ids);
     }
 
     /**
      * This method uses client.user.addTrack
      * This method adds the track from your save list
      * 
-     * @param ids Ids od the track or tracks
+     * @param ids Ids of the track or tracks
      */
-    async add(ids: string | string[]): Promise<void> {
-        await this.client.user.addTrack(ids);
+    async add(...ids: string[]): Promise<void> {
+        await this.client.user.addTrack(...ids);
     }
 
 };
-
-export default Track;

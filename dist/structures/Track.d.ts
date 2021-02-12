@@ -6,7 +6,7 @@ import Artist from "./Artist";
 import Album from "./Album";
 import Client from '../Client';
 /**
- * LinkedTrack Class
+ * Spotify Api's Linked Track object!
  */
 export declare class LinkedTrack {
     readonly data: any;
@@ -16,13 +16,10 @@ export declare class LinkedTrack {
     type: string;
     uri: string;
     /**
-     * **Example:**
-     *
-     * ```js
-     * const track = new LinkedTrack(data);
-     * ```
+     * Spotify Api's Linked Track object!
      *
      * @param data Received raw data from the spotify api
+     * @example const track = new LinkedTrack(data, client);
      */
     constructor(data: any);
     /**
@@ -32,7 +29,7 @@ export declare class LinkedTrack {
     makeCodeImage(color?: string): string;
 }
 /**
- * Track class
+ * Spotify Api's Track Object!
  */
 export default class Track {
     readonly data: any;
@@ -59,41 +56,41 @@ export default class Track {
     playable?: boolean;
     linkedFrom?: LinkedTrack;
     /**
-     * **Example:**
-     *
-     * ```js
-     * const track = new Track(data);
-     * ```
+     * The Spotify Api's Track Object!
      *
      * @param data Received raw data from the spotify api
      * @param client The client
+     * @example const track = new Track(data, client);
      */
     constructor(data: any, client: Client);
     /**
-     * Album object
+     * Returns the album of the track!
+     *
      * @readonly
      */
     get album(): Album;
     /**
-     * Returns the array of SimplifiedArtist
+     * Returns the array of Artist who made the track!
+     *
      * @readonly
      */
     get artists(): Artist[];
     /**
-     * Returns a code image
+     * Returns a code image of the track!
+     *
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
     /**
-     * Returns the audio features of the tracks
+     * Returns the audio features of the track!
      */
     getAudioFeatures(): Promise<TrackAudioFeatures>;
     /**
-     * Returns the audio analysis of the tracks
+     * Returns the audio analysis of the track!
      */
     getAudioAnalysis(): Promise<TrackAudioAnalysis>;
     /**
-     * Fetches tracks
+     * Fetches tracks and refreshes the cache!
      */
     fetch(): Promise<Track>;
     /**

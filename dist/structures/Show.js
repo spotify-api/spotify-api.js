@@ -4,20 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Spotify_1 = __importDefault(require("../Spotify"));
-const util = new Spotify_1.default();
 /**
- * Show Structure
+ * Spotify Api's Show Object!
  */
 class Show {
     /**
-     * **Example:**
-     *
-     * ```js
-     * const show = new Show(data);
-     * ```
+     * Spotify Api's Show Object!
      *
      * @param data Received raw data from the spotify api
      * @param client Spotify Client
+     * @example const show = new Show(data, client);
      */
     constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
@@ -41,14 +37,15 @@ class Show {
         this.episodes = [];
     }
     /**
-     * Returns a code image
+     * Returns a code image of the Show!
+     *
      * @param color Hex color code
      */
     makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/${color}/${(Spotify_1.default.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     /**
-     * Refreshes this show in cache
+     * Refreshes this show in cache and returns you the new one!
      */
     async fetch() {
         return await this.client.shows.get(this.id, true);
@@ -56,14 +53,12 @@ class Show {
     /**
      * Returns the episodes by fetching!
      *
-     * @param force If true, will directly fetch else will search for cache
      * @param limit Limit of your results
+     * @param force If true, will directly fetch else will search for cache
      */
-    async getEpisodes(force = false, limit = 20) {
-        if (!force) {
-            if (this.data.episodes)
-                return this.episodes;
-        }
+    async getEpisodes(limit = 20, force = false) {
+        if (!force && this.episodes.length)
+            return this.episodes;
         const data = await this.client.shows.getEpisodes(this.id, { limit });
         this.episodes = data;
         return data;

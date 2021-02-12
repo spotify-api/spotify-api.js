@@ -1,41 +1,37 @@
 import Client from "./Client";
 import Spotify from "./Spotify";
-import CacheManager from "./CacheManager";
 import { Playback as PlaybackStructure, Device as DeviceStructure, RecentlyPlayed, AdditionalTypes, CurrentlyPlaying, PlayOptions } from "./structures/Interface";
 /**
- * UserPlayer which access the user player only if the scoped token
- * has those correct scopes
+ * UserPlayer which access the current user's player
+ * Like UserClient this class also requires a current user authorized token!
  */
-declare class UserPlayer extends Spotify {
+export default class UserPlayer extends Spotify {
     client: Client;
-    constructor(data: any, client: Client);
     /**
-     * **Example:**
-     * ```js
-     * const currentPlayback = await player.getCurrentPlayback();
-     * ```
+     * UserPlayer which access the current user's player
+     * Like UserClient this class also requires a current user authorized token!
      *
-     * Returns the current playback
+     * @param client Your Spotify Client
+     * @example const player = new UserPlayer(client);
+     */
+    constructor(client: Client);
+    /**
+     * Returns the current playback been playing on the currently active device!
+     *
+     * @example const currentPlayback = await player.getCurrentPlayback();
      */
     getCurrentPlayback(): Promise<PlaybackStructure>;
     /**
-     * **Example:**
-     * ```js
-     * const devices = await player.getDevices();
-     * ```
+     * Returns the devices where the current user has been signed in!
      *
-     * Returns the devices which has active player
+     * @example const devices = await player.getDevices();
      */
-    getDevices(): Promise<CacheManager<string, DeviceStructure>>;
+    getDevices(): Promise<DeviceStructure[]>;
     /**
-     * **Example:**
-     * ```js
-     * const recentlyPlayed = await player.getRecentlyPlayed();
-     * ```
+     * Returns the recently played track information!
      *
-     * Returns the recently played information
-     *
-     * @param options Configure your results
+     * @param options Configure your results by basic RecentlyPlayedOptions
+     * @example const recentlyPlayed = await player.getRecentlyPlayed();
      */
     getRecentlyPlayed(options?: {
         limit?: number;
@@ -44,103 +40,72 @@ declare class UserPlayer extends Spotify {
         additionalTypes?: AdditionalTypes;
     }): Promise<RecentlyPlayed>;
     /**
-     * **Example:**
-     * ```js
-     * const currentlyPlaying = await player.getCurrentPlaying();
-     * ```
+     * Returns the CurrentlyPlaying object consisting all information about the currently playing ad, episode, track, etc!
      *
-     * @param additionalTypes Addtional types such as episode and track!
+     * @param additionalTypes Addtional types. Should be one of "track" or "episode"!
+     * @example const currentlyPlaying = await player.getCurrentPlaying();
      */
     getCurrentlyPlaying(additionalTypes?: AdditionalTypes): Promise<CurrentlyPlaying>;
     /**
-     * **Example:**
-     * ```js
-     * player.pause('device-id'); // If id not provided then will stop the currently playing player!
-     * ```
+     * Will pause the currently playing on the device by device id! If device id not provided, will pause the active one!
      *
-     * @param device Device id which can be dounf through getDevices method
+     * @param device Device id which can be found through getDevices method
+     * @example player.pause('device-id'); // If id not provided then will stop the currently playing player!
      */
     pause(device?: string): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * player.seek(100);
-     * player.seek(100, 'deviceid');
-     * ```
+     * Will seek into the position in the currently playing on the device by device id! If device id not provided, will pause the active one!
      *
      * @param position Position in ms to seek
      * @param device Device id to seek else will seek in the currently playing player
+     * @example player.seek(100);
+     * player.seek(100, 'deviceid');
      */
     seek(position: number | string, device?: string): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * await player.repeat('track');
-     * ```
-     *
-     * Repeats the player
+     * Sets the repeat mode for the current playing playback!
      *
      * @param type Type of repeat mode
      * @param device Device id of the device else will use currently playing track
+     * @example await player.repeat('track');
      */
     repeat(type: 'track' | 'context' | 'off', device?: string): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * await player.setVolume(10);
-     * ```
+     * Set the volume of the current playing playbac!
      *
-     * Set the volume of the player
-     *
-     * @param volume Volume to set
+     * @param volume Volume to set in percent ranging from 0 to 100!
      * @param device Device id. Optional!
+     * @example await player.setVolume(10);
      */
     setVolume(volume: string | number, device?: string): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * await player.next()
-     * ```
-     *
-     * Plays the next playback
+     * Plays the next playback in the currently playing player!
      *
      * @param device Device id to skip the track if not provided then will skip from the current player
+     * @example await player.next()
      */
     next(device?: string | number): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * await player.previous()
-     * ```
-     *
-     * Plays the previous playback
+     * Plays the previous playback in the currently playing player!
      *
      * @param device Device id to play the previous track, if not provided, then will implement it in the current player
+     * @example await player.previous()
      */
     previous(device?: string | number): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * await player.shuffle(); // Will shuffle
-     * await player.shuffle(false); // Will unshuffle
-     * ```
-     *
-     * Shuffle or unshuffle playbacks!
+     * Shuffle or unshuffle playback in the current playing player!
      *
      * @param state A boolean stating that it should shuffle or not?
      * @param device Device id to play the previous track, if not provided, then will implement it in the current player
+     * @example await player.shuffle(); // Will shuffle
+     * await player.shuffle(false); // Will unshuffle
      */
     shuffle(state?: boolean, device?: string): Promise<void>;
     /**
-     * **Example:**
-     * ```js
-     * await player.play();
-     * ```
-     *
-     * Plays the playback
+     * Plays or resumes the playback in the currently playing player!
      *
      * @param options All the play options to select
+     * @example await player.play();
      */
     play(options?: PlayOptions): Promise<void>;
 }
-export default UserPlayer;

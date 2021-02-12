@@ -7,9 +7,11 @@ node_modules/
 
 # Docs
 docs/
+doc-gen.js
 
 # Testings
 test/
+types/
 
 # Github only files
 .github/
@@ -20,3 +22,4 @@ CONTRIBUTING.md
 
 # Editor based files
 .vscode/
+run.sh

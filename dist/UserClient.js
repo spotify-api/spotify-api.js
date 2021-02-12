@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * UserClient class
- * Class which is for scoped tokens
+ * Class which is for authroized current user tokens
  */
 const Error_1 = require("./Error");
 const Auth_1 = __importDefault(require("./lib/Auth"));
@@ -17,26 +17,26 @@ const Playlist_1 = __importDefault(require("./structures/Playlist"));
 const Album_1 = __importDefault(require("./structures/Album"));
 const Show_1 = __importDefault(require("./structures/Show"));
 const CacheManager_1 = __importDefault(require("./CacheManager"));
-const PublicUser_1 = __importDefault(require("./structures/PublicUser"));
+const User_1 = __importDefault(require("./structures/User"));
 /**
- * User client class which can be used to access user client only
- * You can still access this by Client class but this class
- * needs a scoped token only
+ * User client class which can be used to access current user spotify api only
+ * You can still access this by Client class but this class needs a scoped token only
+ * And a current user scoped token works for both Client and UserClient
  */
 class UserClient extends Spotify_1.default {
     /**
-     * **Example:**
-     * ```js
-     * const user = new UserClient('token');
-     * ```
-     * @param token Scoped token
-     * @param client Spotify Client
+     * User client class which can be used to access current user spotify api only
+     * You can still access this by Client class but this class needs a scoped token only
+     * And a current user scoped token works for both Client and UserClient
+     *
+     * @param client Your Spotify Client
+     * @example const user = new UserClient('token', client);
      */
-    constructor(token = 'NO TOKEN', client) {
-        super(token);
+    constructor(client) {
+        super(client.token);
         Object.defineProperty(this, 'client', { value: client, writable: false });
         this.auth = new Auth_1.default();
-        this.player = new UserPlayer_1.default(this.token, this.client);
+        this.player = new UserPlayer_1.default(this.client);
         this.startedAt = Date.now();
         this.playlists = new CacheManager_1.default('id');
         this.albums = new CacheManager_1.default('id');
@@ -58,24 +58,18 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example"**
-     * ```js
-     * user.uptime
-     * ```
-     *
      * Uptime of the user client
+     *
+     * @readonly
      */
     get uptime() {
         return Date.now() - this.startedAt;
     }
     ;
     /**
-     * **Example"**
-     * ```js
-     * const info = await user.info();
-     * ```
+     * Updates the current user's spotify information in the userclient class and returns this!
      *
-     * Returns the user information
+     * @example const info = await user.info();
      */
     async info() {
         try {
@@ -105,14 +99,10 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example"**
-     * ```js
-     * const topArtists = await user.getTopArtists();
-     * ```
+     * Returns current user's top artists based on their affinity!
      *
-     * Top artists based on your affinity
-     *
-     * @param options AffinityOptions
+     * @param options Options to configure your results!
+     * @example const topArtists = await user.getTopArtists();
      */
     async getTopArtists(options = {}) {
         try {
@@ -128,14 +118,10 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example"**
-     * ```js
-     * const topTracks = await user.getTopTracks();
-     * ```
+     * Returns current user's top artists based on their affinity!
      *
-     * Top tracks based on your affinity
-     *
-     * @param options AffinityOptions
+     * @param options Options to configure your results
+     * @example const topTracks = await user.getTopTracks();
      */
     async getTopTracks(options = {}) {
         try {
@@ -151,30 +137,24 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const tracks = await user.getAffinity('track');
-     * const artists = await user.getAffinity('track');
-     * ```
+     * Returns current user's top artists or tracks based on their affinity!
+     * Similar to getTopTracks and getTopArtists!
      *
-     * Aliases function for user.getTopTracks user.getTopArtists
-     *
-     * @param type Affinity type
+     * @param type Affinity type should be one of "track" or "artist"
+     * @example const tracks = await user.getAffinity('track');
+     * const artists = await user.getAffinity('artist');
      */
     async getAffinity(type, options = {}) {
         return type == 'track' ? await this.getTopTracks(options) : await this.getTopArtists(options);
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const playlists = user.getPlaylists()
-     * ```
-     *
-     * Returns your saved playlists
+     * Returns current user's saved playlists!
+     * Also saves into cache based on your cacheOptions
      *
      * @param options Options to configure results
-     * @param force If true then will directly fetch instead of caching
+     * @param force If true then will directly fetch instead of searching cache!
+     * @example const playlists = user.getPlaylists()
      */
     async getPlaylists(options = {}, force = false) {
         if (!force && this.playlists.length)
@@ -193,15 +173,12 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const albums = await user.getAlbums();
-     * ```
-     *
-     * Returns your saved albums
+     * Returns current user's saved albums!
+     * Also saves into cache based on your cacheOptions
      *
      * @param options Options to configure results
-     * @param force If true then will directly fetch instead of caching
+     * @param force If true then will directly fetch instead of searching cache
+     * @example const albums = await user.getAlbums();
      */
     async getAlbums(options = {}, force = false) {
         if (!force && this.albums.length)
@@ -220,15 +197,12 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const shows = await user.getShows();
-     * ```
-     *
-     * Returns your saved shows
+     * Returns current user's saved shows!
+     * Also saves into cache based on your cacheOptions
      *
      * @param options Options to configure your results
-     * @param force If true then will directly fetch instead of caching
+     * @param force If true then will directly fetch instead of searching cache
+     * @example const shows = await user.getShows();
      */
     async getShows(options = {}, force = false) {
         if (!force && this.shows.length)
@@ -247,15 +221,12 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const tracks = await user.getTracks();
-     * ```
-     *
-     * Returns user's saved tracks
+     * Returns current user's saved tracks!
+     * Also saves into cache based on your cacheOptions
      *
      * @param options Configure your options
-     * @param force If true then will directly fetch instead of searching in cache
+     * @param force If true then will directly fetch instead of searching cache
+     * @example const tracks = await user.getTracks();
      */
     async getTracks(options = {}, force = false) {
         if (!force && this.tracks.length)
@@ -274,19 +245,15 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.deleteAlbum('id');
-     * user.deleteAlbum(['id1', 'id2', 'id3']);
-     * ```
+     * Deletes this album from your saved list!
      *
-     * Deletes your saved album
-     *
-     * @param id Id of the album or albums
+     * @param ids Id of the albums
+     * @example user.deleteAlbum('id');
+     * user.deleteAlbum('id1', 'id2', 'id3');
      */
-    async deleteAlbum(id) {
+    async deleteAlbum(...ids) {
         try {
-            await this.fetch({ method: 'DELETE', link: `v1/me/albums`, params: { ids: Array.isArray(id) ? id.join(',') : id } });
+            await this.fetch({ method: 'DELETE', link: `v1/me/albums`, params: { ids: ids.join(',') } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);
@@ -294,19 +261,15 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.deleteTrack('id');
-     * user.deleteTrack(['id1', 'id2', 'id3']);
-     * ```
+     * Deletes this track from your saved list!
      *
-     * Deletes your saved track
-     *
-     * @param id Id of the track or tracks
+     * @param ids Id of the tracks
+     * @example user.deleteTrack('id');
+     * user.deleteTrack('id1', 'id2', 'id3');
      */
-    async deleteTrack(id) {
+    async deleteTrack(...ids) {
         try {
-            await this.fetch({ method: 'DELETE', link: `v1/me/tracks`, params: { ids: Array.isArray(id) ? id.join(',') : id } });
+            await this.fetch({ method: 'DELETE', link: `v1/me/tracks`, params: { ids: ids.join(',') } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);
@@ -314,19 +277,15 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.deleteShow('id');
-     * user.deleteShow(['id1', 'id2', 'id3']);
-     * ```
+     * Deletes this show from your saved list!
      *
-     * Deletes your saved show
-     *
-     * @param id Id of the show or shows
+     * @param ids Id of the shows
+     * @example user.deleteShow('id');
+     * user.deleteShow('id1', 'id2', 'id3');
      */
-    async deleteShow(id) {
+    async deleteShow(...ids) {
         try {
-            await this.fetch({ method: 'DELETE', link: `v1/me/shows`, params: { ids: Array.isArray(id) ? id.join(',') : id } });
+            await this.fetch({ method: 'DELETE', link: `v1/me/shows`, params: { ids: ids.join(',') } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);
@@ -334,19 +293,15 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.addAlbum('id');
-     * user.addAlbum(['id1', 'id2', 'id3']);
-     * ```
+     * Adds those albums to your saved list!
      *
-     * Saves a new album
-     *
-     * @param id Id of the album or albums
+     * @param ids Id of the albums
+     * @example user.addAlbum('id');
+     * user.addAlbum('id1', 'id2', 'id3');
      */
-    async addAlbum(id) {
+    async addAlbum(...ids) {
         try {
-            await this.fetch({ method: 'PUT', link: `v1/me/albums`, params: { ids: Array.isArray(id) ? id.join(',') : id } });
+            await this.fetch({ method: 'PUT', link: `v1/me/albums`, params: { ids: ids.join(',') } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);
@@ -354,19 +309,15 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.addTrack('id');
-     * user.addTrack(['id1', 'id2', 'id3']);
-     * ```
+     * Adds those tracks to your saved list!
      *
-     * Saves a new track
-     *
-     * @param id Id of the track or tracks
+     * @param ids Id of the tracks
+     * @example user.addTrack('id');
+     * user.addTrack('id1', 'id2', 'id3');
      */
-    async addTrack(id) {
+    async addTrack(...ids) {
         try {
-            await this.fetch({ method: 'PUT', link: `v1/me/tracks`, params: { ids: Array.isArray(id) ? id.join(',') : id } });
+            await this.fetch({ method: 'PUT', link: `v1/me/tracks`, params: { ids: ids.join(',') } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);
@@ -374,19 +325,15 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.addShow('id');
-     * user.addShow(['id1', 'id2', 'id3']);
-     * ```
+     * Adds those shows to your saved list!
      *
-     * Saves a new show
-     *
-     * @param id Id of the track or tracks
+     * @param ids Id of the shows
+     * @example user.addShow('id');
+     * user.addShow('id1', 'id2', 'id3');
      */
-    async addShow(id) {
+    async addShow(...ids) {
         try {
-            await this.fetch({ method: 'PUT', link: `v1/me/shows`, params: { ids: Array.isArray(id) ? id.join(',') : id } });
+            await this.fetch({ method: 'PUT', link: `v1/me/shows`, params: { ids: ids.join(',') } });
         }
         catch (e) {
             throw new Error_1.UnexpectedError(e);
@@ -394,15 +341,11 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.followsUser('id');
+     * Verify if the current user follows those users!
+     *
+     * @param ids All id's of the users to verify!
+     * @example  user.followsUser('id');
      * user.followsUser('id1', 'id2', 'id3'); // For multiple verification
-     * ```
-     *
-     * Verify if the current user follows the user
-     *
-     * @param ids All ids of the user to verify!
      */
     async followsUser(...ids) {
         try {
@@ -414,15 +357,11 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.followsArtist('id');
+     * Verify if the current user follows those artists
+     *
+     * @param ids All id's of the artists to verify!
+     * @example user.followsArtist('id');
      * user.followsArtist('id1', 'id2', 'id3'); // For multiple verification
-     * ```
-     *
-     * Verify if the current user follows the artist
-     *
-     * @param ids All ids of the artists to verify!
      */
     async followsArtist(...ids) {
         if (!ids.length)
@@ -436,29 +375,24 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const followsUser = await user.follows('user', 'id', 'id2');
-     * const followsArtist = await user.follows('artist', 'id', 'id2')
-     * ```
-     *
-     * Verify if the current user follows the user or artist
+     * Verify if the current user follows those users or artists
      *
      * @param type Type could be artist or user which will state that whose id you have provided artist or user?
-     * @param ids Ids of the user or artist
+     * @param ids Ids of the users or artists
+     * @example const followsUser = await user.follows('user', 'id', 'id2');
+     * const followsArtist = await user.follows('artist', 'id', 'id2');
+     * @deprecated This might be removed in upcomming versions! You can use followsUser or followsArtist instead of using this method!
      */
     async follows(type, ...ids) {
         return type == 'artist' ? await this.followsArtist(...ids) : await this.followsUser(...ids);
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.followUser('id');
-     * user.followUser('id1', 'id2', 'id3'); // To follow many
-     * ```
+     * Follow many or one spotify user by id!
      *
      * @param ids Ids of the user or users
+     * @example user.followUser('id');
+     * user.followUser('id1', 'id2', 'id3'); // To follow many
      */
     async followUser(...ids) {
         try {
@@ -469,12 +403,10 @@ class UserClient extends Spotify_1.default {
         }
     }
     /**
-     * **Example:**
-     * ```js
-     * user.followPlaylist('id');
-     * ```
+     * Follow a spotify playlist by id!
      *
-     * @param id Id of the playlist
+     * @param id Id of the spotify playlist!
+     * @example user.followPlaylist('id');
      */
     async followPlaylist(id) {
         try {
@@ -486,13 +418,11 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.followArtist('id');
-     * user.followArtist('id1', 'id2', 'id3'); // To follow many
-     * ```
+     * Follow many or one spotify artist by id!
      *
      * @param ids Ids of the artist or artists
+     * @example user.followArtist('id');
+     * user.followArtist('id1', 'id2', 'id3'); // To follow many
      */
     async followArtist(...ids) {
         try {
@@ -504,9 +434,11 @@ class UserClient extends Spotify_1.default {
     }
     /**
      * Aliases of the followUser followPlaylist and followArtist
+     * You can only provide 1 id for playlist!
      *
      * @param type Type of the id. User, Artist or Playlist
      * @param ids Ids of the user or artist. Only 1 id can be used to follow playlist
+     * @deprecated This method may get removed in upcomming versions. You can use followUser, followArtist or followPlaylist instead!
      */
     async follow(type = 'user', ...ids) {
         if (type == 'user')
@@ -518,13 +450,11 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.unfollowUser('id');
-     * user.unfollowUser('id1', 'id2', 'id3'); // To follow many
-     * ```
+     * Unfollow many or one spotify user by id!
      *
      * @param ids Ids of the user or users
+     * @example user.unfollowUser('id');
+     * user.unfollowUser('id1', 'id2', 'id3'); // To follow many
      */
     async unfollowUser(...ids) {
         try {
@@ -535,12 +465,11 @@ class UserClient extends Spotify_1.default {
         }
     }
     /**
-     * **Example:**
-     * ```js
-     * user.unfollowPlaylist('id');
-     * ```
+     * Unfollow a spotify playlist by id!
      *
-     * @param id Id of the playlist
+     * @param ids Ids of the spotify playlist
+     * @example user.unfollowPlaylist('id');
+     * user.unfollowUser('id1', 'id2', 'id3'); // To follow many
      */
     async unfollowPlaylist(id) {
         try {
@@ -552,13 +481,11 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * user.unfollowArtist('id');
-     * user.unfollowArtist('id1', 'id2', 'id3'); // To follow many
-     * ```
+     * Unfollow many or one spotify artists by id!
      *
      * @param ids Ids of the artist or artists
+     * @example user.unfollowArtist('id');
+     * user.unfollowArtist('id1', 'id2', 'id3'); // To follow many
      */
     async unfollowArtist(...ids) {
         try {
@@ -571,8 +498,9 @@ class UserClient extends Spotify_1.default {
     /**
      * Aliases of the unfollowUser unfollowPlaylist and unfollowArtist
      *
-     * @param type Type of the id. User, Artist or Playlist
+     * @param type Type of the id. Should be one of "user", "artist", "playlist"!
      * @param ids Ids of the user or artist. Only 1 id can be used to unfollow playlist
+     * @deprecated This method may get removed in upcomming versions! You can use unfollowUser, unfollowArtist or unfollowPlaylist itself!
      */
     async unfollow(type = 'user', ...ids) {
         if (type == 'user')
@@ -584,33 +512,32 @@ class UserClient extends Spotify_1.default {
     }
     ;
     /**
-     * **Example:**
-     * ```js
-     * const usersFollowers = await user.getFollowers();
-     * const artistsFollowers = await user.getFollowers('artist');
-     * ```
-     *
-     * Get the list of followers of the current user By default will return user followers
+     * Get the list of followers of the current user. By default will return user followers
+     * Will also cache based on your cache options!
      *
      * @param type Type of followers needs to be returned! User or artist!
+     * @example const usersFollowers = await user.getFollowers();
+     * const artistsFollowers = await user.getFollowers('artist');
      */
     async getFollowers(type = 'user') {
         try {
             let data = await this.fetch({ link: `v1/me/following`, params: { type } });
             if (type == 'user') {
-                data = data.map(x => new PublicUser_1.default(x, this.client));
-                if (this.client.cacheOptions.cacheUsers)
+                data = data.map(x => new User_1.default(x, this.client));
+                if (this.client.cacheOptions.cacheUsers) {
                     this.client.cache.users.push(...data);
-                if (this.client.cacheOptions.cacheFollowers)
                     this.followers.users.push(...data);
+                }
+                ;
                 return data;
             }
             else {
                 data = data.map(x => new Artist_1.default(x, this.client));
-                if (this.client.cacheOptions.cacheArtists)
+                if (this.client.cacheOptions.cacheArtists) {
                     this.client.cache.artists.push(...data);
-                if (this.client.cacheOptions.cacheFollowers)
                     this.followers.artists.push(...data);
+                }
+                ;
                 return data;
             }
         }
@@ -619,22 +546,10 @@ class UserClient extends Spotify_1.default {
         }
     }
     ;
-    /**
-     * **Example:**
-     * ```js
-     * user.login({
-     *    client_id: 'id',
-     *    client_secret: 'secret',
-     *    redirect_uri: 'confirmation_redirect_uri',
-     *    code: 'refresh-token-or-the-code-query'
-     * })
-     * ```
-     *
-     * @param options Login by Auth.refresh
-     */
     async login(options) {
-        this.token = (await this.auth.refresh(options)).access_token;
-        this.player = new UserPlayer_1.default(this.token, this.client);
+        this.token = typeof options == 'string' ? options : (await this.auth.refresh(options)).accessToken;
+        this.client.login(this.token);
+        this.player = new UserPlayer_1.default(this.client);
         this.startedAt = Date.now();
     }
     ;
