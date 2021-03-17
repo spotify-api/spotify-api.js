@@ -1,0 +1,10 @@
+# Test files
+test/
+tests/
+
+# Typescript files
+tsconfig.json
+dist/
+
+# Github files
+.github/

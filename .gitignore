@@ -1,0 +1,7 @@
+# Modules
+node_modules/
+package-lock.json
+
+# Test files
+test/
+tests/env.json

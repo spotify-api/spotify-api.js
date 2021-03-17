@@ -1,0 +1,18 @@
+import Client from './Client';
+export declare const version = "8.0.0";
+export { default as Util, FetchOptions } from './Util';
+export { default as Client, ClientOptions } from './Client';
+export { default as Collection } from './Collection';
+export { default as AuthManager, GetUserTokenOptions, AuthRefresh } from './managers/AuthManager';
+export { default as BaseManager } from './managers/BaseManager';
+export { default as UserManager } from './managers/UserManager';
+export { default as PlaylistManager } from './managers/PlaylistManager';
+export { default as EpisodeManager } from './managers/EpisodeManager';
+export { default as ShowManager } from './managers/ShowManager';
+export { default as User } from './structures/User';
+export { default as Playlist, PlaylistTrack, PlaylistTrackType } from './structures/Playlist';
+export { default as Episode } from './structures/Episode';
+export { default as Show } from './structures/Show';
+export * from './Errors';
+export * from './Types';
+export default Client;

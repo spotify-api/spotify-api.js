@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "noImplicitAny": false,
+        "strictNullChecks": true,
+        "esModuleInterop":true,
+        "target": "ES2018", 
+        "module": "commonjs",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "lib": ["es2018", "dom"],
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "strict": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
