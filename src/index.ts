@@ -22,6 +22,7 @@ export { default as User } from './structures/User';
 export { default as Playlist, PlaylistTrack, PlaylistTrackType } from './structures/Playlist';
 export { default as Episode } from './structures/Episode';
 export { default as Show } from './structures/Show';
+export { LinkedTrack, LinkedTrackType } from './structures/Track';
 
 export * from './Errors';
 export * from './Types';
