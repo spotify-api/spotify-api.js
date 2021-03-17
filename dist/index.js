@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.Client = exports.Util = exports.version = void 0;
+exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.Client = exports.Util = exports.version = void 0;
 const Client_1 = __importDefault(require("./Client"));
 exports.version = '8.0.0';
 var Util_1 = require("./Util");
@@ -34,6 +34,8 @@ var EpisodeManager_1 = require("./managers/EpisodeManager");
 Object.defineProperty(exports, "EpisodeManager", { enumerable: true, get: function () { return __importDefault(EpisodeManager_1).default; } });
 var ShowManager_1 = require("./managers/ShowManager");
 Object.defineProperty(exports, "ShowManager", { enumerable: true, get: function () { return __importDefault(ShowManager_1).default; } });
+var BrowseManager_1 = require("./managers/BrowseManager");
+Object.defineProperty(exports, "BrowseManager", { enumerable: true, get: function () { return __importDefault(BrowseManager_1).default; } });
 var User_1 = require("./structures/User");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return __importDefault(User_1).default; } });
 var Playlist_1 = require("./structures/Playlist");

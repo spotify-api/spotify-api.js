@@ -48,7 +48,7 @@ export default class BrowseManager extends BaseManager{
     async getCategories(): Promise<Category[]> {
 
         try{
-            const categories = await this.fetch('/browse/categories') as Category[];
+            const categories = (await this.fetch('/browse/categories')).categories.items as Category[];
 
             if(this.client.cacheOptions.cacheCategories){
                 for(let i = 0; i < categories.length; i++) this.client.cache.categories.set(categories[i].id, categories[i]);
@@ -76,7 +76,7 @@ export default class BrowseManager extends BaseManager{
         try{
             const playlists = (await this.fetch(`/browse/categories/${id}/playlists`, {
                 params: options as RawObject
-            })).items.map(x => new Playlist(x, this.client)) as Playlist[];
+            })).playlists.items.map(x => new Playlist(x, this.client)) as Playlist[];
 
             if(this.client.cacheOptions.cachePlaylists){
                 for(let i = 0; i < playlists.length; i++) this.client.cache.playlists.set(playlists[i].id, playlists[i]);
@@ -89,6 +89,11 @@ export default class BrowseManager extends BaseManager{
 
     }
 
+    /**
+     * Returns the featured playlists of the spotify
+     * @param options Options such as limit and offset
+     * @example client.browse.getFeaturedPlaylists();
+     */
     async getFeaturedPlaylists(options?: {
         limit?: number;
         offset?: number;
@@ -109,6 +114,10 @@ export default class BrowseManager extends BaseManager{
         }
 
     }
+
+    /**
+     * New releases
+     */
 
 };
 

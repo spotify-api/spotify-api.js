@@ -8,15 +8,17 @@ var client = new Spotify.Client('NO TOKEN', {
 });
 
 // Test to login the client
-tester("Login to the client", tester.typeof(async () => {
+tester("Login to the client", async () => {
     await client.login(config.id, config.secret);
     return client.token;
-}, 'string'));
+}, {
+    check: x => typeof x == 'string'
+});
 
 const args = process.argv.slice(2);
 args.forEach(x => {
     let plugin = require(`./${x}.js`);
-    plugin(tester, client);
+    plugin(client);
 });
 
 tester.runTests();

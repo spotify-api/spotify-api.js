@@ -9,6 +9,7 @@ export { default as UserManager } from './managers/UserManager';
 export { default as PlaylistManager } from './managers/PlaylistManager';
 export { default as EpisodeManager } from './managers/EpisodeManager';
 export { default as ShowManager } from './managers/ShowManager';
+export { default as BrowseManager, FeaturedPlaylists } from './managers/BrowseManager';
 export { default as User } from './structures/User';
 export { default as Playlist, PlaylistTrack, PlaylistTrackType } from './structures/Playlist';
 export { default as Episode } from './structures/Episode';

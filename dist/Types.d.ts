@@ -5,7 +5,7 @@ export declare type Methods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 /**
  * All the spotify element types
  */
-export declare type SpotifyTypes = 'user' | 'episode' | 'playlist';
+export declare type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show';
 /**
  * Just a simple raw object!
  */
@@ -34,4 +34,13 @@ export interface ResumePoint {
 export interface Copyright {
     text: string;
     type: string;
+}
+/**
+ * Spotify api's category object!
+ */
+export interface Category {
+    href: string;
+    icons: Image[];
+    id: string;
+    name: string;
 }
