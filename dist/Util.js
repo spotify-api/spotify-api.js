@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.resolveURI = void 0;
 const axios_1 = __importDefault(require("axios"));
 const Errors_1 = require("./Errors");
 /**
@@ -70,3 +71,38 @@ class Util {
     }
 }
 exports.default = Util;
+/**
+ * Resolves spotify uri to components!
+ * @param uri Your spotify uri
+ * @example const { type, id, search, parent } = resolveURI('uri');
+ */
+const resolveURI = (uri) => {
+    if (typeof uri != 'string' || !uri.match(exports.resolveURI.regex))
+        return null;
+    const [_, type, id, subtype, subid] = uri.split(':');
+    if (type == 'search') {
+        return {
+            type: null,
+            id: null,
+            search: id,
+            parent: null
+        };
+    }
+    else if (subtype && subid) {
+        return {
+            type: subtype,
+            id: subid,
+            search: null,
+            parent: { type, id }
+        };
+    }
+    else {
+        return {
+            type, id,
+            search: null,
+            parent: null
+        };
+    }
+};
+exports.resolveURI = resolveURI;
+exports.resolveURI.regex = /spotify:(user|playlist|show|album|artist|track|episode|search):(.*?)/g;

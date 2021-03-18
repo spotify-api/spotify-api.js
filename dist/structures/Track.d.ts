@@ -31,7 +31,7 @@ export default class Track {
     href: string;
     id: string;
     name: string;
-    previewUrl: string;
+    previewUrl: string | null;
     trackNumber: number;
     type: string;
     uri: string;

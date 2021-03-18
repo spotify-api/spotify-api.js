@@ -4,7 +4,9 @@ export const version = '8.0.0';
 
 export {
     default as Util,
-    FetchOptions
+    FetchOptions,
+    resolveURI,
+    URIData
 } from './Util';
 
 export { default as Client, ClientOptions } from './Client';
@@ -19,6 +21,7 @@ export { default as ShowManager } from './managers/ShowManager';
 export { default as BrowseManager, FeaturedPlaylists } from './managers/BrowseManager';
 export { default as TrackManager } from './managers/TrackManager';
 export { default as AlbumManager } from './managers/AlbumManager';
+export { default as ArtistManager } from './managers/ArtistManager';
 
 export { default as User } from './structures/User';
 export { default as Playlist, PlaylistTrack, PlaylistTrackType } from './structures/Playlist';
@@ -26,6 +29,7 @@ export { default as Episode } from './structures/Episode';
 export { default as Show } from './structures/Show';
 export { default as Track, LinkedTrack, LinkedTrackType } from './structures/Track';
 export { default as Album } from './structures/Album';
+export { default as Artist } from './structures/Artist';
 
 export * from './Errors';
 export * from './Types';

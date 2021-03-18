@@ -1,4 +1,4 @@
-import { Methods } from './Types';
+import { Methods, SpotifyTypes, SpotifyURI } from './Types';
 /**
  * Options required to use Util.fetch
  */
@@ -40,3 +40,24 @@ export default class Util {
      */
     hexToRgb(hex: string): number[];
 }
+/**
+ * Structure returned by resolveURI method!
+ */
+export interface URIData {
+    type: SpotifyTypes | null;
+    id: string | null;
+    search: string | null;
+    parent: {
+        type: SpotifyTypes;
+        id: string;
+    } | null;
+}
+/**
+ * Resolves spotify uri to components!
+ * @param uri Your spotify uri
+ * @example const { type, id, search, parent } = resolveURI('uri');
+ */
+export declare const resolveURI: {
+    (uri: SpotifyURI): URIData | null;
+    regex?: RegExp;
+};

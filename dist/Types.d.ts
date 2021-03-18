@@ -5,7 +5,11 @@ export declare type Methods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 /**
  * All the spotify element types
  */
-export declare type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show' | 'track';
+export declare type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show' | 'track' | 'album' | 'artist';
+/**
+ * Spotify uri type
+ */
+export declare type SpotifyURI = `spotify:${SpotifyTypes}:${string}` | `spotify:search:${string}` | `spotify:${SpotifyTypes}:${string}:${SpotifyTypes}:${string}`;
 /**
  * Just a simple raw object!
  */
@@ -140,4 +144,13 @@ export interface TrackAudioAnalysis {
  */
 export interface Restriction {
     reason: string;
+}
+/**
+ * Paging options
+ */
+export interface PagingOptions {
+    limit?: number;
+    offset?: number;
+    market?: string;
+    [key: string]: any;
 }

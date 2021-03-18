@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Methods } from './Types';
+import { Methods, SpotifyTypes, SpotifyURI } from './Types';
 import { UtilityError } from './Errors';
 
 /**
@@ -87,3 +87,55 @@ export default class Util{
     }
     
 }
+
+/**
+ * Structure returned by resolveURI method!
+ */
+export interface URIData{
+    type: SpotifyTypes | null;
+    id: string | null;
+    search: string | null;
+    parent: {
+        type: SpotifyTypes;
+        id: string;
+    } | null;
+}
+
+/**
+ * Resolves spotify uri to components!
+ * @param uri Your spotify uri
+ * @example const { type, id, search, parent } = resolveURI('uri');
+ */
+export const resolveURI: {
+    (uri: SpotifyURI): URIData | null;
+    regex?: RegExp;
+} = (uri: SpotifyURI): URIData | null => {
+    
+    if(typeof uri != 'string' || !uri.match(resolveURI.regex as RegExp)) return null;
+    const [_, type, id, subtype, subid] = uri.split(':');
+
+    if(type == 'search'){
+        return {
+            type: null,
+            id: null,
+            search: id,
+            parent: null
+        }
+    } else if(subtype && subid){
+        return {
+            type: subtype,
+            id: subid,
+            search: null,
+            parent: { type, id }
+        } as URIData
+    } else {
+        return {
+            type, id,
+            search: null,
+            parent: null
+        } as URIData
+    }
+
+}
+
+resolveURI.regex = /spotify:(user|playlist|show|album|artist|track|episode|search):(.*?)/g;

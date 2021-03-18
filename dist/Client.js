@@ -13,6 +13,7 @@ const ShowManager_1 = __importDefault(require("./managers/ShowManager"));
 const BrowseManager_1 = __importDefault(require("./managers/BrowseManager"));
 const TrackManager_1 = __importDefault(require("./managers/TrackManager"));
 const AlbumManager_1 = __importDefault(require("./managers/AlbumManager"));
+const ArtistManager_1 = __importDefault(require("./managers/ArtistManager"));
 /**
  * The main spotify client class!
  */
@@ -35,7 +36,8 @@ class Client {
             shows: new Collection_1.default(),
             categories: new Collection_1.default(),
             tracks: new Collection_1.default(),
-            albums: new Collection_1.default()
+            albums: new Collection_1.default(),
+            artists: new Collection_1.default()
         };
         Object.defineProperty(this, 'util', { value: new Util_1.default(this.token), writable: true });
         Object.defineProperty(this, 'auth', { value: new AuthManager_1.default(this.token), writable: true });
@@ -46,6 +48,7 @@ class Client {
         Object.defineProperty(this, 'browse', { value: new BrowseManager_1.default(this) });
         Object.defineProperty(this, 'tracks', { value: new TrackManager_1.default(this) });
         Object.defineProperty(this, 'albums', { value: new AlbumManager_1.default(this) });
+        Object.defineProperty(this, 'artists', { value: new ArtistManager_1.default(this) });
     }
     async login(options, clientSecret) {
         if (typeof clientSecret == 'string') {

@@ -10,7 +10,6 @@ export default class EpisodeManager extends BaseManager {
      * @param id Spotify episode id
      * @param force If true, will directly fetch else will search for cache first!
      * @param market The market where we need to fetch the details!
-     * @warning This method might be broken!
      * @example await client.episodes.get('id');
      */
     get(id: string, force?: boolean, market?: string): Promise<Episode | null>;
