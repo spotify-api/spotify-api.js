@@ -28,6 +28,10 @@ export interface ClientOptions{
     cacheAlbums?: boolean;
     cacheCurrentUser?: boolean | {
         profile?: boolean;
+        affinity?: boolean | {
+            tracks?: boolean;
+            artists?: boolean;
+        };
     };
     ready?: () => void;
 }
@@ -101,7 +105,7 @@ export default class Client{
         Object.defineProperty(this, 'albums', { value: new AlbumManager(this) });
         Object.defineProperty(this, 'artists', { value: new ArtistManager(this) });
         Object.defineProperty(this, 'search', { value: SearchManager(this) });
-        Object.defineProperty(this, 'user', { value: new UserClient(this.token) });
+        Object.defineProperty(this, 'user', { value: new UserClient(this) });
 
         manageCache(this);
     }
@@ -131,7 +135,6 @@ export default class Client{
 
         this.util.token = this.token;
         this.auth.token = this.token;
-        this.user.token = this.token;
     }
 
 }

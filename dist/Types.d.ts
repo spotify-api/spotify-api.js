@@ -178,3 +178,11 @@ export interface GetMultipleOptions {
     ids: string[];
     market?: string;
 }
+/**
+ * Options for affinity
+ */
+export interface AffinityOptions {
+    time_range?: 'long_term' | 'medium_term' | 'short_term';
+    limit?: number;
+    offset?: number;
+}

@@ -10,12 +10,20 @@ async function manageCache(client) {
     if (options.cacheCurrentUser) {
         var useroptions = options.cacheCurrentUser;
         if (useroptions == true) {
-            useroptions = {
-                profile: true
-            };
+            await client.user.info();
         }
-        if (useroptions.profile) {
-            await client.user.me();
+        else {
+            await client.user.info();
+            if (useroptions.affinity == true) {
+                await client.user.getTopTracks();
+                await client.user.getTopArtists();
+            }
+            else if (typeof useroptions.affinity == 'object') {
+                if (useroptions.affinity.artists)
+                    await client.user.getTopArtists();
+                else if (useroptions.affinity.tracks)
+                    await client.user.getTopTracks();
+            }
         }
     }
     client.onReady();

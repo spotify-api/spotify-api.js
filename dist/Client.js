@@ -53,7 +53,7 @@ class Client {
         Object.defineProperty(this, 'albums', { value: new AlbumManager_1.default(this) });
         Object.defineProperty(this, 'artists', { value: new ArtistManager_1.default(this) });
         Object.defineProperty(this, 'search', { value: SearchManager_1.default(this) });
-        Object.defineProperty(this, 'user', { value: new UserClient_1.default(this.token) });
+        Object.defineProperty(this, 'user', { value: new UserClient_1.default(this) });
         CacheManager_1.default(this);
     }
     async login(options, clientSecret) {
@@ -65,7 +65,6 @@ class Client {
         }
         this.util.token = this.token;
         this.auth.token = this.token;
-        this.user.token = this.token;
     }
 }
 exports.default = Client;
