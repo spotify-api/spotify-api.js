@@ -185,3 +185,11 @@ export interface PlaylistTracksRef{
     href: string;
     total: number;
 }
+
+/**
+ * Options for get multiple functions!
+ */
+export interface GetMultipleOptions{
+    ids: string[];
+    market?: string;
+}

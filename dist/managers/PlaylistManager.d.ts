@@ -1,10 +1,18 @@
 import Playlist, { PlaylistTrackType } from "../structures/Playlist";
-import { Image, PagingOptions } from "../Types";
+import { Image, PagingOptions, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 /**
  * A class which manages the playlists
  */
 export default class PlaylistManager extends BaseManager {
+    /**
+     * Search playlists!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.playlists.search('some query');
+     */
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Playlist[]>;
     /**
      * Get a spotify playlist information by spotify id!
      *

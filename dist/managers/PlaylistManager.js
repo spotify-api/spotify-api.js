@@ -30,6 +30,32 @@ const BaseManager_1 = __importDefault(require("./BaseManager"));
  */
 class PlaylistManager extends BaseManager_1.default {
     /**
+     * Search playlists!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.playlists.search('some query');
+     */
+    async search(query, options) {
+        try {
+            const playlists = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'playlist',
+                    q: query
+                }
+            })).playlists.items.map(x => new Playlist_1.default(x, this.client));
+            if (this.client.cacheOptions.cachePlaylists) {
+                for (let i = 0; i < playlists.length; i++)
+                    this.client.cache.playlists.set(playlists[i].id, playlists[i]);
+            }
+            return playlists;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Get a spotify playlist information by spotify id!
      *
      * @param id Spotify playlist id

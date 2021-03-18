@@ -1,11 +1,41 @@
 import { handleError } from "../Errors";
 import Episode from "../structures/Episode";
+import { SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 
 /**
  * A class which manages the episodes
  */
 export default class EpisodeManager extends BaseManager{
+
+    /**
+     * Search episodes!
+     * 
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.episodes.search('some query');
+     */
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Episode[]> {
+
+        try{
+            const episodes = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'episode',
+                    q: query
+                }
+            })).episodes.items.map(x => new Episode(x, this.client));
+
+            if(this.client.cacheOptions.cacheEpisodes){
+                for(let i = 0; i < episodes.length; i++) this.client.cache.episodes.set(episodes[i].id, episodes[i]);
+            }
+
+            return episodes;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
     /**
      * Get a spotify episode information by spotify id!

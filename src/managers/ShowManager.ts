@@ -1,6 +1,6 @@
 import Show from "../structures/Show";
 import { handleError } from "../Errors";
-import { PagingOptions, RawObject } from "../Types";
+import { PagingOptions, RawObject, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 
@@ -8,6 +8,35 @@ import Episode from "../structures/Episode";
  * A class which manages the shows
  */
 export default class ShowManager extends BaseManager{
+
+    /**
+     * Search shows!
+     * 
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.shows.search('some query');
+     */
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Show[]> {
+
+        try{
+            const shows = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'show',
+                    q: query
+                }
+            })).shows.items.map(x => new Show(x, this.client));
+
+            if(this.client.cacheOptions.cacheShows){
+                for(let i = 0; i < shows.length; i++) this.client.cache.shows.set(shows[i].id, shows[i]);
+            }
+
+            return shows;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
     /**
      * Get a spotify show information by spotify id!

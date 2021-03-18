@@ -1,12 +1,41 @@
 import { handleError } from "../Errors";
 import Playlist, { PlaylistTrack, PlaylistTrackType } from "../structures/Playlist";
-import { Image, PagingOptions, RawObject } from "../Types";
+import { Image, PagingOptions, RawObject, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 
 /**
  * A class which manages the playlists
  */
 export default class PlaylistManager extends BaseManager{
+
+    /**
+     * Search playlists!
+     * 
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.playlists.search('some query');
+     */
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Playlist[]> {
+
+        try{
+            const playlists = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'playlist',
+                    q: query
+                }
+            })).playlists.items.map(x => new Playlist(x, this.client));
+
+            if(this.client.cacheOptions.cachePlaylists){
+                for(let i = 0; i < playlists.length; i++) this.client.cache.playlists.set(playlists[i].id, playlists[i]);
+            }
+
+            return playlists;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
     /**
      * Get a spotify playlist information by spotify id!

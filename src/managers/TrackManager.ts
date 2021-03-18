@@ -1,5 +1,5 @@
 import Track from '../structures/Track';
-import { TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
+import { SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
 import { handleError } from '../Errors';
 import BaseManager from './BaseManager';
 
@@ -7,6 +7,35 @@ import BaseManager from './BaseManager';
  * A class which manages the tracks api!
  */
 export default class TrackManager extends BaseManager{
+
+    /**
+     * Search tracks!
+     * 
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.tracks.search('some query');
+     */
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Track[]> {
+
+        try{
+            const tracks = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'track',
+                    q: query
+                }
+            })).tracks.items.map(x => new Track(x, this.client));;
+
+            if(this.client.cacheOptions.cacheTracks){
+                for(let i = 0; i < tracks.length; i++) this.client.cache.tracks.set(tracks[i].id, tracks[i]);
+            }
+
+            return tracks;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
     /**
      * Returns the spotify track information by id

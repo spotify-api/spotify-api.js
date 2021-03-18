@@ -1,9 +1,18 @@
 import Episode from "../structures/Episode";
+import { SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 /**
  * A class which manages the episodes
  */
 export default class EpisodeManager extends BaseManager {
+    /**
+     * Search episodes!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.episodes.search('some query');
+     */
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Episode[]>;
     /**
      * Get a spotify episode information by spotify id!
      *

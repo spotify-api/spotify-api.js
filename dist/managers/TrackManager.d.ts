@@ -1,10 +1,18 @@
 import Track from '../structures/Track';
-import { TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
+import { SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
 import BaseManager from './BaseManager';
 /**
  * A class which manages the tracks api!
  */
 export default class TrackManager extends BaseManager {
+    /**
+     * Search tracks!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.tracks.search('some query');
+     */
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Track[]>;
     /**
      * Returns the spotify track information by id
      *

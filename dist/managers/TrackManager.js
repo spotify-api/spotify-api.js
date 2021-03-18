@@ -11,6 +11,33 @@ const BaseManager_1 = __importDefault(require("./BaseManager"));
  */
 class TrackManager extends BaseManager_1.default {
     /**
+     * Search tracks!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.tracks.search('some query');
+     */
+    async search(query, options) {
+        try {
+            const tracks = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'track',
+                    q: query
+                }
+            })).tracks.items.map(x => new Track_1.default(x, this.client));
+            ;
+            if (this.client.cacheOptions.cacheTracks) {
+                for (let i = 0; i < tracks.length; i++)
+                    this.client.cache.tracks.set(tracks[i].id, tracks[i]);
+            }
+            return tracks;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Returns the spotify track information by id
      *
      * @param id Spotify track id

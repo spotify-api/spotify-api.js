@@ -12,6 +12,32 @@ const Episode_1 = __importDefault(require("../structures/Episode"));
  */
 class ShowManager extends BaseManager_1.default {
     /**
+     * Search shows!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.shows.search('some query');
+     */
+    async search(query, options) {
+        try {
+            const shows = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'show',
+                    q: query
+                }
+            })).shows.items.map(x => new Show_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheShows) {
+                for (let i = 0; i < shows.length; i++)
+                    this.client.cache.shows.set(shows[i].id, shows[i]);
+            }
+            return shows;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Get a spotify show information by spotify id!
      *
      * @param id Spotify show id

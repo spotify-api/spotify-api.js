@@ -13,6 +13,32 @@ const Track_1 = __importDefault(require("../structures/Track"));
  */
 class ArtistManager extends BaseManager_1.default {
     /**
+     * Search artists
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.artists.search('some query');
+     */
+    async search(query, options) {
+        try {
+            const artists = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'artist',
+                    q: query
+                }
+            })).artists.items.map(x => new Artist_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheArtists) {
+                for (let i = 0; i < artists.length; i++)
+                    this.client.cache.artists.set(artists[i].id, artists[i]);
+            }
+            return artists;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Get a spotify artist information by spotify id!
      *
      * @param id Spotify artist id

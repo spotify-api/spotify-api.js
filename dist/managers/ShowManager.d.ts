@@ -1,11 +1,19 @@
 import Show from "../structures/Show";
-import { PagingOptions } from "../Types";
+import { PagingOptions, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 /**
  * A class which manages the shows
  */
 export default class ShowManager extends BaseManager {
+    /**
+     * Search shows!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.shows.search('some query');
+     */
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Show[]>;
     /**
      * Get a spotify show information by spotify id!
      *

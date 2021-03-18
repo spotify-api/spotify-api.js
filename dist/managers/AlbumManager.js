@@ -12,6 +12,32 @@ const Track_1 = __importDefault(require("../structures/Track"));
  */
 class AlbumManager extends BaseManager_1.default {
     /**
+     * Search albums!
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.albums.search('some query');
+     */
+    async search(query, options) {
+        try {
+            const albums = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'album',
+                    q: query
+                }
+            })).albums.items.map(x => new Album_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheAlbums) {
+                for (let i = 0; i < albums.length; i++)
+                    this.client.cache.albums.set(albums[i].id, albums[i]);
+            }
+            return albums;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Returns spotify album information by id
      *
      * @param id The spotify id of the album
@@ -35,6 +61,36 @@ class AlbumManager extends BaseManager_1.default {
         }
         catch (e) {
             return Errors_1.handleError(e);
+        }
+    }
+    /**
+     * Get multiple albums at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.albums.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    async getMultiple(options) {
+        try {
+            const def = { market: 'US', ids: [] };
+            Object.assign(def, options);
+            if (!def.ids.length || def.ids.length > 20)
+                throw new Errors_1.UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple albums!");
+            def.ids = def.ids.join(',');
+            const albums = (await this.fetch('/albums', {
+                params: {
+                    ids: def.ids
+                }
+            })).albums.map(x => new Album_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheAlbums) {
+                for (let i = 0; i < albums.length; i++)
+                    this.client.cache.albums.set(albums[i].id, albums[i]);
+            }
+            return albums;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
         }
     }
     /**

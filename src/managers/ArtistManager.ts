@@ -1,7 +1,7 @@
 import Artist from '../structures/Artist';
 import { handleError } from '../Errors';
 import BaseManager from './BaseManager';
-import { PagingOptions, RawObject } from '../Types';
+import { PagingOptions, RawObject, SearchOptions } from '../Types';
 import Album from '../structures/Album';
 import Track from '../structures/Track';
 
@@ -9,6 +9,35 @@ import Track from '../structures/Track';
  * All artist api methods managed!
  */
 export default class ArtistManager extends BaseManager{
+
+    /**
+     * Search artists
+     * 
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.artists.search('some query');
+     */
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Artist[]> {
+
+        try{
+            const artists = (await this.fetch('/search', {
+                params: {
+                    ...options,
+                    type: 'artist',
+                    q: query
+                }
+            })).artists.items.map(x => new Artist(x, this.client));
+
+            if(this.client.cacheOptions.cacheArtists){
+                for(let i = 0; i < artists.length; i++) this.client.cache.artists.set(artists[i].id, artists[i]);
+            }
+
+            return artists;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
     /**
      * Get a spotify artist information by spotify id!

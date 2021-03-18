@@ -1,12 +1,20 @@
 import Artist from '../structures/Artist';
 import BaseManager from './BaseManager';
-import { PagingOptions } from '../Types';
+import { PagingOptions, SearchOptions } from '../Types';
 import Album from '../structures/Album';
 import Track from '../structures/Track';
 /**
  * All artist api methods managed!
  */
 export default class ArtistManager extends BaseManager {
+    /**
+     * Search artists
+     *
+     * @param query Your query to search
+     * @param options Basic SearchOptions but no `type` field should be provided!
+     * @example await client.artists.search('some query');
+     */
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Artist[]>;
     /**
      * Get a spotify artist information by spotify id!
      *
