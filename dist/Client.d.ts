@@ -1,5 +1,6 @@
 import Util from "./Util";
 import Collection from "./Collection";
+import UserClient from "./UserClient";
 import AuthManager, { GetUserTokenOptions } from "./managers/AuthManager";
 import UserManager, { User } from './managers/UserManager';
 import PlaylistManager, { Playlist } from "./managers/PlaylistManager";
@@ -22,7 +23,9 @@ export interface ClientOptions {
     cachePlaylists?: boolean;
     cacheArtists?: boolean;
     cacheAlbums?: boolean;
-    cacheCurrentUser?: boolean;
+    cacheCurrentUser?: boolean | {
+        profile?: boolean;
+    };
     ready?: () => void;
 }
 /**
@@ -53,6 +56,7 @@ export default class Client {
     albums: AlbumManager;
     artists: ArtistManager;
     search: SearchMethod;
+    user: UserClient;
     /**
      * The main spotify client class!
      *

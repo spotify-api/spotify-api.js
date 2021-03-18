@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Util_1 = __importDefault(require("./Util"));
 const Collection_1 = __importDefault(require("./Collection"));
+const UserClient_1 = __importDefault(require("./UserClient"));
 const AuthManager_1 = __importDefault(require("./managers/AuthManager"));
 const UserManager_1 = __importDefault(require("./managers/UserManager"));
 const PlaylistManager_1 = __importDefault(require("./managers/PlaylistManager"));
@@ -15,6 +16,7 @@ const TrackManager_1 = __importDefault(require("./managers/TrackManager"));
 const AlbumManager_1 = __importDefault(require("./managers/AlbumManager"));
 const ArtistManager_1 = __importDefault(require("./managers/ArtistManager"));
 const SearchManager_1 = __importDefault(require("./managers/SearchManager"));
+const CacheManager_1 = __importDefault(require("./managers/CacheManager"));
 /**
  * The main spotify client class!
  */
@@ -51,6 +53,8 @@ class Client {
         Object.defineProperty(this, 'albums', { value: new AlbumManager_1.default(this) });
         Object.defineProperty(this, 'artists', { value: new ArtistManager_1.default(this) });
         Object.defineProperty(this, 'search', { value: SearchManager_1.default(this) });
+        Object.defineProperty(this, 'user', { value: new UserClient_1.default(this.token) });
+        CacheManager_1.default(this);
     }
     async login(options, clientSecret) {
         if (typeof clientSecret == 'string') {
@@ -61,6 +65,7 @@ class Client {
         }
         this.util.token = this.token;
         this.auth.token = this.token;
+        this.user.token = this.token;
     }
 }
 exports.default = Client;

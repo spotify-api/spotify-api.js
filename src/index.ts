@@ -10,6 +10,7 @@ export {
 } from './Util';
 
 export { default as Client, ClientOptions } from './Client';
+export { default as UserClient } from './UserClient';
 export { default as Collection } from './Collection';
 
 export { default as AuthManager, GetUserTokenOptions, AuthRefresh } from './managers/AuthManager';
@@ -22,7 +23,9 @@ export { default as BrowseManager, FeaturedPlaylists } from './managers/BrowseMa
 export { default as TrackManager } from './managers/TrackManager';
 export { default as AlbumManager } from './managers/AlbumManager';
 export { default as ArtistManager } from './managers/ArtistManager';
+
 export { default as SearchManager, Search, SearchMethod } from './managers/SearchManager';
+export { default as manageCache } from "./managers/CacheManager";
 
 export { default as User } from './structures/User';
 export { default as Playlist, PlaylistTrack, PlaylistTrackType } from './structures/Playlist';

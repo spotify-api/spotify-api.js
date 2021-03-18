@@ -1,5 +1,6 @@
 import Util from "./Util";
 import Collection from "./Collection";
+import UserClient from "./UserClient";
 
 import AuthManager, { GetUserTokenOptions } from "./managers/AuthManager";
 import UserManager, { User } from './managers/UserManager';
@@ -11,6 +12,7 @@ import TrackManager, { Track } from "./managers/TrackManager";
 import AlbumManager, { Album } from "./managers/AlbumManager";
 import ArtistManager, { Artist } from "./managers/ArtistManager";
 import SearchManager, { SearchMethod } from "./managers/SearchManager";
+import manageCache from "./managers/CacheManager";
 
 /**
  * Client options to set!
@@ -24,7 +26,9 @@ export interface ClientOptions{
     cachePlaylists?: boolean;
     cacheArtists?: boolean;
     cacheAlbums?: boolean;
-    cacheCurrentUser?: boolean;
+    cacheCurrentUser?: boolean | {
+        profile?: boolean;
+    };
     ready?: () => void;
 }
 
@@ -59,6 +63,8 @@ export default class Client{
     albums!: AlbumManager;
     artists!: ArtistManager;
     search!: SearchMethod;
+
+    user!: UserClient;
 
     /**
      * The main spotify client class!
@@ -95,6 +101,9 @@ export default class Client{
         Object.defineProperty(this, 'albums', { value: new AlbumManager(this) });
         Object.defineProperty(this, 'artists', { value: new ArtistManager(this) });
         Object.defineProperty(this, 'search', { value: SearchManager(this) });
+        Object.defineProperty(this, 'user', { value: new UserClient(this.token) });
+
+        manageCache(this);
     }
 
     /**
@@ -122,6 +131,7 @@ export default class Client{
 
         this.util.token = this.token;
         this.auth.token = this.token;
+        this.user.token = this.token;
     }
 
 }
