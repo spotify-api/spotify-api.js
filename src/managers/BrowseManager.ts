@@ -152,6 +152,27 @@ export default class BrowseManager extends BaseManager{
 
     }
 
+    /**
+     * Returns recommended genres!
+     * 
+     * @example await client.browse.getRecommendedGenres();
+     */
+    async getRecommendedGenres(): Promise<string[]> {
+
+        try{
+            return (await this.fetch('/recommendations/available-genre-seeds')).genres;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
+
+    /**
+     * Returns spotify recommendations
+     * 
+     * @example await client.browse.getRecommended();
+     */
+
 };
 
 export type { Category };

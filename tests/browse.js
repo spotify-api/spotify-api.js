@@ -30,4 +30,9 @@ module.exports = (client) => {
     tester('Get all markets', async () => await client.browse.getMarkets(), {
         check: Array.isArray
     })
+
+    // Get recommended genres
+    tester('Get recommended genres', async () => await client.browse.getRecommendedGenres(), {
+        check: Array.isArray
+    })
 }

@@ -59,5 +59,11 @@ export default class BrowseManager extends BaseManager {
      * @example await client.browse.getAllMarkets();
      */
     getMarkets(): Promise<string[]>;
+    /**
+     * Returns recommended genres!
+     *
+     * @example await client.browse.getRecommendedGenres();
+     */
+    getRecommendedGenres(): Promise<string[]>;
 }
 export type { Category };

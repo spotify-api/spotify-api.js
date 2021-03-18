@@ -125,6 +125,19 @@ class BrowseManager extends BaseManager_1.default {
             return Errors_1.handleError(e) || [];
         }
     }
+    /**
+     * Returns recommended genres!
+     *
+     * @example await client.browse.getRecommendedGenres();
+     */
+    async getRecommendedGenres() {
+        try {
+            return (await this.fetch('/recommendations/available-genre-seeds')).genres;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
 }
 exports.default = BrowseManager;
 ;
