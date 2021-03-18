@@ -137,6 +137,21 @@ export default class BrowseManager extends BaseManager{
 
     }
 
+    /**
+     * Returns all markets present in spotify!
+     * 
+     * @example await client.browse.getAllMarkets();
+     */
+    async getMarkets(): Promise<string[]> {
+
+        try{
+            return (await this.fetch('/markets')).markets;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
+
 };
 
 export type { Category };

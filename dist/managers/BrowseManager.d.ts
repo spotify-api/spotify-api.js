@@ -53,5 +53,11 @@ export default class BrowseManager extends BaseManager {
      * @example await client.browse.getNewReleases();
      */
     getNewReleases(): Promise<Album[]>;
+    /**
+     * Returns all markets present in spotify!
+     *
+     * @example await client.browse.getAllMarkets();
+     */
+    getMarkets(): Promise<string[]>;
 }
 export type { Category };

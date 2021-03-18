@@ -23,6 +23,7 @@ class Album {
         Object.defineProperty(this, 'data', { value: data, writable: false });
         Object.defineProperty(this, 'client', { value: client, writable: false });
         this.albumType = data.album_type;
+        this.albumGroup = data.album_group;
         this.availableMarkets = data.available_markets;
         this.externalUrls = data.external_urls;
         this.href = data.href;
@@ -53,10 +54,11 @@ class Album {
     }
     /**
      * Returns the array of tracks in the album!
+     * Will send empty array if the album object supplied was simplified!
      * @readonly
      */
     get tracks() {
-        return this.data.tracks.items.map(x => new Track_1.default(x, this.client));
+        return this.data.tracks ? this.data.tracks.items.map(x => new Track_1.default(x, this.client)) : [];
     }
     /**
      * Returns the array of artists of the album!

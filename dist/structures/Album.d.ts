@@ -21,6 +21,7 @@ declare class Album {
     uri: SpotifyURI;
     label: string | null;
     restrictions: Restriction | null;
+    albumGroup?: 'album' | 'single' | 'compilation' | 'appears_on';
     totalTracks?: number;
     copyrights?: Copyright[];
     externalIds?: any;
@@ -44,6 +45,7 @@ declare class Album {
     makeCodeImage(color?: string): string;
     /**
      * Returns the array of tracks in the album!
+     * Will send empty array if the album object supplied was simplified!
      * @readonly
      */
     get tracks(): Track[];

@@ -1,7 +1,7 @@
 import User from './User';
 import Track from './Track';
 import Episode from './Episode';
-import { Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
+import { Image, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 /**
  * Return object by PlaylistTrack function!
@@ -29,7 +29,6 @@ export default class Playlist {
     collaborative: boolean;
     description: string;
     externalUrls: RawObject;
-    totalFollowers?: number;
     href: string;
     id: string;
     images: Image[];
@@ -38,6 +37,7 @@ export default class Playlist {
     snapshotID: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
+    totalFollowers?: number;
     /**
      * Spotify Api's Playlist Object
      *
@@ -53,9 +53,10 @@ export default class Playlist {
     get owner(): User;
     /**
      * Returns the total tracks of playlist in the form of array of PlaylistTracks!
+     * Will return an PlaylistTrackRef object if a simplified playlist has been supplied!
      * @readonly
      */
-    get tracks(): PlaylistTrackType[];
+    get tracks(): PlaylistTrackType[] | PlaylistTracksRef;
     /**
      * Fetches playlist and refreshes the cache!
      *

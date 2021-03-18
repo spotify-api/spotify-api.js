@@ -15,7 +15,6 @@ export default class Artist {
     type: SpotifyTypes;
     uri: SpotifyURI;
     images: Image[];
-    simplified: boolean;
     totalFollowers?: number;
     genres?: string;
     popularity?: number;

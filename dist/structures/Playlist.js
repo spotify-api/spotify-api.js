@@ -66,10 +66,11 @@ class Playlist {
     ;
     /**
      * Returns the total tracks of playlist in the form of array of PlaylistTracks!
+     * Will return an PlaylistTrackRef object if a simplified playlist has been supplied!
      * @readonly
      */
     get tracks() {
-        return this.data.tracks.items.map(x => PlaylistTrack(x, this.client));
+        return this.data.tracks.items ? this.data.tracks.items.map(x => PlaylistTrack(x, this.client)) : this.data.tracks;
     }
     ;
     /**

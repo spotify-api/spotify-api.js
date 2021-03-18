@@ -33,7 +33,8 @@ class Show {
         this.publisher = data.publisher;
         this.type = data.type;
         this.uri = data.uri;
-        this.episodes = data.episodes.items.map(x => new Episode_1.default(x, this.client));
+        if ('episodes' in data)
+            this.episodes = data.episodes.items.map(x => new Episode_1.default(x, this.client));
     }
     /**
      * Returns a code image of the Show!

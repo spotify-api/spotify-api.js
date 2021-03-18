@@ -35,7 +35,6 @@ function SearchManager(client) {
             };
         }
         catch (e) {
-            console.log(e)
             return Errors_1.handleError(e);
         }
     }

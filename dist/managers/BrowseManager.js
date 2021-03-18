@@ -112,6 +112,19 @@ class BrowseManager extends BaseManager_1.default {
             return Errors_1.handleError(e) || [];
         }
     }
+    /**
+     * Returns all markets present in spotify!
+     *
+     * @example await client.browse.getAllMarkets();
+     */
+    async getMarkets() {
+        try {
+            return (await this.fetch('/markets')).markets;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
 }
 exports.default = BrowseManager;
 ;

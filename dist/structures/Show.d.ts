@@ -7,7 +7,6 @@ import Client from "../Client";
 export default class Show {
     readonly data: any;
     readonly client: Client;
-    episodes: Episode[];
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -23,6 +22,7 @@ export default class Show {
     publisher: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
+    episodes?: Episode[];
     /**
      * Spotify Api's Show Object!
      *
