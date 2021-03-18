@@ -24,6 +24,8 @@ class Album {
     uri: SpotifyURI;
     label: string | null;
     restrictions: Restriction | null;
+
+    albumGroup?: 'album' | 'single' | 'compilation' | 'appears_on';
     totalTracks?: number;
     copyrights?: Copyright[];
     externalIds?: any;
@@ -46,6 +48,7 @@ class Album {
         Object.defineProperty(this, 'client', { value: client, writable: false });
 
         this.albumType = data.album_type;
+        this.albumGroup = data.album_group;
         this.availableMarkets = data.available_markets;
         this.externalUrls = data.external_urls;
         this.href = data.href;
@@ -79,10 +82,11 @@ class Album {
 
     /**
      * Returns the array of tracks in the album!
+     * Will send empty array if the album object supplied was simplified!
      * @readonly
      */
     get tracks(): Track[] {
-        return this.data.tracks.items.map(x => new Track(x, this.client));
+        return this.data.tracks ? this.data.tracks.items.map(x => new Track(x, this.client)) : [];
     }
 
     /**

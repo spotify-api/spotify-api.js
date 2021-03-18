@@ -17,8 +17,7 @@ export default class Artist{
     name: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
-    images: Image[];
-    simplified: boolean;
+    images: Image[]
 
     totalFollowers?: number;
     genres?: string;
@@ -43,10 +42,8 @@ export default class Artist{
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images || [];
-        this.simplified = true;
 
         if('popularity' in data) {
-            this.simplified = false;
             this.totalFollowers = data.followers.total;
             this.genres = data.genres;
             this.popularity = data.popularity;

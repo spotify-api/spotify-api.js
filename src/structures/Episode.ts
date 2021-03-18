@@ -26,6 +26,7 @@ class Episode {
     releaseDatePrecision: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
+    
     resumePoint?: ResumePoint;
 
     /**

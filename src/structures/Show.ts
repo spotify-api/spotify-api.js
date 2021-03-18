@@ -11,7 +11,6 @@ export default class Show {
     readonly data: any;
     readonly client!: Client;
 
-    episodes: Episode[];
     availableMarkets: string[];
     copyrights: Copyright[];
     description: string;
@@ -27,6 +26,8 @@ export default class Show {
     publisher: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
+
+    episodes?: Episode[];
 
     /**
      * Spotify Api's Show Object!
@@ -55,7 +56,8 @@ export default class Show {
         this.publisher = data.publisher;
         this.type = data.type;
         this.uri = data.uri;
-        this.episodes = data.episodes.items.map(x => new Episode(x, this.client));
+        
+        if('episodes' in data) this.episodes = data.episodes.items.map(x => new Episode(x, this.client));
 
     }
 

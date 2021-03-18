@@ -177,3 +177,11 @@ export interface SearchOptions{
     offset?: number;
     [key: string]: any;
 }
+
+/**
+ * Spotify api's playlist track reference object
+ */
+export interface PlaylistTracksRef{
+    href: string;
+    total: number;
+}

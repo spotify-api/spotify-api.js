@@ -1,7 +1,7 @@
 import User from './User';
 import Track from './Track';
 import Episode from './Episode';
-import { Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
+import { Image, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 
 /**
@@ -47,7 +47,6 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
     collaborative: boolean;
     description: string;
     externalUrls: RawObject;
-    totalFollowers?: number;
     href: string;
     id: string;
     images: Image[];
@@ -56,6 +55,8 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
     snapshotID: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
+
+    totalFollowers?: number;
 
     /**
      * Spotify Api's Playlist Object
@@ -94,10 +95,11 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
 
     /**
      * Returns the total tracks of playlist in the form of array of PlaylistTracks!
+     * Will return an PlaylistTrackRef object if a simplified playlist has been supplied!
      * @readonly
      */
-    get tracks(): PlaylistTrackType[] {
-        return this.data.tracks.items.map(x => PlaylistTrack(x, this.client));
+    get tracks(): PlaylistTrackType[] | PlaylistTracksRef {
+        return this.data.tracks.items ? this.data.tracks.items.map(x => PlaylistTrack(x, this.client)) : this.data.tracks;
     };
 
     /**
