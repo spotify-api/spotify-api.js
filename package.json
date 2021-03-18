@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node tests users playlists shows episodes browse",
+    "test": "node tests users playlists shows episodes browse tracks",
     "build": "npx tsc --project tsconfig.json"
   },
   "keywords": [],

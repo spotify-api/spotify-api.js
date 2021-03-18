@@ -1,6 +1,6 @@
 import { handleError } from "../Errors";
-import Playlist from "../structures/Playlist";
-import { Image } from "../Types";
+import Playlist, { PlaylistTrack, PlaylistTrackType } from "../structures/Playlist";
+import { Image, RawObject } from "../Types";
 import BaseManager from "./BaseManager";
 
 /**
@@ -32,7 +32,29 @@ export default class PlaylistManager extends BaseManager{
 
     }
 
-    /** Get track */
+    /**
+     * Return all the tracks of the spotify playlist!
+     * 
+     * @param id The id of the playlist
+     * @param options Options such as limit and offset
+     * @example await client.playlists.getTracks('id');
+     */
+    async getTracks(id: string, options?: {
+        limit?: number;
+        offset?: number;
+    }): Promise<PlaylistTrackType[]> {
+
+        try{
+            const tracks = (await this.fetch(`/playlists/${id}/tracks`, {
+                params: options as RawObject
+            })).items.map(x => PlaylistTrack(x, this.client)) as PlaylistTrackType[];
+
+            return tracks;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
     /**
      * Returns the images of the playlists!

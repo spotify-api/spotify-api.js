@@ -27,8 +27,7 @@ class User {
     }
     ;
     /**
-     * Fetches user and refreshes the cach!
-     *
+     * Fetches user and refreshes the cache!
      * @example user.fetch();
      */
     async fetch() {

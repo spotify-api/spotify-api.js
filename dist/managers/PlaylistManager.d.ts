@@ -1,4 +1,4 @@
-import Playlist from "../structures/Playlist";
+import Playlist, { PlaylistTrackType } from "../structures/Playlist";
 import { Image } from "../Types";
 import BaseManager from "./BaseManager";
 /**
@@ -13,7 +13,17 @@ export default class PlaylistManager extends BaseManager {
      * @example await client.playlists.get('id');
      */
     get(id: string, force?: boolean): Promise<Playlist | null>;
-    /** Get track */
+    /**
+     * Return all the tracks of the spotify playlist!
+     *
+     * @param id The id of the playlist
+     * @param options Options such as limit and offset
+     * @example await client.playlists.getTracks('id');
+     */
+    getTracks(id: string, options?: {
+        limit?: number;
+        offset?: number;
+    }): Promise<PlaylistTrackType[]>;
     /**
      * Returns the images of the playlists!
      *

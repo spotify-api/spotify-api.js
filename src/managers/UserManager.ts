@@ -5,7 +5,7 @@ import { RawObject } from '../Types';
 import { handleError } from '../Errors';
 
 /**
- * A class which manages the users
+ * A class which manages the users api
  */
 export default class UserManager extends BaseManager{
 

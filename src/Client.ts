@@ -6,6 +6,7 @@ import PlaylistManager, { Playlist } from "./managers/PlaylistManager";
 import EpisodeManager, { Episode } from "./managers/EpisodeManager";
 import ShowManager, { Show } from "./managers/ShowManager";
 import BrowseManager, { Category } from "./managers/BrowseManager";
+import TrackManager, { Track } from "./managers/TrackManager";
 
 /**
  * Client options to set!
@@ -38,6 +39,7 @@ export default class Client{
         episodes: Collection<Episode>;
         shows: Collection<Show>;
         categories: Collection<Category>;
+        tracks: Collection<Track>;
     };
 
     util!: Util;
@@ -47,6 +49,7 @@ export default class Client{
     episodes!: EpisodeManager;
     shows!: ShowManager;
     browse!: BrowseManager;
+    tracks!: TrackManager;
 
     /**
      * The main spotify client class!
@@ -66,7 +69,8 @@ export default class Client{
             playlists: new Collection(),
             episodes: new Collection(),
             shows: new Collection(),
-            categories: new Collection()
+            categories: new Collection(),
+            tracks: new Collection()
         }
 
         Object.defineProperty(this, 'util', { value: new Util(this.token), writable: true });
@@ -76,6 +80,7 @@ export default class Client{
         Object.defineProperty(this, 'episodes', { value: new EpisodeManager(this) });
         Object.defineProperty(this, 'shows', { value: new ShowManager(this) });
         Object.defineProperty(this, 'browse', { value: new BrowseManager(this) });
+        Object.defineProperty(this, 'tracks', { value: new TrackManager(this) });
     }
 
     /**

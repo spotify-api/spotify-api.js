@@ -1,4 +1,6 @@
 import User from './User';
+import Track from './Track';
+import Episode from './Episode';
 import { Image } from '../Types';
 import Client from '../Client';
 
@@ -9,6 +11,7 @@ export interface PlaylistTrackType{
     addedAt: string | null;
     local: boolean;
     readonly addedBy: User | null;
+    readonly track: Track | Episode;
 }
 
 /**
@@ -26,7 +29,9 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
         get addedBy(): User | null {
             return data.added_by ? new User(data.added_by, client) : null;
         },
-        /** Track required */
+        get track(): Track | Episode {
+            return data.track.type == 'track' ? new Track(data.track, client) : new Episode(data.track, client);
+        }
     }
 
 }
@@ -111,6 +116,19 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
      */
     async getImages(): Promise<Image[]> {
         return await this.client.playlists.getImages(this.id);
+    }
+
+    /**
+     * Returns all the tracks of the playlist!
+     * 
+     * @param options Options such as limit and offset
+     * @example playlist.getTracks()
+     */
+    async getTracks(options?: {
+        limit?: number;
+        offset?: number;
+    }): Promise<PlaylistTrackType[]> {
+        return await this.client.playlists.getTracks(this.id, options);
     }
 
     /**

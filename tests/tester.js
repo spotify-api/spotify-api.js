@@ -36,5 +36,10 @@ module.exports.runTests = async () => {
 
         const spaces = Array(maxlength - names[i].length).join(' ');
         console.log(`${emoji} ${names[i]}${spaces}${ms}ms`);
+        await sleep(1500);
     }
+}
+
+async function sleep(ms){
+    return new Promise((resolve) => setTimeout(() => resolve(), ms));
 }

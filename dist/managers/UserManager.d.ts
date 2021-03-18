@@ -2,7 +2,7 @@ import Playlist from '../structures/Playlist';
 import User from '../structures/User';
 import BaseManager from './BaseManager';
 /**
- * A class which manages the users
+ * A class which manages the users api
  */
 export default class UserManager extends BaseManager {
     /**

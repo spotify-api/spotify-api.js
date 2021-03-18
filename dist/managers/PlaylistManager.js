@@ -1,10 +1,29 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Errors_1 = require("../Errors");
-const Playlist_1 = __importDefault(require("../structures/Playlist"));
+const Playlist_1 = __importStar(require("../structures/Playlist"));
 const BaseManager_1 = __importDefault(require("./BaseManager"));
 /**
  * A class which manages the playlists
@@ -33,7 +52,24 @@ class PlaylistManager extends BaseManager_1.default {
             return Errors_1.handleError(e);
         }
     }
-    /** Get track */
+    /**
+     * Return all the tracks of the spotify playlist!
+     *
+     * @param id The id of the playlist
+     * @param options Options such as limit and offset
+     * @example await client.playlists.getTracks('id');
+     */
+    async getTracks(id, options) {
+        try {
+            const tracks = (await this.fetch(`/playlists/${id}/tracks`, {
+                params: options
+            })).items.map(x => Playlist_1.PlaylistTrack(x, this.client));
+            return tracks;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
     /**
      * Returns the images of the playlists!
      *

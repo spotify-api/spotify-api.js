@@ -1,4 +1,6 @@
 import User from './User';
+import Track from './Track';
+import Episode from './Episode';
 import { Image } from '../Types';
 import Client from '../Client';
 /**
@@ -8,6 +10,7 @@ export interface PlaylistTrackType {
     addedAt: string | null;
     local: boolean;
     readonly addedBy: User | null;
+    readonly track: Track | Episode;
 }
 /**
  * Creates a playlist track object using spotify api data and spotify client!
@@ -65,6 +68,16 @@ export default class Playlist {
      * @example playlist.getImages();
      */
     getImages(): Promise<Image[]>;
+    /**
+     * Returns all the tracks of the playlist!
+     *
+     * @param options Options such as limit and offset
+     * @example playlist.getTracks()
+     */
+    getTracks(options?: {
+        limit?: number;
+        offset?: number;
+    }): Promise<PlaylistTrackType[]>;
     /**
      * Returns a code image of the Playlist!
      * @param color Hex color code

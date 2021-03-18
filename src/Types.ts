@@ -6,7 +6,7 @@ export type Methods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 /**
  * All the spotify element types
  */
-export type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show';
+export type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show' | 'track';
 
 /**
  * Just a simple raw object!
@@ -144,3 +144,10 @@ export interface TrackAudioAnalysis{
         rhythm_version: number;
     };
 };
+
+/**
+ * Spotify api's restriction object
+ */
+export interface Restriction{
+    reason: string;
+}

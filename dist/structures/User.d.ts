@@ -25,8 +25,7 @@ export default class User {
      */
     constructor(data: any, client: Client);
     /**
-     * Fetches user and refreshes the cach!
-     *
+     * Fetches user and refreshes the cache!
      * @example user.fetch();
      */
     fetch(): Promise<User>;

@@ -8,7 +8,7 @@ const User_1 = __importDefault(require("../structures/User"));
 const BaseManager_1 = __importDefault(require("./BaseManager"));
 const Errors_1 = require("../Errors");
 /**
- * A class which manages the users
+ * A class which manages the users api
  */
 class UserManager extends BaseManager_1.default {
     /**

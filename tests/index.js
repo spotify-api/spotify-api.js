@@ -2,10 +2,7 @@ const Spotify = require('../dist/index');
 const tester = require('./tester');
 const config = require('./env.json');
 
-var client = new Spotify.Client('NO TOKEN', {
-    cacheUsers: true,
-    cachePlaylists: true
-});
+var client = new Spotify.Client('NO TOKEN');
 
 // Test to login the client
 tester("Login to the client", async () => {

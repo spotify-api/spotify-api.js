@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlaylistTrack = void 0;
 const User_1 = __importDefault(require("./User"));
+const Track_1 = __importDefault(require("./Track"));
+const Episode_1 = __importDefault(require("./Episode"));
 /**
  * Creates a playlist track object using spotify api data and spotify client!
  *
@@ -19,7 +21,9 @@ function PlaylistTrack(data, client) {
         get addedBy() {
             return data.added_by ? new User_1.default(data.added_by, client) : null;
         },
-        /** Track required */
+        get track() {
+            return data.track.type == 'track' ? new Track_1.default(data.track, client) : new Episode_1.default(data.track, client);
+        }
     };
 }
 exports.PlaylistTrack = PlaylistTrack;
@@ -83,6 +87,15 @@ class Playlist {
      */
     async getImages() {
         return await this.client.playlists.getImages(this.id);
+    }
+    /**
+     * Returns all the tracks of the playlist!
+     *
+     * @param options Options such as limit and offset
+     * @example playlist.getTracks()
+     */
+    async getTracks(options) {
+        return await this.client.playlists.getTracks(this.id, options);
     }
     /**
      * Returns a code image of the Playlist!

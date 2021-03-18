@@ -6,6 +6,7 @@ import PlaylistManager, { Playlist } from "./managers/PlaylistManager";
 import EpisodeManager, { Episode } from "./managers/EpisodeManager";
 import ShowManager, { Show } from "./managers/ShowManager";
 import BrowseManager, { Category } from "./managers/BrowseManager";
+import TrackManager, { Track } from "./managers/TrackManager";
 /**
  * Client options to set!
  */
@@ -34,6 +35,7 @@ export default class Client {
         episodes: Collection<Episode>;
         shows: Collection<Show>;
         categories: Collection<Category>;
+        tracks: Collection<Track>;
     };
     util: Util;
     auth: AuthManager;
@@ -42,6 +44,7 @@ export default class Client {
     episodes: EpisodeManager;
     shows: ShowManager;
     browse: BrowseManager;
+    tracks: TrackManager;
     /**
      * The main spotify client class!
      *
