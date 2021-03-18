@@ -1,5 +1,5 @@
 import Show from "../structures/Show";
-import { PagingOptions, SearchOptions } from "../Types";
+import { GetMultipleOptions, PagingOptions, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 /**
@@ -23,6 +23,15 @@ export default class ShowManager extends BaseManager {
      * @example await client.shows.get('id');
      */
     get(id: string, force?: boolean, market?: string): Promise<Show | null>;
+    /**
+     * Get multiple shows at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.shows.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    getMultiple(options: GetMultipleOptions): Promise<Show[]>;
     /**
      * Returns the episodes of the show by id!
      *

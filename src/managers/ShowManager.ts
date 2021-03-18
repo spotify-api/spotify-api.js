@@ -1,6 +1,6 @@
 import Show from "../structures/Show";
-import { handleError } from "../Errors";
-import { PagingOptions, RawObject, SearchOptions } from "../Types";
+import { handleError, UnexpectedError } from "../Errors";
+import { GetMultipleOptions, PagingOptions, RawObject, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 
@@ -62,6 +62,38 @@ export default class ShowManager extends BaseManager{
             return show;
         }catch(e){
             return handleError(e);
+        }
+
+    }
+
+    /**
+     * Get multiple shows at one fetch!
+     * 
+     * @param options Basic GetMultipleOptions
+     * @example await client.shows.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+     async getMultiple(options: GetMultipleOptions): Promise<Show[]> {
+
+        try{
+            const def = { market: 'US', ids: [] as any };
+            Object.assign(def, options);
+
+            if(!def.ids.length  || def.ids.length > 20) throw new UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple shows!");
+            def.ids = def.ids.join(',');
+
+            const shows = (await this.fetch('/shows', { 
+                params: def
+            })).shows.map(x => new Show(x, this.client));
+
+            if(this.client.cacheOptions.cacheShows){
+                for(let i = 0; i < shows.length; i++) this.client.cache.shows.set(shows[i].id, shows[i]);
+            }
+
+            return shows;
+        }catch(e){
+            return handleError(e) || [];
         }
 
     }
