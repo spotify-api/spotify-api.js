@@ -7,6 +7,13 @@ module.exports = (client) => {
         check: x => x instanceof Spotify.Artist
     })
 
+    // Get multiple artists
+    tester('Get multiple artists', async () => await client.artists.getMultiple({
+        ids: ['7vk5e3vY1uw9plTHJAMwjN']
+    }), {
+        check: Array.isArray
+    })
+
     // Get all albums of an artist
     tester('Get albums of an artist', async () => await client.artists.getAlbums('7vk5e3vY1uw9plTHJAMwjN'), {
         check: Array.isArray

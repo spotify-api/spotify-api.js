@@ -64,6 +64,36 @@ class ArtistManager extends BaseManager_1.default {
         }
     }
     /**
+     * Get multiple artists at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.artists.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    async getMultiple(options) {
+        try {
+            const def = { market: 'US', ids: [] };
+            Object.assign(def, options);
+            if (!def.ids.length || def.ids.length > 20)
+                throw new Errors_1.UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple artists!");
+            def.ids = def.ids.join(',');
+            const artists = (await this.fetch('/artists', {
+                params: {
+                    ids: def.ids
+                }
+            })).artists.map(x => new Artist_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheArtists) {
+                for (let i = 0; i < artists.length; i++)
+                    this.client.cache.artists.set(artists[i].id, artists[i]);
+            }
+            return artists;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Returns the albums of the artist
      *
      * @param id ID of the artist

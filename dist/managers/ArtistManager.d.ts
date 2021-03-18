@@ -1,6 +1,6 @@
 import Artist from '../structures/Artist';
 import BaseManager from './BaseManager';
-import { PagingOptions, SearchOptions } from '../Types';
+import { GetMultipleOptions, PagingOptions, SearchOptions } from '../Types';
 import Album from '../structures/Album';
 import Track from '../structures/Track';
 /**
@@ -23,6 +23,15 @@ export default class ArtistManager extends BaseManager {
      * @example await client.artists.get('id');
      */
     get(id: string, force?: boolean, market?: string): Promise<Artist | null>;
+    /**
+     * Get multiple artists at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.artists.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    getMultiple(options: GetMultipleOptions): Promise<Artist[]>;
     /**
      * Returns the albums of the artist
      *
