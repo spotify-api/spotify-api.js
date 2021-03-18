@@ -1,4 +1,5 @@
 import Track from '../structures/Track';
+import { TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
 import { handleError } from '../Errors';
 import BaseManager from './BaseManager';
 
@@ -29,6 +30,34 @@ export default class TrackManager extends BaseManager{
             return handleError(e);
         }
 
+    }
+
+    /**
+     * Returns the audio features of the spotify track
+     * 
+     * @param id The id of the spotify track
+     * @example await client.tracks.getAudioFeatures('id');
+     */
+    async getAudioFeatures(id: string): Promise<TrackAudioFeatures | null> {
+        try{
+            return await this.fetch(`/audio-features/${id}`);
+        }catch(e){
+            return handleError(e);
+        }
+    }
+
+    /**
+     * Returns the audio analysis of the spotify track
+     * 
+     * @param id The id of the spotify track
+     * @example await client.tracks.getAudioAnalysis('id');
+     */
+    async getAudioAnalysis(id: string): Promise<TrackAudioAnalysis | null> {
+        try{
+            return await this.fetch(`/audio-analysis/${id}`);
+        }catch(e){
+            return handleError(e);
+        }
     }
 
 };

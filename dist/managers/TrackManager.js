@@ -33,6 +33,34 @@ class TrackManager extends BaseManager_1.default {
             return Errors_1.handleError(e);
         }
     }
+    /**
+     * Returns the audio features of the spotify track
+     *
+     * @param id The id of the spotify track
+     * @example await client.tracks.getAudioFeatures('id');
+     */
+    async getAudioFeatures(id) {
+        try {
+            return await this.fetch(`/audio-features/${id}`);
+        }
+        catch (e) {
+            return Errors_1.handleError(e);
+        }
+    }
+    /**
+     * Returns the audio analysis of the spotify track
+     *
+     * @param id The id of the spotify track
+     * @example await client.tracks.getAudioAnalysis('id');
+     */
+    async getAudioAnalysis(id) {
+        try {
+            return await this.fetch(`/audio-analysis/${id}`);
+        }
+        catch (e) {
+            return Errors_1.handleError(e);
+        }
+    }
 }
 exports.default = TrackManager;
 ;

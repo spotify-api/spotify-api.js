@@ -56,8 +56,6 @@ export default class Track{
     local: boolean;
     restrictions: Restriction | null;
     popularity: number | null;
-    auidoAnalysis: TrackAudioAnalysis | null;
-    audioFeatures: TrackAudioFeatures | null;
 
     playable?: boolean;
 
@@ -87,8 +85,6 @@ export default class Track{
         this.uri = data.uri;
         this.playable = data.is_playable;
         this.local = Boolean(data.is_local);
-        this.audioFeatures = null;
-        this.auidoAnalysis = null;
         this.externalIds = data.external_ids || null;
         this.popularity = data.popularity || null;
         this.restrictions = data.restrictions || null;
@@ -117,6 +113,22 @@ export default class Track{
      */
     async fetch(): Promise<Track> {
         return await this.client.tracks.get(this.id, true) as Track;
+    }
+
+    /**
+     * Returns the audio features of the track!
+     * @example await track.getAudioFeatures();
+     */
+    async getAudioFeatures(): Promise<TrackAudioFeatures | null> {
+        return await this.client.tracks.getAudioFeatures(this.id);
+    }
+
+    /**
+     * Returns the audio analysis of the track!
+     * @example await track.getAudioAnalysis();
+     */
+    async getAudioAnalysis(): Promise<TrackAudioAnalysis | null> {
+        return await this.client.tracks.getAudioAnalysis(this.id);
     }
 
     /**
