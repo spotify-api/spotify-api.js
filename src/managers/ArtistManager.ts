@@ -83,9 +83,7 @@ export default class ArtistManager extends BaseManager{
             def.ids = def.ids.join(',');
 
             const artists = (await this.fetch('/artists', { 
-                params: { 
-                    ids: def.ids
-                }
+                params: def
             })).artists.map(x => new Artist(x, this.client));
 
             if(this.client.cacheOptions.cacheArtists){

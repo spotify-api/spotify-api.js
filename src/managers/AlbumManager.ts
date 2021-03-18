@@ -84,9 +84,7 @@ export default class AlbumManager extends BaseManager{
             def.ids = def.ids.join(',');
 
             const albums = (await this.fetch('/albums', { 
-                params: { 
-                    ids: def.ids
-                }
+                params: def
             })).albums.map(x => new Album(x, this.client));
 
             if(this.client.cacheOptions.cacheAlbums){

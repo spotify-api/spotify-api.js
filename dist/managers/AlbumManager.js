@@ -79,9 +79,7 @@ class AlbumManager extends BaseManager_1.default {
                 throw new Errors_1.UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple albums!");
             def.ids = def.ids.join(',');
             const albums = (await this.fetch('/albums', {
-                params: {
-                    ids: def.ids
-                }
+                params: def
             })).albums.map(x => new Album_1.default(x, this.client));
             if (this.client.cacheOptions.cacheAlbums) {
                 for (let i = 0; i < albums.length; i++)

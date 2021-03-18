@@ -1,5 +1,5 @@
 import Episode from "../structures/Episode";
-import { SearchOptions } from "../Types";
+import { GetMultipleOptions, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 /**
  * A class which manages the episodes
@@ -22,5 +22,14 @@ export default class EpisodeManager extends BaseManager {
      * @example await client.episodes.get('id');
      */
     get(id: string, force?: boolean, market?: string): Promise<Episode | null>;
+    /**
+     * Get multiple episodes at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.episodes.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    getMultiple(options: GetMultipleOptions): Promise<Episode[]>;
 }
 export type { Episode };

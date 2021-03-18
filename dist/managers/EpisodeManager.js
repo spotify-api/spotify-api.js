@@ -62,5 +62,33 @@ class EpisodeManager extends BaseManager_1.default {
             return Errors_1.handleError(e);
         }
     }
+    /**
+     * Get multiple episodes at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.episodes.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    async getMultiple(options) {
+        try {
+            const def = { market: 'US', ids: [] };
+            Object.assign(def, options);
+            if (!def.ids.length || def.ids.length > 20)
+                throw new Errors_1.UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple episodes!");
+            def.ids = def.ids.join(',');
+            const episodes = (await this.fetch('/episodes', {
+                params: def
+            })).episodes.map(x => new Episode_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheEpisodes) {
+                for (let i = 0; i < episodes.length; i++)
+                    this.client.cache.episodes.set(episodes[i].id, episodes[i]);
+            }
+            return episodes;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
 }
 exports.default = EpisodeManager;

@@ -79,9 +79,7 @@ class ArtistManager extends BaseManager_1.default {
                 throw new Errors_1.UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple artists!");
             def.ids = def.ids.join(',');
             const artists = (await this.fetch('/artists', {
-                params: {
-                    ids: def.ids
-                }
+                params: def
             })).artists.map(x => new Artist_1.default(x, this.client));
             if (this.client.cacheOptions.cacheArtists) {
                 for (let i = 0; i < artists.length; i++)
