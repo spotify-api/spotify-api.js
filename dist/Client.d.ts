@@ -9,6 +9,7 @@ import BrowseManager, { Category } from "./managers/BrowseManager";
 import TrackManager, { Track } from "./managers/TrackManager";
 import AlbumManager, { Album } from "./managers/AlbumManager";
 import ArtistManager, { Artist } from "./managers/ArtistManager";
+import { SearchMethod } from "./managers/SearchManager";
 /**
  * Client options to set!
  */
@@ -51,6 +52,7 @@ export default class Client {
     tracks: TrackManager;
     albums: AlbumManager;
     artists: ArtistManager;
+    search: SearchMethod;
     /**
      * The main spotify client class!
      *

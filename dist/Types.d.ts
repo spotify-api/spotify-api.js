@@ -9,7 +9,7 @@ export declare type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show' | 't
 /**
  * Spotify uri type
  */
-export declare type SpotifyURI = `spotify:${SpotifyTypes}:${string}:${SpotifyTypes}:${string}` | `spotify:${SpotifyTypes | 'searcj'}:${string}`;
+export declare type SpotifyURI = `spotify:${SpotifyTypes}:${string}:${SpotifyTypes}:${string}` | `spotify:${SpotifyTypes | 'search'}:${string}`;
 /**
  * Just a simple raw object!
  */
@@ -152,5 +152,15 @@ export interface PagingOptions {
     limit?: number;
     offset?: number;
     market?: string;
+    [key: string]: any;
+}
+/**
+ * Options for client.search
+ */
+export interface SearchOptions {
+    type: SpotifyTypes | SpotifyTypes[];
+    market?: string;
+    limit?: number;
+    offset?: number;
     [key: string]: any;
 }

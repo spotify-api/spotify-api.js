@@ -1,5 +1,6 @@
 import Util from "./Util";
 import Collection from "./Collection";
+
 import AuthManager, { GetUserTokenOptions } from "./managers/AuthManager";
 import UserManager, { User } from './managers/UserManager';
 import PlaylistManager, { Playlist } from "./managers/PlaylistManager";
@@ -9,6 +10,7 @@ import BrowseManager, { Category } from "./managers/BrowseManager";
 import TrackManager, { Track } from "./managers/TrackManager";
 import AlbumManager, { Album } from "./managers/AlbumManager";
 import ArtistManager, { Artist } from "./managers/ArtistManager";
+import SearchManager, { SearchMethod } from "./managers/SearchManager";
 
 /**
  * Client options to set!
@@ -56,6 +58,7 @@ export default class Client{
     tracks!: TrackManager;
     albums!: AlbumManager;
     artists!: ArtistManager;
+    search!: SearchMethod;
 
     /**
      * The main spotify client class!
@@ -91,6 +94,7 @@ export default class Client{
         Object.defineProperty(this, 'tracks', { value: new TrackManager(this) });
         Object.defineProperty(this, 'albums', { value: new AlbumManager(this) });
         Object.defineProperty(this, 'artists', { value: new ArtistManager(this) });
+        Object.defineProperty(this, 'search', { value: SearchManager(this) });
     }
 
     /**
