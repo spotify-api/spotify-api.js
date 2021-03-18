@@ -90,6 +90,45 @@ class UserClient {
             return Errors_1.handleError(e) || [];
         }
     }
+    /**
+     * Follow a playlist by id!
+     *
+     * @param id The id of the playlist!
+     * @param options Options such as public!
+     * @example await client.user.followPlaylist('id');
+     */
+    async followPlaylist(id, options = { public: true }) {
+        try {
+            await this.client.util.fetch(`/playlists/${id}/followers`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    public: options.public || true
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Unfollow a playlist by id!
+     *
+     * @param id The id of the playlist!
+     * @example await client.user.unfollowPlaylist('id');
+     */
+    async unfollowPlaylist(id) {
+        try {
+            await this.client.util.fetch(`/playlists/${id}/followers`, { method: 'DELETE' });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
 }
 exports.default = UserClient;
 ;

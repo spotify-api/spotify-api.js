@@ -9,6 +9,7 @@ export interface FetchOptions{
     headers?: { [key: string]: string };
     method?: Methods;
     params?: { [key: string]: string };
+    body?: { [key: string]: string | boolean | number };
 }
 
 /**
@@ -47,7 +48,8 @@ export default class Util{
                 Authorization: "Bearer " + this.token,
                 Accept: 'application/json',
                 ...options?.headers
-            }
+            },
+            data: options?.body
         })
 
         return data;
@@ -110,7 +112,7 @@ export const resolveURI: {
     (uri: SpotifyURI): URIData | null;
     regex?: RegExp;
 } = (uri: SpotifyURI): URIData | null => {
-    
+
     if(typeof uri != 'string' || !uri.match(resolveURI.regex as RegExp)) return null;
     const [_, type, id, subtype, subid] = uri.split(':');
 

@@ -36,7 +36,8 @@ class Util {
                 Authorization: "Bearer " + this.token,
                 Accept: 'application/json',
                 ...options === null || options === void 0 ? void 0 : options.headers
-            }
+            },
+            data: options === null || options === void 0 ? void 0 : options.body
         });
         return data;
     }

@@ -10,6 +10,9 @@ export interface FetchOptions {
     params?: {
         [key: string]: string;
     };
+    body?: {
+        [key: string]: string | boolean | number;
+    };
 }
 /**
  * The main utility and helper class for the package

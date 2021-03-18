@@ -98,7 +98,7 @@ export default class UserClient{
             const tracks = (await this.client.util.fetch('/me/top/tracks', {
                 params: options as RawObject
             })).items.map(x => new Track(x, this.client));
-            
+
             if(this.client.cacheOptions.cacheCurrentUser) this.affinity.tracks = tracks;
             return tracks;
         }catch(e){
@@ -124,6 +124,52 @@ export default class UserClient{
             return artists;
         }catch(e){
             return handleError(e) || [];
+        }
+
+    }
+
+    /**
+     * Follow a playlist inshort words add the playlist to your library!
+     * 
+     * @param id The id of the playlist!
+     * @param options Options such as public!
+     * @example await client.user.followPlaylist('id');
+     */
+    async followPlaylist(id: string, options: {
+        public?: boolean;
+    } = { public: true }): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch(`/playlists/${id}/followers`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    public: options.public ||true
+                }
+            });
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
+    /**
+     * Unfollow a playlist by id!
+     * 
+     * @param id The id of the playlist!
+     * @example await client.user.unfollowPlaylist('id');
+     */
+     async unfollowPlaylist(id: string): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch(`/playlists/${id}/followers`, { method: 'DELETE' });
+            return true;
+        }catch(e){
+            return handleError(e) || false;
         }
 
     }

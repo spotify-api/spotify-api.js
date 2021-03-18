@@ -50,4 +50,21 @@ export default class UserClient {
      * @example await user.getTopArtists();
      */
     getTopArtists(options?: AffinityOptions): Promise<Artist[]>;
+    /**
+     * Follow a playlist by id!
+     *
+     * @param id The id of the playlist!
+     * @param options Options such as public!
+     * @example await client.user.followPlaylist('id');
+     */
+    followPlaylist(id: string, options?: {
+        public?: boolean;
+    }): Promise<boolean>;
+    /**
+     * Unfollow a playlist by id!
+     *
+     * @param id The id of the playlist!
+     * @example await client.user.unfollowPlaylist('id');
+     */
+    unfollowPlaylist(id: string): Promise<boolean>;
 }
