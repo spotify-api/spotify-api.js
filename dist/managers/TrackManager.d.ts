@@ -1,5 +1,5 @@
 import Track from '../structures/Track';
-import { SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
+import { GetMultipleOptions, SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
 import BaseManager from './BaseManager';
 /**
  * A class which manages the tracks api!
@@ -22,6 +22,15 @@ export default class TrackManager extends BaseManager {
      * @example await client.tracks.get('id');
      */
     get(id: string, force?: boolean, market?: string): Promise<Track | null>;
+    /**
+     * Get multiple tracks at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.tracks.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    getMultiple(options: GetMultipleOptions): Promise<Track[]>;
     /**
      * Returns the audio features of the spotify track
      *

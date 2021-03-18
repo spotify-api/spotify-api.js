@@ -12,6 +12,13 @@ module.exports = (client) => {
         check: Boolean
     });
 
+    // Get multiple tracks
+    tester('Get multiple tracks', async () => await client.tracks.getMultiple({
+        ids: ['46Dxwh73hkHgPg2NCTCzmt']
+    }), {
+        check: Array.isArray
+    })
+
     // Get audio analysis of the track
     tester('Get audio analysis', async () => await client.tracks.getAudioAnalysis('46Dxwh73hkHgPg2NCTCzmt'), {
         check: Boolean

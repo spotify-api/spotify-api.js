@@ -1,6 +1,6 @@
 import Track from '../structures/Track';
-import { SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
-import { handleError } from '../Errors';
+import { GetMultipleOptions, SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
+import { handleError, UnexpectedError } from '../Errors';
 import BaseManager from './BaseManager';
 
 /**
@@ -15,7 +15,7 @@ export default class TrackManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.tracks.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Track[]> {
+    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Track[]> {
 
         try{
             const tracks = (await this.fetch('/search', {
@@ -60,6 +60,38 @@ export default class TrackManager extends BaseManager{
             return track;
         }catch(e){
             return handleError(e);
+        }
+
+    }
+
+    /**
+     * Get multiple tracks at one fetch!
+     * 
+     * @param options Basic GetMultipleOptions
+     * @example await client.tracks.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    async getMultiple(options: GetMultipleOptions): Promise<Track[]> {
+
+        try{
+            const def = { market: 'US', ids: [] as any };
+            Object.assign(def, options);
+
+            if(!def.ids.length  || def.ids.length > 20) throw new UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple tracks!");
+            def.ids = def.ids.join(',');
+
+            const tracks = (await this.fetch('/tracks', { 
+                params: def
+            })).tracks.map(x => new Track(x, this.client));
+
+            if(this.client.cacheOptions.cacheTracks){
+                for(let i = 0; i < tracks.length; i++) this.client.cache.tracks.set(tracks[i].id, tracks[i]);
+            }
+
+            return tracks;
+        }catch(e){
+            return handleError(e) || [];
         }
 
     }

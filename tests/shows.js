@@ -16,6 +16,6 @@ module.exports = (client) => {
 
     // Get episodes of spotify show
     tester('Get episodes of the show', async () => await client.shows.getEpisodes("5GWgpGC1TzQ6w2zNCxALWA"), {
-        check: x => Array.isArray
+        check: Array.isArray
     });
 }

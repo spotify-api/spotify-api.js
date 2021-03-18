@@ -64,6 +64,34 @@ class TrackManager extends BaseManager_1.default {
         }
     }
     /**
+     * Get multiple tracks at one fetch!
+     *
+     * @param options Basic GetMultipleOptions
+     * @example await client.tracks.getMultiple({
+     *     ids: ['123456789']
+     * })
+     */
+    async getMultiple(options) {
+        try {
+            const def = { market: 'US', ids: [] };
+            Object.assign(def, options);
+            if (!def.ids.length || def.ids.length > 20)
+                throw new Errors_1.UnexpectedError("You must provide more than 1 and less than 20 ids to fetch multiple tracks!");
+            def.ids = def.ids.join(',');
+            const tracks = (await this.fetch('/tracks', {
+                params: def
+            })).tracks.map(x => new Track_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheTracks) {
+                for (let i = 0; i < tracks.length; i++)
+                    this.client.cache.tracks.set(tracks[i].id, tracks[i]);
+            }
+            return tracks;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
      * Returns the audio features of the spotify track
      *
      * @param id The id of the spotify track
