@@ -20,4 +20,9 @@ module.exports = (client) => {
     tester('Get featured playlists', async () => await client.browse.getFeaturedPlaylists(), {
         check: x => typeof x.message == 'string' && Array.isArray(x.playlists)
     });
+
+    // Get new releases
+    tester('Get new releases', async () => await client.browse.getNewReleases(), {
+        check: Array.isArray
+    });
 }

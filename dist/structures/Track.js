@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedTrack = void 0;
 const Util_1 = __importDefault(require("../Util"));
+const Album_1 = __importDefault(require("./Album"));
 /**
  * Creates and returns a linked track object!
  */
@@ -49,8 +50,6 @@ class Track {
         this.uri = data.uri;
         this.playable = data.is_playable;
         this.local = Boolean(data.is_local);
-        this.audioFeatures = null;
-        this.auidoAnalysis = null;
         this.externalIds = data.external_ids || null;
         this.popularity = data.popularity || null;
         this.restrictions = data.restrictions || null;
@@ -61,6 +60,13 @@ class Track {
      */
     get linkedFrom() {
         return this.data.linked_from ? LinkedTrack(this.data.linked_from) : null;
+    }
+    /**
+     * Returns the album where the track exists
+     * @readonly
+     */
+    get album() {
+        return new Album_1.default(this.data.album, this.client);
     }
     /**
      * Returns a code image of the track!
@@ -75,6 +81,20 @@ class Track {
      */
     async fetch() {
         return await this.client.tracks.get(this.id, true);
+    }
+    /**
+     * Returns the audio features of the track!
+     * @example await track.getAudioFeatures();
+     */
+    async getAudioFeatures() {
+        return await this.client.tracks.getAudioFeatures(this.id);
+    }
+    /**
+     * Returns the audio analysis of the track!
+     * @example await track.getAudioAnalysis();
+     */
+    async getAudioAnalysis() {
+        return await this.client.tracks.getAudioAnalysis(this.id);
     }
 }
 exports.default = Track;

@@ -1,5 +1,6 @@
 import Client from "..";
 import { RawObject, SpotifyTypes, TrackAudioAnalysis, TrackAudioFeatures, Restriction } from "../Types";
+import Album from "./Album";
 /**
  * The structure of linked track object
  */
@@ -37,8 +38,6 @@ export default class Track {
     local: boolean;
     restrictions: Restriction | null;
     popularity: number | null;
-    auidoAnalysis: TrackAudioAnalysis | null;
-    audioFeatures: TrackAudioFeatures | null;
     playable?: boolean;
     /**
      * The Spotify Api's Track Object!
@@ -54,6 +53,11 @@ export default class Track {
      */
     get linkedFrom(): LinkedTrackType | null;
     /**
+     * Returns the album where the track exists
+     * @readonly
+     */
+    get album(): Album;
+    /**
      * Returns a code image of the track!
      * @param color Hex color code
      */
@@ -63,4 +67,14 @@ export default class Track {
      * @example await track.fetch();
      */
     fetch(): Promise<Track>;
+    /**
+     * Returns the audio features of the track!
+     * @example await track.getAudioFeatures();
+     */
+    getAudioFeatures(): Promise<TrackAudioFeatures | null>;
+    /**
+     * Returns the audio analysis of the track!
+     * @example await track.getAudioAnalysis();
+     */
+    getAudioAnalysis(): Promise<TrackAudioAnalysis | null>;
 }

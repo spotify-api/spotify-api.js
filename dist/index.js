@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LinkedTrack = exports.Track = exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.TrackManager = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.Client = exports.Util = exports.version = void 0;
+exports.Album = exports.LinkedTrack = exports.Track = exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.AlbumManager = exports.TrackManager = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.Client = exports.Util = exports.version = void 0;
 const Client_1 = __importDefault(require("./Client"));
 exports.version = '8.0.0';
 var Util_1 = require("./Util");
@@ -38,6 +38,8 @@ var BrowseManager_1 = require("./managers/BrowseManager");
 Object.defineProperty(exports, "BrowseManager", { enumerable: true, get: function () { return __importDefault(BrowseManager_1).default; } });
 var TrackManager_1 = require("./managers/TrackManager");
 Object.defineProperty(exports, "TrackManager", { enumerable: true, get: function () { return __importDefault(TrackManager_1).default; } });
+var AlbumManager_1 = require("./managers/AlbumManager");
+Object.defineProperty(exports, "AlbumManager", { enumerable: true, get: function () { return __importDefault(AlbumManager_1).default; } });
 var User_1 = require("./structures/User");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return __importDefault(User_1).default; } });
 var Playlist_1 = require("./structures/Playlist");
@@ -50,6 +52,8 @@ Object.defineProperty(exports, "Show", { enumerable: true, get: function () { re
 var Track_1 = require("./structures/Track");
 Object.defineProperty(exports, "Track", { enumerable: true, get: function () { return __importDefault(Track_1).default; } });
 Object.defineProperty(exports, "LinkedTrack", { enumerable: true, get: function () { return Track_1.LinkedTrack; } });
+var Album_1 = require("./structures/Album");
+Object.defineProperty(exports, "Album", { enumerable: true, get: function () { return __importDefault(Album_1).default; } });
 __exportStar(require("./Errors"), exports);
 __exportStar(require("./Types"), exports);
 exports.default = Client_1.default;

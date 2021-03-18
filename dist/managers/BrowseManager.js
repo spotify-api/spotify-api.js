@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Errors_1 = require("../Errors");
 const Playlist_1 = __importDefault(require("../structures/Playlist"));
+const Album_1 = __importDefault(require("../structures/Album"));
 const BaseManager_1 = __importDefault(require("./BaseManager"));
 /**
  * All browse api endpoint methods!
@@ -91,6 +92,24 @@ class BrowseManager extends BaseManager_1.default {
         }
         catch (e) {
             return Errors_1.handleError(e);
+        }
+    }
+    /**
+     * Returns new releases of albums on spotify
+     *
+     * @example await client.browse.getNewReleases();
+     */
+    async getNewReleases() {
+        try {
+            const albums = (await this.fetch('/browse/new-releases')).albums.items.map(x => new Album_1.default(x, this.client));
+            if (this.client.cacheOptions.cacheAlbums) {
+                for (let i = 0; i < albums.length; i++)
+                    this.client.cache.albums.set(albums[i].id, albums[i]);
+            }
+            return albums;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
         }
     }
 }

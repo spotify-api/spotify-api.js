@@ -1,5 +1,6 @@
 import { Category } from "../Types";
 import Playlist from "../structures/Playlist";
+import Album from "../structures/Album";
 import BaseManager from "./BaseManager";
 /**
  * Return object structure by BrowseManager.getFeatured();
@@ -46,5 +47,11 @@ export default class BrowseManager extends BaseManager {
         limit?: number;
         offset?: number;
     }): Promise<FeaturedPlaylists | null>;
+    /**
+     * Returns new releases of albums on spotify
+     *
+     * @example await client.browse.getNewReleases();
+     */
+    getNewReleases(): Promise<Album[]>;
 }
 export type { Category };

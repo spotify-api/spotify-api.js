@@ -1,6 +1,7 @@
 import Client from "..";
 import { RawObject, SpotifyTypes, TrackAudioAnalysis, TrackAudioFeatures, Restriction } from "../Types";
 import Util from "../Util";
+import Album from "./Album";
 
 /**
  * The structure of linked track object
@@ -49,7 +50,7 @@ export default class Track{
     href: string;
     id: string;
     name: string;
-    previewUrl: string;
+    previewUrl: string | null;
     trackNumber: number;
     type: string;
     uri: string;
@@ -100,6 +101,14 @@ export default class Track{
     }
 
     /**
+     * Returns the album where the track exists
+     * @readonly
+     */
+    get album(): Album {
+        return new Album(this.data.album, this.client);
+    }
+
+    /**
      * Returns a code image of the track!
      * @param color Hex color code
      */
@@ -132,7 +141,7 @@ export default class Track{
     }
 
     /**
-     * Album & artist
+     * artist
      */
 
 }

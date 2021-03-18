@@ -1,6 +1,7 @@
 import { handleError } from "../Errors";
 import { Category, RawObject } from "../Types";
 import Playlist from "../structures/Playlist";
+import Album from "../structures/Album";
 import BaseManager from "./BaseManager";
 
 /**
@@ -116,8 +117,25 @@ export default class BrowseManager extends BaseManager{
     }
 
     /**
-     * New releases
+     * Returns new releases of albums on spotify
+     * 
+     * @example await client.browse.getNewReleases();
      */
+    async getNewReleases(): Promise<Album[]> {
+
+        try{
+            const albums = (await this.fetch('/browse/new-releases')).albums.items.map(x => new Album(x, this.client));
+
+            if(this.client.cacheOptions.cacheAlbums){
+                for(let i = 0; i < albums.length; i++) this.client.cache.albums.set(albums[i].id, albums[i]);
+            }
+
+            return albums;
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
 
 };
 
