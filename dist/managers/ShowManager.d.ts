@@ -1,4 +1,5 @@
 import Show from "../structures/Show";
+import { PagingOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 /**
@@ -18,13 +19,9 @@ export default class ShowManager extends BaseManager {
      * Returns the episodes of the show by id!
      *
      * @param id Spotify show id
-     * @param options Options such as limit, offset and market!
+     * @param options Basic PagingOptions
      * @example client.shows.getEpisodes('id');
      */
-    getEpisodes(id: string, options?: {
-        limit?: number;
-        offset?: number;
-        market?: string;
-    }): Promise<Episode[]>;
+    getEpisodes(id: string, options?: PagingOptions): Promise<Episode[]>;
 }
 export type { Show };

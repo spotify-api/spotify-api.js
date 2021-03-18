@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Track_1 = __importDefault(require("./Track"));
+const Artist_1 = __importDefault(require("./Artist"));
 /**
  * Spotify api's album object!
  */
@@ -60,10 +61,11 @@ class Album {
     /**
      * Returns the array of artists of the album!
      * @readonly
-     *
-    get artists(): Artist[] {
-        return this.data.artists.map(x => new Artist(x, this.client));
-    }; **/
+     */
+    get artists() {
+        return this.data.artists.map(x => new Artist_1.default(x, this.client));
+    }
+    ;
     /**
      * Returns the Date object when the album was released!
      * @readonly
@@ -82,14 +84,11 @@ class Album {
     /**
      * Refetches the tracks of the album!
      *
-     * @param limit Limit your results
-     * @param force If true will directly fetch instead of searching cache
+     * @param options Basic PagingOptions
+     * @example await album.getTracks();
      */
-    async getTracks(limit = 20, force = false) {
-        if (!force && this.tracks.length)
-            return this.tracks;
-        const data = await this.client.albums.getTracks(this.id, { limit });
-        return data;
+    async getTracks(options) {
+        return await this.client.albums.getTracks(this.id, options);
     }
 }
 ;

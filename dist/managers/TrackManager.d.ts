@@ -9,10 +9,11 @@ export default class TrackManager extends BaseManager {
      * Returns the spotify track information by id
      *
      * @param id Spotify track id
-     * @param force await client.users.get('id');
+     * @param force If true, will directly fetch else will search for cache first!
+     * @param market The market where the data needs to be fetched from
      * @example await client.tracks.get('id');
      */
-    get(id: string, force?: boolean): Promise<Track | null>;
+    get(id: string, force?: boolean, market?: string): Promise<Track | null>;
     /**
      * Returns the audio features of the spotify track
      *

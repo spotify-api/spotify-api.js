@@ -1,6 +1,6 @@
 import Show from "./Show";
 import Client from "../Client";
-import { Image, ResumePoint } from "../Types";
+import { Image, RawObject, ResumePoint, SpotifyTypes, SpotifyURI } from "../Types";
 /**
  * Spotify Api's Episode Object!
  */
@@ -11,7 +11,7 @@ declare class Episode {
     description: string;
     duration: number;
     explicit: boolean;
-    externalUrls: any;
+    externalUrls: RawObject;
     href: string;
     id: string;
     images: Image[];
@@ -21,8 +21,8 @@ declare class Episode {
     name: string;
     releaseDate: string;
     releaseDatePrecision: string;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
     resumePoint?: ResumePoint;
     /**
      * Spotify Api's Episode Object!

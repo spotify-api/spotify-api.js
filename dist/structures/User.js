@@ -37,23 +37,15 @@ class User {
      * Returns the saved playlist of the user!
      *
      * @param options Options containing the offset and limit!
-     * @param force If true, will directly fetch else will search for cache first!
-     * @example await user.getPlaylists({
-     *     limit: 5,
-     *     offset: 2
-     * });
+     * @example await user.getPlaylists();
      */
-    async getPlaylists(options, force = !this.client.cacheOptions.cachePlaylists) {
-        if (!force && this.playlists.length)
-            return this.playlists;
+    async getPlaylists(options) {
         const playlists = await this.client.users.getPlaylists(this.id, options);
-        if (this.client.cacheOptions.cachePlaylists)
-            this.playlists = playlists;
+        this.playlists = playlists;
         return playlists;
     }
     /**
      * Returns a code image
-     *
      * @param color Hex color code
      */
     makeCodeImage(color = '1DB954') {

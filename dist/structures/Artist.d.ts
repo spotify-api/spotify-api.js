@@ -1,7 +1,7 @@
 import Client from '../Client';
 import Album from './Album';
 import Track from './Track';
-import { Image, PagingOptions, RawObject } from '../Types';
+import { Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 /**
  * Spotify Api's artist object
  */
@@ -12,8 +12,8 @@ export default class Artist {
     href: string;
     id: string;
     name: string;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
     images: Image[];
     simplified: boolean;
     totalFollowers?: number;
@@ -42,19 +42,19 @@ export default class Artist {
      * @param options Basic paging options
      * @example await artist.getAlbums();
      */
-    getAlbums(options: PagingOptions): Promise<Album[]>;
+    getAlbums(options?: PagingOptions): Promise<Album[]>;
     /**
      * Returns the top tracks of the artist
      *
      * @param options Basic PagingOptions
      * @example await artist.getTopTracks();
      */
-    getTopTracks(options: PagingOptions): Promise<Track[]>;
+    getTopTracks(options?: PagingOptions): Promise<Track[]>;
     /**
      * Returns the related artists of the artist
      *
      * @param options Basic PagingOptions
      * @example await artist.getRelatedArtists();
      */
-    getRelatedArtists(options: PagingOptions): Promise<Artist[]>;
+    getRelatedArtists(options?: PagingOptions): Promise<Artist[]>;
 }

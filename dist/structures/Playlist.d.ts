@@ -1,7 +1,7 @@
 import User from './User';
 import Track from './Track';
 import Episode from './Episode';
-import { Image } from '../Types';
+import { Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 /**
  * Return object by PlaylistTrack function!
@@ -28,7 +28,7 @@ export default class Playlist {
     readonly client: Client;
     collaborative: boolean;
     description: string;
-    externalUrls: any;
+    externalUrls: RawObject;
     totalFollowers?: number;
     href: string;
     id: string;
@@ -36,8 +36,8 @@ export default class Playlist {
     name: string;
     public: boolean | null;
     snapshotID: string;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
     /**
      * Spotify Api's Playlist Object
      *
@@ -74,10 +74,7 @@ export default class Playlist {
      * @param options Options such as limit and offset
      * @example playlist.getTracks()
      */
-    getTracks(options?: {
-        limit?: number;
-        offset?: number;
-    }): Promise<PlaylistTrackType[]>;
+    getTracks(options?: PagingOptions): Promise<PlaylistTrackType[]>;
     /**
      * Returns a code image of the Playlist!
      * @param color Hex color code

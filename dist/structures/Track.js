@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedTrack = void 0;
 const Util_1 = __importDefault(require("../Util"));
 const Album_1 = __importDefault(require("./Album"));
+const Artist_1 = __importDefault(require("./Artist"));
 /**
  * Creates and returns a linked track object!
  */
@@ -67,6 +68,13 @@ class Track {
      */
     get album() {
         return new Album_1.default(this.data.album, this.client);
+    }
+    /**
+     * Returns the artists of the track
+     * @readonly
+     */
+    get artists() {
+        return this.data.artists.map(x => new Artist_1.default(x, this.client));
     }
     /**
      * Returns a code image of the track!

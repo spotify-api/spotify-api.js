@@ -41,7 +41,7 @@ class ShowManager extends BaseManager_1.default {
      * Returns the episodes of the show by id!
      *
      * @param id Spotify show id
-     * @param options Options such as limit, offset and market!
+     * @param options Basic PagingOptions
      * @example client.shows.getEpisodes('id');
      */
     async getEpisodes(id, options = { market: 'US' }) {

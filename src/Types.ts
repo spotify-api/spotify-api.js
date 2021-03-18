@@ -11,7 +11,7 @@ export type SpotifyTypes = 'user' | 'episode' | 'playlist' | 'show' | 'track' | 
 /**
  * Spotify uri type
  */
-export type SpotifyURI = `spotify:${SpotifyTypes}:${string}` | `spotify:search:${string}` | `spotify:${SpotifyTypes}:${string}:${SpotifyTypes}:${string}`;
+export type SpotifyURI = `spotify:${SpotifyTypes}:${string}:${SpotifyTypes}:${string}` | `spotify:${SpotifyTypes | 'searcj'}:${string}`;
 
 /**
  * Just a simple raw object!

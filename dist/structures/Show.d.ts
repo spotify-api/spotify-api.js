@@ -1,4 +1,4 @@
-import { Copyright, Image, RawObject } from "../Types";
+import { Copyright, Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from "../Types";
 import Episode from "./Episode";
 import Client from "../Client";
 /**
@@ -21,8 +21,8 @@ export default class Show {
     mediaType: string;
     name: string;
     publisher: string;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
     /**
      * Spotify Api's Show Object!
      *
@@ -33,7 +33,6 @@ export default class Show {
     constructor(data: any, client: Client);
     /**
      * Returns a code image of the Show!
-     *
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
@@ -44,13 +43,8 @@ export default class Show {
     /**
      * Returns the episodes by fetching!
      *
-     * @param limit Limit of your results
-     * @param force If true, will directly fetch else will search for cache
-     * @example show.getEpisodes();
+     * @param options Basic PagingOptions
+     * @example await show.getEpisodes();
      */
-    getEpisodes(options?: {
-        limit?: number;
-        offset?: number;
-        market?: string;
-    }, force?: boolean): Promise<Episode[]>;
+    getEpisodes(options?: PagingOptions): Promise<Episode[]>;
 }

@@ -16,16 +16,19 @@ class AlbumManager extends BaseManager_1.default {
      *
      * @param id The spotify id of the album
      * @param force If true, will directly fetch else will search for cache first!
+     * @param market The market where the data needs to be fetched from
      * @example await client.albums.get('id');
      */
-    async get(id, force = !this.client.cacheOptions.cacheAlbums) {
+    async get(id, force = !this.client.cacheOptions.cacheAlbums, market = 'US') {
         try {
             if (!force) {
                 let existing = this.client.cache.albums.get(id);
                 if (existing)
                     return existing;
             }
-            const album = new Album_1.default(await this.fetch(`/albums/${id}`), this.client);
+            const album = new Album_1.default(await this.fetch(`/albums/${id}`, {
+                params: { market }
+            }), this.client);
             if (this.client.cacheOptions.cacheAlbums)
                 this.client.cache.albums.set(album.id, album);
             return album;
@@ -38,10 +41,10 @@ class AlbumManager extends BaseManager_1.default {
      * Returns all the tracks of the spotify album
      *
      * @param id Id of the spotify album
-     * @param options Options such as limit and offset
+     * @param options Basic PagingOptions
      * @example await client.albums.getTracks('id');
      */
-    async getTracks(id, options) {
+    async getTracks(id, options = { market: 'US' }) {
         try {
             const tracks = (await this.fetch(`/albums/${id}/tracks`)).items.map(x => new Track_1.default(x, this.client));
             if (this.client.cacheOptions.cacheTracks) {

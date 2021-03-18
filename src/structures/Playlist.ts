@@ -1,7 +1,7 @@
 import User from './User';
 import Track from './Track';
 import Episode from './Episode';
-import { Image } from '../Types';
+import { Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 
 /**
@@ -46,7 +46,7 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
 
     collaborative: boolean;
     description: string;
-    externalUrls: any;
+    externalUrls: RawObject;
     totalFollowers?: number;
     href: string;
     id: string;
@@ -54,8 +54,8 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
     name: string;
     public: boolean | null;
     snapshotID: string;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
 
     /**
      * Spotify Api's Playlist Object
@@ -124,10 +124,7 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
      * @param options Options such as limit and offset
      * @example playlist.getTracks()
      */
-    async getTracks(options?: {
-        limit?: number;
-        offset?: number;
-    }): Promise<PlaylistTrackType[]> {
+    async getTracks(options?: PagingOptions): Promise<PlaylistTrackType[]> {
         return await this.client.playlists.getTracks(this.id, options);
     }
 

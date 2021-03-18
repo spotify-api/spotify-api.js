@@ -37,7 +37,6 @@ class Show {
     }
     /**
      * Returns a code image of the Show!
-     *
      * @param color Hex color code
      */
     makeCodeImage(color = '1DB954') {
@@ -52,16 +51,12 @@ class Show {
     /**
      * Returns the episodes by fetching!
      *
-     * @param limit Limit of your results
-     * @param force If true, will directly fetch else will search for cache
-     * @example show.getEpisodes();
+     * @param options Basic PagingOptions
+     * @example await show.getEpisodes();
      */
-    async getEpisodes(options, force = !this.client.cacheOptions.cachePlaylists) {
-        if (!force && this.episodes.length)
-            return this.episodes;
+    async getEpisodes(options) {
         const episodes = await this.client.shows.getEpisodes(this.id, options);
-        if (this.client.cacheOptions.cacheEpisodes)
-            this.episodes = episodes;
+        this.episodes = episodes;
         return episodes;
     }
 }

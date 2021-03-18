@@ -34,16 +34,19 @@ class PlaylistManager extends BaseManager_1.default {
      *
      * @param id Spotify playlist id
      * @param force If true, will directly fetch else will search for cache first!
+     * @param market The market where the data needs to be fetched from
      * @example await client.playlists.get('id');
      */
-    async get(id, force = !this.client.cacheOptions.cachePlaylists) {
+    async get(id, force = !this.client.cacheOptions.cachePlaylists, market = 'US') {
         if (!force) {
             let existing = this.client.cache.playlists.get(id);
             if (existing)
                 return existing;
         }
         try {
-            const playlist = new Playlist_1.default(await this.fetch(`/playlists/${id}`), this.client);
+            const playlist = new Playlist_1.default(await this.fetch(`/playlists/${id}`, {
+                params: { market }
+            }), this.client);
             if (this.client.cacheOptions.cachePlaylists)
                 this.client.cache.playlists.set(playlist.id, playlist);
             return playlist;
@@ -56,10 +59,10 @@ class PlaylistManager extends BaseManager_1.default {
      * Return all the tracks of the spotify playlist!
      *
      * @param id The id of the playlist
-     * @param options Options such as limit and offset
+     * @param options Basic PagingOptions
      * @example await client.playlists.getTracks('id');
      */
-    async getTracks(id, options) {
+    async getTracks(id, options = { market: 'US' }) {
         try {
             const tracks = (await this.fetch(`/playlists/${id}/tracks`, {
                 params: options

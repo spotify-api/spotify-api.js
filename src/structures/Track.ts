@@ -1,7 +1,8 @@
 import Client from "..";
-import { RawObject, SpotifyTypes, TrackAudioAnalysis, TrackAudioFeatures, Restriction } from "../Types";
+import { RawObject, SpotifyTypes, TrackAudioAnalysis, TrackAudioFeatures, Restriction, SpotifyURI } from "../Types";
 import Util from "../Util";
 import Album from "./Album";
+import Artist from "./Artist";
 
 /**
  * The structure of linked track object
@@ -11,7 +12,7 @@ export interface LinkedTrackType{
     href: string;
     id: string;
     type: SpotifyTypes;
-    uri: string;
+    uri: SpotifyURI;
     makeCodeImage(color?: string): string;
 }
 
@@ -52,8 +53,8 @@ export default class Track{
     name: string;
     previewUrl: string | null;
     trackNumber: number;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
     local: boolean;
     restrictions: Restriction | null;
     popularity: number | null;
@@ -109,6 +110,14 @@ export default class Track{
     }
 
     /**
+     * Returns the artists of the track
+     * @readonly
+     */
+    get artists(): Artist[] {
+        return this.data.artists.map(x => new Artist(x, this.client));
+    }
+
+    /**
      * Returns a code image of the track!
      * @param color Hex color code
      */
@@ -139,9 +148,5 @@ export default class Track{
     async getAudioAnalysis(): Promise<TrackAudioAnalysis | null> {
         return await this.client.tracks.getAudioAnalysis(this.id);
     }
-
-    /**
-     * artist
-     */
 
 }

@@ -1,6 +1,7 @@
 import Client from '../Client';
 import Track from './Track';
-import { Image, Restriction, Copyright } from '../Types';
+import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions } from '../Types';
+import Artist from './Artist';
 
 /**
  * Spotify api's album object!
@@ -12,22 +13,22 @@ class Album {
 
     albumType: 'album' | 'single' | 'compilation';
     availableMarkets: string[];
-    externalUrls: any;
+    externalUrls: RawObject;
     href: string;
     id: string;
     images: Image[];
     name: string;
     releaseDate: string;
     releaseDatePrecision: string;
-    type: string;
-    uri: string;
+    type: SpotifyTypes;
+    uri: SpotifyURI;
     label: string | null;
     restrictions: Restriction | null;
     totalTracks?: number;
     copyrights?: Copyright[];
     externalIds?: any;
     popularity?: number;
-    genres?: any[];
+    genres?: string[];
 
     /**
      * **Example:**
@@ -87,10 +88,10 @@ class Album {
     /**
      * Returns the array of artists of the album!
      * @readonly
-     *
+     */
     get artists(): Artist[] {
         return this.data.artists.map(x => new Artist(x, this.client));
-    }; **/
+    }; 
 
     /**
      * Returns the Date object when the album was released!
@@ -110,14 +111,11 @@ class Album {
     /**
      * Refetches the tracks of the album!
      * 
-     * @param limit Limit your results
-     * @param force If true will directly fetch instead of searching cache
+     * @param options Basic PagingOptions
+     * @example await album.getTracks();
      */
-    async getTracks(limit: number = 20, force: boolean = false): Promise<Track[]> {
-        if(!force && this.tracks.length) return this.tracks;
-
-        const data = await this.client.albums.getTracks(this.id, { limit });
-        return data;
+    async getTracks(options?: PagingOptions): Promise<Track[]> {
+        return await this.client.albums.getTracks(this.id, options);
     } 
 
 };
