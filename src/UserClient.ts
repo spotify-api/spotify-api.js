@@ -294,4 +294,46 @@ export default class UserClient{
 
     }
 
+    /**
+     * Verify if the array of artists supplied is been followed by you!
+     * 
+     * @param ids Array of spotify artist ids
+     * @example const [followsArtist] = await client.user.followsArtists('id1');
+     */
+    async followsArtists(...ids: string[]): Promise<boolean[]> {
+
+        try{
+            return await this.client.util.fetch(`/me/following/contains`, {
+                params: {
+                    type: 'artist',
+                    ids: ids.join(',')
+                }
+            })
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
+
+    /**
+     * Verify if the array of users supplied is been followed by you!
+     * 
+     * @param ids Array of spotify users ids
+     * @example const [followsUser] = await client.user.followsUsers('id1');
+     */
+    async followsUsers(...ids: string[]): Promise<boolean[]> {
+
+        try{
+            return await this.client.util.fetch(`/me/following/contains`, {
+                params: {
+                    type: 'user',
+                    ids: ids.join(',')
+                }
+            })
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
+
 };

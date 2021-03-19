@@ -53,6 +53,11 @@ export default class User {
      */
     unfollow(): Promise<boolean>;
     /**
+     * Verify if the current user follows this user!
+     * @example const follows = await users.follows();
+     */
+    follows(): Promise<boolean>;
+    /**
      * Returns a code image
      * @param color Hex color code
      */

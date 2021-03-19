@@ -108,4 +108,18 @@ export default class UserClient {
      * @example await client.user.unfollowUsers('id1', 'id2');
      */
     unfollowUsers(...ids: string[]): Promise<boolean>;
+    /**
+     * Verify if the array of artists supplied is been followed by you!
+     *
+     * @param ids Array of spotify artist ids
+     * @example const [followsArtist] = await client.user.followsArtists('id1');
+     */
+    followsArtists(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Verify if the array of users supplied is been followed by you!
+     *
+     * @param ids Array of spotify users ids
+     * @example const [followsUser] = await client.user.followsUsers('id1');
+     */
+    followsUsers(...ids: string[]): Promise<boolean[]>;
 }

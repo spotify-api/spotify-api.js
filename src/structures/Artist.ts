@@ -112,4 +112,12 @@ export default class Artist{
         return await this.client.user.unfollowArtists(this.id);
     }
 
+    /**
+     * Verify if the current user follows this artist!
+     * @example const follows = await artists.follows();
+     */
+    async follows(): Promise<boolean> {
+        return (await this.client.user.followsArtists(this.id))[0] || false;
+    }
+
 }

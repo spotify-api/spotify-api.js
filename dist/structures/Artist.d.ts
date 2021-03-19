@@ -66,4 +66,9 @@ export default class Artist {
      * @example await artist.unfollow();
      */
     unfollow(): Promise<boolean>;
+    /**
+     * Verify if the current user follows this artist!
+     * @example const follows = await artists.follows();
+     */
+    follows(): Promise<boolean>;
 }

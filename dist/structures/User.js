@@ -66,6 +66,13 @@ class User {
         return await this.client.user.unfollowUsers(this.id);
     }
     /**
+     * Verify if the current user follows this user!
+     * @example const follows = await users.follows();
+     */
+    async follows() {
+        return (await this.client.user.followsUsers(this.id))[0] || false;
+    }
+    /**
      * Returns a code image
      * @param color Hex color code
      */
