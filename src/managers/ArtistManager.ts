@@ -1,7 +1,7 @@
 import Artist from '../structures/Artist';
 import { handleError, UnexpectedError } from '../Errors';
 import BaseManager from './BaseManager';
-import { GetMultipleOptions, PagingOptions, RawObject, SearchOptions } from '../Types';
+import { GetMultipleOptions, Paging, PagingOptions, RawObject, SearchOptions } from '../Types';
 import Album from '../structures/Album';
 import Track from '../structures/Track';
 
@@ -17,24 +17,36 @@ export default class ArtistManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.artists.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Artist[]> {
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>> {
 
         try{
-            const artists = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'artist',
                     q: query
                 }
-            })).artists.items.map(x => new Artist(x, this.client));
+            }))
+            
+            const artists = data.items.map(x => new Artist(x, this.client));
 
             if(this.client.cacheOptions.cacheArtists){
                 for(let i = 0; i < artists.length; i++) this.client.cache.artists.set(artists[i].id, artists[i]);
             }
 
-            return artists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: artists
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
@@ -104,20 +116,29 @@ export default class ArtistManager extends BaseManager{
      * @param options Basic PagingOptions
      * @example await client.artists.getAlbums('id');
      */
-    async getAlbums(id: string, options: PagingOptions = { market: 'US' }): Promise<Album[]> {
+    async getAlbums(id: string, options: PagingOptions = { market: 'US' }): Promise<Paging<Album>> {
 
         try{
-            const albums = (await this.fetch(`/artists/${id}/albums`, {
-                params: options as RawObject
-            })).items.map(x => new Album(x, this.client));
+            const data = (await this.fetch(`/artists/${id}/albums`, { params: options as RawObject }));
+            const albums = data.items.map(x => new Album(x, this.client));
 
             if(this.client.cacheOptions.cacheAlbums){
                 for(let i = 0; i < albums.length; i++) this.client.cache.albums.set(albums[i].id, albums[i]);
             }
 
-            return albums;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: albums
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

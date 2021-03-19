@@ -1,6 +1,6 @@
 import Client from '../Client';
 import Track from './Track';
-import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions } from '../Types';
+import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions, Paging } from '../Types';
 import Artist from './Artist';
 
 /**
@@ -118,7 +118,7 @@ class Album {
      * @param options Basic PagingOptions
      * @example await album.getTracks();
      */
-    async getTracks(options?: PagingOptions): Promise<Track[]> {
+    async getTracks(options?: PagingOptions): Promise<Paging<Track>> {
         return await this.client.albums.getTracks(this.id, options);
     } 
 
