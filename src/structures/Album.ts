@@ -122,6 +122,30 @@ class Album {
         return await this.client.albums.getTracks(this.id, options);
     } 
 
+    /**
+     * Add this album to your save list!
+     * @example await album.add();
+     */
+    async add(): Promise<boolean> {
+        return await this.client.user.addAlbums(this.id);
+    }
+
+    /**
+     * Remove this album from your save list!
+     * @example await album.delete();
+     */
+    async delete(): Promise<boolean> {
+        return await this.client.user.deleteAlbums(this.id);
+    }
+
+    /**
+     * Returns a boolean stating is this albums saved on the user's savelist (library)
+     * @example const isSaved = await album.saved();
+     */
+    async saved(): Promise<boolean> {
+        return (await this.client.user.hasAlbums(this.id))[0] || false;
+    }
+
 };
 
 export default Album;

@@ -70,5 +70,20 @@ declare class Album {
      * @example await album.getTracks();
      */
     getTracks(options?: PagingOptions): Promise<Paging<Track>>;
+    /**
+     * Add this album to your save list!
+     * @example await album.add();
+     */
+    add(): Promise<boolean>;
+    /**
+     * Remove this album from your save list!
+     * @example await album.delete();
+     */
+    delete(): Promise<boolean>;
+    /**
+     * Returns a boolean stating is this albums saved on the user's savelist (library)
+     * @example const isSaved = await album.saved();
+     */
+    saved(): Promise<boolean>;
 }
 export default Album;

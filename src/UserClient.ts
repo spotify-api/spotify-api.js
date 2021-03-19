@@ -2,7 +2,8 @@ import Client from './Client';
 import { handleError, UnexpectedError } from './Errors';
 import Track from './structures/Track';
 import Artist from './structures/Artist';
-import { AffinityOptions, Image, Paging, RawObject } from './Types';
+import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
+import Album from './structures/Album';
 
 /**
  * A class which accesses the current user endpoints!
@@ -353,6 +354,100 @@ export default class UserClient{
             return await this.client.util.fetch(`/me/following/contains`, {
                 params: {
                     type: 'user',
+                    ids: ids.join(',')
+                }
+            })
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
+
+    /**
+     * Returns the saved albums of the current user
+     * 
+     * @param options Basic PagingOptions
+     * @example const albums = await client.user.getAlbums();
+     */
+    async getAlbums(options?: PagingOptions): Promise<Paging<Album>> {
+
+        try{
+            const data = await this.client.util.fetch('/me/albums', { params: options });
+
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => new Album(x, this.client))
+            }
+        }catch(e){
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+
+    }
+
+    /**
+     * Add albums to your spotify savelist!
+     * 
+     * @param ids Spotify albums ids to add to your save list!
+     * @example await client.user.addAlbums('id1', 'id2');
+     */
+    async addAlbums(...ids: string[]): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch('/me/albums', {
+                method: 'PUT',
+                params: {
+                    ids: ids.join(',')
+                }
+            })
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
+    /**
+     * Remove albums from your spotify savelist!
+     * 
+     * @param ids Spotify albums ids to remove from your save list!
+     * @example await client.user.deleteAlbums('id1', 'id2');
+     */
+    async deleteAlbums(...ids: string[]): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch('/me/albums', {
+                method: 'DELETE',
+                params: {
+                    ids: ids.join(',')
+                }
+            })
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
+    /**
+     * Check if those albums exist on the current user's library!
+     * 
+     * @param ids Array of spotify album ids
+     * @example const [hasFirstAlbum, hasSecondAlbum] = await client.user.hasAlbums('id1', 'id2');
+     */
+    async hasAlbums(...ids: string[]): Promise<boolean[]> {
+
+        try{
+            return await this.client.util.fetch('/me/albums/contains', {
+                params: {
                     ids: ids.join(',')
                 }
             })

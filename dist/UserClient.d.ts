@@ -1,7 +1,8 @@
 import Client from './Client';
 import Track from './structures/Track';
 import Artist from './structures/Artist';
-import { AffinityOptions, Image, Paging, RawObject } from './Types';
+import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
+import Album from './structures/Album';
 /**
  * A class which accesses the current user endpoints!
  */
@@ -122,4 +123,32 @@ export default class UserClient {
      * @example const [followsUser] = await client.user.followsUsers('id1');
      */
     followsUsers(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Returns the saved albums of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const albums = await client.user.getAlbums();
+     */
+    getAlbums(options?: PagingOptions): Promise<Paging<Album>>;
+    /**
+     * Add albums to your spotify savelist!
+     *
+     * @param ids Spotify albums ids to add to your save list!
+     * @example await client.user.addAlbums('id1', 'id2');
+     */
+    addAlbums(...ids: string[]): Promise<boolean>;
+    /**
+     * Remove albums from your spotify savelist!
+     *
+     * @param ids Spotify albums ids to remove from your save list!
+     * @example await client.user.deleteAlbums('id1', 'id2');
+     */
+    deleteAlbums(...ids: string[]): Promise<boolean>;
+    /**
+     * Check if those albums exist on the current user's library!
+     *
+     * @param ids Array of spotify album ids
+     * @example const [hasFirstAlbum, hasSecondAlbum] = await client.user.hasAlbums('id1', 'id2');
+     */
+    hasAlbums(...ids: string[]): Promise<boolean[]>;
 }
