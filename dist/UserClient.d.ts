@@ -1,8 +1,9 @@
 import Client from './Client';
+import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
 import Track from './structures/Track';
 import Artist from './structures/Artist';
-import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
 import Album from './structures/Album';
+import Episode from './structures/Episode';
 export interface SavedStructure {
     addedAt: string;
 }
@@ -11,6 +12,9 @@ export interface SavedAlbum extends SavedStructure {
 }
 export interface SavedTrack extends SavedStructure {
     track: Track;
+}
+export interface SavedEpisode extends SavedStructure {
+    episode: Episode;
 }
 /**
  * A class which accesses the current user endpoints!
@@ -188,4 +192,32 @@ export default class UserClient {
      * @example const [hasFirstTrack, hasSecondTrack] = await client.user.hasTracks('id1', 'id2');
      */
     hasTracks(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Returns the saved episodes of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const episodes = await client.user.getEpisodes();
+     */
+    getEpisodes(options?: PagingOptions): Promise<Paging<SavedEpisode>>;
+    /**
+     * Add episodes to your spotify savelist!
+     *
+     * @param ids Spotify episodes ids to add to your save list!
+     * @example await client.user.addEpisodes('id1', 'id2');
+     */
+    addEpisodes(...ids: string[]): Promise<boolean>;
+    /**
+     * Remove episodes from your spotify savelist!
+     *
+     * @param ids Spotify episodes ids to remove from your save list!
+     * @example await client.user.deleteEpisodes('id1', 'id2');
+     */
+    deleteEpisodes(...ids: string[]): Promise<boolean>;
+    /**
+     * Check if those episodes exist on the current user's library!
+     *
+     * @param ids Array of spotify episode ids
+     * @example const [hasFirstEpisode, hasSecondEpisode] = await client.user.hasEpisodes('id1', 'id2');
+     */
+    hasEpisodes(...ids: string[]): Promise<boolean[]>;
 }

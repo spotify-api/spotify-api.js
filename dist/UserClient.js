@@ -8,6 +8,8 @@ const Errors_1 = require("./Errors");
 const Track_1 = __importDefault(require("./structures/Track"));
 const Artist_1 = __importDefault(require("./structures/Artist"));
 const Album_1 = __importDefault(require("./structures/Album"));
+const Episode_1 = __importDefault(require("./structures/Episode"));
+;
 ;
 ;
 ;
@@ -404,7 +406,7 @@ class UserClient {
                 total: data.total,
                 items: data.items.map(x => ({
                     addedAt: x.added_at,
-                    album: new Track_1.default(x.album, this.client)
+                    track: new Track_1.default(x.track, this.client)
                 }))
             };
         }
@@ -466,6 +468,92 @@ class UserClient {
     async hasTracks(...ids) {
         try {
             return await this.client.util.fetch('/me/tracks/contains', {
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
+     * Returns the saved episodes of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const episodes = await client.user.getEpisodes();
+     */
+    async getEpisodes(options) {
+        try {
+            const data = await this.client.util.fetch('/me/episodes', { params: options });
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => ({
+                    addedAt: x.added_at,
+                    episode: new Episode_1.default(x.episode, this.client)
+                }))
+            };
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+    }
+    /**
+     * Add episodes to your spotify savelist!
+     *
+     * @param ids Spotify episodes ids to add to your save list!
+     * @example await client.user.addEpisodes('id1', 'id2');
+     */
+    async addEpisodes(...ids) {
+        try {
+            await this.client.util.fetch('/me/episodes', {
+                method: 'PUT',
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Remove episodes from your spotify savelist!
+     *
+     * @param ids Spotify episodes ids to remove from your save list!
+     * @example await client.user.deleteEpisodes('id1', 'id2');
+     */
+    async deleteEpisodes(...ids) {
+        try {
+            await this.client.util.fetch('/me/episodes', {
+                method: 'DELETE',
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Check if those episodes exist on the current user's library!
+     *
+     * @param ids Array of spotify episode ids
+     * @example const [hasFirstEpisode, hasSecondEpisode] = await client.user.hasEpisodes('id1', 'id2');
+     */
+    async hasEpisodes(...ids) {
+        try {
+            return await this.client.util.fetch('/me/episodes/contains', {
                 params: {
                     ids: ids.join(',')
                 }
