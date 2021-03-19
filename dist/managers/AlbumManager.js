@@ -26,7 +26,7 @@ class AlbumManager extends BaseManager_1.default {
                     type: 'album',
                     q: query
                 }
-            })).albums;
+            }));
             const albums = data.albums.items.map(x => new Album_1.default(x, this.client));
             if (this.client.cacheOptions.cacheAlbums) {
                 for (let i = 0; i < albums.length; i++)
