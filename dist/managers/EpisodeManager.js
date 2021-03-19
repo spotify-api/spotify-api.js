@@ -25,8 +25,8 @@ class EpisodeManager extends BaseManager_1.default {
                     type: 'episode',
                     q: query
                 }
-            }));
-            const episodes = data.episodes.items.map(x => new Episode_1.default(x, this.client));
+            })).episodes;
+            const episodes = data.items.map(x => new Episode_1.default(x, this.client));
             if (this.client.cacheOptions.cacheEpisodes) {
                 for (let i = 0; i < episodes.length; i++)
                     this.client.cache.episodes.set(episodes[i].id, episodes[i]);

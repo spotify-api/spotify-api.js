@@ -25,9 +25,9 @@ export default class ShowManager extends BaseManager{
                     type: 'show',
                     q: query
                 }
-            }));
+            })).shows;
 
-            const shows = data.shows.items.map(x => new Show(x, this.client));
+            const shows = data.items.map(x => new Show(x, this.client));
 
             if(this.client.cacheOptions.cacheShows){
                 for(let i = 0; i < shows.length; i++) this.client.cache.shows.set(shows[i].id, shows[i]);

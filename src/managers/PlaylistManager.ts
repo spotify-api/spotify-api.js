@@ -24,9 +24,9 @@ export default class PlaylistManager extends BaseManager{
                     type: 'playlist',
                     q: query
                 }
-            }));
+            })).playlists;
 
-            const playlists = data.playlists.items.map(x => new Playlist(x, this.client));
+            const playlists = data.items.map(x => new Playlist(x, this.client));
 
             if(this.client.cacheOptions.cachePlaylists){
                 for(let i = 0; i < playlists.length; i++) this.client.cache.playlists.set(playlists[i].id, playlists[i]);

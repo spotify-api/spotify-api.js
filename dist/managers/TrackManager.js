@@ -25,7 +25,7 @@ class TrackManager extends BaseManager_1.default {
                     type: 'track',
                     q: query
                 }
-            }));
+            })).shows;
             const tracks = data.tracks.items.map(x => new Track_1.default(x, this.client));
             ;
             if (this.client.cacheOptions.cacheTracks) {

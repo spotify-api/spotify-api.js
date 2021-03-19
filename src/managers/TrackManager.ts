@@ -24,7 +24,7 @@ export default class TrackManager extends BaseManager{
                     type: 'track',
                     q: query
                 }
-            }))
+            })).shows;
             
             const tracks = data.tracks.items.map(x => new Track(x, this.client));;
 

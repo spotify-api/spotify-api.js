@@ -44,8 +44,8 @@ class PlaylistManager extends BaseManager_1.default {
                     type: 'playlist',
                     q: query
                 }
-            }));
-            const playlists = data.playlists.items.map(x => new Playlist_1.default(x, this.client));
+            })).playlists;
+            const playlists = data.items.map(x => new Playlist_1.default(x, this.client));
             if (this.client.cacheOptions.cachePlaylists) {
                 for (let i = 0; i < playlists.length; i++)
                     this.client.cache.playlists.set(playlists[i].id, playlists[i]);

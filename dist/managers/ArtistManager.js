@@ -27,8 +27,8 @@ class ArtistManager extends BaseManager_1.default {
                     type: 'artist',
                     q: query
                 }
-            }));
-            const artists = data.artists.items.map(x => new Artist_1.default(x, this.client));
+            })).artists;
+            const artists = data.items.map(x => new Artist_1.default(x, this.client));
             if (this.client.cacheOptions.cacheArtists) {
                 for (let i = 0; i < artists.length; i++)
                     this.client.cache.artists.set(artists[i].id, artists[i]);
