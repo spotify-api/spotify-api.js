@@ -72,6 +72,22 @@ export default class User {
     async followsPlaylist(id: string): Promise<boolean> {
         return (await this.client.playlists.userFollows(id, this.id))[0] || false;
     }
+
+    /**
+     * Follow this user!
+     * @example await user.follow();
+     */
+    async follow(): Promise<boolean> {
+        return await this.client.user.followUsers(this.id);
+    }
+
+    /**
+     * Unfollow this user!
+     * @example await user.unfollow();
+     */
+    async unfollow(): Promise<boolean> {
+        return await this.client.user.unfollowUsers(this.id);
+    }
  
     /**
      * Returns a code image

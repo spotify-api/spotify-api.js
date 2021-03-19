@@ -43,6 +43,16 @@ export default class User {
      */
     followsPlaylist(id: string): Promise<boolean>;
     /**
+     * Follow this user!
+     * @example await user.follow();
+     */
+    follow(): Promise<boolean>;
+    /**
+     * Unfollow this user!
+     * @example await user.unfollow();
+     */
+    unfollow(): Promise<boolean>;
+    /**
      * Returns a code image
      * @param color Hex color code
      */

@@ -52,6 +52,20 @@ class User {
         return (await this.client.playlists.userFollows(id, this.id))[0] || false;
     }
     /**
+     * Follow this user!
+     * @example await user.follow();
+     */
+    async follow() {
+        return await this.client.user.followUsers(this.id);
+    }
+    /**
+     * Unfollow this user!
+     * @example await user.unfollow();
+     */
+    async unfollow() {
+        return await this.client.user.unfollowUsers(this.id);
+    }
+    /**
      * Returns a code image
      * @param color Hex color code
      */
