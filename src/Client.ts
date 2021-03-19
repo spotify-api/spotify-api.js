@@ -1,5 +1,5 @@
 import Util from "./Util";
-import Collection from "./Collection";
+import Collection from "./utils/Collection";
 import UserClient from "./UserClient";
 
 import AuthManager, { GetUserTokenOptions } from "./managers/AuthManager";

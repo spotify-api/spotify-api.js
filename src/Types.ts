@@ -202,3 +202,13 @@ export interface AffinityOptions{
     limit?: number;
     offset?: number;
 }
+
+/**
+ * Spotify Api's Paging Object
+ */
+export interface Paging<T>{
+    limit: number;
+    offset: number;
+    total: number;
+    items: T[];
+}

@@ -57,6 +57,31 @@ export default class Util{
     }
 
     /**
+     * Similar to util.fetch but you can fetch a custom url instead of fetching path with constant base url
+     * 
+     * @param url URL of string
+     * @param options Basic FetchOptions
+     * @example await util.fetchURL('url');
+     */
+    async fetchURL(url: string, options?: FetchOptions): Promise<any> {
+        
+        const { data } = await axios({
+            url,
+            method: options?.method || 'GET',
+            params: options?.params,
+            headers: {
+                Authorization: "Bearer " + this.token,
+                Accept: 'application/json',
+                ...options?.headers
+            },
+            data: options?.body
+        })
+
+        return data;
+
+    }
+
+    /**
      * Function used to convert the hex string to rgb array.
      * This is used in makeCodeImage functions!
      * 

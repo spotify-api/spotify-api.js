@@ -1,7 +1,6 @@
 import { Image, PagingOptions, RawObject } from "../Types";
 import Playlist from "./Playlist";
 import Client from "../Client";
-import Collection from "../Collection";
  
 /**
  * Spotify Api's User object!

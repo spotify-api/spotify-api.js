@@ -2,7 +2,7 @@ import Album from '../structures/Album';
 import { handleError, UnexpectedError } from '../Errors';
 import BaseManager from './BaseManager';
 import Track from '../structures/Track';
-import { GetMultipleOptions, PagingOptions, SearchOptions } from '../Types';
+import { GetMultipleOptions, Paging, PagingOptions, SearchOptions } from '../Types';
 
 /**
  * Manages all the spotify album api endpoints
@@ -16,24 +16,36 @@ export default class AlbumManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.albums.search('some query');
      */
-    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Album[]> {
+    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Album>> {
 
         try{
-            const albums = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'album',
                     q: query
                 }
-            })).albums.items.map(x => new Album(x, this.client));
+            })).albums
+
+            const albums = data.items.map(x => new Album(x, this.client));
 
             if(this.client.cacheOptions.cacheAlbums){
                 for(let i = 0; i < albums.length; i++) this.client.cache.albums.set(albums[i].id, albums[i]);
             }
 
-            return albums;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: albums
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
@@ -105,18 +117,29 @@ export default class AlbumManager extends BaseManager{
      * @param options Basic PagingOptions
      * @example await client.albums.getTracks('id');
      */
-    async getTracks(id: string, options: PagingOptions = { market: 'US' }): Promise<Track[]> {
+    async getTracks(id: string, options: PagingOptions = { market: 'US' }): Promise<Paging<Track>> {
 
         try{
-            const tracks = (await this.fetch(`/albums/${id}/tracks`)).items.map(x => new Track(x, this.client));
+            const data = (await this.fetch(`/albums/${id}/tracks`, { params: options }));
+            const tracks = data.items.map(x => new Track(x, this.client));
 
             if(this.client.cacheOptions.cacheTracks){
                 for(let i = 0; i < tracks.length; i++) this.client.cache.tracks.set(tracks[i].id, tracks[i]);
             }
 
-            return tracks;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: tracks
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

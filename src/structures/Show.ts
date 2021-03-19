@@ -1,7 +1,6 @@
 import { Copyright, Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from "../Types";
 import Episode from "./Episode";
 import Client from "../Client";
-import Collection from "../Collection";
 
 /**
  * Spotify Api's Show Object!
