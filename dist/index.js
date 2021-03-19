@@ -65,4 +65,5 @@ var Artist_1 = require("./structures/Artist");
 Object.defineProperty(exports, "Artist", { enumerable: true, get: function () { return __importDefault(Artist_1).default; } });
 __exportStar(require("./Errors"), exports);
 __exportStar(require("./Types"), exports);
+__exportStar(require("./UserClient"), exports);
 exports.default = Client_1.default;

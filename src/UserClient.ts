@@ -5,13 +5,14 @@ import Artist from './structures/Artist';
 import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
 import Album from './structures/Album';
 
-/**
- * Saved album structure!
- */
-export interface SavedAlbum{
-    addedAt: string;
-    album: Album;
-}
+// Saved element structure
+export interface SavedStructure { addedAt: string };
+
+// Saved album object structure
+export interface SavedAlbum extends SavedStructure { album: Album };
+
+// Saved track object structure
+export interface SavedTrack extends SavedStructure { track: Track };
 
 /**
  * A class which accesses the current user endpoints!
@@ -458,6 +459,103 @@ export default class UserClient{
 
         try{
             return await this.client.util.fetch('/me/albums/contains', {
+                params: {
+                    ids: ids.join(',')
+                }
+            })
+        }catch(e){
+            return handleError(e) || [];
+        }
+
+    }
+
+    /**
+     * Returns the saved tracks of the current user
+     * 
+     * @param options Basic PagingOptions
+     * @example const tracks = await client.user.getTracks();
+     */
+     async getTracks(options?: PagingOptions): Promise<Paging<SavedTrack>> {
+
+        try{
+            const data = await this.client.util.fetch('/me/tracks', { params: options });
+
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => ({
+                    addedAt: x.added_at,
+                    album: new Track(x.album, this.client)
+                }))
+            }
+        }catch(e){
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+
+    }
+
+    /**
+     * Add tracks to your spotify savelist!
+     * 
+     * @param ids Spotify tracks ids to add to your save list!
+     * @example await client.user.addTracks('id1', 'id2');
+     */
+    async addTracks(...ids: string[]): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch('/me/tracks', {
+                method: 'PUT',
+                params: {
+                    ids: ids.join(',')
+                }
+            })
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
+    /**
+     * Remove tracks from your spotify savelist!
+     * 
+     * @param ids Spotify tracks ids to remove from your save list!
+     * @example await client.user.deleteTracks('id1', 'id2');
+     */
+    async deleteTracks(...ids: string[]): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch('/me/tracks', {
+                method: 'DELETE',
+                params: {
+                    ids: ids.join(',')
+                }
+            })
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
+    /**
+     * Check if those tracks exist on the current user's library!
+     * 
+     * @param ids Array of spotify track ids
+     * @example const [hasFirstTrack, hasSecondTrack] = await client.user.hasTracks('id1', 'id2');
+     */
+    async hasTracks(...ids: string[]): Promise<boolean[]> {
+
+        try{
+            return await this.client.util.fetch('/me/tracks/contains', {
                 params: {
                     ids: ids.join(',')
                 }

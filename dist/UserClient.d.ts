@@ -3,12 +3,14 @@ import Track from './structures/Track';
 import Artist from './structures/Artist';
 import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
 import Album from './structures/Album';
-/**
- * Saved album structure!
- */
-export interface SavedAlbum {
+export interface SavedStructure {
     addedAt: string;
+}
+export interface SavedAlbum extends SavedStructure {
     album: Album;
+}
+export interface SavedTrack extends SavedStructure {
+    track: Track;
 }
 /**
  * A class which accesses the current user endpoints!
@@ -158,4 +160,32 @@ export default class UserClient {
      * @example const [hasFirstAlbum, hasSecondAlbum] = await client.user.hasAlbums('id1', 'id2');
      */
     hasAlbums(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Returns the saved tracks of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const tracks = await client.user.getTracks();
+     */
+    getTracks(options?: PagingOptions): Promise<Paging<SavedTrack>>;
+    /**
+     * Add tracks to your spotify savelist!
+     *
+     * @param ids Spotify tracks ids to add to your save list!
+     * @example await client.user.addTracks('id1', 'id2');
+     */
+    addTracks(...ids: string[]): Promise<boolean>;
+    /**
+     * Remove tracks from your spotify savelist!
+     *
+     * @param ids Spotify tracks ids to remove from your save list!
+     * @example await client.user.deleteTracks('id1', 'id2');
+     */
+    deleteTracks(...ids: string[]): Promise<boolean>;
+    /**
+     * Check if those tracks exist on the current user's library!
+     *
+     * @param ids Array of spotify track ids
+     * @example const [hasFirstTrack, hasSecondTrack] = await client.user.hasTracks('id1', 'id2');
+     */
+    hasTracks(...ids: string[]): Promise<boolean[]>;
 }

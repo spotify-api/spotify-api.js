@@ -8,6 +8,9 @@ const Errors_1 = require("./Errors");
 const Track_1 = __importDefault(require("./structures/Track"));
 const Artist_1 = __importDefault(require("./structures/Artist"));
 const Album_1 = __importDefault(require("./structures/Album"));
+;
+;
+;
 /**
  * A class which accesses the current user endpoints!
  */
@@ -377,6 +380,92 @@ class UserClient {
     async hasAlbums(...ids) {
         try {
             return await this.client.util.fetch('/me/albums/contains', {
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
+     * Returns the saved tracks of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const tracks = await client.user.getTracks();
+     */
+    async getTracks(options) {
+        try {
+            const data = await this.client.util.fetch('/me/tracks', { params: options });
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => ({
+                    addedAt: x.added_at,
+                    album: new Track_1.default(x.album, this.client)
+                }))
+            };
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+    }
+    /**
+     * Add tracks to your spotify savelist!
+     *
+     * @param ids Spotify tracks ids to add to your save list!
+     * @example await client.user.addTracks('id1', 'id2');
+     */
+    async addTracks(...ids) {
+        try {
+            await this.client.util.fetch('/me/tracks', {
+                method: 'PUT',
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Remove tracks from your spotify savelist!
+     *
+     * @param ids Spotify tracks ids to remove from your save list!
+     * @example await client.user.deleteTracks('id1', 'id2');
+     */
+    async deleteTracks(...ids) {
+        try {
+            await this.client.util.fetch('/me/tracks', {
+                method: 'DELETE',
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Check if those tracks exist on the current user's library!
+     *
+     * @param ids Array of spotify track ids
+     * @example const [hasFirstTrack, hasSecondTrack] = await client.user.hasTracks('id1', 'id2');
+     */
+    async hasTracks(...ids) {
+        try {
+            return await this.client.util.fetch('/me/tracks/contains', {
                 params: {
                     ids: ids.join(',')
                 }
