@@ -1,6 +1,6 @@
 import { handleError, UnexpectedError } from "../Errors";
 import Episode from "../structures/Episode";
-import { GetMultipleOptions, SearchOptions } from "../Types";
+import { GetMultipleOptions, Paging, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 
 /**
@@ -15,24 +15,36 @@ export default class EpisodeManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.episodes.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Episode[]> {
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Episode>> {
 
         try{
-            const episodes = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'episode',
                     q: query
                 }
-            })).episodes.items.map(x => new Episode(x, this.client));
+            }));
+            
+            const episodes = data.episodes.items.map(x => new Episode(x, this.client));
 
             if(this.client.cacheOptions.cacheEpisodes){
                 for(let i = 0; i < episodes.length; i++) this.client.cache.episodes.set(episodes[i].id, episodes[i]);
             }
 
-            return episodes;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: episodes
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
