@@ -1,6 +1,6 @@
 import Artist from '../structures/Artist';
 import BaseManager from './BaseManager';
-import { GetMultipleOptions, PagingOptions, SearchOptions } from '../Types';
+import { GetMultipleOptions, Paging, PagingOptions, SearchOptions } from '../Types';
 import Album from '../structures/Album';
 import Track from '../structures/Track';
 /**
@@ -14,7 +14,7 @@ export default class ArtistManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.artists.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Artist[]>;
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>>;
     /**
      * Get a spotify artist information by spotify id!
      *
@@ -39,7 +39,7 @@ export default class ArtistManager extends BaseManager {
      * @param options Basic PagingOptions
      * @example await client.artists.getAlbums('id');
      */
-    getAlbums(id: string, options?: PagingOptions): Promise<Album[]>;
+    getAlbums(id: string, options?: PagingOptions): Promise<Paging<Album>>;
     /**
      * Returns the top tracks of the artist
      *

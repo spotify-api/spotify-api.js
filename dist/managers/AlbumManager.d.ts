@@ -1,7 +1,7 @@
 import Album from '../structures/Album';
 import BaseManager from './BaseManager';
 import Track from '../structures/Track';
-import { GetMultipleOptions, PagingOptions, SearchOptions } from '../Types';
+import { GetMultipleOptions, Paging, PagingOptions, SearchOptions } from '../Types';
 /**
  * Manages all the spotify album api endpoints
  */
@@ -13,7 +13,7 @@ export default class AlbumManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.albums.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Album[]>;
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Album>>;
     /**
      * Returns spotify album information by id
      *
@@ -39,6 +39,6 @@ export default class AlbumManager extends BaseManager {
      * @param options Basic PagingOptions
      * @example await client.albums.getTracks('id');
      */
-    getTracks(id: string, options?: PagingOptions): Promise<Track[]>;
+    getTracks(id: string, options?: PagingOptions): Promise<Paging<Track>>;
 }
 export type { Album };

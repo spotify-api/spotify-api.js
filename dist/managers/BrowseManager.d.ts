@@ -1,4 +1,4 @@
-import { Category } from "../Types";
+import { Category, Paging, PagingOptions } from "../Types";
 import Playlist from "../structures/Playlist";
 import Album from "../structures/Album";
 import BaseManager from "./BaseManager";
@@ -6,7 +6,7 @@ import BaseManager from "./BaseManager";
  * Return object structure by BrowseManager.getFeatured();
  */
 export interface FeaturedPlaylists {
-    readonly playlists: Playlist[];
+    readonly playlists: Paging<Playlist>;
     message: string;
 }
 /**
@@ -24,9 +24,10 @@ export default class BrowseManager extends BaseManager {
     /**
      * Returns an array of spotify categories
      *
+     * @param options Basic PagingOptions
      * @example client.browse.getCategories()
      */
-    getCategories(): Promise<Category[]>;
+    getCategories(options?: PagingOptions): Promise<Paging<Category>>;
     /**
      * Returns an array of playlists of the category!
      *
@@ -34,25 +35,21 @@ export default class BrowseManager extends BaseManager {
      * @param options Options such as limit and offset
      * @example client.browse.getCategoryPlaylists('party');
      */
-    getCategoryPlaylists(id: string, options?: {
-        limit?: number;
-        offset?: number;
-    }): Promise<Playlist[]>;
+    getCategoryPlaylists(id: string, options?: PagingOptions): Promise<Paging<Playlist>>;
     /**
      * Returns the featured playlists of the spotify
+     *
      * @param options Options such as limit and offset
      * @example client.browse.getFeaturedPlaylists();
      */
-    getFeaturedPlaylists(options?: {
-        limit?: number;
-        offset?: number;
-    }): Promise<FeaturedPlaylists | null>;
+    getFeaturedPlaylists(options?: PagingOptions): Promise<FeaturedPlaylists | null>;
     /**
      * Returns new releases of albums on spotify
      *
+     * @param options Basic PagingOptions
      * @example await client.browse.getNewReleases();
      */
-    getNewReleases(): Promise<Album[]>;
+    getNewReleases(options?: PagingOptions): Promise<Paging<Album>>;
     /**
      * Returns all markets present in spotify!
      *

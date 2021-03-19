@@ -38,21 +38,32 @@ class PlaylistManager extends BaseManager_1.default {
      */
     async search(query, options) {
         try {
-            const playlists = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'playlist',
                     q: query
                 }
-            })).playlists.items.map(x => new Playlist_1.default(x, this.client));
+            }));
+            const playlists = data.playlists.items.map(x => new Playlist_1.default(x, this.client));
             if (this.client.cacheOptions.cachePlaylists) {
                 for (let i = 0; i < playlists.length; i++)
                     this.client.cache.playlists.set(playlists[i].id, playlists[i]);
             }
-            return playlists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: playlists
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -90,13 +101,22 @@ class PlaylistManager extends BaseManager_1.default {
      */
     async getTracks(id, options = { market: 'US' }) {
         try {
-            const tracks = (await this.fetch(`/playlists/${id}/tracks`, {
-                params: options
-            })).items.map(x => Playlist_1.PlaylistTrack(x, this.client));
-            return tracks;
+            const data = (await this.fetch(`/playlists/${id}/tracks`, { params: options }));
+            const tracks = data.items.map(x => Playlist_1.PlaylistTrack(x, this.client));
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: tracks
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**

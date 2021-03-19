@@ -21,21 +21,32 @@ class ArtistManager extends BaseManager_1.default {
      */
     async search(query, options) {
         try {
-            const artists = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'artist',
                     q: query
                 }
-            })).artists.items.map(x => new Artist_1.default(x, this.client));
+            }));
+            const artists = data.items.map(x => new Artist_1.default(x, this.client));
             if (this.client.cacheOptions.cacheArtists) {
                 for (let i = 0; i < artists.length; i++)
                     this.client.cache.artists.set(artists[i].id, artists[i]);
             }
-            return artists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: artists
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -100,17 +111,26 @@ class ArtistManager extends BaseManager_1.default {
      */
     async getAlbums(id, options = { market: 'US' }) {
         try {
-            const albums = (await this.fetch(`/artists/${id}/albums`, {
-                params: options
-            })).items.map(x => new Album_1.default(x, this.client));
+            const data = (await this.fetch(`/artists/${id}/albums`, { params: options }));
+            const albums = data.items.map(x => new Album_1.default(x, this.client));
             if (this.client.cacheOptions.cacheAlbums) {
                 for (let i = 0; i < albums.length; i++)
                     this.client.cache.albums.set(albums[i].id, albums[i]);
             }
-            return albums;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: albums
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**

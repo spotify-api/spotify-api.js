@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Util_1 = __importDefault(require("./Util"));
-const Collection_1 = __importDefault(require("./Collection"));
+const Collection_1 = __importDefault(require("./utils/Collection"));
 const UserClient_1 = __importDefault(require("./UserClient"));
 const AuthManager_1 = __importDefault(require("./managers/AuthManager"));
 const UserManager_1 = __importDefault(require("./managers/UserManager"));

@@ -26,12 +26,12 @@ function SearchManager(client) {
             options.type = (Array.isArray(options.type) ? options.type.join(',') : (options.type || defaultTypes.join(',')));
             const data = await client.util.fetch('/search', { params: options });
             return {
-                get shows() { return data.shows ? data.shows.items.map(x => new Show_1.default(x, client)) : []; },
-                get tracks() { return data.tracks ? data.tracks.items.map(x => new Track_1.default(x, client)) : []; },
-                get albums() { return data.albums ? data.albums.items.map(x => new Album_1.default(x, client)) : []; },
-                get artists() { return data.artists ? data.artists.items.map(x => new Artist_1.default(x, client)) : []; },
-                get episodes() { return data.episodes ? data.episodes.items.map(x => new Episode_1.default(x, client)) : []; },
-                get playlists() { return data.playlists ? data.playlists.items.map(x => new Playlist_1.default(x, client)) : []; }
+                get shows() { return makePaging(data.shows, Show_1.default, client); },
+                get tracks() { return makePaging(data.tracks, Track_1.default, client); },
+                get albums() { return makePaging(data.albums, Album_1.default, client); },
+                get artists() { return makePaging(data.artists, Artist_1.default, client); },
+                get episodes() { return makePaging(data.episodes, Episode_1.default, client); },
+                get playlists() { return makePaging(data.playlists, Playlist_1.default, client); }
             };
         }
         catch (e) {
@@ -41,3 +41,16 @@ function SearchManager(client) {
     return search;
 }
 exports.default = SearchManager;
+function makePaging(data, type, client) {
+    return data ? {
+        limit: data.limit,
+        offset: data.offset,
+        total: data.total,
+        items: data.items.map(x => new type(x, client))
+    } : {
+        limit: 0,
+        offset: 0,
+        total: 0,
+        items: []
+    };
+}

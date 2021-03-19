@@ -1,5 +1,5 @@
 import Client from '../Client';
-import { SearchOptions } from '../Types';
+import { Paging, SearchOptions } from '../Types';
 import Album from '../structures/Album';
 import Artist from '../structures/Artist';
 import Episode from '../structures/Episode';
@@ -14,12 +14,12 @@ export declare type SearchMethod = (query: string, options: SearchOptions) => Pr
  * Object structure returned by client.search
  */
 export interface Search {
-    readonly shows: Show[];
-    readonly tracks: Track[];
-    readonly albums: Album[];
-    readonly artists: Artist[];
-    readonly episodes: Episode[];
-    readonly playlists: Playlist[];
+    readonly shows: Paging<Show>;
+    readonly tracks: Paging<Track>;
+    readonly albums: Paging<Album>;
+    readonly artists: Paging<Artist>;
+    readonly episodes: Paging<Episode>;
+    readonly playlists: Paging<Playlist>;
 }
 /**
  * Manager for spotify search api

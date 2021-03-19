@@ -46,17 +46,26 @@ class UserManager extends BaseManager_1.default {
      */
     async getPlaylists(id, options) {
         try {
-            const playlists = (await this.fetch(`/users/${id}/playlists`, {
-                params: options
-            })).items.map(x => new Playlist_1.default(x, this.client));
+            const data = (await this.fetch(`/users/${id}/playlists`, { params: options }));
+            const playlists = data.items.map(x => new Playlist_1.default(x, this.client));
             if (this.client.cacheOptions.cachePlaylists) {
                 for (let i = 0; i < playlists.length; i++)
                     this.client.cache.playlists.set(playlists[i].id, playlists[i]);
             }
-            return playlists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: playlists
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
 }

@@ -1,6 +1,6 @@
 import Show from "../structures/Show";
 import { handleError, UnexpectedError } from "../Errors";
-import { GetMultipleOptions, PagingOptions, RawObject, SearchOptions } from "../Types";
+import { GetMultipleOptions, Paging, PagingOptions, RawObject, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 
@@ -16,24 +16,36 @@ export default class ShowManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.shows.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Show[]> {
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Show>> {
 
         try{
-            const shows = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'show',
                     q: query
                 }
-            })).shows.items.map(x => new Show(x, this.client));
+            }));
+
+            const shows = data.shows.items.map(x => new Show(x, this.client));
 
             if(this.client.cacheOptions.cacheShows){
                 for(let i = 0; i < shows.length; i++) this.client.cache.shows.set(shows[i].id, shows[i]);
             }
 
-            return shows;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: shows
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
@@ -103,22 +115,31 @@ export default class ShowManager extends BaseManager{
      * 
      * @param id Spotify show id
      * @param options Basic PagingOptions
-     * @example client.shows.getEpisodes('id');
+     * @example await client.shows.getEpisodes('id');
      */
-    async getEpisodes(id: string, options: PagingOptions = { market: 'US' }): Promise<Episode[]> {
+    async getEpisodes(id: string, options: PagingOptions = { market: 'US' }): Promise<Paging<Episode>> {
 
         try{
-            const data = (await this.fetch(`/shows/${id}/episodes`, { 
-                params: options as RawObject
-            })).items.map(x => new Episode(x, this.client)) as Episode[];
+            const data = (await this.fetch(`/shows/${id}/episodes`, { params: options as RawObject }));
+            const episodes = data.items.map(x => new Episode(x, this.client)) as Episode[];
 
             if(this.client.cacheOptions.cacheShows){
-                for(let i = 0; i < data.length; i++) this.client.cache.episodes.set(data[i].id, data[i]);
+                for(let i = 0; i < episodes.length; i++) this.client.cache.episodes.set(episodes[i].id, episodes[i]);
             }
 
-            return data;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: episodes
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

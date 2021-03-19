@@ -1,6 +1,7 @@
 import Playlist from '../structures/Playlist';
 import User from '../structures/User';
 import BaseManager from './BaseManager';
+import { Paging } from '../Types';
 /**
  * A class which manages the users api
  */
@@ -26,6 +27,6 @@ export default class UserManager extends BaseManager {
     getPlaylists(id: string, options?: {
         limit?: number;
         offset?: number;
-    }): Promise<Playlist[]>;
+    }): Promise<Paging<Playlist>>;
 }
 export type { User };

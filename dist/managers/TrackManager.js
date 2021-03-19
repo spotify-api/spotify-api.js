@@ -19,22 +19,33 @@ class TrackManager extends BaseManager_1.default {
      */
     async search(query, options) {
         try {
-            const tracks = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'track',
                     q: query
                 }
-            })).tracks.items.map(x => new Track_1.default(x, this.client));
+            }));
+            const tracks = data.tracks.items.map(x => new Track_1.default(x, this.client));
             ;
             if (this.client.cacheOptions.cacheTracks) {
                 for (let i = 0; i < tracks.length; i++)
                     this.client.cache.tracks.set(tracks[i].id, tracks[i]);
             }
-            return tracks;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: tracks
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**

@@ -1,4 +1,4 @@
-import { Copyright, Image, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from "../Types";
+import { Copyright, Image, Paging, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from "../Types";
 import Episode from "./Episode";
 import Client from "../Client";
 /**
@@ -46,5 +46,5 @@ export default class Show {
      * @param options Basic PagingOptions
      * @example await show.getEpisodes();
      */
-    getEpisodes(options?: PagingOptions): Promise<Episode[]>;
+    getEpisodes(options?: PagingOptions): Promise<Paging<Episode>>;
 }

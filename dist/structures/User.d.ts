@@ -1,4 +1,4 @@
-import { Image, PagingOptions, RawObject } from "../Types";
+import { Image, Paging, PagingOptions, RawObject } from "../Types";
 import Playlist from "./Playlist";
 import Client from "../Client";
 /**
@@ -34,7 +34,7 @@ export default class User {
      * @param options Options containing the offset and limit!
      * @example await user.getPlaylists();
      */
-    getPlaylists(options?: PagingOptions): Promise<Playlist[]>;
+    getPlaylists(options?: PagingOptions): Promise<Paging<Playlist>>;
     /**
      * Verify if the user follow a playlist by its id
      *

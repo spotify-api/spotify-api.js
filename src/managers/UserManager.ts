@@ -1,7 +1,7 @@
 import Playlist from '../structures/Playlist';
 import User from '../structures/User';
 import BaseManager from './BaseManager';
-import { RawObject } from '../Types';
+import { Paging, RawObject } from '../Types';
 import { handleError } from '../Errors';
 
 /**
@@ -46,20 +46,29 @@ export default class UserManager extends BaseManager{
     async getPlaylists(id: string, options?: {
         limit?: number;
         offset?: number;
-    }): Promise<Playlist[]> {
+    }): Promise<Paging<Playlist>> {
         
         try{
-            const playlists = (await this.fetch(`/users/${id}/playlists`, { 
-                params: options as RawObject 
-            })).items.map(x => new Playlist(x, this.client)) as Playlist[];
+            const data = (await this.fetch(`/users/${id}/playlists`, { params: options as RawObject }))
+            const playlists = data.items.map(x => new Playlist(x, this.client)) as Playlist[];
 
             if(this.client.cacheOptions.cachePlaylists){
                 for(let i = 0; i < playlists.length; i++) this.client.cache.playlists.set(playlists[i].id, playlists[i]);
             }
 
-            return playlists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: playlists
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

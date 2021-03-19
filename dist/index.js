@@ -23,7 +23,7 @@ var Client_2 = require("./Client");
 Object.defineProperty(exports, "Client", { enumerable: true, get: function () { return __importDefault(Client_2).default; } });
 var UserClient_1 = require("./UserClient");
 Object.defineProperty(exports, "UserClient", { enumerable: true, get: function () { return __importDefault(UserClient_1).default; } });
-var Collection_1 = require("./Collection");
+var Collection_1 = require("./utils/Collection");
 Object.defineProperty(exports, "Collection", { enumerable: true, get: function () { return __importDefault(Collection_1).default; } });
 var AuthManager_1 = require("./managers/AuthManager");
 Object.defineProperty(exports, "AuthManager", { enumerable: true, get: function () { return __importDefault(AuthManager_1).default; } });

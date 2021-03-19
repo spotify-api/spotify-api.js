@@ -1,6 +1,6 @@
 import Client from '../Client';
 import Track from './Track';
-import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions } from '../Types';
+import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions, Paging } from '../Types';
 import Artist from './Artist';
 /**
  * Spotify api's album object!
@@ -69,6 +69,6 @@ declare class Album {
      * @param options Basic PagingOptions
      * @example await album.getTracks();
      */
-    getTracks(options?: PagingOptions): Promise<Track[]>;
+    getTracks(options?: PagingOptions): Promise<Paging<Track>>;
 }
 export default Album;

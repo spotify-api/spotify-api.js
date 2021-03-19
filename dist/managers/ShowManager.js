@@ -20,21 +20,32 @@ class ShowManager extends BaseManager_1.default {
      */
     async search(query, options) {
         try {
-            const shows = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'show',
                     q: query
                 }
-            })).shows.items.map(x => new Show_1.default(x, this.client));
+            }));
+            const shows = data.shows.items.map(x => new Show_1.default(x, this.client));
             if (this.client.cacheOptions.cacheShows) {
                 for (let i = 0; i < shows.length; i++)
                     this.client.cache.shows.set(shows[i].id, shows[i]);
             }
-            return shows;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: shows
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -96,21 +107,30 @@ class ShowManager extends BaseManager_1.default {
      *
      * @param id Spotify show id
      * @param options Basic PagingOptions
-     * @example client.shows.getEpisodes('id');
+     * @example await client.shows.getEpisodes('id');
      */
     async getEpisodes(id, options = { market: 'US' }) {
         try {
-            const data = (await this.fetch(`/shows/${id}/episodes`, {
-                params: options
-            })).items.map(x => new Episode_1.default(x, this.client));
+            const data = (await this.fetch(`/shows/${id}/episodes`, { params: options }));
+            const episodes = data.items.map(x => new Episode_1.default(x, this.client));
             if (this.client.cacheOptions.cacheShows) {
-                for (let i = 0; i < data.length; i++)
-                    this.client.cache.episodes.set(data[i].id, data[i]);
+                for (let i = 0; i < episodes.length; i++)
+                    this.client.cache.episodes.set(episodes[i].id, episodes[i]);
             }
-            return data;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: episodes
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
 }

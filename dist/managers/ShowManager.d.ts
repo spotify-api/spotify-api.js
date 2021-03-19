@@ -1,5 +1,5 @@
 import Show from "../structures/Show";
-import { GetMultipleOptions, PagingOptions, SearchOptions } from "../Types";
+import { GetMultipleOptions, Paging, PagingOptions, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 import Episode from "../structures/Episode";
 /**
@@ -13,7 +13,7 @@ export default class ShowManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.shows.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Show[]>;
+    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Show>>;
     /**
      * Get a spotify show information by spotify id!
      *
@@ -37,8 +37,8 @@ export default class ShowManager extends BaseManager {
      *
      * @param id Spotify show id
      * @param options Basic PagingOptions
-     * @example client.shows.getEpisodes('id');
+     * @example await client.shows.getEpisodes('id');
      */
-    getEpisodes(id: string, options?: PagingOptions): Promise<Episode[]>;
+    getEpisodes(id: string, options?: PagingOptions): Promise<Paging<Episode>>;
 }
 export type { Show };

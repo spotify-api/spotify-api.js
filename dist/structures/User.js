@@ -39,8 +39,7 @@ class User {
      * @example await user.getPlaylists();
      */
     async getPlaylists(options) {
-        const playlists = await this.client.users.getPlaylists(this.id, options);
-        return playlists;
+        return await this.client.users.getPlaylists(this.id, options);
     }
     /**
      * Verify if the user follow a playlist by its id

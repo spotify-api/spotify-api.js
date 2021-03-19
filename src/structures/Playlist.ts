@@ -1,7 +1,7 @@
 import User from './User';
 import Track from './Track';
 import Episode from './Episode';
-import { Image, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
+import { Image, Paging, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 
 /**
@@ -126,7 +126,7 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
      * @param options Options such as limit and offset
      * @example playlist.getTracks()
      */
-    async getTracks(options?: PagingOptions): Promise<PlaylistTrackType[]> {
+    async getTracks(options?: PagingOptions): Promise<Paging<PlaylistTrackType>> {
         return await this.client.playlists.getTracks(this.id, options);
     }
 

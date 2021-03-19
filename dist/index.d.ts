@@ -3,7 +3,7 @@ export declare const version = "8.0.0";
 export { default as Util, FetchOptions, resolveURI, URIData } from './Util';
 export { default as Client, ClientOptions } from './Client';
 export { default as UserClient } from './UserClient';
-export { default as Collection } from './Collection';
+export { default as Collection } from './utils/Collection';
 export { default as AuthManager, GetUserTokenOptions, AuthRefresh } from './managers/AuthManager';
 export { default as BaseManager } from './managers/BaseManager';
 export { default as UserManager } from './managers/UserManager';

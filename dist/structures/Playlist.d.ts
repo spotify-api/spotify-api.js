@@ -1,7 +1,7 @@
 import User from './User';
 import Track from './Track';
 import Episode from './Episode';
-import { Image, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
+import { Image, Paging, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 /**
  * Return object by PlaylistTrack function!
@@ -75,7 +75,7 @@ export default class Playlist {
      * @param options Options such as limit and offset
      * @example playlist.getTracks()
      */
-    getTracks(options?: PagingOptions): Promise<PlaylistTrackType[]>;
+    getTracks(options?: PagingOptions): Promise<Paging<PlaylistTrackType>>;
     /**
      * Returns a code image of the Playlist!
      * @param color Hex color code

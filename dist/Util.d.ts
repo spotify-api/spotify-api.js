@@ -36,6 +36,14 @@ export default class Util {
      */
     fetch(url: string, options?: FetchOptions): Promise<any>;
     /**
+     * Similar to util.fetch but you can fetch a custom url instead of fetching path with constant base url
+     *
+     * @param url URL of string
+     * @param options Basic FetchOptions
+     * @example await util.fetchURL('url');
+     */
+    fetchURL(url: string, options?: FetchOptions): Promise<any>;
+    /**
      * Function used to convert the hex string to rgb array.
      * This is used in makeCodeImage functions!
      *

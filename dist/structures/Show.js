@@ -57,7 +57,7 @@ class Show {
      */
     async getEpisodes(options) {
         const episodes = await this.client.shows.getEpisodes(this.id, options);
-        this.episodes = episodes;
+        this.episodes = episodes.items;
         return episodes;
     }
 }

@@ -1,5 +1,5 @@
 import Track from '../structures/Track';
-import { GetMultipleOptions, SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
+import { GetMultipleOptions, Paging, SearchOptions, TrackAudioAnalysis, TrackAudioFeatures } from '../Types';
 import { handleError, UnexpectedError } from '../Errors';
 import BaseManager from './BaseManager';
 
@@ -15,24 +15,36 @@ export default class TrackManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.tracks.search('some query');
      */
-    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Track[]> {
+    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Track>> {
 
         try{
-            const tracks = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'track',
                     q: query
                 }
-            })).tracks.items.map(x => new Track(x, this.client));;
+            }))
+            
+            const tracks = data.tracks.items.map(x => new Track(x, this.client));;
 
             if(this.client.cacheOptions.cacheTracks){
                 for(let i = 0; i < tracks.length; i++) this.client.cache.tracks.set(tracks[i].id, tracks[i]);
             }
 
-            return tracks;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: tracks
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

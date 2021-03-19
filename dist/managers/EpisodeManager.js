@@ -19,21 +19,32 @@ class EpisodeManager extends BaseManager_1.default {
      */
     async search(query, options) {
         try {
-            const episodes = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'episode',
                     q: query
                 }
-            })).episodes.items.map(x => new Episode_1.default(x, this.client));
+            }));
+            const episodes = data.episodes.items.map(x => new Episode_1.default(x, this.client));
             if (this.client.cacheOptions.cacheEpisodes) {
                 for (let i = 0; i < episodes.length; i++)
                     this.client.cache.episodes.set(episodes[i].id, episodes[i]);
             }
-            return episodes;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: episodes
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**

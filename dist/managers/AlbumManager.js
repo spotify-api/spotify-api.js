@@ -20,21 +20,32 @@ class AlbumManager extends BaseManager_1.default {
      */
     async search(query, options) {
         try {
-            const albums = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'album',
                     q: query
                 }
-            })).albums.items.map(x => new Album_1.default(x, this.client));
+            })).albums;
+            const albums = data.albums.items.map(x => new Album_1.default(x, this.client));
             if (this.client.cacheOptions.cacheAlbums) {
                 for (let i = 0; i < albums.length; i++)
                     this.client.cache.albums.set(albums[i].id, albums[i]);
             }
-            return albums;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: albums
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -100,15 +111,26 @@ class AlbumManager extends BaseManager_1.default {
      */
     async getTracks(id, options = { market: 'US' }) {
         try {
-            const tracks = (await this.fetch(`/albums/${id}/tracks`)).items.map(x => new Track_1.default(x, this.client));
+            const data = (await this.fetch(`/albums/${id}/tracks`, { params: options }));
+            const tracks = data.items.map(x => new Track_1.default(x, this.client));
             if (this.client.cacheOptions.cacheTracks) {
                 for (let i = 0; i < tracks.length; i++)
                     this.client.cache.tracks.set(tracks[i].id, tracks[i]);
             }
-            return tracks;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: tracks
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
 }

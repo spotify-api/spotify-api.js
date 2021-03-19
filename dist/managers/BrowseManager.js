@@ -37,19 +37,31 @@ class BrowseManager extends BaseManager_1.default {
     /**
      * Returns an array of spotify categories
      *
+     * @param options Basic PagingOptions
      * @example client.browse.getCategories()
      */
-    async getCategories() {
+    async getCategories(options) {
         try {
-            const categories = (await this.fetch('/browse/categories')).categories.items;
+            const data = (await this.fetch('/browse/categories', { params: options })).categories;
+            const categories = data.items;
             if (this.client.cacheOptions.cacheCategories) {
                 for (let i = 0; i < categories.length; i++)
                     this.client.cache.categories.set(categories[i].id, categories[i]);
             }
-            return categories;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: categories
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -61,32 +73,47 @@ class BrowseManager extends BaseManager_1.default {
      */
     async getCategoryPlaylists(id, options) {
         try {
-            const playlists = (await this.fetch(`/browse/categories/${id}/playlists`, {
-                params: options
-            })).playlists.items.map(x => new Playlist_1.default(x, this.client));
+            const data = (await this.fetch(`/browse/categories/${id}/playlists`, { params: options })).playlists;
+            const playlists = data.items.map(x => new Playlist_1.default(x, this.client));
             if (this.client.cacheOptions.cachePlaylists) {
                 for (let i = 0; i < playlists.length; i++)
                     this.client.cache.playlists.set(playlists[i].id, playlists[i]);
             }
-            return playlists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: playlists
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
      * Returns the featured playlists of the spotify
+     *
      * @param options Options such as limit and offset
      * @example client.browse.getFeaturedPlaylists();
      */
     async getFeaturedPlaylists(options) {
         try {
-            const data = await this.fetch('/browse/featured-playlists');
+            const data = (await this.fetch('/browse/featured-playlists', { params: options })).playlists;
             const client = this.client;
             return {
                 message: data.message,
                 get playlists() {
-                    return data.playlists.items.map(x => new Playlist_1.default(x, client));
+                    return {
+                        limit: data.limit,
+                        offset: data.offset,
+                        total: data.total,
+                        items: data.items.map(x => new Playlist_1.default(x, client))
+                    };
                 }
             };
         }
@@ -97,11 +124,13 @@ class BrowseManager extends BaseManager_1.default {
     /**
      * Returns new releases of albums on spotify
      *
+     * @param options Basic PagingOptions
      * @example await client.browse.getNewReleases();
      */
-    async getNewReleases() {
+    async getNewReleases(options) {
         try {
-            const albums = (await this.fetch('/browse/new-releases')).albums.items.map(x => new Album_1.default(x, this.client));
+            const data = (await this.fetch('/browse/new-releases', { params: options })).albums;
+            const albums = data.items.map(x => new Album_1.default(x, this.client));
             if (this.client.cacheOptions.cacheAlbums) {
                 for (let i = 0; i < albums.length; i++)
                     this.client.cache.albums.set(albums[i].id, albums[i]);
@@ -109,7 +138,12 @@ class BrowseManager extends BaseManager_1.default {
             return albums;
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**

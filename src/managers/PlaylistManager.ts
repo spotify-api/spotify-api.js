@@ -1,6 +1,6 @@
 import { handleError } from "../Errors";
 import Playlist, { PlaylistTrack, PlaylistTrackType } from "../structures/Playlist";
-import { Image, PagingOptions, RawObject, SearchOptions } from "../Types";
+import { Image, Paging, PagingOptions, RawObject, SearchOptions } from "../Types";
 import BaseManager from "./BaseManager";
 
 /**
@@ -15,24 +15,36 @@ export default class PlaylistManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.playlists.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Playlist[]> {
+     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>> {
 
         try{
-            const playlists = (await this.fetch('/search', {
+            const data = (await this.fetch('/search', {
                 params: {
                     ...options,
                     type: 'playlist',
                     q: query
                 }
-            })).playlists.items.map(x => new Playlist(x, this.client));
+            }));
+
+            const playlists = data.playlists.items.map(x => new Playlist(x, this.client));
 
             if(this.client.cacheOptions.cachePlaylists){
                 for(let i = 0; i < playlists.length; i++) this.client.cache.playlists.set(playlists[i].id, playlists[i]);
             }
 
-            return playlists;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: playlists
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
@@ -71,16 +83,25 @@ export default class PlaylistManager extends BaseManager{
      * @param options Basic PagingOptions
      * @example await client.playlists.getTracks('id');
      */
-    async getTracks(id: string, options: PagingOptions = { market: 'US' }): Promise<PlaylistTrackType[]> {
+    async getTracks(id: string, options: PagingOptions = { market: 'US' }): Promise<Paging<PlaylistTrackType>> {
 
         try{
-            const tracks = (await this.fetch(`/playlists/${id}/tracks`, {
-                params: options as RawObject
-            })).items.map(x => PlaylistTrack(x, this.client)) as PlaylistTrackType[];
+            const data = (await this.fetch(`/playlists/${id}/tracks`, { params: options as RawObject }));
+            const tracks = data.items.map(x => PlaylistTrack(x, this.client)) as PlaylistTrackType[];
 
-            return tracks;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: tracks
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

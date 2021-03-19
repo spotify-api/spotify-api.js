@@ -1,5 +1,5 @@
 import Client from '../Client';
-import { SearchOptions, SpotifyTypes } from '../Types';
+import { Paging, SearchOptions, SpotifyTypes } from '../Types';
 
 import Album from '../structures/Album';
 import Artist from '../structures/Artist';
@@ -20,12 +20,12 @@ export type SearchMethod = (query: string, options: SearchOptions) => Promise<Se
  * Object structure returned by client.search
  */
 export interface Search{
-    readonly shows: Show[];
-    readonly tracks: Track[];
-    readonly albums: Album[];
-    readonly artists: Artist[];
-    readonly episodes: Episode[];
-    readonly playlists: Playlist[];
+    readonly shows: Paging<Show>;
+    readonly tracks: Paging<Track>;
+    readonly albums: Paging<Album>;
+    readonly artists: Paging<Artist>;
+    readonly episodes: Paging<Episode>;
+    readonly playlists: Paging<Playlist>;
 }
 
 /**
@@ -46,12 +46,12 @@ export default function SearchManager(client: Client): SearchMethod {
             const data = await client.util.fetch('/search', { params: options });
 
             return {
-                get shows(){ return data.shows ? data.shows.items.map(x => new Show(x, client)) : [] },
-                get tracks(){ return data.tracks ? data.tracks.items.map(x => new Track(x, client)) : [] },
-                get albums(){ return data.albums ? data.albums.items.map(x => new Album(x, client)) : [] },
-                get artists(){ return data.artists ? data.artists.items.map(x => new Artist(x, client)) : [] },
-                get episodes(){ return data.episodes ? data.episodes.items.map(x => new Episode(x, client)) : [] },
-                get playlists(){ return data.playlists ? data.playlists.items.map(x => new Playlist(x, client)) : [] }
+                get shows(){ return makePaging(data.shows, Show, client) },
+                get tracks(){ return makePaging(data.tracks, Track, client) },
+                get albums(){ return makePaging(data.albums, Album, client) },
+                get artists(){ return makePaging(data.artists, Artist, client) },
+                get episodes(){ return makePaging(data.episodes, Episode, client) },
+                get playlists(){ return makePaging(data.playlists, Playlist, client) }
             } 
 
         }catch(e){
@@ -61,4 +61,24 @@ export default function SearchManager(client: Client): SearchMethod {
 
     return search;
 
+}
+
+function makePaging(
+    data, 
+    type, 
+    client: Client
+): Paging<any> {
+
+    return data ? {
+        limit: data.limit,
+        offset: data.offset,
+        total: data.total,
+        items: data.items.map(x => new type(x, client))
+    } : {
+        limit: 0,
+        offset: 0,
+        total: 0,
+        items: []
+    }
+    
 }
