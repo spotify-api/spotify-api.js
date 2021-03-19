@@ -16,4 +16,9 @@ module.exports = (client) => {
     tester('Get images of the playlist', async () => await client.playlists.getImages("2Jc6nEMO8tYZH1bUdjdroZ"), {
         check: Array.isArray
     });
+
+    // Check if user follows a playlist
+    tester('Check user follows a playlist', async () => await client.playlists.userFollows('37i9dQZF1DWUq3wF0JVtEy', 'ikaho4fxe65tww55inmxa1lrt'), {
+        check: Array.isArray
+    });
 }

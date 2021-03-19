@@ -18,7 +18,6 @@ export default class User {
     uri: string;
     images: Image[];
     type: string;
-    playlists: Playlist[];
  
     totalFollowers?: number;
  
@@ -41,7 +40,6 @@ export default class User {
         this.type = data.type;
         this.uri = data.uri;
         this.images = data.images || [];
-        this.playlists = [];
         if('followers' in data) this.totalFollowers = data.followers.total;
  
     };
@@ -62,8 +60,17 @@ export default class User {
      */
     async getPlaylists(options?: PagingOptions): Promise<Playlist[]> {
         const playlists = await this.client.users.getPlaylists(this.id, options);
-        this.playlists = playlists;
         return playlists;
+    }
+
+    /**
+     * Verify if the user follow a playlist by its id
+     * 
+     * @param id Spotify playlist id
+     * @example const follows = await user.followsPlaylist('id');
+     */
+    async followsPlaylist(id: string): Promise<boolean> {
+        return (await this.client.playlists.userFollows(id, this.id))[0] || false;
     }
  
     /**

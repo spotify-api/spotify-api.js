@@ -37,5 +37,13 @@ export default class PlaylistManager extends BaseManager {
      * @example client.playlists.getImages(id);
      */
     getImages(id: string): Promise<Image[]>;
+    /**
+     * Verify if many or some user follows a playlist!
+     *
+     * @param playlistID Spotify playlist id
+     * @param ids Array of user ids to verify
+     * @example const [firstUserFollows, secondUserFollows] = await client.playlists.userFollows('playlist_id', 'userid1', 'userid2');
+     */
+    userFollows(playlistID: string, ...ids: string[]): Promise<boolean[]>;
 }
 export type { Playlist };

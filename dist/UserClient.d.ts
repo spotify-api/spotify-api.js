@@ -51,7 +51,7 @@ export default class UserClient {
      */
     getTopArtists(options?: AffinityOptions): Promise<Artist[]>;
     /**
-     * Follow a playlist by id!
+     * Follow a playlist inshort words add the playlist to your library!
      *
      * @param id The id of the playlist!
      * @param options Options such as public!

@@ -157,4 +157,14 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
         return await this.client.user.unfollowPlaylist(this.id);
     }
 
+    /**
+     * Verify if many or some user follows a playlist!
+     * 
+     * @param playlistID Spotify playlist id
+     * @example const follows = await client.playlists.userFollows('userid1', 'userid2');
+     */
+    async userFollows(...ids: string[]): Promise<boolean> {
+        return (await this.client.playlists.userFollows(this.id, ...ids))[0] || false;
+    }
+
 };

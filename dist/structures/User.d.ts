@@ -14,7 +14,6 @@ export default class User {
     uri: string;
     images: Image[];
     type: string;
-    playlists: Playlist[];
     totalFollowers?: number;
     /**
      * The Spotify Api's User object!
@@ -36,6 +35,13 @@ export default class User {
      * @example await user.getPlaylists();
      */
     getPlaylists(options?: PagingOptions): Promise<Playlist[]>;
+    /**
+     * Verify if the user follow a playlist by its id
+     *
+     * @param id Spotify playlist id
+     * @example const follows = await user.followsPlaylist('id');
+     */
+    followsPlaylist(id: string): Promise<boolean>;
     /**
      * Returns a code image
      * @param color Hex color code

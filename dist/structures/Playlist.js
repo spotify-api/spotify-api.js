@@ -105,6 +105,32 @@ class Playlist {
     makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(this.client.util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
+    /**
+     * Follow a playlist inshort words add the playlist to your library!
+     *
+     * @param options Options such as public
+     * @example await playlist.follow();
+     */
+    async follow(options) {
+        return await this.client.user.followPlaylist(this.id, options);
+    }
+    /**
+     * Unfollow a playlist!
+     *
+     * @example await playlist.unfollow();
+     */
+    async unfollow() {
+        return await this.client.user.unfollowPlaylist(this.id);
+    }
+    /**
+     * Verify if many or some user follows a playlist!
+     *
+     * @param playlistID Spotify playlist id
+     * @example const follows = await client.playlists.userFollows('userid1', 'userid2');
+     */
+    async userFollows(...ids) {
+        return (await this.client.playlists.userFollows(this.id, ...ids))[0] || false;
+    }
 }
 exports.default = Playlist;
 ;

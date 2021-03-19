@@ -81,4 +81,26 @@ export default class Playlist {
      * @param color Hex color code
      */
     makeCodeImage(color?: string): string;
+    /**
+     * Follow a playlist inshort words add the playlist to your library!
+     *
+     * @param options Options such as public
+     * @example await playlist.follow();
+     */
+    follow(options?: {
+        public?: boolean;
+    }): Promise<boolean>;
+    /**
+     * Unfollow a playlist!
+     *
+     * @example await playlist.unfollow();
+     */
+    unfollow(): Promise<boolean>;
+    /**
+     * Verify if many or some user follows a playlist!
+     *
+     * @param playlistID Spotify playlist id
+     * @example const follows = await client.playlists.userFollows('userid1', 'userid2');
+     */
+    userFollows(...ids: string[]): Promise<boolean>;
 }

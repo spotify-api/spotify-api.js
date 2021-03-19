@@ -113,5 +113,24 @@ class PlaylistManager extends BaseManager_1.default {
             return Errors_1.handleError(e) || [];
         }
     }
+    /**
+     * Verify if many or some user follows a playlist!
+     *
+     * @param playlistID Spotify playlist id
+     * @param ids Array of user ids to verify
+     * @example const [firstUserFollows, secondUserFollows] = await client.playlists.userFollows('playlist_id', 'userid1', 'userid2');
+     */
+    async userFollows(playlistID, ...ids) {
+        try {
+            return await this.fetch(`/playlists/${playlistID}/followers/contains`, {
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
 }
 exports.default = PlaylistManager;
