@@ -9,6 +9,8 @@ const Track_1 = __importDefault(require("./structures/Track"));
 const Artist_1 = __importDefault(require("./structures/Artist"));
 const Album_1 = __importDefault(require("./structures/Album"));
 const Episode_1 = __importDefault(require("./structures/Episode"));
+const Show_1 = __importDefault(require("./structures/Show"));
+;
 ;
 ;
 ;
@@ -554,6 +556,92 @@ class UserClient {
     async hasEpisodes(...ids) {
         try {
             return await this.client.util.fetch('/me/episodes/contains', {
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
+     * Returns the saved shows of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const shows = await client.user.getShows();
+     */
+    async getShows(options) {
+        try {
+            const data = await this.client.util.fetch('/me/shows', { params: options });
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => ({
+                    addedAt: x.added_at,
+                    show: new Show_1.default(x.show, this.client)
+                }))
+            };
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+    }
+    /**
+     * Add shows to your spotify savelist!
+     *
+     * @param ids Spotify shows ids to add to your save list!
+     * @example await client.user.addShows('id1', 'id2');
+     */
+    async addShows(...ids) {
+        try {
+            await this.client.util.fetch('/me/shows', {
+                method: 'PUT',
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Remove shows from your spotify savelist!
+     *
+     * @param ids Spotify shows ids to remove from your save list!
+     * @example await client.user.deleteShows('id1', 'id2');
+     */
+    async deleteShows(...ids) {
+        try {
+            await this.client.util.fetch('/me/shows', {
+                method: 'DELETE',
+                params: {
+                    ids: ids.join(',')
+                }
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Check if those shows exist on the current user's library!
+     *
+     * @param ids Array of spotify show ids
+     * @example const [hasFirstShow, hasSecondShow] = await client.user.hasShows('id1', 'id2');
+     */
+    async hasShows(...ids) {
+        try {
+            return await this.client.util.fetch('/me/shows/contains', {
                 params: {
                     ids: ids.join(',')
                 }

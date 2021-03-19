@@ -4,6 +4,7 @@ import Track from './structures/Track';
 import Artist from './structures/Artist';
 import Album from './structures/Album';
 import Episode from './structures/Episode';
+import Show from './structures/Show';
 export interface SavedStructure {
     addedAt: string;
 }
@@ -15,6 +16,9 @@ export interface SavedTrack extends SavedStructure {
 }
 export interface SavedEpisode extends SavedStructure {
     episode: Episode;
+}
+export interface SavedShow extends SavedStructure {
+    show: Show;
 }
 /**
  * A class which accesses the current user endpoints!
@@ -220,4 +224,32 @@ export default class UserClient {
      * @example const [hasFirstEpisode, hasSecondEpisode] = await client.user.hasEpisodes('id1', 'id2');
      */
     hasEpisodes(...ids: string[]): Promise<boolean[]>;
+    /**
+     * Returns the saved shows of the current user
+     *
+     * @param options Basic PagingOptions
+     * @example const shows = await client.user.getShows();
+     */
+    getShows(options?: PagingOptions): Promise<Paging<SavedShow>>;
+    /**
+     * Add shows to your spotify savelist!
+     *
+     * @param ids Spotify shows ids to add to your save list!
+     * @example await client.user.addShows('id1', 'id2');
+     */
+    addShows(...ids: string[]): Promise<boolean>;
+    /**
+     * Remove shows from your spotify savelist!
+     *
+     * @param ids Spotify shows ids to remove from your save list!
+     * @example await client.user.deleteShows('id1', 'id2');
+     */
+    deleteShows(...ids: string[]): Promise<boolean>;
+    /**
+     * Check if those shows exist on the current user's library!
+     *
+     * @param ids Array of spotify show ids
+     * @example const [hasFirstShow, hasSecondShow] = await client.user.hasShows('id1', 'id2');
+     */
+    hasShows(...ids: string[]): Promise<boolean[]>;
 }
