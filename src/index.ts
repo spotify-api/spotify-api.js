@@ -25,7 +25,6 @@ export { default as AlbumManager } from './managers/AlbumManager';
 export { default as ArtistManager } from './managers/ArtistManager';
 
 export { default as SearchManager, Search, SearchMethod } from './managers/SearchManager';
-export { default as manageCache } from "./managers/CacheManager";
 
 export { default as User } from './structures/User';
 export { default as Playlist, PlaylistTrack, PlaylistTrackType } from './structures/Playlist';

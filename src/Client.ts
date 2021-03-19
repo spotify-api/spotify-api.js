@@ -12,7 +12,6 @@ import TrackManager, { Track } from "./managers/TrackManager";
 import AlbumManager, { Album } from "./managers/AlbumManager";
 import ArtistManager, { Artist } from "./managers/ArtistManager";
 import SearchManager, { SearchMethod } from "./managers/SearchManager";
-import manageCache from "./managers/CacheManager";
 
 /**
  * Client options to set!
@@ -26,13 +25,7 @@ export interface ClientOptions{
     cachePlaylists?: boolean;
     cacheArtists?: boolean;
     cacheAlbums?: boolean;
-    cacheCurrentUser?: boolean | {
-        profile?: boolean;
-        affinity?: boolean | {
-            tracks?: boolean;
-            artists?: boolean;
-        };
-    };
+    cacheCurrentUser?: boolean;
     ready?: () => void;
 }
 
@@ -107,7 +100,9 @@ export default class Client{
         Object.defineProperty(this, 'search', { value: SearchManager(this) });
         Object.defineProperty(this, 'user', { value: new UserClient(this) });
 
-        manageCache(this);
+        if(this.cacheOptions.cacheCurrentUser){
+            this.user.info().then(x => this.onReady());
+        }
     }
 
     /**

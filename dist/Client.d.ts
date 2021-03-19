@@ -23,13 +23,7 @@ export interface ClientOptions {
     cachePlaylists?: boolean;
     cacheArtists?: boolean;
     cacheAlbums?: boolean;
-    cacheCurrentUser?: boolean | {
-        profile?: boolean;
-        affinity?: boolean | {
-            tracks?: boolean;
-            artists?: boolean;
-        };
-    };
+    cacheCurrentUser?: boolean;
     ready?: () => void;
 }
 /**

@@ -22,10 +22,6 @@ class UserClient {
         this.uri = '';
         this.id = '';
         this.href = '';
-        this.affinity = {
-            tracks: [],
-            artists: []
-        };
         Object.defineProperty(this, 'client', { value: typeof token == 'string' ? new Client_1.default(token) : token });
     }
     /**
@@ -63,8 +59,6 @@ class UserClient {
             const tracks = (await this.client.util.fetch('/me/top/tracks', {
                 params: options
             })).items.map(x => new Track_1.default(x, this.client));
-            if (this.client.cacheOptions.cacheCurrentUser)
-                this.affinity.tracks = tracks;
             return tracks;
         }
         catch (e) {
@@ -82,8 +76,6 @@ class UserClient {
             const artists = (await this.client.util.fetch('/me/top/artists', {
                 params: options
             })).items.map(x => new Artist_1.default(x, this.client));
-            if (this.client.cacheOptions.cacheCurrentUser)
-                this.affinity.artists = artists;
             return artists;
         }
         catch (e) {
@@ -127,6 +119,35 @@ class UserClient {
         }
         catch (e) {
             return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Verify if the current user follows a paticualr playlist by id!
+     *
+     * @param id Spotify playlist id
+     * @example const follows = await client.user.followsPlaylist('id');
+     */
+    async followsPlaylist(id) {
+        return (await this.client.playlists.userFollows(id, this.id))[0] || false;
+    }
+    /**
+     * Returns the user's following list of artists!
+     *
+     * @param options Options such as after and limit!
+     * @example const artists = await client.user.getFollowingArtists();
+     */
+    async getFollowingArtists(options) {
+        try {
+            const artists = (await this.client.util.fetch('/me/following', {
+                params: {
+                    ...options,
+                    type: 'artist'
+                }
+            })).artists.items.map(x => new Artist_1.default(x, this.client));
+            return artists;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || [];
         }
     }
 }
