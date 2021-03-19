@@ -2,7 +2,7 @@ import Client from './Client';
 import { handleError, UnexpectedError } from './Errors';
 import Track from './structures/Track';
 import Artist from './structures/Artist';
-import { AffinityOptions, Image, RawObject } from './Types';
+import { AffinityOptions, Image, Paging, RawObject } from './Types';
 
 /**
  * A class which accesses the current user endpoints!
@@ -82,16 +82,24 @@ export default class UserClient{
      * @param options Basic AffinityOptions
      * @example await user.getTopTracks();
      */
-    async getTopTracks(options: AffinityOptions = {}): Promise<Track[]> {
+    async getTopTracks(options: AffinityOptions = {}): Promise<Paging<Track>> {
 
         try{
-            const tracks = (await this.client.util.fetch('/me/top/tracks', {
-                params: options as RawObject
-            })).items.map(x => new Track(x, this.client));
+            const tracks = (await this.client.util.fetch('/me/top/tracks', { params: options as RawObject }));
 
-            return tracks;
+            return {
+                limit: tracks.limit,
+                offset: tracks.offset,
+                total: tracks.total,
+                items: tracks.items.map(x => new Track(x, this.client))
+            };;
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
@@ -102,16 +110,24 @@ export default class UserClient{
      * @param options Basic AffinityOptions
      * @example await user.getTopArtists();
      */
-    async getTopArtists(options: AffinityOptions = {}): Promise<Artist[]> {
+    async getTopArtists(options: AffinityOptions = {}): Promise<Paging<Artist>> {
 
         try{
-            const artists = (await this.client.util.fetch('/me/top/artists', {
-                params: options as RawObject
-            })).items.map(x => new Artist(x, this.client));
+            const artists = (await this.client.util.fetch('/me/top/artists', {  params: options as RawObject }));
 
-            return artists;
+            return {
+                limit: artists.limit,
+                offset: artists.offset,
+                total: artists.total,
+                items: artists.items.map(x => new Artist(x, this.client))
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }
@@ -181,7 +197,7 @@ export default class UserClient{
     async getFollowingArtists(options?: {
         after?: string;
         limit?: number;
-    }): Promise<Artist[]> {
+    }): Promise<Paging<Artist>> {
 
         try{
             const artists = (await this.client.util.fetch('/me/following', {
@@ -189,11 +205,21 @@ export default class UserClient{
                     ...options as RawObject,
                     type: 'artist'
                 }
-            })).artists.items.map(x => new Artist(x, this.client));
+            })).artists;
 
-            return artists;
+            return {
+                limit: artists.limit,
+                offset: artists.offset,
+                total: artists.total,
+                items: artists.items.map(x => new Artist(x, this.client))
+            };
         }catch(e){
-            return handleError(e) || [];
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
 
     }

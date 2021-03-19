@@ -1,7 +1,7 @@
 import Client from './Client';
 import Track from './structures/Track';
 import Artist from './structures/Artist';
-import { AffinityOptions, Image, RawObject } from './Types';
+import { AffinityOptions, Image, Paging, RawObject } from './Types';
 /**
  * A class which accesses the current user endpoints!
  */
@@ -38,14 +38,14 @@ export default class UserClient {
      * @param options Basic AffinityOptions
      * @example await user.getTopTracks();
      */
-    getTopTracks(options?: AffinityOptions): Promise<Track[]>;
+    getTopTracks(options?: AffinityOptions): Promise<Paging<Track>>;
     /**
      * Returns the top artists of the current user!
      *
      * @param options Basic AffinityOptions
      * @example await user.getTopArtists();
      */
-    getTopArtists(options?: AffinityOptions): Promise<Artist[]>;
+    getTopArtists(options?: AffinityOptions): Promise<Paging<Artist>>;
     /**
      * Follow a playlist inshort words add the playlist to your library!
      *
@@ -79,7 +79,7 @@ export default class UserClient {
     getFollowingArtists(options?: {
         after?: string;
         limit?: number;
-    }): Promise<Artist[]>;
+    }): Promise<Paging<Artist>>;
     /**
      * Follow artists with their spotify ids!
      *

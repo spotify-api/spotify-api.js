@@ -56,13 +56,22 @@ class UserClient {
      */
     async getTopTracks(options = {}) {
         try {
-            const tracks = (await this.client.util.fetch('/me/top/tracks', {
-                params: options
-            })).items.map(x => new Track_1.default(x, this.client));
-            return tracks;
+            const tracks = (await this.client.util.fetch('/me/top/tracks', { params: options }));
+            return {
+                limit: tracks.limit,
+                offset: tracks.offset,
+                total: tracks.total,
+                items: tracks.items.map(x => new Track_1.default(x, this.client))
+            };
+            ;
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -73,13 +82,21 @@ class UserClient {
      */
     async getTopArtists(options = {}) {
         try {
-            const artists = (await this.client.util.fetch('/me/top/artists', {
-                params: options
-            })).items.map(x => new Artist_1.default(x, this.client));
-            return artists;
+            const artists = (await this.client.util.fetch('/me/top/artists', { params: options }));
+            return {
+                limit: artists.limit,
+                offset: artists.offset,
+                total: artists.total,
+                items: artists.items.map(x => new Artist_1.default(x, this.client))
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
@@ -143,11 +160,21 @@ class UserClient {
                     ...options,
                     type: 'artist'
                 }
-            })).artists.items.map(x => new Artist_1.default(x, this.client));
-            return artists;
+            })).artists;
+            return {
+                limit: artists.limit,
+                offset: artists.offset,
+                total: artists.total,
+                items: artists.items.map(x => new Artist_1.default(x, this.client))
+            };
         }
         catch (e) {
-            return Errors_1.handleError(e) || [];
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
         }
     }
     /**
