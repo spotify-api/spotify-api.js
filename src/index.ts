@@ -10,7 +10,7 @@ export {
 } from './Util';
 
 export { default as Client, ClientOptions } from './Client';
-export { default as UserClient } from './UserClient';
+export { default as UserClient, SavedAlbum } from './UserClient';
 export { default as Collection } from './utils/Collection';
 
 export { default as AuthManager, GetUserTokenOptions, AuthRefresh } from './managers/AuthManager';

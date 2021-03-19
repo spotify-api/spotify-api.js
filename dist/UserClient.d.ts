@@ -4,6 +4,13 @@ import Artist from './structures/Artist';
 import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Types';
 import Album from './structures/Album';
 /**
+ * Saved album structure!
+ */
+export interface SavedAlbum {
+    addedAt: string;
+    album: Album;
+}
+/**
  * A class which accesses the current user endpoints!
  */
 export default class UserClient {
@@ -129,7 +136,7 @@ export default class UserClient {
      * @param options Basic PagingOptions
      * @example const albums = await client.user.getAlbums();
      */
-    getAlbums(options?: PagingOptions): Promise<Paging<Album>>;
+    getAlbums(options?: PagingOptions): Promise<Paging<SavedAlbum>>;
     /**
      * Add albums to your spotify savelist!
      *

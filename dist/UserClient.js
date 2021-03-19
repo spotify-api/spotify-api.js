@@ -313,7 +313,10 @@ class UserClient {
                 limit: data.limit,
                 offset: data.offset,
                 total: data.total,
-                items: data.items.map(x => new Album_1.default(x, this.client))
+                items: data.items.map(x => ({
+                    addedAt: x.added_at,
+                    album: new Album_1.default(x.album, this.client)
+                }))
             };
         }
         catch (e) {

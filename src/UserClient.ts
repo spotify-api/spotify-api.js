@@ -6,6 +6,14 @@ import { AffinityOptions, Image, Paging, PagingOptions, RawObject } from './Type
 import Album from './structures/Album';
 
 /**
+ * Saved album structure!
+ */
+export interface SavedAlbum{
+    addedAt: string;
+    album: Album;
+}
+
+/**
  * A class which accesses the current user endpoints!
  */
 export default class UserClient{
@@ -369,7 +377,7 @@ export default class UserClient{
      * @param options Basic PagingOptions
      * @example const albums = await client.user.getAlbums();
      */
-    async getAlbums(options?: PagingOptions): Promise<Paging<Album>> {
+    async getAlbums(options?: PagingOptions): Promise<Paging<SavedAlbum>> {
 
         try{
             const data = await this.client.util.fetch('/me/albums', { params: options });
@@ -378,7 +386,10 @@ export default class UserClient{
                 limit: data.limit,
                 offset: data.offset,
                 total: data.total,
-                items: data.items.map(x => new Album(x, this.client))
+                items: data.items.map(x => ({
+                    addedAt: x.added_at,
+                    album: new Album(x.album, this.client)
+                }))
             }
         }catch(e){
             return handleError(e) || {
