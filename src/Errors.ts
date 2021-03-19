@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * File where all errors exists. Custom errors are used to help users to know what error they are facing...
@@ -23,6 +23,7 @@ export class UtilityError extends Error{
 export class UnexpectedError extends Error{
 
     name: string;
+    response?: AxiosResponse;
 
     /**
      * This error mostly occurs when the spotify api responses an invalid json format or you have been rate limited!
@@ -30,8 +31,14 @@ export class UnexpectedError extends Error{
      * 
      * @param message Error message
      */
-    constructor(res: any) {
-        super(res.response ? JSON.stringify(res.response.data) : res);
+    constructor(res) {
+        if(res.response){
+            super(JSON.stringify(res.response.data));
+            this.response = res.response;
+        } else {
+            super(res);
+        }
+        
         this.name = 'UnexpectedError';
     };
 

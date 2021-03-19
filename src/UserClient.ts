@@ -198,4 +198,52 @@ export default class UserClient{
 
     }
 
+    /**
+     * Follow artists with their spotify ids!
+     * 
+     * @param ids An array of spotify artist ids
+     * @example await client.user.followArtists('id1', 'id2');
+     */
+    async followArtists(...ids: string[]): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch(`/me/following`, {
+                method: 'PUT',
+                params: {
+                    type: 'artist',
+                    ids: ids.join(',')
+                }
+            });
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
+    /**
+     * Unfollow artists with their spotify ids!
+     * 
+     * @param ids An array of spotify artist ids
+     * @example await client.user.unfollowArtists('id1', 'id2');
+     */
+    async unfollowArtists(...ids: string[]): Promise<boolean> {
+
+        try{
+            await this.client.util.fetch(`/me/following`, {
+                method: 'DELETE',
+                params: {
+                    type: 'artist',
+                    ids: ids.join(',')
+                }
+            });
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
+    }
+
 };

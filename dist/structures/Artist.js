@@ -68,5 +68,19 @@ class Artist {
     async getRelatedArtists(options) {
         return await this.client.artists.getRelatedArtists(this.id, options);
     }
+    /**
+     * Follow this artist!
+     * @example await artist.follow();
+     */
+    async follow() {
+        return await this.client.user.followArtists(this.id);
+    }
+    /**
+     * Unfollow this artist!
+     * @example await artist.unfollow();
+     */
+    async unfollow() {
+        return await this.client.user.unfollowArtists(this.id);
+    }
 }
 exports.default = Artist;

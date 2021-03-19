@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 /**
  * File where all errors exists. Custom errors are used to help users to know what error they are facing...
  */
@@ -13,6 +13,7 @@ export declare class UtilityError extends Error {
 }
 export declare class UnexpectedError extends Error {
     name: string;
+    response?: AxiosResponse;
     /**
      * This error mostly occurs when the spotify api responses an invalid json format or you have been rate limited!
      * You can view up all the spotify web api responses, request types, etc [here](https://developer.spotify.com/documentation/web-api/)

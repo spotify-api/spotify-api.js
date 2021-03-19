@@ -56,4 +56,14 @@ export default class Artist {
      * @example await artist.getRelatedArtists();
      */
     getRelatedArtists(options?: PagingOptions): Promise<Artist[]>;
+    /**
+     * Follow this artist!
+     * @example await artist.follow();
+     */
+    follow(): Promise<boolean>;
+    /**
+     * Unfollow this artist!
+     * @example await artist.unfollow();
+     */
+    unfollow(): Promise<boolean>;
 }

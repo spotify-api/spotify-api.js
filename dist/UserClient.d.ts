@@ -80,4 +80,18 @@ export default class UserClient {
         after?: string;
         limit?: number;
     }): Promise<Artist[]>;
+    /**
+     * Follow artists with their spotify ids!
+     *
+     * @param ids An array of spotify artist ids
+     * @example await client.user.followArtists('id1', 'id2');
+     */
+    followArtists(...ids: string[]): Promise<boolean>;
+    /**
+     * Unfollow artists with their spotify ids!
+     *
+     * @param ids An array of spotify artist ids
+     * @example await client.user.unfollowArtists('id1', 'id2');
+     */
+    unfollowArtists(...ids: string[]): Promise<boolean>;
 }

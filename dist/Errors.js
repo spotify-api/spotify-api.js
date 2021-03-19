@@ -26,7 +26,13 @@ class UnexpectedError extends Error {
      * @param message Error message
      */
     constructor(res) {
-        super(res.response ? JSON.stringify(res.response.data) : res);
+        if (res.response) {
+            super(JSON.stringify(res.response.data));
+            this.response = res.response;
+        }
+        else {
+            super(res);
+        }
         this.name = 'UnexpectedError';
     }
     ;
