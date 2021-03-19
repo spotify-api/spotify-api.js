@@ -12,7 +12,7 @@ export default class EpisodeManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.episodes.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Episode>>;
+    search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Episode>>;
     /**
      * Get a spotify episode information by spotify id!
      *

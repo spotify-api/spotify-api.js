@@ -13,7 +13,7 @@ export default class AlbumManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.albums.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Album>>;
+    search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Album>>;
     /**
      * Returns spotify album information by id
      *

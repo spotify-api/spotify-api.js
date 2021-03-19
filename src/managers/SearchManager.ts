@@ -37,7 +37,8 @@ export interface Search{
 export default function SearchManager(client: Client): SearchMethod {
 
     async function search(query: string, options: SearchOptions = {
-        type: defaultTypes.join(',') as SpotifyTypes
+        type: defaultTypes.join(',') as SpotifyTypes,
+        market: 'US'
     }): Promise<Search | null> {
         try{
 

@@ -19,7 +19,8 @@ const defaultTypes = ['episode', 'playlist', 'show', 'track', 'album', 'artist']
  */
 function SearchManager(client) {
     async function search(query, options = {
-        type: defaultTypes.join(',')
+        type: defaultTypes.join(','),
+        market: 'US'
     }) {
         try {
             options.q = query;

@@ -12,7 +12,7 @@ export default class PlaylistManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.playlists.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>>;
+    search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>>;
     /**
      * Get a spotify playlist information by spotify id!
      *

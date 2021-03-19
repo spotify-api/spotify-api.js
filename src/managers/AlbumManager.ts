@@ -16,7 +16,7 @@ export default class AlbumManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.albums.search('some query');
      */
-    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Album>> {
+    async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Album>> {
 
         try{
             const data = (await this.fetch('/search', {

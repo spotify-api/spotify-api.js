@@ -16,7 +16,9 @@ export default class ShowManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.shows.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Show>> {
+    async search(query: string, options: Omit<SearchOptions, 'type'> = {
+        market: 'US'
+    }): Promise<Paging<Show>> {
 
         try{
             const data = (await this.fetch('/search', {

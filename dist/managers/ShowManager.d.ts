@@ -13,7 +13,7 @@ export default class ShowManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.shows.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Show>>;
+    search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Show>>;
     /**
      * Get a spotify show information by spotify id!
      *

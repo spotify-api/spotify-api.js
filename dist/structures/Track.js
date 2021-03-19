@@ -37,7 +37,7 @@ class Track {
     constructor(data, client) {
         Object.defineProperty(this, 'data', { value: data, writable: false });
         Object.defineProperty(this, 'client', { value: client, writable: false });
-        this.availableMarkets = data.available_markets;
+        this.availableMarkets = data.available_markets || [];
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
         this.explicit = data.explicit;

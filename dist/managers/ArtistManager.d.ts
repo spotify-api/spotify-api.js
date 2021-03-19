@@ -14,7 +14,7 @@ export default class ArtistManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.artists.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>>;
+    search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>>;
     /**
      * Get a spotify artist information by spotify id!
      *

@@ -15,7 +15,7 @@ export default class PlaylistManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.playlists.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>> {
+     async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>> {
 
         try{
             const data = (await this.fetch('/search', {

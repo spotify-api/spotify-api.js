@@ -12,7 +12,7 @@ export default class TrackManager extends BaseManager {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.tracks.search('some query');
      */
-    search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Track>>;
+    search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Track>>;
     /**
      * Returns the spotify track information by id
      *

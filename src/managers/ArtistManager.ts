@@ -17,7 +17,7 @@ export default class ArtistManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.artists.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>> {
+     async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>> {
 
         try{
             const data = (await this.fetch('/search', {
@@ -85,7 +85,7 @@ export default class ArtistManager extends BaseManager{
      *     ids: ['123456789']
      * })
      */
-     async getMultiple(options: GetMultipleOptions): Promise<Artist[]> {
+    async getMultiple(options: GetMultipleOptions): Promise<Artist[]> {
 
         try{
             const def = { market: 'US', ids: [] as any };

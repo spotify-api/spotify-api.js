@@ -153,7 +153,12 @@ export default class BrowseManager extends BaseManager{
                 for(let i = 0; i < albums.length; i++) this.client.cache.albums.set(albums[i].id, albums[i]);
             }
 
-            return albums;
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: albums
+            };
         }catch(e){
             return handleError(e) || {
                 limit: 0,

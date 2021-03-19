@@ -15,7 +15,7 @@ export default class TrackManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.tracks.search('some query');
      */
-    async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Track>> {
+    async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Track>> {
 
         try{
             const data = (await this.fetch('/search', {
@@ -24,9 +24,9 @@ export default class TrackManager extends BaseManager{
                     type: 'track',
                     q: query
                 }
-            })).shows;
+            })).tracks;
             
-            const tracks = data.tracks.items.map(x => new Track(x, this.client));;
+            const tracks = data.items.map(x => new Track(x, this.client));;
 
             if(this.client.cacheOptions.cacheTracks){
                 for(let i = 0; i < tracks.length; i++) this.client.cache.tracks.set(tracks[i].id, tracks[i]);

@@ -18,7 +18,9 @@ class ShowManager extends BaseManager_1.default {
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.shows.search('some query');
      */
-    async search(query, options) {
+    async search(query, options = {
+        market: 'US'
+    }) {
         try {
             const data = (await this.fetch('/search', {
                 params: {

@@ -15,7 +15,9 @@ export default class EpisodeManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.episodes.search('some query');
      */
-     async search(query: string, options: Omit<SearchOptions, 'type'>): Promise<Paging<Episode>> {
+    async search(query: string, options: Omit<SearchOptions, 'type'> = {
+        market: 'US'    
+    }): Promise<Paging<Episode>> {
 
         try{
             const data = (await this.fetch('/search', {
