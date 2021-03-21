@@ -253,7 +253,7 @@ export default class PlayerManager {
                 }
             })
 
-            return status == 204 ? CurrentlyPlaying(data, this.client) : null;
+            return status != 204 ? CurrentlyPlaying(data, this.client) : null;
         }catch(e){
             return handleError(e);
         }
