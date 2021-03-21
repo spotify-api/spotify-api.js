@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Artist = exports.Album = exports.LinkedTrack = exports.Track = exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.SearchManager = exports.CurrentPlayback = exports.Context = exports.Device = exports.PlayerManager = exports.ArtistManager = exports.AlbumManager = exports.TrackManager = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.UserClient = exports.Client = exports.resolveURI = exports.Util = exports.version = void 0;
+exports.Artist = exports.Album = exports.LinkedTrack = exports.Track = exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.SearchManager = exports.CurrentlyPlaying = exports.CurrentPlayback = exports.Context = exports.Device = exports.PlayerManager = exports.ArtistManager = exports.AlbumManager = exports.TrackManager = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.UserClient = exports.Client = exports.resolveURI = exports.Util = exports.version = void 0;
 const Client_1 = __importDefault(require("./Client"));
 exports.version = '8.0.0';
 var Util_1 = require("./Util");
@@ -50,6 +50,7 @@ Object.defineProperty(exports, "PlayerManager", { enumerable: true, get: functio
 Object.defineProperty(exports, "Device", { enumerable: true, get: function () { return PlayerManager_1.Device; } });
 Object.defineProperty(exports, "Context", { enumerable: true, get: function () { return PlayerManager_1.Context; } });
 Object.defineProperty(exports, "CurrentPlayback", { enumerable: true, get: function () { return PlayerManager_1.CurrentPlayback; } });
+Object.defineProperty(exports, "CurrentlyPlaying", { enumerable: true, get: function () { return PlayerManager_1.CurrentlyPlaying; } });
 var SearchManager_1 = require("./managers/SearchManager");
 Object.defineProperty(exports, "SearchManager", { enumerable: true, get: function () { return __importDefault(SearchManager_1).default; } });
 var User_1 = require("./structures/User");

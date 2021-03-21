@@ -14,7 +14,7 @@ export interface DeviceType{
     privateSession: boolean;
     restricted: boolean;
     name: string;
-    type: 'smartphone' | 'computer' | 'speaker';
+    type: string;
     volume: number | null;
 }
 
@@ -32,6 +32,11 @@ export interface CurrentPlaybackType{
     repeatState: 'off' | 'track' | 'context';
     shuffled: boolean;
 }
+
+/**
+ * Spotify api's currently playing type
+ */
+export type CurrentlyPlayingType = Omit<CurrentPlaybackType, 'repeatState' | 'shuffled'>;
 
 /**
  * Spotify api's context type object!
@@ -109,6 +114,37 @@ export function CurrentPlayback(data, client: Client): CurrentPlaybackType {
         playing: data.is_playing,
         shuffled: data.shuffle_state,
         repeatState: data.repeat_state
+    };
+
+}; 
+
+/**
+ * Returns an currently playing object formatted!
+ * 
+ * @param data The currently playing data from the spotify api
+ * @param client Your spotify client
+ * @example const playback = CurrentlyPlaying(data, client);
+ */
+ export function CurrentlyPlaying(data, client: Client): CurrentlyPlayingType {
+
+    return {
+        get device(){
+            return Device(data.device)
+        },
+        get context(){
+            return Context(data.context)
+        },
+        get item(){
+            return data.item ? (
+                data.item.type == 'track' ? 
+                new Track(data.item, client) : 
+                new Episode(data.item, client)
+            ) : null;
+        },
+        timestamp: data.timestamp,
+        progress: data.progress_ms,
+        currentlyPlayingType: data.currently_playing_type,
+        playing: data.is_playing
     };
 
 }; 
@@ -194,6 +230,32 @@ export default class PlayerManager {
             return (await this.client.util.fetch('/me/player/devices')).devices.map(Device);
         }catch(e){
             return handleError(e) || [];
+        }
+
+    }
+
+    /**
+     * Returns the current playing of the current user!
+     * 
+     * @param options Options containing the fields market and additionalTypes
+     * @example const playing = await player.getCurrentlyPlaying();
+     */
+    async getCurrentlyPlaying(options: {
+        market?: string;
+        additionalTypes?: 'track' | 'episode'
+    } = {}): Promise<CurrentlyPlayingType | null> {
+
+        try{
+            const { data, status } = await this.client.util.fetchWithResponse('/me/player/currently-playing', {
+                params: {
+                    market: options.market || 'US',
+                    additional_types: options.additionalTypes || 'track'
+                }
+            })
+
+            return status == 204 ? CurrentlyPlaying(data, this.client) : null;
+        }catch(e){
+            return handleError(e);
         }
 
     }

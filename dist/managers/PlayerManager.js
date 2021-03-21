@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CurrentPlayback = exports.Device = exports.Context = void 0;
+exports.CurrentlyPlaying = exports.CurrentPlayback = exports.Device = exports.Context = void 0;
 const UserClient_1 = __importDefault(require("../UserClient"));
 const Client_1 = __importDefault(require("../Client"));
 const Track_1 = __importDefault(require("../structures/Track"));
@@ -74,6 +74,34 @@ function CurrentPlayback(data, client) {
 exports.CurrentPlayback = CurrentPlayback;
 ;
 /**
+ * Returns an currently playing object formatted!
+ *
+ * @param data The currently playing data from the spotify api
+ * @param client Your spotify client
+ * @example const playback = CurrentlyPlaying(data, client);
+ */
+function CurrentlyPlaying(data, client) {
+    return {
+        get device() {
+            return Device(data.device);
+        },
+        get context() {
+            return Context(data.context);
+        },
+        get item() {
+            return data.item ? (data.item.type == 'track' ?
+                new Track_1.default(data.item, client) :
+                new Episode_1.default(data.item, client)) : null;
+        },
+        timestamp: data.timestamp,
+        progress: data.progress_ms,
+        currentlyPlayingType: data.currently_playing_type,
+        playing: data.is_playing
+    };
+}
+exports.CurrentlyPlaying = CurrentlyPlaying;
+;
+/**
  * A class to manage all player endpoints
  */
 class PlayerManager {
@@ -142,6 +170,26 @@ class PlayerManager {
         }
         catch (e) {
             return Errors_1.handleError(e) || [];
+        }
+    }
+    /**
+     * Returns the current playing of the current user!
+     *
+     * @param options Options containing the fields market and additionalTypes
+     * @example const playing = await player.getCurrentlyPlaying();
+     */
+    async getCurrentlyPlaying(options = {}) {
+        try {
+            const { data, status } = await this.client.util.fetchWithResponse('/me/player/currently-playing', {
+                params: {
+                    market: options.market || 'US',
+                    additional_types: options.additionalTypes || 'track'
+                }
+            });
+            return status == 204 ? CurrentlyPlaying(data, this.client) : null;
+        }
+        catch (e) {
+            return Errors_1.handleError(e);
         }
     }
 }

@@ -31,7 +31,9 @@ export {
     Context,
     ContextType,
     CurrentPlayback,
-    CurrentPlaybackType
+    CurrentPlaybackType,
+    CurrentlyPlaying,
+    CurrentlyPlayingType
 } from './managers/PlayerManager';
 
 export { default as SearchManager, Search, SearchMethod } from './managers/SearchManager';

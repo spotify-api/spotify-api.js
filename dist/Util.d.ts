@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { Methods, SpotifyTypes, SpotifyURI } from './Types';
 /**
  * Options required to use Util.fetch
@@ -36,13 +37,13 @@ export default class Util {
      */
     fetch(url: string, options?: FetchOptions): Promise<any>;
     /**
-     * Similar to util.fetch but you can fetch a custom url instead of fetching path with constant base url
+     * Same to util.fetch but returns the whole response instead of just the body
      *
-     * @param url URL of string
-     * @param options Basic FetchOptions
-     * @example await util.fetchURL('url');
+     * @param url The path from spotify api to fetch!
+     * @param options The additional options required to fetch
+     * @example await util.fetchWithResponse('/users/id');
      */
-    fetchURL(url: string, options?: FetchOptions): Promise<any>;
+    fetchWithResponse(url: string, options?: FetchOptions): Promise<AxiosResponse>;
     /**
      * Function used to convert the hex string to rgb array.
      * This is used in makeCodeImage functions!

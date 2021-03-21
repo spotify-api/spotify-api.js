@@ -42,15 +42,15 @@ class Util {
         return data;
     }
     /**
-     * Similar to util.fetch but you can fetch a custom url instead of fetching path with constant base url
+     * Same to util.fetch but returns the whole response instead of just the body
      *
-     * @param url URL of string
-     * @param options Basic FetchOptions
-     * @example await util.fetchURL('url');
+     * @param url The path from spotify api to fetch!
+     * @param options The additional options required to fetch
+     * @example await util.fetchWithResponse('/users/id');
      */
-    async fetchURL(url, options) {
-        const { data } = await axios_1.default({
-            url,
+    async fetchWithResponse(url, options) {
+        return await axios_1.default({
+            url: `https://api.spotify.com/${this.version}${url}`,
             method: (options === null || options === void 0 ? void 0 : options.method) || 'GET',
             params: options === null || options === void 0 ? void 0 : options.params,
             headers: {
@@ -60,7 +60,6 @@ class Util {
             },
             data: options === null || options === void 0 ? void 0 : options.body
         });
-        return data;
     }
     /**
      * Function used to convert the hex string to rgb array.

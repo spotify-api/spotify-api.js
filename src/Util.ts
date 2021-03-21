@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Methods, SpotifyTypes, SpotifyURI } from './Types';
 import { UtilityError } from './Errors';
 
@@ -57,16 +57,16 @@ export default class Util{
     }
 
     /**
-     * Similar to util.fetch but you can fetch a custom url instead of fetching path with constant base url
+     * Same to util.fetch but returns the whole response instead of just the body
      * 
-     * @param url URL of string
-     * @param options Basic FetchOptions
-     * @example await util.fetchURL('url');
+     * @param url The path from spotify api to fetch!
+     * @param options The additional options required to fetch
+     * @example await util.fetchWithResponse('/users/id');
      */
-    async fetchURL(url: string, options?: FetchOptions): Promise<any> {
+    async fetchWithResponse(url: string, options?: FetchOptions): Promise<AxiosResponse> {
         
-        const { data } = await axios({
-            url,
+        return await axios({
+            url: `https://api.spotify.com/${this.version}${url}`,
             method: options?.method || 'GET',
             params: options?.params,
             headers: {
@@ -76,8 +76,6 @@ export default class Util{
             },
             data: options?.body
         })
-
-        return data;
 
     }
 

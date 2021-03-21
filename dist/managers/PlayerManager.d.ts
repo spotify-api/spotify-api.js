@@ -12,7 +12,7 @@ export interface DeviceType {
     privateSession: boolean;
     restricted: boolean;
     name: string;
-    type: 'smartphone' | 'computer' | 'speaker';
+    type: string;
     volume: number | null;
 }
 /**
@@ -29,6 +29,10 @@ export interface CurrentPlaybackType {
     repeatState: 'off' | 'track' | 'context';
     shuffled: boolean;
 }
+/**
+ * Spotify api's currently playing type
+ */
+export declare type CurrentlyPlayingType = Omit<CurrentPlaybackType, 'repeatState' | 'shuffled'>;
 /**
  * Spotify api's context type object!
  */
@@ -60,6 +64,14 @@ export declare function Device(data: any): DeviceType;
  * @example const playback = CurrentPlayback(data, client);
  */
 export declare function CurrentPlayback(data: any, client: Client): CurrentPlaybackType;
+/**
+ * Returns an currently playing object formatted!
+ *
+ * @param data The currently playing data from the spotify api
+ * @param client Your spotify client
+ * @example const playback = CurrentlyPlaying(data, client);
+ */
+export declare function CurrentlyPlaying(data: any, client: Client): CurrentlyPlayingType;
 /**
  * A class to manage all player endpoints
  */
@@ -97,4 +109,14 @@ export default class PlayerManager {
      * @example const devices = await player.getDevices();
      */
     getDevices(): Promise<DeviceType[]>;
+    /**
+     * Returns the current playing of the current user!
+     *
+     * @param options Options containing the fields market and additionalTypes
+     * @example const playing = await player.getCurrentlyPlaying();
+     */
+    getCurrentlyPlaying(options?: {
+        market?: string;
+        additionalTypes?: 'track' | 'episode';
+    }): Promise<CurrentlyPlayingType | null>;
 }
