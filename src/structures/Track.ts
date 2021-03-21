@@ -1,5 +1,5 @@
 import Client from "..";
-import { RawObject, SpotifyTypes, TrackAudioAnalysis, TrackAudioFeatures, Restriction, SpotifyURI } from "../Types";
+import { RawObject, SpotifyTypes, TrackAudioAnalysis, TrackAudioFeatures, Restriction, SpotifyURI, ExternalIDs } from "../Types";
 import Util from "../Util";
 import Album from "./Album";
 import Artist from "./Artist";
@@ -46,7 +46,7 @@ export default class Track{
     discNumber: number;
     duration: number;
     explicit: boolean;
-    externalIds: RawObject;
+    externalIds: ExternalIDs;
     externalUrls: RawObject;
     href: string;
     id: string;
@@ -56,7 +56,7 @@ export default class Track{
     type: SpotifyTypes;
     uri: SpotifyURI;
     local: boolean;
-    restrictions: Restriction | null;
+    restrictions: Restriction<'market' | 'product' | 'explicit'> | null;
     popularity: number | null;
 
     playable?: boolean;

@@ -1,6 +1,6 @@
 import Client from '../Client';
 import Track from './Track';
-import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions, Paging } from '../Types';
+import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions, Paging, ExternalIDs } from '../Types';
 import Artist from './Artist';
 
 /**
@@ -28,7 +28,7 @@ class Album {
     albumGroup?: 'album' | 'single' | 'compilation' | 'appears_on';
     totalTracks?: number;
     copyrights?: Copyright[];
-    externalIds?: any;
+    externalIds?: ExternalIDs;
     popularity?: number;
     genres?: string[];
 

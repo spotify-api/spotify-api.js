@@ -212,3 +212,12 @@ export interface Paging<T>{
     total: number;
     items: T[];
 }
+
+/**
+ * Spotify Api's external ids object
+ */
+export interface ExternalIDs{
+    ean?: string;
+    isrc?: string;
+    upc?: string;
+}
