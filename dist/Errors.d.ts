@@ -14,6 +14,7 @@ export declare class UtilityError extends Error {
 export declare class UnexpectedError extends Error {
     name: string;
     response?: AxiosResponse;
+    isSpotifyError: boolean;
     /**
      * This error mostly occurs when the spotify api responses an invalid json format or you have been rate limited!
      * You can view up all the spotify web api responses, request types, etc [here](https://developer.spotify.com/documentation/web-api/)

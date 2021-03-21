@@ -5,6 +5,7 @@ import Artist from './structures/Artist';
 import Album from './structures/Album';
 import Episode from './structures/Episode';
 import Show from './structures/Show';
+import Playlist from './structures/Playlist';
 export interface SavedStructure {
     addedAt: string;
 }
@@ -19,6 +20,16 @@ export interface SavedEpisode extends SavedStructure {
 }
 export interface SavedShow extends SavedStructure {
     show: Show;
+}
+/**
+ * Create playlist options!
+ */
+export interface CreatePlaylist {
+    name: string;
+    userID?: string;
+    public?: boolean;
+    collaborative?: boolean;
+    description?: string;
 }
 /**
  * A class which accesses the current user endpoints!
@@ -88,6 +99,26 @@ export default class UserClient {
      * @example const follows = await client.user.followsPlaylist('id');
      */
     followsPlaylist(id: string): Promise<boolean>;
+    /**
+     * Returns the current user's saved playlists!
+     *
+     * @param options Basic PagingOptions
+     * @example const playlists = await client.user.getPlaylists();
+     */
+    getPlaylists(options?: PagingOptions): Promise<Paging<Playlist>>;
+    /**
+     * Create a spotify playlist for yourself or for the current user!
+     *
+     * @param options Options to create a playlist!
+     * @example await client.user.createPlaylist({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false,
+     *     userID: client.user.id // By default will be the current user id!
+     * });
+     */
+    createPlaylist(options: CreatePlaylist): Promise<Playlist | null>;
     /**
      * Returns the user's following list of artists!
      *

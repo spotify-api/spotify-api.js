@@ -72,6 +72,23 @@ class User {
         return (await this.client.user.followsUsers(this.id))[0] || false;
     }
     /**
+     * Create a spotify playlist for this user!
+     *
+     * @param options Options to create a playlist except userID field
+     * @example await client.user.createPlaylist({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false
+     * });
+     */
+    async createPlaylist(options) {
+        return await this.client.user.createPlaylist({
+            ...options,
+            userID: this.id
+        });
+    }
+    /**
      * Returns a code image
      * @param color Hex color code
      */

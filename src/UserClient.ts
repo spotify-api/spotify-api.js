@@ -6,6 +6,7 @@ import Artist from './structures/Artist';
 import Album from './structures/Album';
 import Episode from './structures/Episode';
 import Show from './structures/Show';
+import Playlist from './structures/Playlist';
 
 // Saved element structure
 export interface SavedStructure { addedAt: string };
@@ -21,6 +22,17 @@ export interface SavedEpisode extends SavedStructure { episode: Episode };
 
 // Saved show object structure
 export interface SavedShow extends SavedStructure { show: Show };
+
+/**
+ * Create playlist options!
+ */
+export interface CreatePlaylist{
+    name: string;
+    userID?: string;
+    public?: boolean;
+    collaborative?: boolean;
+    description?: string;
+}
 
 /**
  * A class which accesses the current user endpoints!
@@ -204,6 +216,71 @@ export default class UserClient{
      */
     async followsPlaylist(id: string): Promise<boolean> {
         return (await this.client.playlists.userFollows(id, this.id))[0] || false;
+    }
+
+    /**
+     * Returns the current user's saved playlists!
+     * 
+     * @param options Basic PagingOptions
+     * @example const playlists = await client.user.getPlaylists();
+     */
+    async getPlaylists(options?: PagingOptions): Promise<Paging<Playlist>> {
+
+        try{
+            const data = await this.client.util.fetch('/me/playlists', { params: options });
+
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => new Playlist(x, this.client))
+            }
+        }catch(e){
+            return handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+
+    }
+
+    /**
+     * Create a spotify playlist for yourself or for the current user!
+     * 
+     * @param options Options to create a playlist!
+     * @example await client.user.createPlaylist({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false,
+     *     userID: client.user.id // By default will be the current user id!
+     * });
+     */
+    async createPlaylist(options: CreatePlaylist): Promise<Playlist | null> {
+
+        try{
+            if(!options || !options.name) throw new UnexpectedError('No name has been provided to create a playlist!');
+
+            const playlist = new Playlist(await this.client.util.fetch(`/users/${options.userID || this.id}/playlists`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    name: options.name,
+                    public: options.public || true,
+                    collaborative: options.collaborative || false,
+                    description: options.description || ''
+                }
+            }), this.client);
+
+            return playlist;
+        }catch(e){
+            return handleError(e) || null;
+        }
+
     }
 
     /**

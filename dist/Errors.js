@@ -34,6 +34,7 @@ class UnexpectedError extends Error {
             super(res);
         }
         this.name = 'UnexpectedError';
+        this.isSpotifyError = true;
     }
     ;
 }

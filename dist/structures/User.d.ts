@@ -1,6 +1,7 @@
 import { Image, Paging, PagingOptions, RawObject } from "../Types";
 import Playlist from "./Playlist";
 import Client from "../Client";
+import { CreatePlaylist } from "../UserClient";
 /**
  * Spotify Api's User object!
  */
@@ -57,6 +58,18 @@ export default class User {
      * @example const follows = await users.follows();
      */
     follows(): Promise<boolean>;
+    /**
+     * Create a spotify playlist for this user!
+     *
+     * @param options Options to create a playlist except userID field
+     * @example await client.user.createPlaylist({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false
+     * });
+     */
+    createPlaylist(options: Omit<CreatePlaylist, 'userID'>): Promise<Playlist | null>;
     /**
      * Returns a code image
      * @param color Hex color code

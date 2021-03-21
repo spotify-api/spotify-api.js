@@ -10,6 +10,7 @@ const Artist_1 = __importDefault(require("./structures/Artist"));
 const Album_1 = __importDefault(require("./structures/Album"));
 const Episode_1 = __importDefault(require("./structures/Episode"));
 const Show_1 = __importDefault(require("./structures/Show"));
+const Playlist_1 = __importDefault(require("./structures/Playlist"));
 ;
 ;
 ;
@@ -154,6 +155,65 @@ class UserClient {
      */
     async followsPlaylist(id) {
         return (await this.client.playlists.userFollows(id, this.id))[0] || false;
+    }
+    /**
+     * Returns the current user's saved playlists!
+     *
+     * @param options Basic PagingOptions
+     * @example const playlists = await client.user.getPlaylists();
+     */
+    async getPlaylists(options) {
+        try {
+            const data = await this.client.util.fetch('/me/playlists', { params: options });
+            return {
+                limit: data.limit,
+                offset: data.offset,
+                total: data.total,
+                items: data.items.map(x => new Playlist_1.default(x, this.client))
+            };
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || {
+                limit: 0,
+                offset: 0,
+                total: 0,
+                items: []
+            };
+        }
+    }
+    /**
+     * Create a spotify playlist for yourself or for the current user!
+     *
+     * @param options Options to create a playlist!
+     * @example await client.user.createPlaylist({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false,
+     *     userID: client.user.id // By default will be the current user id!
+     * });
+     */
+    async createPlaylist(options) {
+        try {
+            if (!options || !options.name)
+                throw new Errors_1.UnexpectedError('No name has been provided to create a playlist!');
+            const playlist = new Playlist_1.default(await this.client.util.fetch(`/users/${options.userID || this.id}/playlists`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    name: options.name,
+                    public: options.public || true,
+                    collaborative: options.collaborative || false,
+                    description: options.description || ''
+                }
+            }), this.client);
+            return playlist;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || null;
+        }
     }
     /**
      * Returns the user's following list of artists!

@@ -24,6 +24,7 @@ export class UnexpectedError extends Error{
 
     name: string;
     response?: AxiosResponse;
+    isSpotifyError: boolean;
 
     /**
      * This error mostly occurs when the spotify api responses an invalid json format or you have been rate limited!
@@ -40,6 +41,7 @@ export class UnexpectedError extends Error{
         }
         
         this.name = 'UnexpectedError';
+        this.isSpotifyError = true;
     };
 
 };
