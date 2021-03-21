@@ -152,5 +152,48 @@ class PlaylistManager extends BaseManager_1.default {
             return Errors_1.handleError(e) || [];
         }
     }
+    /**
+     * Follow a playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param options Options consisting of public field
+     * @example await client.playlists.follow('id');
+     */
+    async follow(id, options) {
+        return await this.client.user.followPlaylist(id, options);
+    }
+    /**
+     * Unfollow a playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @example await client.playlists.unfollow('id');
+     */
+    async unfollow(id) {
+        return await this.client.user.unfollowPlaylist(id);
+    }
+    /**
+     * Verify if the current user follows a playlist
+     *
+     * @param id ID of the spotify playlist
+     * @example const followsPlaylist = await client.playlists.follows('id');
+     */
+    async follows(id) {
+        return await this.client.user.followsPlaylist(id);
+    }
+    /**
+     * Create a spotify playlist for yourself or for the current user!
+     *
+     * @param options Options to create a playlist!
+     * @example await client.playlists.create({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false,
+     *     userID: client.user.id // By default will be the current user id!
+     * });
+     */
+    async create(options) {
+        return await this.client.user.createPlaylist(options);
+    }
 }
 exports.default = PlaylistManager;

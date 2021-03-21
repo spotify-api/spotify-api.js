@@ -98,7 +98,7 @@ class Episode {
         return await this.client.episodes.get(this.id, true) as Episode;
     }; 
 
-     /**
+    /**
      * Add this episode to your save list!
      * @example await episode.add();
      */

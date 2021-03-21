@@ -177,5 +177,32 @@ class ArtistManager extends BaseManager_1.default {
             return Errors_1.handleError(e) || [];
         }
     }
+    /**
+     * Follow one or many artists!
+     *
+     * @param ids ID of the spotify artists
+     * @example await client.artists.follow('id', 'id2');
+     */
+    async follow(...ids) {
+        return await this.client.user.followArtists(...ids);
+    }
+    /**
+     * Unfollow one or many artists!
+     *
+     * @param ids ID of the spotify artists
+     * @example await client.artists.unfollow('id', 'id2');
+     */
+    async unfollow(...ids) {
+        return await this.client.user.unfollowArtists(...ids);
+    }
+    /**
+     * Verify if the current user follows one or many artists
+     *
+     * @param ids ID of the spotify artists
+     * @example const [followsFirstArtist, followsSecondArtist] = await client.artists.follows('id1', 'id2');
+     */
+    async follows(...ids) {
+        return await this.client.user.followsArtists(...ids);
+    }
 }
 exports.default = ArtistManager;

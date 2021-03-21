@@ -17,7 +17,7 @@ export default class ArtistManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.artists.search('some query');
      */
-     async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>> {
+    async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Artist>> {
 
         try{
             const data = (await this.fetch('/search', {
@@ -175,7 +175,7 @@ export default class ArtistManager extends BaseManager{
      * @param options Basic PagingOptions
      * @example await client.albums.getRelatedArtists('id');
      */
-     async getRelatedArtists(id: string, options: PagingOptions = { market: 'US' }): Promise<Artist[]> {
+    async getRelatedArtists(id: string, options: PagingOptions = { market: 'US' }): Promise<Artist[]> {
 
         try{
             const artists = (await this.fetch(`/artists/${id}/related-artists`, {
@@ -191,6 +191,36 @@ export default class ArtistManager extends BaseManager{
             return handleError(e) || [];
         }
 
+    }
+
+    /**
+     * Follow one or many artists!
+     * 
+     * @param ids ID of the spotify artists
+     * @example await client.artists.follow('id', 'id2');
+     */
+    async follow(...ids: string[]): Promise<boolean> {
+        return await this.client.user.followArtists(...ids);
+    }
+
+    /**
+     * Unfollow one or many artists!
+     * 
+     * @param ids ID of the spotify artists
+     * @example await client.artists.unfollow('id', 'id2');
+     */
+    async unfollow(...ids: string[]): Promise<boolean> {
+        return await this.client.user.unfollowArtists(...ids);
+    }
+
+    /**
+     * Verify if the current user follows one or many artists
+     * 
+     * @param ids ID of the spotify artists
+     * @example const [followsFirstArtist, followsSecondArtist] = await client.artists.follows('id1', 'id2');
+     */
+    async follows(...ids: string[]): Promise<boolean[]> {
+        return await this.client.user.followsArtists(...ids);
     }
 
 }

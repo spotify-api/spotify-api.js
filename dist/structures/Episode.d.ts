@@ -51,5 +51,20 @@ declare class Episode {
      * Fetches the Episode and refreshes the cache!
      */
     fetch(): Promise<Episode>;
+    /**
+     * Add this episode to your save list!
+     * @example await episode.add();
+     */
+    add(): Promise<boolean>;
+    /**
+     * Remove this episode from your save list!
+     * @example await episode.delete();
+     */
+    delete(): Promise<boolean>;
+    /**
+     * Returns a boolean stating is this episodes saved on the user's savelist (library)
+     * @example const isSaved = await episode.saved();
+     */
+    saved(): Promise<boolean>;
 }
 export default Episode;

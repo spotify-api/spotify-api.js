@@ -1,5 +1,6 @@
 import Playlist, { PlaylistTrackType } from "../structures/Playlist";
 import { Image, Paging, PagingOptions, SearchOptions } from "../Types";
+import { CreatePlaylist } from "../UserClient";
 import BaseManager from "./BaseManager";
 /**
  * A class which manages the playlists
@@ -45,5 +46,42 @@ export default class PlaylistManager extends BaseManager {
      * @example const [firstUserFollows, secondUserFollows] = await client.playlists.userFollows('playlist_id', 'userid1', 'userid2');
      */
     userFollows(playlistID: string, ...ids: string[]): Promise<boolean[]>;
+    /**
+     * Follow a playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param options Options consisting of public field
+     * @example await client.playlists.follow('id');
+     */
+    follow(id: string, options?: {
+        public?: boolean;
+    }): Promise<boolean>;
+    /**
+     * Unfollow a playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @example await client.playlists.unfollow('id');
+     */
+    unfollow(id: string): Promise<boolean>;
+    /**
+     * Verify if the current user follows a playlist
+     *
+     * @param id ID of the spotify playlist
+     * @example const followsPlaylist = await client.playlists.follows('id');
+     */
+    follows(id: string): Promise<boolean>;
+    /**
+     * Create a spotify playlist for yourself or for the current user!
+     *
+     * @param options Options to create a playlist!
+     * @example await client.playlists.create({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false,
+     *     userID: client.user.id // By default will be the current user id!
+     * });
+     */
+    create(options: CreatePlaylist): Promise<Playlist | null>;
 }
 export type { Playlist };

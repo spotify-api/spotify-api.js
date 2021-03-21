@@ -47,4 +47,19 @@ export default class Show {
      * @example await show.getEpisodes();
      */
     getEpisodes(options?: PagingOptions): Promise<Paging<Episode>>;
+    /**
+     * Add this show to your save list!
+     * @example await show.add();
+     */
+    add(): Promise<boolean>;
+    /**
+     * Remove this show from your save list!
+     * @example await show.delete();
+     */
+    delete(): Promise<boolean>;
+    /**
+     * Returns a boolean stating is this shows saved on the user's savelist (library)
+     * @example const isSaved = await show.saved();
+     */
+    saved(): Promise<boolean>;
 }

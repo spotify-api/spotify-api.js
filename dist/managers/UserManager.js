@@ -68,6 +68,33 @@ class UserManager extends BaseManager_1.default {
             };
         }
     }
+    /**
+     * Follow one or many users!
+     *
+     * @param ids ID of the spotify users
+     * @example await client.users.follow('id', 'id2');
+     */
+    async follow(...ids) {
+        return await this.client.user.followUsers(...ids);
+    }
+    /**
+     * Unfollow one or many users!
+     *
+     * @param ids ID of the spotify users
+     * @example await client.users.unfollow('id', 'id2');
+     */
+    async unfollow(...ids) {
+        return await this.client.user.unfollowUsers(...ids);
+    }
+    /**
+     * Verify if the current user follows one or many users
+     *
+     * @param ids ID of the spotify users
+     * @example const [followsFirstUser, followsSecondUser] = await client.users.follows('id1', 'id2');
+     */
+    async follows(...ids) {
+        return await this.client.user.followsUsers(...ids);
+    }
 }
 exports.default = UserManager;
 ;

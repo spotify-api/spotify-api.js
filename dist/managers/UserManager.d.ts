@@ -28,5 +28,26 @@ export default class UserManager extends BaseManager {
         limit?: number;
         offset?: number;
     }): Promise<Paging<Playlist>>;
+    /**
+     * Follow one or many users!
+     *
+     * @param ids ID of the spotify users
+     * @example await client.users.follow('id', 'id2');
+     */
+    follow(...ids: string[]): Promise<boolean>;
+    /**
+     * Unfollow one or many users!
+     *
+     * @param ids ID of the spotify users
+     * @example await client.users.unfollow('id', 'id2');
+     */
+    unfollow(...ids: string[]): Promise<boolean>;
+    /**
+     * Verify if the current user follows one or many users
+     *
+     * @param ids ID of the spotify users
+     * @example const [followsFirstUser, followsSecondUser] = await client.users.follows('id1', 'id2');
+     */
+    follows(...ids: string[]): Promise<boolean[]>;
 }
 export type { User };

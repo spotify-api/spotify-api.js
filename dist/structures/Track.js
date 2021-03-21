@@ -104,5 +104,26 @@ class Track {
     async getAudioAnalysis() {
         return await this.client.tracks.getAudioAnalysis(this.id);
     }
+    /**
+     * Add this track to your save list!
+     * @example await track.add();
+     */
+    async add() {
+        return await this.client.user.addTracks(this.id);
+    }
+    /**
+     * Remove this track from your save list!
+     * @example await track.delete();
+     */
+    async delete() {
+        return await this.client.user.deleteTracks(this.id);
+    }
+    /**
+     * Returns a boolean stating is this tracks saved on the user's savelist (library)
+     * @example const isSaved = await track.saved();
+     */
+    async saved() {
+        return (await this.client.user.hasTracks(this.id))[0] || false;
+    }
 }
 exports.default = Track;

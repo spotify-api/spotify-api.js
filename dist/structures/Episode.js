@@ -73,6 +73,27 @@ class Episode {
         return await this.client.episodes.get(this.id, true);
     }
     ;
+    /**
+     * Add this episode to your save list!
+     * @example await episode.add();
+     */
+    async add() {
+        return await this.client.user.addEpisodes(this.id);
+    }
+    /**
+     * Remove this episode from your save list!
+     * @example await episode.delete();
+     */
+    async delete() {
+        return await this.client.user.deleteEpisodes(this.id);
+    }
+    /**
+     * Returns a boolean stating is this episodes saved on the user's savelist (library)
+     * @example const isSaved = await episode.saved();
+     */
+    async saved() {
+        return (await this.client.user.hasEpisodes(this.id))[0] || false;
+    }
 }
 ;
 exports.default = Episode;

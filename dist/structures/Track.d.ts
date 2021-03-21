@@ -83,4 +83,19 @@ export default class Track {
      * @example await track.getAudioAnalysis();
      */
     getAudioAnalysis(): Promise<TrackAudioAnalysis | null>;
+    /**
+     * Add this track to your save list!
+     * @example await track.add();
+     */
+    add(): Promise<boolean>;
+    /**
+     * Remove this track from your save list!
+     * @example await track.delete();
+     */
+    delete(): Promise<boolean>;
+    /**
+     * Returns a boolean stating is this tracks saved on the user's savelist (library)
+     * @example const isSaved = await track.saved();
+     */
+    saved(): Promise<boolean>;
 }
