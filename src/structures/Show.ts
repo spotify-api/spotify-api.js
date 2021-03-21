@@ -87,4 +87,28 @@ export default class Show {
         return episodes;
     }
 
+    /**
+     * Add this show to your save list!
+     * @example await show.add();
+     */
+    async add(): Promise<boolean> {
+        return await this.client.user.addShows(this.id);
+    }
+
+    /**
+     * Remove this show from your save list!
+     * @example await show.delete();
+     */
+    async delete(): Promise<boolean> {
+        return await this.client.user.deleteShows(this.id);
+    }
+
+    /**
+     * Returns a boolean stating is this shows saved on the user's savelist (library)
+     * @example const isSaved = await show.saved();
+     */
+    async saved(): Promise<boolean> {
+        return (await this.client.user.hasShows(this.id))[0] || false;
+    } 
+
 };
