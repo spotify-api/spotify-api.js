@@ -71,7 +71,7 @@ client.login({
 })
 ```
 
-## Using Spotify current user
+## Using Spotify Current User
 
 Spotify-api.js helps you access the current user and its player efficiently.
 
