@@ -7,6 +7,7 @@ import Album from './structures/Album';
 import Episode from './structures/Episode';
 import Show from './structures/Show';
 import Playlist from './structures/Playlist';
+import Player from './managers/PlayerManager';
 
 // Saved element structure
 export interface SavedStructure { addedAt: string };
@@ -40,6 +41,7 @@ export interface CreatePlaylist{
 export default class UserClient{
 
     client!: Client;
+    player!: Player;
     
     name: string;
     country: string;
@@ -75,6 +77,7 @@ export default class UserClient{
         this.href = '';
 
         Object.defineProperty(this, 'client', { value: typeof token == 'string' ? new Client(token) : token });
+        Object.defineProperty(this, 'player', { value: new Player(this) });
 
     }
 

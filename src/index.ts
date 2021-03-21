@@ -23,6 +23,7 @@ export { default as BrowseManager, FeaturedPlaylists } from './managers/BrowseMa
 export { default as TrackManager } from './managers/TrackManager';
 export { default as AlbumManager } from './managers/AlbumManager';
 export { default as ArtistManager } from './managers/ArtistManager';
+export { default as PlayerManager } from './managers/PlayerManager';
 
 export { default as SearchManager, Search, SearchMethod } from './managers/SearchManager';
 
