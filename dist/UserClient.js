@@ -216,6 +216,30 @@ class UserClient {
         }
     }
     /**
+     * Edit a spotify playlist using id
+     *
+     * @param id ID of the spotify playlist
+     * @param options CreatePlaylist object but userID field should not be provided!
+     * @example await client.user.editPlaylist('id', {
+     *     description: 'Edited new description'
+     * });
+     */
+    async editPlaylist(id, options) {
+        try {
+            await this.client.util.fetch(`/playlists/${id}`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: options
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
      * Returns the user's following list of artists!
      *
      * @param options Options such as after and limit!

@@ -3,6 +3,7 @@ import Track from './Track';
 import Episode from './Episode';
 import { Image, Paging, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
+import { CreatePlaylist } from '../UserClient';
 /**
  * Return object by PlaylistTrack function!
  */
@@ -103,4 +104,17 @@ export default class Playlist {
      * @example const follows = await client.playlists.userFollows('userid1', 'userid2');
      */
     userFollows(...ids: string[]): Promise<boolean>;
+    /**
+     * Edit this playlist!
+     *
+     * @param options CreatePlaylist options except the userID field.
+     * @example
+     * // One way to edit
+     * playlist.description = "Edited Description";
+     * await playlist.edit();
+     *
+     * // Another way to edit
+     * await playlist.edit({ description: "Edited Description" });
+     */
+    edit(options?: Omit<CreatePlaylist, 'userID'>): Promise<this | false>;
 }

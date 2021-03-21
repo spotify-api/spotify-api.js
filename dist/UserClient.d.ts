@@ -120,6 +120,16 @@ export default class UserClient {
      */
     createPlaylist(options: CreatePlaylist): Promise<Playlist | null>;
     /**
+     * Edit a spotify playlist using id
+     *
+     * @param id ID of the spotify playlist
+     * @param options CreatePlaylist object but userID field should not be provided!
+     * @example await client.user.editPlaylist('id', {
+     *     description: 'Edited new description'
+     * });
+     */
+    editPlaylist(id: string, options: Omit<CreatePlaylist, 'userID'>): Promise<boolean>;
+    /**
      * Returns the user's following list of artists!
      *
      * @param options Options such as after and limit!

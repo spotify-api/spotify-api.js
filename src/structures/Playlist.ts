@@ -3,6 +3,7 @@ import Track from './Track';
 import Episode from './Episode';
 import { Image, Paging, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
+import { CreatePlaylist } from '../UserClient';
 
 /**
  * Return object by PlaylistTrack function!
@@ -165,6 +166,39 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
      */
     async userFollows(...ids: string[]): Promise<boolean> {
         return (await this.client.playlists.userFollows(this.id, ...ids))[0] || false;
+    }
+
+    /**
+     * Edit this playlist!
+     * 
+     * @param options CreatePlaylist options except the userID field.
+     * @example
+     * // One way to edit
+     * playlist.description = "Edited Description";
+     * await playlist.edit();
+     * 
+     * // Another way to edit
+     * await playlist.edit({ description: "Edited Description" });
+     */
+    async edit(options?: Omit<CreatePlaylist, 'userID'>): Promise<this | false> {
+        const opts: Required<Omit<CreatePlaylist, 'userID'>> = {
+            name: this.name,
+            public: this.public || true,
+            collaborative: this.collaborative,
+            description: this.description
+        }
+
+        Object.assign(opts, options || {});
+        const success = await this.client.user.editPlaylist(this.id, opts);
+
+        if(success){
+            this.name = opts.name;
+            this.public = opts.public;
+            this.collaborative = opts.collaborative;
+            this.description = opts.description;
+        } else return false;
+
+        return this;
     }
 
 };

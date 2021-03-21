@@ -131,6 +131,37 @@ class Playlist {
     async userFollows(...ids) {
         return (await this.client.playlists.userFollows(this.id, ...ids))[0] || false;
     }
+    /**
+     * Edit this playlist!
+     *
+     * @param options CreatePlaylist options except the userID field.
+     * @example
+     * // One way to edit
+     * playlist.description = "Edited Description";
+     * await playlist.edit();
+     *
+     * // Another way to edit
+     * await playlist.edit({ description: "Edited Description" });
+     */
+    async edit(options) {
+        const opts = {
+            name: this.name,
+            public: this.public || true,
+            collaborative: this.collaborative,
+            description: this.description
+        };
+        Object.assign(opts, options || {});
+        const success = await this.client.user.editPlaylist(this.id, opts);
+        if (success) {
+            this.name = opts.name;
+            this.public = opts.public;
+            this.collaborative = opts.collaborative;
+            this.description = opts.description;
+        }
+        else
+            return false;
+        return this;
+    }
 }
 exports.default = Playlist;
 ;

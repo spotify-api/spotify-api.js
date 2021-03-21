@@ -83,5 +83,15 @@ export default class PlaylistManager extends BaseManager {
      * });
      */
     create(options: CreatePlaylist): Promise<Playlist | null>;
+    /**
+     * Edit a spotify playlist using id
+     *
+     * @param id ID of the spotify playlist
+     * @param options CreatePlaylist object but userID field should not be provided!
+     * @example await client.playlists.edit('id', {
+     *     description: 'Edited new description'
+     * });
+     */
+    edit(id: string, options: Omit<CreatePlaylist, 'userID'>): Promise<boolean>;
 }
 export type { Playlist };
