@@ -26,7 +26,7 @@ export interface CurrentPlaybackType{
     readonly context: ContextType;
     readonly item: Track | Episode | null;
     timestamp: number;
-    progress: string;
+    progress: string | number;
     currentlyPlayingType: 'track' | 'episode' | 'ad' | 'unknown';
     playing: boolean;
     repeatState: 'off' | 'track' | 'context';
@@ -39,6 +39,15 @@ export interface CurrentPlaybackType{
 export type CurrentlyPlayingType = Omit<CurrentPlaybackType, 'repeatState' | 'shuffled'>;
 
 /**
+ * Spotify api's playhistory object
+ */
+export interface PlayHistoryType{
+    readonly context: ContextType;
+    readonly track: Track;
+    playedAt: number;
+}
+
+/**
  * Spotify api's context type object!
  */
 export interface ContextType{
@@ -46,6 +55,15 @@ export interface ContextType{
     href: string;
     type: SpotifyTypes,
     uri: SpotifyURI;
+}
+
+/**
+ * Spotify api's recently played object!
+ */
+export interface RecentlyPlayedType{
+    items: PlayHistoryType[];
+    cursors: { after: string, boolean: string };
+    limit: number;
 }
 
 /**
@@ -125,7 +143,7 @@ export function CurrentPlayback(data, client: Client): CurrentPlaybackType {
  * @param client Your spotify client
  * @example const playback = CurrentlyPlaying(data, client);
  */
- export function CurrentlyPlaying(data, client: Client): CurrentlyPlayingType {
+export function CurrentlyPlaying(data, client: Client): CurrentlyPlayingType {
 
     return {
         get device(){
@@ -148,6 +166,27 @@ export function CurrentPlayback(data, client: Client): CurrentPlaybackType {
     };
 
 }; 
+
+/**
+ * Returns a play history object formatted!
+ * 
+ * @param data The play history data from the spotify api
+ * @param client Your spotify client
+ * @example const playhistory = PlayHistory(data, client);
+ */
+export function PlayHistory(data, client: Client): PlayHistoryType {
+
+    return {
+        get track(){
+            return new Track(data.track, client);
+        },
+        get context(){
+            return Context(data.context);
+        },
+        playedAt: data.played_at
+    };
+
+}
 
 /**
  * A class to manage all player endpoints
@@ -254,6 +293,32 @@ export default class PlayerManager {
             })
 
             return status != 204 ? CurrentlyPlaying(data, this.client) : null;
+        }catch(e){
+            return handleError(e);
+        }
+
+    }
+
+    /**
+     * Returns the recently played object!
+     * 
+     * @param options Options consisting of after, before and market field
+     * @example const recentlyPlayed = await player.getRecentlyPlayed();
+     */
+    async getRecentlyPlayed(options?: {
+        market?: string,
+        after?: number,
+        before?: number
+    }): Promise<RecentlyPlayedType | null> {
+
+        try{
+            const data = await this.client.util.fetch('/me/player/recently-played', { params: options as RawObject });
+
+            return {
+                items: data.items.map(x => PlayHistory(x, this.client)),
+                cursors: data.cursors,
+                limit: data.limit
+            }
         }catch(e){
             return handleError(e);
         }

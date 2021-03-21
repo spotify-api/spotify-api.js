@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CurrentlyPlaying = exports.CurrentPlayback = exports.Device = exports.Context = void 0;
+exports.PlayHistory = exports.CurrentlyPlaying = exports.CurrentPlayback = exports.Device = exports.Context = void 0;
 const UserClient_1 = __importDefault(require("../UserClient"));
 const Client_1 = __importDefault(require("../Client"));
 const Track_1 = __importDefault(require("../structures/Track"));
@@ -102,6 +102,25 @@ function CurrentlyPlaying(data, client) {
 exports.CurrentlyPlaying = CurrentlyPlaying;
 ;
 /**
+ * Returns a play history object formatted!
+ *
+ * @param data The play history data from the spotify api
+ * @param client Your spotify client
+ * @example const playhistory = PlayHistory(data, client);
+ */
+function PlayHistory(data, client) {
+    return {
+        get track() {
+            return new Track_1.default(data.track, client);
+        },
+        get context() {
+            return Context(data.context);
+        },
+        playedAt: data.played_at
+    };
+}
+exports.PlayHistory = PlayHistory;
+/**
  * A class to manage all player endpoints
  */
 class PlayerManager {
@@ -187,6 +206,25 @@ class PlayerManager {
                 }
             });
             return status != 204 ? CurrentlyPlaying(data, this.client) : null;
+        }
+        catch (e) {
+            return Errors_1.handleError(e);
+        }
+    }
+    /**
+     * Returns the recently played object!
+     *
+     * @param options Options consisting of after, before and market field
+     * @example const recentlyPlayed = await player.getRecentlyPlayed();
+     */
+    async getRecentlyPlayed(options) {
+        try {
+            const data = await this.client.util.fetch('/me/player/recently-played', { params: options });
+            return {
+                items: data.items.map(x => PlayHistory(x, this.client)),
+                cursors: data.cursors,
+                limit: data.limit
+            };
         }
         catch (e) {
             return Errors_1.handleError(e);

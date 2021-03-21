@@ -33,7 +33,10 @@ export {
     CurrentPlayback,
     CurrentPlaybackType,
     CurrentlyPlaying,
-    CurrentlyPlayingType
+    CurrentlyPlayingType,
+    PlayHistory,
+    PlayHistoryType,
+    RecentlyPlayedType
 } from './managers/PlayerManager';
 
 export { default as SearchManager, Search, SearchMethod } from './managers/SearchManager';

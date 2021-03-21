@@ -23,7 +23,7 @@ export interface CurrentPlaybackType {
     readonly context: ContextType;
     readonly item: Track | Episode | null;
     timestamp: number;
-    progress: string;
+    progress: string | number;
     currentlyPlayingType: 'track' | 'episode' | 'ad' | 'unknown';
     playing: boolean;
     repeatState: 'off' | 'track' | 'context';
@@ -34,6 +34,14 @@ export interface CurrentPlaybackType {
  */
 export declare type CurrentlyPlayingType = Omit<CurrentPlaybackType, 'repeatState' | 'shuffled'>;
 /**
+ * Spotify api's playhistory object
+ */
+export interface PlayHistoryType {
+    readonly context: ContextType;
+    readonly track: Track;
+    playedAt: number;
+}
+/**
  * Spotify api's context type object!
  */
 export interface ContextType {
@@ -41,6 +49,17 @@ export interface ContextType {
     href: string;
     type: SpotifyTypes;
     uri: SpotifyURI;
+}
+/**
+ * Spotify api's recently played object!
+ */
+export interface RecentlyPlayedType {
+    items: PlayHistoryType[];
+    cursors: {
+        after: string;
+        boolean: string;
+    };
+    limit: number;
 }
 /**
  * Returns an context object formatted!
@@ -72,6 +91,14 @@ export declare function CurrentPlayback(data: any, client: Client): CurrentPlayb
  * @example const playback = CurrentlyPlaying(data, client);
  */
 export declare function CurrentlyPlaying(data: any, client: Client): CurrentlyPlayingType;
+/**
+ * Returns a play history object formatted!
+ *
+ * @param data The play history data from the spotify api
+ * @param client Your spotify client
+ * @example const playhistory = PlayHistory(data, client);
+ */
+export declare function PlayHistory(data: any, client: Client): PlayHistoryType;
 /**
  * A class to manage all player endpoints
  */
@@ -119,4 +146,15 @@ export default class PlayerManager {
         market?: string;
         additionalTypes?: 'track' | 'episode';
     }): Promise<CurrentlyPlayingType | null>;
+    /**
+     * Returns the recently played object!
+     *
+     * @param options Options consisting of after, before and market field
+     * @example const recentlyPlayed = await player.getRecentlyPlayed();
+     */
+    getRecentlyPlayed(options?: {
+        market?: string;
+        after?: number;
+        before?: number;
+    }): Promise<RecentlyPlayedType | null>;
 }
