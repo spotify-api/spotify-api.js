@@ -20,7 +20,7 @@ declare class Album {
     type: SpotifyTypes;
     uri: SpotifyURI;
     label: string | null;
-    restrictions: Restriction | null;
+    restrictions: Restriction<'market' | 'product' | 'explicit'> | null;
     albumGroup?: 'album' | 'single' | 'compilation' | 'appears_on';
     totalTracks?: number;
     copyrights?: Copyright[];

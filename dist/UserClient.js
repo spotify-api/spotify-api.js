@@ -11,11 +11,7 @@ const Album_1 = __importDefault(require("./structures/Album"));
 const Episode_1 = __importDefault(require("./structures/Episode"));
 const Show_1 = __importDefault(require("./structures/Show"));
 const Playlist_1 = __importDefault(require("./structures/Playlist"));
-;
-;
-;
-;
-;
+const PlayerManager_1 = __importDefault(require("./managers/PlayerManager"));
 /**
  * A class which accesses the current user endpoints!
  */
@@ -32,6 +28,7 @@ class UserClient {
         this.id = '';
         this.href = '';
         Object.defineProperty(this, 'client', { value: typeof token == 'string' ? new Client_1.default(token) : token });
+        Object.defineProperty(this, 'player', { value: new PlayerManager_1.default(this) });
     }
     /**
      * Returns current user details

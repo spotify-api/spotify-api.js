@@ -6,21 +6,13 @@ import Album from './structures/Album';
 import Episode from './structures/Episode';
 import Show from './structures/Show';
 import Playlist from './structures/Playlist';
-export interface SavedStructure {
+import Player from './managers/PlayerManager';
+/**
+ * Saved asset type
+ */
+export declare type Saved<K extends string, V> = {
     addedAt: string;
-}
-export interface SavedAlbum extends SavedStructure {
-    album: Album;
-}
-export interface SavedTrack extends SavedStructure {
-    track: Track;
-}
-export interface SavedEpisode extends SavedStructure {
-    episode: Episode;
-}
-export interface SavedShow extends SavedStructure {
-    show: Show;
-}
+} & Record<K, V>;
 /**
  * Create playlist options!
  */
@@ -36,6 +28,7 @@ export interface CreatePlaylist {
  */
 export default class UserClient {
     client: Client;
+    player: Player;
     name: string;
     country: string;
     email: string;
@@ -187,7 +180,7 @@ export default class UserClient {
      * @param options Basic PagingOptions
      * @example const albums = await client.user.getAlbums();
      */
-    getAlbums(options?: PagingOptions): Promise<Paging<SavedAlbum>>;
+    getAlbums(options?: PagingOptions): Promise<Paging<Saved<'album', Album>>>;
     /**
      * Add albums to your spotify savelist!
      *
@@ -215,7 +208,7 @@ export default class UserClient {
      * @param options Basic PagingOptions
      * @example const tracks = await client.user.getTracks();
      */
-    getTracks(options?: PagingOptions): Promise<Paging<SavedTrack>>;
+    getTracks(options?: PagingOptions): Promise<Paging<Saved<'track', Track>>>;
     /**
      * Add tracks to your spotify savelist!
      *
@@ -243,7 +236,7 @@ export default class UserClient {
      * @param options Basic PagingOptions
      * @example const episodes = await client.user.getEpisodes();
      */
-    getEpisodes(options?: PagingOptions): Promise<Paging<SavedEpisode>>;
+    getEpisodes(options?: PagingOptions): Promise<Paging<Saved<'episode', Episode>>>;
     /**
      * Add episodes to your spotify savelist!
      *
@@ -271,7 +264,7 @@ export default class UserClient {
      * @param options Basic PagingOptions
      * @example const shows = await client.user.getShows();
      */
-    getShows(options?: PagingOptions): Promise<Paging<SavedShow>>;
+    getShows(options?: PagingOptions): Promise<Paging<Saved<'show', Show>>>;
     /**
      * Add shows to your spotify savelist!
      *

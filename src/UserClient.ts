@@ -9,20 +9,12 @@ import Show from './structures/Show';
 import Playlist from './structures/Playlist';
 import Player from './managers/PlayerManager';
 
-// Saved element structure
-export interface SavedStructure { addedAt: string };
-
-// Saved album object structure
-export interface SavedAlbum extends SavedStructure { album: Album };
-
-// Saved track object structure
-export interface SavedTrack extends SavedStructure { track: Track };
-
-// Saved episode object structure
-export interface SavedEpisode extends SavedStructure { episode: Episode };
-
-// Saved show object structure
-export interface SavedShow extends SavedStructure { show: Show };
+/**
+ * Saved asset type
+ */
+export type Saved<K extends string, V> = {
+    addedAt: string;
+} & Record<K, V>;
 
 /**
  * Create playlist options!
@@ -493,7 +485,7 @@ export default class UserClient{
      * @param options Basic PagingOptions
      * @example const albums = await client.user.getAlbums();
      */
-    async getAlbums(options?: PagingOptions): Promise<Paging<SavedAlbum>> {
+    async getAlbums(options?: PagingOptions): Promise<Paging<Saved<'album', Album>>> {
 
         try{
             const data = await this.client.util.fetch('/me/albums', { params: options });
@@ -590,7 +582,7 @@ export default class UserClient{
      * @param options Basic PagingOptions
      * @example const tracks = await client.user.getTracks();
      */
-     async getTracks(options?: PagingOptions): Promise<Paging<SavedTrack>> {
+     async getTracks(options?: PagingOptions): Promise<Paging<Saved<'track', Track>>> {
 
         try{
             const data = await this.client.util.fetch('/me/tracks', { params: options });
@@ -687,7 +679,7 @@ export default class UserClient{
      * @param options Basic PagingOptions
      * @example const episodes = await client.user.getEpisodes();
      */
-     async getEpisodes(options?: PagingOptions): Promise<Paging<SavedEpisode>> {
+     async getEpisodes(options?: PagingOptions): Promise<Paging<Saved<'episode', Episode>>> {
 
         try{
             const data = await this.client.util.fetch('/me/episodes', { params: options });
@@ -784,7 +776,7 @@ export default class UserClient{
      * @param options Basic PagingOptions
      * @example const shows = await client.user.getShows();
      */
-     async getShows(options?: PagingOptions): Promise<Paging<SavedShow>> {
+     async getShows(options?: PagingOptions): Promise<Paging<Saved<'show', Show>>> {
 
         try{
             const data = await this.client.util.fetch('/me/shows', { params: options });

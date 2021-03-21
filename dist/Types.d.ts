@@ -142,8 +142,8 @@ export interface TrackAudioAnalysis {
 /**
  * Spotify api's restriction object
  */
-export interface Restriction {
-    reason: string;
+export interface Restriction<T = string> {
+    reason: T;
 }
 /**
  * Paging options
