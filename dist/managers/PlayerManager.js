@@ -230,5 +230,197 @@ class PlayerManager {
             return Errors_1.handleError(e);
         }
     }
+    /**
+     * Play or resume your player!
+     *
+     * @param options Options used to play!
+     * @param deviceID The device id to play else will target the currently active one
+     * @example await player.play();
+     */
+    async play({ deviceID, contextURI, uris, position, offset } = {}) {
+        try {
+            const opts = {
+                device_id: deviceID,
+                context_uris: contextURI,
+                uris: uris === null || uris === void 0 ? void 0 : uris.join(','),
+                position_ms: position,
+                offset
+            };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/play', {
+                method: 'PUT',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Pause your player
+     *
+     * @param deviceID The device id to pause else will target the currently active one
+     * @example await player.pause();
+     */
+    async pause(deviceID) {
+        try {
+            const opts = { device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/pause', {
+                method: 'PUT',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Move to the next item in the queue
+     *
+     * @param deviceID The device id to move to the next item in the queue else will target the currently active one
+     * @example await player.next();
+     */
+    async next(deviceID) {
+        try {
+            const opts = { device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/next', {
+                method: 'POST',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Move to the previous item in the queue
+     *
+     * @param deviceID The device id to move to the previous item in the queue else will target the currently active one
+     * @example await player.previous();
+     */
+    async previous(deviceID) {
+        try {
+            const opts = { device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/previous', {
+                method: 'POST',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Seek your player to a position
+     *
+     * @param position Position in ms to seek
+     * @param deviceID The device id to add item else will target the currently active one
+     * @example await player.seek(12000);
+     */
+    async seek(position, deviceID) {
+        try {
+            const opts = { position_ms: position, device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/seek', {
+                method: 'PUT',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Set repeat mode to your player
+     *
+     * @param state Repeat mode to set
+     * @param deviceID The device id to set repeat mode else will target the currently active one
+     * @example await player.setRepeatMode('track');
+     */
+    async setRepeatMode(state, deviceID) {
+        try {
+            const opts = { state, device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/repeat', {
+                method: 'PUT',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Set volume of your volume!
+     *
+     * @param volume Percentage of volume to set
+     * @param deviceID The device id to set volume else will target the currently active one
+     * @example await player.setVolume(20);
+     */
+    async setVolume(volume, deviceID) {
+        try {
+            const opts = { volume_percent: volume, device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/volume', {
+                method: 'PUT',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Shuffle your queue!
+     *
+     * @param state If true, will shuffle else will undhuffle
+     * @param deviceID The device id to shuffle else will target the currently active one
+     * @example await player.shuffle();
+     */
+    async shuffle(state = true, deviceID) {
+        try {
+            const opts = { state, device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/shuffle', {
+                method: 'PUT',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
+    /**
+     * Add an item to the queue
+     *
+     * @param uri Spotify uri of the item to add to the queue
+     * @param deviceID The device id to add item else will target the currently active one
+     * @example await player.addItem('uri');
+     */
+    async addItem(uri, deviceID) {
+        try {
+            const opts = { uri, device_id: deviceID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            await this.client.util.fetch('/me/player/queue', {
+                method: 'POST',
+                params: opts
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
 }
 exports.default = PlayerManager;

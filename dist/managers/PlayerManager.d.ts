@@ -157,4 +157,79 @@ export default class PlayerManager {
         after?: number;
         before?: number;
     }): Promise<RecentlyPlayedType | null>;
+    /**
+     * Play or resume your player!
+     *
+     * @param options Options used to play!
+     * @param deviceID The device id to play else will target the currently active one
+     * @example await player.play();
+     */
+    play({ deviceID, contextURI, uris, position, offset }?: {
+        deviceID?: string;
+        contextURI?: string;
+        uris?: string[];
+        position?: number;
+        offset?: number;
+    }): Promise<boolean>;
+    /**
+     * Pause your player
+     *
+     * @param deviceID The device id to pause else will target the currently active one
+     * @example await player.pause();
+     */
+    pause(deviceID?: string): Promise<boolean>;
+    /**
+     * Move to the next item in the queue
+     *
+     * @param deviceID The device id to move to the next item in the queue else will target the currently active one
+     * @example await player.next();
+     */
+    next(deviceID?: string): Promise<boolean>;
+    /**
+     * Move to the previous item in the queue
+     *
+     * @param deviceID The device id to move to the previous item in the queue else will target the currently active one
+     * @example await player.previous();
+     */
+    previous(deviceID?: string): Promise<boolean>;
+    /**
+     * Seek your player to a position
+     *
+     * @param position Position in ms to seek
+     * @param deviceID The device id to add item else will target the currently active one
+     * @example await player.seek(12000);
+     */
+    seek(position: number, deviceID?: string): Promise<boolean>;
+    /**
+     * Set repeat mode to your player
+     *
+     * @param state Repeat mode to set
+     * @param deviceID The device id to set repeat mode else will target the currently active one
+     * @example await player.setRepeatMode('track');
+     */
+    setRepeatMode(state: 'track' | 'context' | 'off', deviceID?: string): Promise<boolean>;
+    /**
+     * Set volume of your volume!
+     *
+     * @param volume Percentage of volume to set
+     * @param deviceID The device id to set volume else will target the currently active one
+     * @example await player.setVolume(20);
+     */
+    setVolume(volume: number, deviceID?: string): Promise<boolean>;
+    /**
+     * Shuffle your queue!
+     *
+     * @param state If true, will shuffle else will undhuffle
+     * @param deviceID The device id to shuffle else will target the currently active one
+     * @example await player.shuffle();
+     */
+    shuffle(state?: boolean, deviceID?: string): Promise<boolean>;
+    /**
+     * Add an item to the queue
+     *
+     * @param uri Spotify uri of the item to add to the queue
+     * @param deviceID The device id to add item else will target the currently active one
+     * @example await player.addItem('uri');
+     */
+    addItem(uri: SpotifyURI, deviceID?: string): Promise<boolean>;
 }
