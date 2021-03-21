@@ -1,6 +1,7 @@
 import { handleError } from "../Errors";
 import Playlist, { PlaylistTrack, PlaylistTrackType } from "../structures/Playlist";
 import { Image, Paging, PagingOptions, RawObject, SearchOptions } from "../Types";
+import { CreatePlaylist } from "../UserClient";
 import BaseManager from "./BaseManager";
 
 /**
@@ -141,6 +142,53 @@ export default class PlaylistManager extends BaseManager{
             return handleError(e) || [];
         }
 
+    }
+
+    /**
+     * Follow a playlist!
+     * 
+     * @param id ID of the spotify playlist
+     * @param options Options consisting of public field
+     * @example await client.playlists.follow('id');
+     */
+    async follow(id: string, options?: { public?: boolean }): Promise<boolean> {
+        return await this.client.user.followPlaylist(id, options);
+    }
+
+    /**
+     * Unfollow a playlist!
+     * 
+     * @param id ID of the spotify playlist
+     * @example await client.playlists.unfollow('id');
+     */
+    async unfollow(id: string): Promise<boolean> {
+        return await this.client.user.unfollowPlaylist(id);
+    }
+
+    /**
+     * Verify if the current user follows a playlist
+     * 
+     * @param id ID of the spotify playlist
+     * @example const followsPlaylist = await client.playlists.follows('id');
+     */
+    async follows(id: string): Promise<boolean> {
+        return await this.client.user.followsPlaylist(id);
+    }
+
+    /**
+     * Create a spotify playlist for yourself or for the current user!
+     * 
+     * @param options Options to create a playlist!
+     * @example await client.playlists.create({
+     *     name: 'Funky playlist',
+     *     description: 'My own cool playlist created by spotify-api.js',
+     *     public: true,
+     *     collaborative: false,
+     *     userID: client.user.id // By default will be the current user id!
+     * });
+     */
+    async create(options: CreatePlaylist): Promise<Playlist | null> {
+        return await this.client.user.createPlaylist(options);
     }
 
 }
