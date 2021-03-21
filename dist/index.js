@@ -13,16 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Artist = exports.Album = exports.LinkedTrack = exports.Track = exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.SearchManager = exports.PlayHistory = exports.CurrentlyPlaying = exports.CurrentPlayback = exports.Context = exports.Device = exports.PlayerManager = exports.ArtistManager = exports.AlbumManager = exports.TrackManager = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.UserClient = exports.Client = exports.resolveURI = exports.Util = exports.version = void 0;
+exports.UserClient = exports.createUser = exports.Artist = exports.Album = exports.LinkedTrack = exports.Track = exports.Show = exports.Episode = exports.PlaylistTrack = exports.Playlist = exports.User = exports.SearchManager = exports.PlayHistory = exports.CurrentlyPlaying = exports.CurrentPlayback = exports.Context = exports.Device = exports.PlayerManager = exports.ArtistManager = exports.AlbumManager = exports.TrackManager = exports.BrowseManager = exports.ShowManager = exports.EpisodeManager = exports.PlaylistManager = exports.UserManager = exports.BaseManager = exports.AuthManager = exports.Collection = exports.Client = exports.resolveURI = exports.Util = exports.version = void 0;
 const Client_1 = __importDefault(require("./Client"));
+const UserClient_1 = __importDefault(require("./UserClient"));
+exports.UserClient = UserClient_1.default;
 exports.version = '8.0.0';
 var Util_1 = require("./Util");
 Object.defineProperty(exports, "Util", { enumerable: true, get: function () { return __importDefault(Util_1).default; } });
 Object.defineProperty(exports, "resolveURI", { enumerable: true, get: function () { return Util_1.resolveURI; } });
 var Client_2 = require("./Client");
 Object.defineProperty(exports, "Client", { enumerable: true, get: function () { return __importDefault(Client_2).default; } });
-var UserClient_1 = require("./UserClient");
-Object.defineProperty(exports, "UserClient", { enumerable: true, get: function () { return __importDefault(UserClient_1).default; } });
 var Collection_1 = require("./utils/Collection");
 Object.defineProperty(exports, "Collection", { enumerable: true, get: function () { return __importDefault(Collection_1).default; } });
 var AuthManager_1 = require("./managers/AuthManager");
@@ -73,4 +73,16 @@ Object.defineProperty(exports, "Artist", { enumerable: true, get: function () { 
 __exportStar(require("./Errors"), exports);
 __exportStar(require("./Types"), exports);
 __exportStar(require("./UserClient"), exports);
+/**
+ * Returns a userclient only object by token
+ * Remember that this method cache user's private info before returning the user client
+ *
+ * @param token A valid spotify current user authorized token
+ * @example const user = await Spotify.createUser('token');
+ */
+async function createUser(token) {
+    const user = new UserClient_1.default(token);
+    return await user.info();
+}
+exports.createUser = createUser;
 exports.default = Client_1.default;

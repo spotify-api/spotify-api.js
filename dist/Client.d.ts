@@ -1,7 +1,7 @@
 import Util from "./Util";
 import Collection from "./utils/Collection";
 import UserClient from "./UserClient";
-import AuthManager, { GetUserTokenOptions } from "./managers/AuthManager";
+import AuthManager, { AuthRefresh, GetUserTokenOptions } from "./managers/AuthManager";
 import UserManager, { User } from './managers/UserManager';
 import PlaylistManager, { Playlist } from "./managers/PlaylistManager";
 import EpisodeManager, { Episode } from "./managers/EpisodeManager";
@@ -76,6 +76,7 @@ export default class Client {
      *    redirectURL: 'url' // Needs to be the same what you have enetered while authorizing the token!
      * })
      */
+    login(token: string): Promise<void>;
     login(clientID: string, clientSecret: string): Promise<void>;
-    login(options: GetUserTokenOptions): Promise<void>;
+    login(options: GetUserTokenOptions): Promise<void | AuthRefresh>;
 }

@@ -53,19 +53,36 @@ class Client {
         Object.defineProperty(this, 'artists', { value: new ArtistManager_1.default(this) });
         Object.defineProperty(this, 'search', { value: SearchManager_1.default(this) });
         Object.defineProperty(this, 'user', { value: new UserClient_1.default(this) });
-        if (this.cacheOptions.cacheCurrentUser) {
-            this.user.info().then(x => this.onReady());
+        if (this.token != 'NO TOKEN') {
+            if (this.cacheOptions.cacheCurrentUser)
+                this.user.info().then(x => this.onReady());
+            else
+                this.onReady();
         }
     }
     async login(options, clientSecret) {
         if (typeof clientSecret == 'string') {
             this.token = await this.auth.getApiToken(options, clientSecret);
+            this.util.token = this.token;
+            this.auth.token = this.token;
+            this.onReady();
+        }
+        else if (typeof options == 'string' && !clientSecret) {
+            this.token = options;
+            this.util.token = this.token;
+            this.auth.token = this.token;
+            this.onReady();
         }
         else {
-            this.token = (await this.auth.getUserToken(options)).accessToken;
+            const data = await this.auth.getUserToken(options);
+            this.token = data.accessToken;
+            this.util.token = this.token;
+            this.auth.token = this.token;
+            if (this.cacheOptions.cacheCurrentUser)
+                await this.user.info();
+            this.onReady();
+            return data;
         }
-        this.util.token = this.token;
-        this.auth.token = this.token;
     }
 }
 exports.default = Client;

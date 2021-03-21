@@ -2,7 +2,7 @@ import Util from "./Util";
 import Collection from "./utils/Collection";
 import UserClient from "./UserClient";
 
-import AuthManager, { GetUserTokenOptions } from "./managers/AuthManager";
+import AuthManager, { AuthRefresh, GetUserTokenOptions } from "./managers/AuthManager";
 import UserManager, { User } from './managers/UserManager';
 import PlaylistManager, { Playlist } from "./managers/PlaylistManager";
 import EpisodeManager, { Episode } from "./managers/EpisodeManager";
@@ -100,8 +100,9 @@ export default class Client{
         Object.defineProperty(this, 'search', { value: SearchManager(this) });
         Object.defineProperty(this, 'user', { value: new UserClient(this) });
 
-        if(this.cacheOptions.cacheCurrentUser){
-            this.user.info().then(x => this.onReady());
+        if(this.token != 'NO TOKEN'){
+            if(this.cacheOptions.cacheCurrentUser) this.user.info().then(x => this.onReady());
+            else this.onReady();
         }
     }
 
@@ -119,17 +120,29 @@ export default class Client{
      *    redirectURL: 'url' // Needs to be the same what you have enetered while authorizing the token!
      * }) 
      */
+    async login(token: string): Promise<void>;
     async login(clientID: string, clientSecret: string): Promise<void>;
-    async login(options: GetUserTokenOptions): Promise<void>;
-    async login(options: string | GetUserTokenOptions, clientSecret?: string): Promise<void> {
+    async login(options: GetUserTokenOptions): Promise<void | AuthRefresh>;
+    async login(options: string | GetUserTokenOptions, clientSecret?: string): Promise<void | AuthRefresh> {
         if(typeof clientSecret == 'string'){
             this.token = await this.auth.getApiToken(options as string, clientSecret);
+            this.util.token = this.token;
+            this.auth.token = this.token;
+            this.onReady();
+        } else if(typeof options == 'string' && !clientSecret){
+            this.token = options;
+            this.util.token = this.token;
+            this.auth.token = this.token;
+            this.onReady();
         } else {
-            this.token = (await this.auth.getUserToken(options as GetUserTokenOptions)).accessToken;
+            const data = await this.auth.getUserToken(options as GetUserTokenOptions);
+            this.token = data.accessToken;
+            this.util.token = this.token;
+            this.auth.token = this.token;
+            if(this.cacheOptions.cacheCurrentUser) await this.user.info();
+            this.onReady();
+            return data;
         }
-
-        this.util.token = this.token;
-        this.auth.token = this.token;
     }
 
 }

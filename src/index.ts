@@ -1,4 +1,5 @@
 import Client from './Client';
+import UserClient from './UserClient';
 
 export const version = '8.0.0';
 
@@ -10,7 +11,6 @@ export {
 } from './Util';
 
 export { default as Client, ClientOptions } from './Client';
-export { default as UserClient } from './UserClient';
 export { default as Collection } from './utils/Collection';
 
 export { default as AuthManager, GetUserTokenOptions, AuthRefresh } from './managers/AuthManager';
@@ -53,4 +53,17 @@ export * from './Errors';
 export * from './Types';
 export * from './UserClient';
 
+/**
+ * Returns a userclient only object by token
+ * Remember that this method cache user's private info before returning the user client
+ * 
+ * @param token A valid spotify current user authorized token
+ * @example const user = await Spotify.createUser('token');
+ */
+export async function createUser(token: string): Promise<UserClient> {
+    const user = new UserClient(token);
+    return await user.info();
+}
+
+export { UserClient };
 export default Client;
