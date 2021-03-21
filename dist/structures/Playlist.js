@@ -162,6 +162,46 @@ class Playlist {
             return false;
         return this;
     }
+    /**
+     * Add items to the playlist!
+     *
+     * @param items Array of uris of the spotify episodes or spotify tracks to add to the playlist
+     * @param options Options containing position field
+     * @example await playlists.add(['spotify:track:id']);
+     */
+    async add(items, options) {
+        return await this.client.playlists.addItems(this.id, items, options);
+    }
+    /**
+     * Reorder items of the playlist!
+     *
+     * @param options ReorderOptions of spotify playlist!
+     * @example await playlist.reorder(['spotify:track:id'], {
+     *     insertBefore: 10
+     * })
+     */
+    async reorder(items, options) {
+        return await this.client.playlists.reorderItems(this.id, items, options);
+    }
+    /**
+     * Remove items from the playlist!
+     *
+     * @param items Array of spotify uris of tracks and episodes to remove from the playlist!
+     * @param snapshotID The playlist’s snapshot ID against which you want to make the changes.
+     * @example await playlist.remove(['spotify:track:id']);
+     */
+    async remove(items, snapshotID) {
+        return await this.client.playlists.removeItems(this.id, items, snapshotID);
+    }
+    /**
+     * Upload a custom image to the playlist!
+     *
+     * @param image Image data url of image/jpeg to upload!
+     * @example await playlist.uploadImage('data:image/jpeg;base64,/......');
+     */
+    async uploadImage(image) {
+        return await this.client.playlists.uploadImage(this.id, image);
+    }
 }
 exports.default = Playlist;
 ;

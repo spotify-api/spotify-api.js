@@ -7,7 +7,7 @@ export { default as Collection } from './utils/Collection';
 export { default as AuthManager, GetUserTokenOptions, AuthRefresh } from './managers/AuthManager';
 export { default as BaseManager } from './managers/BaseManager';
 export { default as UserManager } from './managers/UserManager';
-export { default as PlaylistManager } from './managers/PlaylistManager';
+export { default as PlaylistManager, ReorderOptions } from './managers/PlaylistManager';
 export { default as EpisodeManager } from './managers/EpisodeManager';
 export { default as ShowManager } from './managers/ShowManager';
 export { default as BrowseManager, FeaturedPlaylists } from './managers/BrowseManager';

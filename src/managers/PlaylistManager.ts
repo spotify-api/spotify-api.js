@@ -1,8 +1,18 @@
 import { handleError } from "../Errors";
 import Playlist, { PlaylistTrack, PlaylistTrackType } from "../structures/Playlist";
-import { Image, Paging, PagingOptions, RawObject, SearchOptions } from "../Types";
+import { Image, Paging, PagingOptions, RawObject, SearchOptions, SpotifyURI } from "../Types";
 import { CreatePlaylist } from "../UserClient";
 import BaseManager from "./BaseManager";
+
+/**
+ * Object structure to reorder items in a playlist!
+ */
+export interface ReorderOptions{
+    rangeStart?: number;
+    insertBefore?: number;
+    rangeLength?: number;
+    snapshotID?: string;
+}
 
 /**
  * A class which manages the playlists
@@ -16,7 +26,7 @@ export default class PlaylistManager extends BaseManager{
      * @param options Basic SearchOptions but no `type` field should be provided!
      * @example await client.playlists.search('some query');
      */
-     async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>> {
+    async search(query: string, options?: Omit<SearchOptions, 'type'>): Promise<Paging<Playlist>> {
 
         try{
             const data = (await this.fetch('/search', {
@@ -202,6 +212,122 @@ export default class PlaylistManager extends BaseManager{
      */
     async edit(id: string, options: Omit<CreatePlaylist, 'userID'>): Promise<boolean> {
        return await this.client.user.editPlaylist(id, options); 
+    }
+
+    /**
+     * Add items to the playlist!
+     * 
+     * @param id ID pf the spotify playlist
+     * @param items Array of uris of the spotify episodes or spotify tracks to add to the playlist
+     * @param options Options containing position field
+     * @example await client.playlists.addItems('id', ['spotify:track:id']);
+     */
+    async addItems(id: string, items: SpotifyURI[], options?: { position?: number }): Promise<string | null> {
+
+        try{
+            return (await this.fetch(`/playlists/${id}/tracks`, {
+                method: 'POST',
+                params: {
+                    ...options,
+                    uris: items.join(',')
+                } as RawObject
+            })).snapshot_id;
+        }catch(e){
+            return handleError(e) || null;
+        }
+
+    }
+
+    /**
+     * Reorder items of the playlist!
+     * 
+     * @param id ID of the spotify playlist
+     * @param options ReorderOptions of spotify playlist!
+     * @example await client.playlists.reorderItems('id', ['spotify:track:id'], {
+     *     insertBefore: 10
+     * })
+     */
+    async reorderItems(id: string, items: SpotifyURI[], options: ReorderOptions = {}): Promise<string | null> {
+
+        try{
+            const opts = {
+                range_start: options.rangeStart,
+                insert_before: options.insertBefore,
+                range_length: options.rangeLength,
+                snapshot_id: options.snapshotID
+            };
+
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+
+            return (await this.fetch(`/playlists/${id}/tracks`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    ...opts,
+                    uris: items.join(',')
+                } as RawObject
+            })).snapshot_id;
+        }catch(e){
+            return handleError(e) || null;
+        }
+
+    }
+
+    /**
+     * Remove items from the playlist!
+     * 
+     * @param id ID of the spotify playlist
+     * @param items Array of spotify uris of tracks and episodes to remove from the playlist!
+     * @param snapshotID The playlist’s snapshot ID against which you want to make the changes.
+     * @example await client.playlists.removeItems('id', ['spotify:track:id']);
+     */
+    async removeItems(id: string, items: SpotifyURI[], snapshotID?: string): Promise<string | null> {
+
+        try{
+            const opts = { snapshot_id: snapshotID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+
+            return (await this.fetch(`/playlists/${id}/tracks`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    ...opts,
+                    tracks: items.join(',')
+                } as RawObject
+            })).snapshot_id;
+        }catch(e){
+            return handleError(e) || null;
+        }
+
+    }
+
+    /**
+     * Upload a custom image to the playlist!
+     * 
+     * @param id ID of the spotify playlist
+     * @param image Image data url of image/jpeg to upload!
+     * @example await client.playlists.uploadImage('id', 'data:image/jpeg;base64,/......');
+     */
+    async uploadImage(id: string, image: string): Promise<boolean> {
+
+        try{
+            await this.fetch(`/playlists/${id}/images`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "image/jpeg"
+                },
+                body: image as any
+            });
+
+            return true;
+        }catch(e){
+            return handleError(e) || false;
+        }
+
     }
 
 }

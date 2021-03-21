@@ -207,5 +207,109 @@ class PlaylistManager extends BaseManager_1.default {
     async edit(id, options) {
         return await this.client.user.editPlaylist(id, options);
     }
+    /**
+     * Add items to the playlist!
+     *
+     * @param id ID pf the spotify playlist
+     * @param items Array of uris of the spotify episodes or spotify tracks to add to the playlist
+     * @param options Options containing position field
+     * @example await client.playlists.addItems('id', ['spotify:track:id']);
+     */
+    async addItems(id, items, options) {
+        try {
+            return (await this.fetch(`/playlists/${id}/tracks`, {
+                method: 'POST',
+                params: {
+                    ...options,
+                    uris: items.join(',')
+                }
+            })).snapshot_id;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || null;
+        }
+    }
+    /**
+     * Reorder items of the playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param options ReorderOptions of spotify playlist!
+     * @example await client.playlists.reorderItems('id', ['spotify:track:id'], {
+     *     insertBefore: 10
+     * })
+     */
+    async reorderItems(id, items, options = {}) {
+        try {
+            const opts = {
+                range_start: options.rangeStart,
+                insert_before: options.insertBefore,
+                range_length: options.rangeLength,
+                snapshot_id: options.snapshotID
+            };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            return (await this.fetch(`/playlists/${id}/tracks`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    ...opts,
+                    uris: items.join(',')
+                }
+            })).snapshot_id;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || null;
+        }
+    }
+    /**
+     * Remove items from the playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param items Array of spotify uris of tracks and episodes to remove from the playlist!
+     * @param snapshotID The playlist’s snapshot ID against which you want to make the changes.
+     * @example await client.playlists.removeItems('id', ['spotify:track:id']);
+     */
+    async removeItems(id, items, snapshotID) {
+        try {
+            const opts = { snapshot_id: snapshotID };
+            Object.keys(opts).forEach(x => !opts[x] ? delete opts[x] : null);
+            return (await this.fetch(`/playlists/${id}/tracks`, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    ...opts,
+                    tracks: items.join(',')
+                }
+            })).snapshot_id;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || null;
+        }
+    }
+    /**
+     * Upload a custom image to the playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param image Image data url of image/jpeg to upload!
+     * @example await client.playlists.uploadImage('id', 'data:image/jpeg;base64,/......');
+     */
+    async uploadImage(id, image) {
+        try {
+            await this.fetch(`/playlists/${id}/images`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "image/jpeg"
+                },
+                body: image
+            });
+            return true;
+        }
+        catch (e) {
+            return Errors_1.handleError(e) || false;
+        }
+    }
 }
 exports.default = PlaylistManager;

@@ -4,6 +4,7 @@ import Episode from './Episode';
 import { Image, Paging, PagingOptions, PlaylistTracksRef, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
 import Client from '../Client';
 import { CreatePlaylist } from '../UserClient';
+import { ReorderOptions } from '../managers/PlaylistManager';
 /**
  * Return object by PlaylistTrack function!
  */
@@ -117,4 +118,38 @@ export default class Playlist {
      * await playlist.edit({ description: "Edited Description" });
      */
     edit(options?: Omit<CreatePlaylist, 'userID'>): Promise<this | false>;
+    /**
+     * Add items to the playlist!
+     *
+     * @param items Array of uris of the spotify episodes or spotify tracks to add to the playlist
+     * @param options Options containing position field
+     * @example await playlists.add(['spotify:track:id']);
+     */
+    add(items: SpotifyURI[], options?: {
+        position?: number;
+    }): Promise<string | null>;
+    /**
+     * Reorder items of the playlist!
+     *
+     * @param options ReorderOptions of spotify playlist!
+     * @example await playlist.reorder(['spotify:track:id'], {
+     *     insertBefore: 10
+     * })
+     */
+    reorder(items: SpotifyURI[], options?: ReorderOptions): Promise<string | null>;
+    /**
+     * Remove items from the playlist!
+     *
+     * @param items Array of spotify uris of tracks and episodes to remove from the playlist!
+     * @param snapshotID The playlist’s snapshot ID against which you want to make the changes.
+     * @example await playlist.remove(['spotify:track:id']);
+     */
+    remove(items: SpotifyURI[], snapshotID?: string): Promise<string | null>;
+    /**
+     * Upload a custom image to the playlist!
+     *
+     * @param image Image data url of image/jpeg to upload!
+     * @example await playlist.uploadImage('data:image/jpeg;base64,/......');
+     */
+    uploadImage(image: string): Promise<boolean>;
 }

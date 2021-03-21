@@ -1,7 +1,16 @@
 import Playlist, { PlaylistTrackType } from "../structures/Playlist";
-import { Image, Paging, PagingOptions, SearchOptions } from "../Types";
+import { Image, Paging, PagingOptions, SearchOptions, SpotifyURI } from "../Types";
 import { CreatePlaylist } from "../UserClient";
 import BaseManager from "./BaseManager";
+/**
+ * Object structure to reorder items in a playlist!
+ */
+export interface ReorderOptions {
+    rangeStart?: number;
+    insertBefore?: number;
+    rangeLength?: number;
+    snapshotID?: string;
+}
 /**
  * A class which manages the playlists
  */
@@ -93,5 +102,43 @@ export default class PlaylistManager extends BaseManager {
      * });
      */
     edit(id: string, options: Omit<CreatePlaylist, 'userID'>): Promise<boolean>;
+    /**
+     * Add items to the playlist!
+     *
+     * @param id ID pf the spotify playlist
+     * @param items Array of uris of the spotify episodes or spotify tracks to add to the playlist
+     * @param options Options containing position field
+     * @example await client.playlists.addItems('id', ['spotify:track:id']);
+     */
+    addItems(id: string, items: SpotifyURI[], options?: {
+        position?: number;
+    }): Promise<string | null>;
+    /**
+     * Reorder items of the playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param options ReorderOptions of spotify playlist!
+     * @example await client.playlists.reorderItems('id', ['spotify:track:id'], {
+     *     insertBefore: 10
+     * })
+     */
+    reorderItems(id: string, items: SpotifyURI[], options?: ReorderOptions): Promise<string | null>;
+    /**
+     * Remove items from the playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param items Array of spotify uris of tracks and episodes to remove from the playlist!
+     * @param snapshotID The playlist’s snapshot ID against which you want to make the changes.
+     * @example await client.playlists.removeItems('id', ['spotify:track:id']);
+     */
+    removeItems(id: string, items: SpotifyURI[], snapshotID?: string): Promise<string | null>;
+    /**
+     * Upload a custom image to the playlist!
+     *
+     * @param id ID of the spotify playlist
+     * @param image Image data url of image/jpeg to upload!
+     * @example await client.playlists.uploadImage('id', 'data:image/jpeg;base64,/......');
+     */
+    uploadImage(id: string, image: string): Promise<boolean>;
 }
 export type { Playlist };
