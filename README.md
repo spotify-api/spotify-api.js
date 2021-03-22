@@ -10,7 +10,7 @@
 
 # About
 
-Spotify-api.js was initially started as an alternative for basic spotify api fetching! Then soon people needed upgrades, so we worked on it and we have made a fully working typed library for spotify api! [Here]() is our migration guide for v8 for major changes!
+Spotify-api.js was initially started as an alternative for basic spotify api fetching! Then soon people needed upgrades, so we worked on it and we have made a fully working typed library for spotify api! [Here](https://github.com/spotify-api/spotify-api.js/wiki/Migration-guide-for-v8) is our migration guide for v8 for major changes!
 
 # Features 
 
