@@ -88,7 +88,7 @@ class Episode {
      * @readonly
      */
     get releasedAt(): Date {
-        return new Date(this.releaseDatePrecision);
+        return new Date(this.releaseDate);
     };
 
     /**
