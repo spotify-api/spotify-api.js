@@ -158,7 +158,7 @@ export default class ArtistManager extends BaseManager{
             })).tracks.map(x => new Track(x, this.client));
 
             if(this.client.cacheOptions.cacheTracks){
-                for(let i = 0; i < tracks.length; i++) this.client.cache.albums.set(tracks[i].id, tracks[i]);
+                for(let i = 0; i < tracks.length; i++) this.client.cache.tracks.set(tracks[i].id, tracks[i]);
             }
 
             return tracks;
@@ -183,7 +183,7 @@ export default class ArtistManager extends BaseManager{
             })).artists.map(x => new Artist(x, this.client));
 
             if(this.client.cacheOptions.cacheArtists){
-                for(let i = 0; i < artists.length; i++) this.client.cache.albums.set(artists[i].id, artists[i]);
+                for(let i = 0; i < artists.length; i++) this.client.cache.artists.set(artists[i].id, artists[i]);
             }
 
             return artists;

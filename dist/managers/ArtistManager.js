@@ -147,7 +147,7 @@ class ArtistManager extends BaseManager_1.default {
             })).tracks.map(x => new Track_1.default(x, this.client));
             if (this.client.cacheOptions.cacheTracks) {
                 for (let i = 0; i < tracks.length; i++)
-                    this.client.cache.albums.set(tracks[i].id, tracks[i]);
+                    this.client.cache.tracks.set(tracks[i].id, tracks[i]);
             }
             return tracks;
         }
@@ -169,7 +169,7 @@ class ArtistManager extends BaseManager_1.default {
             })).artists.map(x => new Artist_1.default(x, this.client));
             if (this.client.cacheOptions.cacheArtists) {
                 for (let i = 0; i < artists.length; i++)
-                    this.client.cache.albums.set(artists[i].id, artists[i]);
+                    this.client.cache.artists.set(artists[i].id, artists[i]);
             }
             return artists;
         }
