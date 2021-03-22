@@ -83,7 +83,7 @@ class Album {
      * @readonly
      */
     get releasedAt() {
-        return new Date(this.releaseDatePrecision);
+        return new Date(this.releaseDate);
     }
     ;
     /**

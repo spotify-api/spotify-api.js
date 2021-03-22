@@ -776,7 +776,7 @@ export default class UserClient{
      * @param options Basic PagingOptions
      * @example const shows = await client.user.getShows();
      */
-     async getShows(options?: PagingOptions): Promise<Paging<Saved<'show', Show>>> {
+    async getShows(options?: PagingOptions): Promise<Paging<Saved<'show', Show>>> {
 
         try{
             const data = await this.client.util.fetch('/me/shows', { params: options });
