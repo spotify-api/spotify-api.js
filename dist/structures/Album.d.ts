@@ -48,7 +48,7 @@ declare class Album {
      * Will send empty array if the album object supplied was simplified!
      * @readonly
      */
-    get tracks(): Track[];
+    get tracks(): Paging<Track>;
     /**
      * Returns the array of artists of the album!
      * @readonly

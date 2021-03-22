@@ -85,8 +85,18 @@ class Album {
      * Will send empty array if the album object supplied was simplified!
      * @readonly
      */
-    get tracks(): Track[] {
-        return this.data.tracks ? this.data.tracks.items.map(x => new Track(x, this.client)) : [];
+    get tracks(): Paging<Track> {
+        return this.data.tracks ? {
+            limit: this.data.tracks.limit,
+            total: this.data.tracks.total,
+            offset: this.data.tracks.offset,
+            items: this.data.tracks.items.map(x => new Track(x, this.client))
+        } : {
+            limit: 0,
+            total: 0,
+            offset: 0,
+            items: []
+        };
     }
 
     /**
