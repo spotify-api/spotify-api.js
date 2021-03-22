@@ -58,7 +58,7 @@ export default class Playlist {
      * Will return an PlaylistTrackRef object if a simplified playlist has been supplied!
      * @readonly
      */
-    get tracks(): PlaylistTrackType[] | PlaylistTracksRef;
+    get tracks(): Paging<PlaylistTrackType> | PlaylistTracksRef;
     /**
      * Fetches playlist and refreshes the cache!
      *

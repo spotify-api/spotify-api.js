@@ -100,8 +100,13 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
      * Will return an PlaylistTrackRef object if a simplified playlist has been supplied!
      * @readonly
      */
-    get tracks(): PlaylistTrackType[] | PlaylistTracksRef {
-        return this.data.tracks.items ? this.data.tracks.items.map(x => PlaylistTrack(x, this.client)) : this.data.tracks;
+    get tracks(): Paging<PlaylistTrackType> | PlaylistTracksRef {
+        return this.data.tracks.items ? {
+            limit: this.data.tracks.limit,
+            total: this.data.tracks.total,
+            offset: this.data.tracks.offset,
+            items: this.data.tracks.items.map(x => PlaylistTrack(x, this.client))
+        } : this.data.tracks;
     };
 
     /**
