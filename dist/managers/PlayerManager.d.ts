@@ -57,7 +57,7 @@ export interface RecentlyPlayedType {
     items: PlayHistoryType[];
     cursors: {
         after: string;
-        boolean: string;
+        before: string;
     };
     limit: number;
 }

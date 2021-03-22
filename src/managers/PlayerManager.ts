@@ -62,7 +62,7 @@ export interface ContextType{
  */
 export interface RecentlyPlayedType{
     items: PlayHistoryType[];
-    cursors: { after: string, boolean: string };
+    cursors: { after: string, before: string };
     limit: number;
 }
 
