@@ -4,6 +4,14 @@ Version history of spotify-api.js since v4.0.5
 
 ---
 
+## v8.0.0
+
+- Whole package has been recreated. Major changes and migration guide: [Link](https://github.com/spotify-api/spotify-api.js/wiki/Migration-guide-for-v8)
+
+**Status:** Published | **Released:** Released
+
+---
+
 ## v7.0.0
 
 - Clear documentation
@@ -12,7 +20,7 @@ Version history of spotify-api.js since v4.0.5
 - Bugs fix
 - Unwanted functions deprecated!
 
-**Status:** Published | **Released:** Released
+**Status:** Published (Will be deprecated soon) | **Released:** Released
 
 ---
 
