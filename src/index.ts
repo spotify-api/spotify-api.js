@@ -1,5 +1,7 @@
 import Client from './Client';
+import AuthManager, { GetUserTokenOptions } from './managers/AuthManager';
 import UserClient from './UserClient';
+import Util from './Util';
 
 export const version = '8.0.0';
 
@@ -57,10 +59,19 @@ export * from './UserClient';
  * Returns a userclient only object by token
  * Remember that this method cache user's private info before returning the user client
  * 
- * @param token A valid spotify current user authorized token
+ * @param token A valid spotify current user authorized token or get user token options
  * @example const user = await Spotify.createUser('token');
  */
-export async function createUser(token: string): Promise<UserClient> {
+export async function createUser(token: string | GetUserTokenOptions): Promise<UserClient> {
+    if(typeof token == 'object'){
+        const user = new UserClient(
+            (await (new AuthManager('NO TOKEN'))
+            .getUserToken(token)).accessToken
+        )
+
+        return await user.info();
+    }
+
     const user = new UserClient(token);
     return await user.info();
 }
