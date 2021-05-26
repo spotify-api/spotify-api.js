@@ -149,7 +149,7 @@ export default class Playlist {
      * Upload a custom image to the playlist!
      *
      * @param image Image data url of image/jpeg to upload!
-     * @example await playlist.uploadImage('data:image/jpeg;base64,/......');
+     * @example await client.playlists.uploadImage('id', imageDataUri); // Make sure the URI isn't prepended by 'data:image/jpeg;base64,'
      */
     uploadImage(image: string): Promise<boolean>;
 }

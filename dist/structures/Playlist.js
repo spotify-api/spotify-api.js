@@ -202,7 +202,7 @@ class Playlist {
      * Upload a custom image to the playlist!
      *
      * @param image Image data url of image/jpeg to upload!
-     * @example await playlist.uploadImage('data:image/jpeg;base64,/......');
+     * @example await client.playlists.uploadImage('id', imageDataUri); // Make sure the URI isn't prepended by 'data:image/jpeg;base64,'
      */
     async uploadImage(image) {
         return await this.client.playlists.uploadImage(this.id, image);

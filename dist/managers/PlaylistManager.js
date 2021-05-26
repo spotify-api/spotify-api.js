@@ -294,7 +294,7 @@ class PlaylistManager extends BaseManager_1.default {
      *
      * @param id ID of the spotify playlist
      * @param image Image data url of image/jpeg to upload!
-     * @example await client.playlists.uploadImage('id', 'data:image/jpeg;base64,/......');
+     * @example await client.playlists.uploadImage('id', imageDataUri); // Make sure the URI isn't prepended by 'data:image/jpeg;base64,'
      */
     async uploadImage(id, image) {
         try {
