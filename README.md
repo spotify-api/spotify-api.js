@@ -220,7 +220,7 @@ await client.playlists.unfollow('id'); // Unfollow a playlist
 await client.playlists.addItems('id', ['spotify:track:id']); // Add items to a playlist
 await client.playlists.reorderItems('id', ['spotify:track:id'], { insertBefore: 10 }) // Reorder the items of the playlist
 await client.playlists.removeItems('id', ['spotify:track:id']); // Remove items of the playlist
-await client.playlists.uploadImage('id', 'data:image/jpeg;base64,/......'); // Upload image to the playlist!
+await client.playlists.uploadImage('id', imageDataUri); // Upload image to the playlist, make sure the URI isn't prepended by 'data:image/jpeg;base64,'
 ```
 
 ## Browse Api
