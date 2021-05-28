@@ -151,7 +151,7 @@ class Playlist {
     async edit(options) {
         const opts = {
             name: this.name,
-            public: this.public || true,
+            public: this.public ?? true,
             collaborative: this.collaborative,
             description: this.description
         };
