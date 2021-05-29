@@ -120,7 +120,7 @@ class UserClient {
                     "Content-Type": "application/json"
                 },
                 body: {
-                    public: options.public || true
+                    public: options.public ?? true
                 }
             });
             return true;
@@ -201,7 +201,7 @@ class UserClient {
                 },
                 body: {
                     name: options.name,
-                    public: options.public || true,
+                    public: options.public ?? true,
                     collaborative: options.collaborative || false,
                     description: options.description || ''
                 }

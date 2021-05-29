@@ -189,7 +189,7 @@ export function PlaylistTrack(data, client: Client): PlaylistTrackType {
     async edit(options?: Omit<CreatePlaylist, 'userID'>): Promise<this | false> {
         const opts: Required<Omit<CreatePlaylist, 'userID'>> = {
             name: this.name,
-            public: this.public || true,
+            public: this.public ?? true,
             collaborative: this.collaborative,
             description: this.description
         }
