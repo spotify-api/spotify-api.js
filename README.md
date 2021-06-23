@@ -63,7 +63,18 @@ const Client = new Spotify.Client();
 client.login({
     clientID: 'id', // Your app client id
     clientSecret: 'secret', // Your app client secret
-    code: 'token or code',  // To get new one, enter the code received by spotify api or to refresh to get a new one, enter the refreshToken!
+    code: 'code',  // To get new one, enter the code received by spotify api
+    redirectURL: 'redirect url' // Redirect url which you used while auth, which is only for verification
+}).then(async ({ refreshToken }) => {
+    console.log(`Login successful! Refresh token: ${refreshToken}`);
+    console.log(await client.tracks.get('id'));
+})
+
+// The same but refreshes token instead of getting a new one
+client.login({
+    clientID: 'id', // Your app client id
+    clientSecret: 'secret', // Your app client secret
+    refreshToken: 'token', // Use a refresh token instead of a code
     redirectURL: 'redirect url' // Redirect url which you used while auth, which is only for verification
 }).then(async ({ refreshToken }) => {
     console.log(`Login successful! Refresh token: ${refreshToken}`);

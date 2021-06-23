@@ -149,9 +149,10 @@ class Playlist {
      * await playlist.edit({ description: "Edited Description" });
      */
     async edit(options) {
+        var _a;
         const opts = {
             name: this.name,
-            public: this.public ?? true,
+            public: (_a = this.public) !== null && _a !== void 0 ? _a : true,
             collaborative: this.collaborative,
             description: this.description
         };

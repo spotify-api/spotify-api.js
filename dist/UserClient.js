@@ -120,7 +120,7 @@ class UserClient {
                     "Content-Type": "application/json"
                 },
                 body: {
-                    public: options.public ?? true
+                    public: options.public || true
                 }
             });
             return true;
@@ -191,6 +191,7 @@ class UserClient {
      * });
      */
     async createPlaylist(options) {
+        var _a;
         try {
             if (!options || !options.name)
                 throw new Errors_1.UnexpectedError('No name has been provided to create a playlist!');
@@ -201,7 +202,7 @@ class UserClient {
                 },
                 body: {
                     name: options.name,
-                    public: options.public ?? true,
+                    public: (_a = options.public) !== null && _a !== void 0 ? _a : true,
                     collaborative: options.collaborative || false,
                     description: options.description || ''
                 }
