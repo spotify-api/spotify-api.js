@@ -83,12 +83,17 @@ export default class AuthManager{
      */
     async getUserToken(options: GetUserTokenOptions): Promise<AuthRefresh> {
         try{
+            let grant_type = (options.refreshToken && !options.code) 
+                ? "refresh_token"
+                : "authorization_code";
+
             const { data } = await axios({
                 method: "post",
                 url: "https://accounts.spotify.com/api/token",
                 params: {
-                    grant_type: "authorization_code",
-                    code: options.code || options.refreshToken,
+                    grant_type,
+                    code: options.code,
+                    refresh_token: options.refreshToken,
                     redirect_uri: options.redirectURL,
                 },
                 headers: {
