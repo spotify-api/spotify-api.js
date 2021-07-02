@@ -27,7 +27,7 @@
     "axios": "^0.21.1"
   },
   "devDependencies": {
-    "@types/node": "15.12.5",
+    "@types/node": "15.14.0",
     "express": "^4.17.1",
     "fs": "^0.0.1-security"
   }
