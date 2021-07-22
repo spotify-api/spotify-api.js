@@ -60,7 +60,7 @@ export interface ContextType{
 /**
  * Spotify api's recently played object!
  */
-export interface RecentlyPlayedType{
+export interface RecentlyPlayedType {
     items: PlayHistoryType[];
     cursors: { after: string, before: string };
     limit: number;

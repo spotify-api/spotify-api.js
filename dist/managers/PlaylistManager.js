@@ -281,7 +281,7 @@ class PlaylistManager extends BaseManager_1.default {
                 },
                 body: {
                     ...opts,
-                    tracks: items.join(',')
+                    tracks: items.map(uri => ({ uri }))
                 }
             })).snapshot_id;
         }

@@ -296,7 +296,7 @@ export default class PlaylistManager extends BaseManager{
                 },
                 body: {
                     ...opts,
-                    tracks: items.join(',')
+                    tracks: items.map(uri => ({ uri }))
                 } as RawObject
             })).snapshot_id;
         }catch(e){
