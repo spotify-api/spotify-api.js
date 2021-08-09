@@ -1,5 +1,7 @@
 import axios from "axios";
 import { ClientOptions, FetchOptions } from "./Interface";
+import { SpotifyAPIError  } from "./Error";
+import { AuthManager } from "./managers/Auth";
 
 /** 
  * Just a noop function. 
@@ -15,6 +17,11 @@ export class Client {
      * The token of the spotify web client.
      */
     public token!: string;
+
+    /**
+     * The manager to perform actions regarding the authorization to the web api.
+     */
+    public auth!: AuthManager;
 
     /**
      * The version of spotify web api. For future purposes.
@@ -45,6 +52,7 @@ export class Client {
 
         this.onRefresh = options.onRefresh || NOOP;
         this.retryOnRateLimit = options.retryOnRateLimit ?? true;
+        this.auth = new AuthManager(this.token);
     }
 
     /**
@@ -74,7 +82,7 @@ export class Client {
                 const retryAfter = error.response.headers['Retry-After'];
                 if (typeof retryAfter == "number") await new Promise(r => setTimeout(r, retryAfter * 1000));
                 return this.fetch(url, options)
-            } else throw error;
+            } else throw new SpotifyAPIError(error);
         }
     }
 
