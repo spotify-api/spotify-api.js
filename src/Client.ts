@@ -38,7 +38,7 @@ export class Client {
     /**
      * The basic client to interact with the Spotify Web API.
      * 
-     * @param {ClientOptions} options The options necessary for the client.
+     * @param options The options necessary for the client.
      * @example const client = new Client({ token: "someToken" });
      */
     public constructor(options: ClientOptions) {
@@ -55,8 +55,8 @@ export class Client {
     /**
      * Used to fetch data from spotify rest api.
      * 
-     * @param {string} url The path from spotify api to fetch!
-     * @param {FetchOptions=} options The additional options required to fetch from the api.
+     * @param url The path from spotify api to fetch!
+     * @param options The additional options required to fetch from the api.
      * @example await client.fetch('/users/id');
      */
     public async fetch(url: string, options: FetchOptions = {}) {

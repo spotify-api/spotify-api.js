@@ -9,7 +9,7 @@ export class AuthManager {
     /**
      * A manager to perform actions regarding the authorization to the web api.
      * 
-     * @param {string} token The spotify web api token.
+     * @param token The spotify web api token.
      * @example const auth = new AuthManager("token");
      */
     public constructor(public token: string) {}
@@ -17,8 +17,8 @@ export class AuthManager {
     /**
      * Returns an api token from your spotify application client id and client secret!
      * 
-     * @param {string} clientID Your spotify app's client id
-     * @param {string} clientSecret Your spotify app's client secret
+     * @param clientID Your spotify app's client id
+     * @param clientSecret Your spotify app's client secret
      * @example await auth.getApiToken('id', 'secert');
      */
     public async getApiToken(clientID: string, clientSecret: string): Promise<string> {
