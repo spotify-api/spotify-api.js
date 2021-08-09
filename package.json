@@ -1,16 +1,12 @@
 {
     "name": "spotify-api.js",
-    "version": "8.1.1",
+    "version": "9.0.0",
     "description": "A complete node js wrapper of spotify api with oauth support",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
         "dist"
     ],
-    "scripts": {
-        "build": "npx tsc --project tsconfig.json",
-        "test": "node test"
-    },
     "repository": {
         "type": "git",
         "url": "https://github.com/spotify-api/spotify-api.js"
@@ -33,6 +29,12 @@
     "devDependencies": {
         "@types/node": "16.4.12",
         "express": "^4.17.1",
-        "fs": "^0.0.1-security"
+        "fs": "^0.0.1-security",
+        "discord.js-docgen": "github:discordjs/docgen#ts-patch"
+    },
+    "scripts": {
+        "docs": "node node_modules/discord.js-docgen --jsdoc jsdoc.json --verbose --source src/*.ts src/**/*.ts --custom docs/index.yml --output docs/docs.json",
+        "build": "npx tsc --project tsconfig.json",
+        "test": "node test"
     }
 }

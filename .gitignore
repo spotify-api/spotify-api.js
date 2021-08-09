@@ -6,3 +6,6 @@ package-lock.json
 test/
 tests/env.json
 tests/
+
+# Documentation files
+docs/
