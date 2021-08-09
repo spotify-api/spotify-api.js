@@ -9,3 +9,6 @@ tests/
 
 # Documentation files
 docs/
+
+# Compiled files
+dist/
