@@ -1,5 +1,8 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { ClientOptions, FetchOptions } from "./Interface";
+
+/** Just a noop function. */
+const NOOP = () => {};
 
 /**
  * The basic client to interact with the Spotify Web API.
@@ -17,6 +20,16 @@ export class Client {
     public version: `v${number}` = 'v1';
 
     /**
+     * The refresh event of the client.
+     */
+    public onRefresh: () => void = NOOP;
+
+    /** 
+     * Boolean stating should the client retry when the request is rate limited or not by default it is true. 
+     */
+    public retryOnRateLimit?: boolean = true;
+
+    /**
      * The basic client to interact with the Spotify Web API.
      * 
      * @param options The options necessary for the client.
@@ -24,7 +37,11 @@ export class Client {
      */
     public constructor(options: ClientOptions | string) {
         if (typeof options == "string") this.token = options;
-        else if (typeof options.token == "string") this.token = options.token;
+        else {
+            if (typeof options.token == "string") this.token = options.token;
+            this.onRefresh = options.onRefresh || NOOP;
+            this.retryOnRateLimit = options.retryOnRateLimit ?? true;
+        }
     }
 
     /**
@@ -50,8 +67,8 @@ export class Client {
     
             return response.data;
         } catch(error) {
-            if (error.status == 429) {
-                const retryAfter = error.headers['Retry-After'];
+            if (error.response.status == 429 && this.retryOnRateLimit) {
+                const retryAfter = error.response.headers['Retry-After'];
                 if (typeof retryAfter == "number") await new Promise(r => setTimeout(r, retryAfter * 1000));
                 return this.fetch(url, options)
             } else throw error;

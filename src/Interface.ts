@@ -15,6 +15,8 @@ export interface ClientOptions {
     refreshToken?: boolean | string;
     /** Your spotify web api token. */
     token?: string;
+    /** Boolean stating should the client retry when the request is rate limited or not by default it is true. */
+    retryOnRateLimit?: boolean;
 }
 
 /** The options necessary for the fetch function in Client. */
