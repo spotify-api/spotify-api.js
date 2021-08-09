@@ -8,7 +8,7 @@ export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
 /**
  * The auth identity to generate a token or the token itself.
  */
-export type AuthIdentity = string | { clientID: string, clientSecret: string };
+export type AuthIdentity = string | { clientID: string, clientSecret: string } | GetUserTokenOptions;
 
 /**
  * The options required for the Client.
@@ -40,8 +40,44 @@ export interface FetchOptions {
 
 /** The meta details for the client refresh meta. */
 export interface ClientRefreshMeta {
+    /** The spotify application client id. */
     clientID: string;
+    /** The spotify application client secret. */
     clientSecret: string;
+    /** The refresh token if available. */
     refreshToken?: string;
-    redirectURI?: string;
+    /** The redirect url provided for authenication if available. */
+    redirectURL?: string;
+}
+
+/**
+ * Option structure required to get user token.
+ */
+export interface GetUserTokenOptions {
+    /** The spotify application client id. */
+    clientID: string;
+    /** The spotify application client secret. */
+    clientSecret: string;
+    /** The refresh token if available. */
+    refreshToken?: string;
+    /** The redirect url provided for the authenication. */
+    redirectURL: string;
+    /** The code query acquired from the authorization if available. */
+    code?: string;
+}
+
+/**
+ * The context containing the details of the spotify user token.
+ */
+export interface UserTokenContext {
+    /** The actual access token. */
+    accessToken: string;
+    /** Token type. Probably 'Bearer'. */
+    tokenType: string;
+    /** The duration in seconds in which the token will expire. */
+    expiresIn: number;
+    /** The refresh token to get a new one after the actual one expired. */
+    refreshToken: string;
+    /** The scopes to get the token. */
+    scope: string;
 }

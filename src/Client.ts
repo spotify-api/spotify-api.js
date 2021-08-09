@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ClientOptions, FetchOptions, ClientRefreshMeta } from "./Interface";
+import { ClientOptions, FetchOptions, ClientRefreshMeta, GetUserTokenOptions } from "./Interface";
 import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 
@@ -49,7 +49,7 @@ export class Client {
     public constructor(options: ClientOptions) {
         this.onRefresh = options.onRefresh || NOOP;
         this.retryOnRateLimit = options.retryOnRateLimit ?? true;
-        this.auth = new AuthManager(this);
+        this.auth = new AuthManager(this.token);
 
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
@@ -62,7 +62,15 @@ export class Client {
                     this.token = token;
                     options.onReady?.(this);
                 });
-        }
+        } else if ('redirectURL' in options.token) {
+            this.refreshMeta = options.token;
+            this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
+                .then(context => {
+                    this.token = context.accessToken;
+                    this.refreshMeta.refreshToken = context.refreshToken;
+                    options.onReady?.(this);
+                });
+        } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
     }
 
     /**
@@ -99,13 +107,22 @@ export class Client {
     }
 
     private async refreshFromMeta() {
-        if ('refreshToken' in this.refreshMeta) {} else {
+        if ('refreshToken' in this.refreshMeta) {
+            this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
+                .then(context => {
+                    this.token = context.accessToken;
+                    this.refreshMeta.refreshToken = context.refreshToken;
+                    this.onRefresh();
+                });
+        } else {
             this.auth.getApiToken(this.refreshMeta.clientID, this.refreshMeta.clientSecret)
                 .then(token => {
                     this.token = token;
                     this.onRefresh();
                 });
         }
+
+        this.auth = new AuthManager(this.token);
     }
 
 }
