@@ -1,7 +1,9 @@
 import axios from "axios";
 import { ClientOptions, FetchOptions } from "./Interface";
 
-/** Just a noop function. */
+/** 
+ * Just a noop function. 
+ */
 const NOOP = () => {};
 
 /**
@@ -35,13 +37,14 @@ export class Client {
      * @param options The options necessary for the client.
      * @example const client = new Client({ token: "someToken" });
      */
-    public constructor(options: ClientOptions | string) {
-        if (typeof options == "string") this.token = options;
-        else {
-            if (typeof options.token == "string") this.token = options.token;
-            this.onRefresh = options.onRefresh || NOOP;
-            this.retryOnRateLimit = options.retryOnRateLimit ?? true;
+    public constructor(options: ClientOptions) {
+        if (typeof options.token == "string") {
+            this.token = options.token;
+            options.onReady?.();
         }
+
+        this.onRefresh = options.onRefresh || NOOP;
+        this.retryOnRateLimit = options.retryOnRateLimit ?? true;
     }
 
     /**
