@@ -1,3 +1,5 @@
+import { Client } from "./Client";
+
 /**
  * All the spotify web api methods.
  */
@@ -13,7 +15,7 @@ export type AuthIdentity = string | { clientID: string, clientSecret: string };
  */
 export interface ClientOptions {
     /** The ready event which is called when the token is aquired. */
-    onReady?: () => void;
+    onReady?: (client: Client) => void;
     /** The refresh which is called when there is a token refresh. */
     onRefresh?: () => void;
     /** Set true to refresh token if the token is needed to be acquired if expired by default it is false. */

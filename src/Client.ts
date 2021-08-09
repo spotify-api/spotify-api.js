@@ -54,13 +54,13 @@ export class Client {
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
-            options.onReady?.();
+            options.onReady?.(this);
         } else if ('clientID' in options.token) {
             this.refreshMeta = options.token;
             this.auth.getApiToken(options.token.clientID, options.token.clientSecret)
                 .then(token => {
                     this.token = token;
-                    options.onReady?.();
+                    options.onReady?.(this);
                 });
         }
     }
