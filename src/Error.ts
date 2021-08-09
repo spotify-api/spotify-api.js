@@ -15,7 +15,7 @@ export class SpotifyAPIError extends Error {
      * This error mostly occurs when the spotify api responses an invalid json format!
      * You can view up all the spotify web api responses, request types, etc [here](https://developer.spotify.com/documentation/web-api/)
      * 
-     * @param message Error message or axios response.
+     * @param {string} message Error message or axios response.
      */
     public constructor(response: Record<'response', AxiosResponse> | string) {
         if (typeof response == "string") super(response)

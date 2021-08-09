@@ -2,7 +2,7 @@
     "source": {
         "includePattern": ".+\\.ts(doc|x)?$"
     },
-    "plugins": ["plugins/markdown"],
+    "plugins": ["plugins/markdown", "node_modules/jsdoc-babel"],
     "babel": {
         "extensions": ["ts"],
         "babelrc": false,
