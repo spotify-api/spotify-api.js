@@ -11,3 +11,4 @@ export * from './managers/Auth';
 // Export all the structures of the module.
 export * from './structures/Track';
 export * from './structures/User';
+export * from './structures/Artist';

@@ -105,4 +105,6 @@ export interface UserTokenContext {
 export interface CacheSettings {
     /** Cache setting for spotify users. */
     users: boolean;
+    /** Cache setting for spotify artists. */
+    artists: boolean;
 }

@@ -50,7 +50,8 @@ export class Client {
      * Cache settings for the client.
      */
     public cacheSettings: CacheSettings = {
-        users: true
+        users: true,
+        artists: true
     };
 
     /**

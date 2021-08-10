@@ -65,7 +65,7 @@ export class User {
     public explicitContent?: CamelCaseObjectKeys<ExplicitContentSettings>;
 
     /**
-     * To create a js object conataing camel case keys of the PublicUser and PrivateUser data.
+     * To create a js object conataing camel case keys of the PublicUser or PrivateUser data.
      * 
      * @param data The raw data received from the api.
      * @param client The spotify client.
