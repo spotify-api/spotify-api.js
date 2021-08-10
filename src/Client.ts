@@ -2,6 +2,7 @@ import axios from "axios";
 import { ClientOptions, FetchOptions, ClientRefreshMeta, GetUserTokenOptions, CacheSettings } from "./Interface";
 import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
+import { UserManager } from "./managers/User";
 
 const NOOP = () => {};
 
@@ -19,6 +20,11 @@ export class Client {
      * The manager to perform actions regarding the authorization to the web api.
      */
     public auth!: AuthManager;
+
+    /**
+     * A manager to perform actions with belongs to to the spotify user web api.
+     */
+    public users!: UserManager;
 
     /**
      * The version of spotify web api. For future purposes.
@@ -57,6 +63,7 @@ export class Client {
         this.onRefresh = options.onRefresh || NOOP;
         this.retryOnRateLimit = options.retryOnRateLimit ?? true;
         this.auth = new AuthManager(this.token);
+        this.users = new UserManager(this);
 
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
