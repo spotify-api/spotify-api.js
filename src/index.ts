@@ -7,6 +7,8 @@ export * as Util from './Util';
 
 // Export all the managers of the module.
 export * from './managers/Auth';
+export * from './managers/User';
+export * from './managers/Artist';
 
 // Export all the structures of the module.
 export * from './structures/Track';
