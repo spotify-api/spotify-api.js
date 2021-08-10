@@ -1,6 +1,7 @@
 import type { Client } from "../Client";
 import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
 import { CamelCaseObjectKeys } from "../Interface";
+import { hexToRgb } from "../Util";
 import * as Cache from "../Cache";
 
 /**
@@ -89,6 +90,14 @@ export class User {
                 filterLocked: data.explicit_content.filter_locked
             }
         }
+    }
+
+    /**
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
+     */
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     
 }
