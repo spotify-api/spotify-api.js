@@ -1,0 +1,4 @@
+[submodule "spotify-api-types"]
+    path = apiTypes
+    url = https://github.com/spotify-api/spotify-api-types
+    branch = master
