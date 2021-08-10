@@ -33,6 +33,7 @@
     "scripts": {
         "docs": "npx typedoc --entryPoints src/index.ts --json docs/docs.json",
         "build": "npx tsc --project tsconfig.json",
+        "build:types": "cd apiTypes && npx tsc --project tsconfig.json",
         "test": "node test"
     }
 }
