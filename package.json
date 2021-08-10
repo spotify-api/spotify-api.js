@@ -24,6 +24,7 @@
     "author": "Abh80",
     "license": "MIT",
     "dependencies": {
+        "api-types": "file:apiTypes",
         "axios": "^0.21.1"
     },
     "devDependencies": {

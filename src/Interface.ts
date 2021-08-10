@@ -1,14 +1,10 @@
 import { Client } from "./Client";
+import { SpotifyType } from "api-types";
 
 /**
  * All the spotify web api methods.
  */
 export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
-
-/**
- * All the spotify element types
- */
-export type SpotifyType = 'user' | 'episode' | 'playlist' | 'show' | 'track' | 'album' | 'artist';
 
 /**
  * The auth identity to generate a token or the token itself.
