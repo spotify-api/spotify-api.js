@@ -4,9 +4,9 @@ import { GetUserTokenOptions, UserTokenContext } from "../Interface";
 /**
  * Browser compaitable function to encode base64 string.
  */
-const encodeBase64 = typeof Buffer === "undefined" ? 
-                        btoa : 
-                        buffer => Buffer.from(buffer).toString('base64')
+const encodeBase64 = typeof Buffer === "undefined"
+                        ? btoa
+                        : buffer => Buffer.from(buffer).toString('base64')
 
 /**
  * A manager to perform actions regarding the authorization to the web api.

@@ -1,5 +1,7 @@
+import type { Client } from "../Client";
 import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
 import { CamelCaseObjectKeys } from "../Interface";
+import * as Cache from "../Cache";
 
 /**
  * Spotify api's user object.
@@ -65,9 +67,12 @@ export class User {
      * To create a js object conataing camel case keys of the PublicUser and PrivateUser data.
      * 
      * @param data The raw data received from the api.
+     * @param client The spotify client.
      * @example const user = new User(fetchedData);
      */
-    public constructor(data: PublicUser | PrivateUser) {
+    public constructor(client: Client, data: PublicUser | PrivateUser) {
+        if (client.cacheSettings.users) Cache.users.set(data.id, data);
+        
         this.displayName = data.display_name;
         this.id = data.id;
         this.uri = data.uri;
