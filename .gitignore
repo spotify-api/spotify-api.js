@@ -12,3 +12,6 @@ docs/
 
 # Compiled files
 dist/
+
+# Submodules
+apiTypes/
