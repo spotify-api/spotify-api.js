@@ -71,7 +71,7 @@ export class AuthManager {
                 grant_type,
                 code: options.code,
                 refresh_token: options.refreshToken,
-                redirect_uri: encodeURIComponent(options.redirectURL),
+                redirect_uri: options.redirectURL,
             },
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",

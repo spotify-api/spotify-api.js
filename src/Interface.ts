@@ -50,7 +50,7 @@ export interface FetchOptions {
     /** The method type. */
     method?: Methods;
     /** Search query parameters. */
-    params?: Record<string, string>;
+    params?: Record<string, any>;
     /** The json body to send if available. */
     body?: Record<string, string | boolean | number>;
 }
@@ -107,4 +107,16 @@ export interface CacheSettings {
     users: boolean;
     /** Cache setting for spotify artists. */
     artists: boolean;
+}
+
+/** The options structure for search functions in the various managers. */
+export interface SearchOptions {
+    /** If true, the response will include any relevant audio content that is hosted externally. */
+    includeExternalAudio: boolean;
+    /** The offset index of the results. */
+    offset: number;
+    /** The limit of the results. */
+    limit: number;
+    /** If a country code is specified, only content that is playable in that market is returned. */
+    market: number;
 }
