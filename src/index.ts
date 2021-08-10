@@ -2,6 +2,7 @@
 export * from './Client';
 export * from './Interface';
 export * from './Error';
+export * as Cache from './Cache';
 
 // Export all the managers of the module.
 export * from './managers/Auth';

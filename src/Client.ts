@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ClientOptions, FetchOptions, ClientRefreshMeta, GetUserTokenOptions } from "./Interface";
+import { ClientOptions, FetchOptions, ClientRefreshMeta, GetUserTokenOptions, CacheSettings } from "./Interface";
 import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 
@@ -41,6 +41,13 @@ export class Client {
     public retryOnRateLimit?: boolean = true;
 
     /**
+     * Cache settings for the client.
+     */
+    public cacheSettings: CacheSettings = {
+        users: true
+    };
+
+    /**
      * The basic client to interact with the Spotify Web API.
      * 
      * @param options The options necessary for the client.
@@ -71,6 +78,8 @@ export class Client {
                     options.onReady?.(this);
                 });
         } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
+
+        if (typeof options.cacheSettings == "object") this.cacheSettings = options.cacheSettings;
     }
 
     /**

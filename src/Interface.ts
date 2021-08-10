@@ -1,5 +1,5 @@
 import { Client } from "./Client";
-import { SpotifyType } from "api-types";
+import type { SpotifyType } from "api-types";
 
 /**
  * All the spotify web api methods.
@@ -10,6 +10,20 @@ export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
  * The auth identity to generate a token or the token itself.
  */
 export type AuthIdentity = string | { clientID: string, clientSecret: string } | GetUserTokenOptions;
+
+/**
+ * Converts a string type into camelcase.
+ */
+export type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}${infer P3}`
+    ? `${Lowercase<P1>}${Uppercase<P2>}${CamelCase<P3>}`
+    : Lowercase<S>;
+
+/**
+ * Converts an object with camel case keys.
+ */
+export type CamelCaseObjectKeys<T> = {
+    [K in keyof T as CamelCase<string &K>]: T[K]
+};
 
 /**
  * The options required for the Client.
@@ -23,6 +37,8 @@ export interface ClientOptions {
     refreshToken?: boolean;
     /** Your spotify web api token or some authenication details to generate one. */
     token: AuthIdentity;
+    /** The cache settings for the client. */
+    cacheSettings?: CacheSettings | boolean;
     /** Boolean stating should the client retry when the request is rate limited or not by default it is true. */
     retryOnRateLimit?: boolean;
 }
@@ -84,19 +100,9 @@ export interface UserTokenContext {
 }
 
 /**
- * The structure of the spotify linked track object.
+ * The settings of the cache for the ClientOptions.
  */
-export interface LinkedTrack {
-    /** A map of url name and the url. */
-    externalUrls: Record<string, string>;
-    /** The api url where you can get the full details of the linked track. */
-    href: string;
-    /** The id of the linked track. */
-    id: string;
-    /** The type of spotify object. */
-    type: SpotifyType;
-    /** The uri of this object. */
-    uri: string;
-    /** A function which generates a code image for this linked track. */
-    makeCodeImage(color?: string): string;
+export interface CacheSettings {
+    /** Cache setting for spotify users. */
+    users: boolean;
 }
