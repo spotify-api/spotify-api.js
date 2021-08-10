@@ -112,11 +112,11 @@ export interface CacheSettings {
 /** The options structure for search functions in the various managers. */
 export interface SearchOptions {
     /** If true, the response will include any relevant audio content that is hosted externally. */
-    includeExternalAudio: boolean;
+    includeExternalAudio?: boolean;
     /** The offset index of the results. */
-    offset: number;
+    offset?: number;
     /** The limit of the results. */
-    limit: number;
+    limit?: number;
     /** If a country code is specified, only content that is playable in that market is returned. */
-    market: number;
+    market?: number;
 }

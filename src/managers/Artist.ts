@@ -23,7 +23,7 @@ export class ArtistManager {
      * @param options Some search options to make the search more efficient.
      * @example const results = await client.artists.search('some search');
      */
-    async search(query: string, options: SearchOptions): Promise<Artist[]> {
+    async search(query: string, options: SearchOptions = {}): Promise<Artist[]> {
         const fetchedData = await this.client.fetch('/search', {
             params: {
                 q: query,
@@ -35,7 +35,7 @@ export class ArtistManager {
             }
         });
 
-        return fetchedData ? fetchedData.map(x => new Artist(this.client, x)) : [];
+        return fetchedData ? fetchedData.artists.items.map(x => new Artist(this.client, x)) : [];
     }
 
     /**
