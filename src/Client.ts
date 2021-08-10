@@ -105,7 +105,8 @@ export class Client {
     
             return response.data;
         } catch(error) {
-            if (error.response.status == 429 && this.retryOnRateLimit) {
+            if (error.response.status = 404) return null;
+            else if (error.response.status == 429 && this.retryOnRateLimit) {
                 const retryAfter = error.response.headers['Retry-After'];
                 if (typeof retryAfter == "number") await new Promise(r => setTimeout(r, retryAfter * 1000));
             } else if (error.response.data.error.message == "Invalid access token" && this.refreshMeta) await this.refreshFromMeta();

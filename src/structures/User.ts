@@ -68,11 +68,11 @@ export class User {
      * 
      * @param data The raw data received from the api.
      * @param client The spotify client.
-     * @example const user = new User(fetchedData);
+     * @example const user = new User(client, fetchedData);
      */
     public constructor(client: Client, data: PublicUser | PrivateUser) {
         if (client.cacheSettings.users) Cache.users.set(data.id, data);
-        
+
         this.displayName = data.display_name;
         this.id = data.id;
         this.uri = data.uri;
