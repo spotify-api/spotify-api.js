@@ -6,6 +6,11 @@ import { Client } from "./Client";
 export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
 
 /**
+ * All the spotify element types
+ */
+export type SpotifyType = 'user' | 'episode' | 'playlist' | 'show' | 'track' | 'album' | 'artist';
+
+/**
  * The auth identity to generate a token or the token itself.
  */
 export type AuthIdentity = string | { clientID: string, clientSecret: string } | GetUserTokenOptions;
@@ -80,4 +85,22 @@ export interface UserTokenContext {
     refreshToken: string;
     /** The scopes to get the token. */
     scope: string;
+}
+
+/**
+ * The structure of the spotify linked track object.
+ */
+export interface LinkedTrack {
+    /** A map of url name and the url. */
+    externalUrls: Record<string, string>;
+    /** The api url where you can get the full details of the linked track. */
+    href: string;
+    /** The id of the linked track. */
+    id: string;
+    /** The type of spotify object. */
+    type: SpotifyType;
+    /** The uri of this object. */
+    uri: string;
+    /** A function which generates a code image for this linked track. */
+    makeCodeImage(color?: string): string;
 }

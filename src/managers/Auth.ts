@@ -1,11 +1,10 @@
 import axios from "axios";
-import { Client } from "../Client";
 import { GetUserTokenOptions, UserTokenContext } from "../Interface";
 
 /**
  * Browser compaitable function to encode base64 string.
  */
-const encodeBase64 = typeof Buffer == "undefined" ? 
+const encodeBase64 = typeof Buffer === "undefined" ? 
                         btoa : 
                         buffer => Buffer.from(buffer).toString('base64')
 
