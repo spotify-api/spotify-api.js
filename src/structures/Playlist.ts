@@ -1,9 +1,13 @@
 import type { Client } from "../Client";
 import type { User } from "./User";
+import type { PlaylistTrack } from "../Interface";
+import { Track } from "./Track";
+import { Cache, createCacheStruct } from "../Cache";
 import { hexToRgb } from "../Util";
 
 import type { 
     Playlist as RawPlaylist,
+    PlaylistTrack as RawPlaylistTrack,
     SimplifiedPlaylist,
     SpotifyType,
     Image,
@@ -72,6 +76,21 @@ export class Playlist {
     public type: SpotifyType;
 
     /**
+     * The total number of followers of the playlist.
+     */
+    public totalFollowers?: number;
+
+    /** 
+     * The playlist’s public/private status: true the playlist is public, false the playlist is private, null the playlist status is not relevant. 
+     */
+    public public?: boolean;
+
+    /** 
+     * Information about the tracks of the playlist. Note, a track object may be null. This can happen if a track is no longer available. 
+     */
+    public tracks?: PlaylistTrack[];
+
+    /**
      * To create a js object conataing camel case keys of the SimplifiedPlaylist and Playlist data with additional functions.
      * 
      * @param data The raw data received from the api.
@@ -79,6 +98,23 @@ export class Playlist {
      * @example const playlist = new Playlist(fetchedData, client);
      */
     public constructor(data: SimplifiedPlaylist | RawPlaylist, client: Client) {
+        this.collaborative = data.collaborative;
+        this.description = data.description;
+        this.externalURL = data.external_urls;
+        this.id = data.id;
+        this.images = data.images;
+        this.name = data.name;
+        this.owner = createCacheStruct('users', client, data.owner);
+        this.snapshotID = data.snapshot_id;
+        this.uri = data.uri;
+        this.type = data.type;
+        
+        if (Array.isArray(data.tracks)) {
+            this.totalTracks = data.tracks.length;
+            this.public = (data as RawPlaylist).public as boolean;
+            this.totalFollowers = (data as RawPlaylist).followers.total;
+            this.tracks = createCachedPlaylistTracks(client, (data as RawPlaylist).tracks);
+        } else this.totalTracks = data.tracks.total;
     }
 
     /**
@@ -89,4 +125,43 @@ export class Playlist {
         return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
 
+}
+
+function createCachedPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
+    if (client.cacheSettings.playlistTracks) return rawPlaylistTracks.map(x => {
+        let track;
+
+        switch (x.track?.type) {
+            case "track":
+                // @ts-ignore
+                track = new Track(x.id, x);
+                Cache.tracks.set(track.id, track);
+                break;
+        }
+
+        return {
+            addedAt: x.added_at,
+            addedBy: createCacheStruct('users', client, x.added_by),
+            isLocal: x.is_local,
+            track
+        } as PlaylistTrack;
+    });
+
+    else return rawPlaylistTracks.map(x => {
+        let track;
+
+        switch (x.track?.type) {
+            case "track":
+                // @ts-ignore
+                track = new Track(x.id, x);
+                break;
+        }
+
+        return {
+            addedAt: x.added_at,
+            addedBy: createCacheStruct('users', client, x.added_by),
+            isLocal: x.is_local,
+            track
+        } as PlaylistTrack;
+    });
 }

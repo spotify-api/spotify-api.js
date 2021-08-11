@@ -1,4 +1,6 @@
-import type { ExternalUrl, SpotifyType } from "../apiTypes/typings";
+import type { Episode, ExternalUrl, SpotifyType } from "../apiTypes/typings";
+import type { Track } from "./structures/Track";
+import type { User } from "./structures/User";
 import type { Client } from "./Client";
 
 /**
@@ -117,6 +119,8 @@ export interface CacheSettings {
     episodes?: boolean;
     /** Cache setting for spotify shows. */
     shows?: boolean;
+    /** Cache setting for spotify playlist tracks. */
+    playlistTracks?: boolean;
 }
 
 /** The options structure for search functions in the various managers. */
@@ -141,4 +145,16 @@ export interface LinkedTrack {
     type: SpotifyType;
     /** The uri of this object. */
     uri: string;
+}
+
+/** The playlist track object. */
+export interface PlaylistTrack {
+    /** The date and time the track or episode was added.  */
+    addedAt?: string;
+    /** The Spotify user who added the track or episode. */
+    addedBy?: User;
+    /** Whether this track or episode is a local file or not. */
+    isLocal: boolean;
+    /** Information about the track or episode. */
+    track: Track | Episode | null;
 }
