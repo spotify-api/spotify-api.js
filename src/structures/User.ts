@@ -2,7 +2,6 @@ import type { Client } from "../Client";
 import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
 import type { CamelCaseObjectKeys } from "../Interface";
 import { hexToRgb } from "../Util";
-import { Cache } from "../Cache";
 
 /**
  * Spotify api's user object.
@@ -77,8 +76,6 @@ export class User {
      * @example const user = new User(client, fetchedData);
      */
     public constructor(client: Client, data: PublicUser | PrivateUser) {
-        if (client.cacheSettings.users) Cache.users.set(data.id, data);
-
         this.displayName = data.display_name;
         this.id = data.id;
         this.uri = data.uri;
