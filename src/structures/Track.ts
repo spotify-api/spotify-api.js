@@ -44,11 +44,6 @@ export class Track {
      * External URLs for this track. 
      */
     public externalURL: ExternalUrl;
-
-    /** 
-     * A link to the Web API endpoint providing full details of the track. 
-     */
-    public href: string;
     
     /** 
      * The Spotify ID for the track. 
@@ -129,7 +124,6 @@ export class Track {
         this.duration = data.duration_ms;
         this.explicit = data.explicit;
         this.externalURL = data.external_urls;
-        this.href = data.href;
         this.id = data.id;
         this.isLocal = data.is_local;
         this.name = data.name;
@@ -145,8 +139,7 @@ export class Track {
                 externalURL: data.linked_from.external_urls,
                 id: data.linked_from.id,
                 type: data.linked_from.type,
-                uri: data.linked_from.uri,
-                href: data.linked_from.href
+                uri: data.linked_from.uri
             }
         }
 

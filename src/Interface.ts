@@ -135,8 +135,6 @@ export interface SearchOptions {
 export interface LinkedTrack {
     /** A map of url name and the url. */
     externalURL: ExternalUrl;
-    /** The api url where you can get the full details of the linked track. */
-    href: string;
     /** The id of the linked track. */
     id: string;
     /** The type of spotify object. */
