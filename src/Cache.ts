@@ -10,7 +10,7 @@ import { Show } from './structures/Show';
 /** 
  * The cache handler for the module. 
  */
-export const Cache = {
+const Cache = {
     users: new Map<string, User>(),
     artists: new Map<string, Artist>(),
     tracks: new Map<string, Track>(),
@@ -32,7 +32,7 @@ export function createCacheStruct<T>(
 ): T {
     if (client.cacheSettings[key] && !fromCache) Cache[key].set(data.id, data);
     // @ts-ignore
-    return new StructMap[key](client, data);
+    return new Structures[key](data, client);
 }
 
 /**
@@ -64,3 +64,5 @@ const Structures = {
     episodes: Episode,
     shows: Show
 };
+
+export { Cache }

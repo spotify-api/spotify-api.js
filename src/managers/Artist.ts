@@ -73,7 +73,7 @@ export class ArtistManager {
      * @param market The market query option.
      * @example const topTracks = await client.artists.getTopTracks('id');
      */
-    async getTopTracks(id: string, market?: string): Promise<Track[]> {
+    async getTopTracks(id: string, market: string = 'US'): Promise<Track[]> {
         const fetchedData = await this.client.fetch(`/artists/${id}/top-tracks`, { params: { market } });
         return fetchedData ? createCacheStructArray('tracks', this.client, fetchedData.tracks) : [];
     }
