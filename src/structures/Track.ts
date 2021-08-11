@@ -4,6 +4,7 @@ import type { Client } from "../Client";
 import { createCacheStructArray } from "../Cache";
 import { Artist } from "./Artist";
 import { Album } from "./Album";
+import { hexToRgb } from "../Util";
 
 /**
  * Spotify api's track object.
@@ -149,6 +150,14 @@ export class Track {
         }
 
         Object.defineProperty(this, 'client', { value: client });
+    }
+
+    /**
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
+     */
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
 
 }

@@ -2,6 +2,7 @@ import type { Client } from "../Client";
 import { Artist } from "./Artist";
 import { createCacheStructArray } from "../Cache";
 import { Track } from "./Track";
+import { hexToRgb } from "../Util";
 
 import type { 
     SimplifiedAlbum, 
@@ -158,6 +159,14 @@ export class Album {
         } else this.albumGroup = data.album_group;
 
         Object.defineProperty(this, 'client', { value: client });
+    }
+
+    /**
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
+     */
+    makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
 
 }
