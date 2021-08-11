@@ -3,7 +3,7 @@ import { Artist as ArtistStruct } from './structures/Artist';
 import { User as UserStruct } from './structures/User';
 import { Track as TrackStruct } from './structures/Track';
 
-import { 
+import type { 
     PublicUser, 
     PrivateUser,  
     SimplifiedArtist, 

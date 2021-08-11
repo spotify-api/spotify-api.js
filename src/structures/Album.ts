@@ -2,6 +2,7 @@ import type { Client } from "../Client";
 import { Artist } from "./Artist";
 import { createCacheStructArray } from "../Cache";
 import { Track } from "./Track";
+
 import type { 
     SimplifiedAlbum, 
     Album as RawAlbum, 
