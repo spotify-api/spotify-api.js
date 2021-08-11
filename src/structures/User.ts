@@ -9,6 +9,11 @@ import * as Cache from "../Cache";
  */
 export class User {
 
+    /**
+     * The client to work with the user api.
+     */
+    public readonly client!: Client;
+
     /** 
      * The name displayed on the user’s profile. null if not available. 
      */
@@ -90,6 +95,8 @@ export class User {
                 filterLocked: data.explicit_content.filter_locked
             }
         }
+
+        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**

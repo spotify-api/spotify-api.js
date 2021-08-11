@@ -8,6 +8,11 @@ import * as Cache from "../Cache";
  */
 export class Artist {
 
+    /**
+     * The client to work with the artist api.
+     */
+    public readonly client!: Client;
+
     /** 
      * Known external URLs for this artist. 
      */
@@ -74,6 +79,8 @@ export class Artist {
             this.genres = data.genres;
             this.totalFollowers = data.followers.total;
         }
+
+        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**
