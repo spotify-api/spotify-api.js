@@ -14,3 +14,4 @@ export * from './managers/Artist';
 export * from './structures/Track';
 export * from './structures/User';
 export * from './structures/Artist';
+export * from './structures/Album';

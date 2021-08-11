@@ -1,8 +1,9 @@
 import type { ExternalID, ExternalUrl, Restriction, SimplifiedTrack, SpotifyType, Track as RawTrack } from "api-types";
 import type { LinkedTrack } from "../Interface";
 import type { Client } from "../Client";
-import { Cache, createCacheStructArray } from "../Cache";
-import { Artist } from "../structures/Artist";
+import { createCacheStructArray } from "../Cache";
+import { Artist } from "./Artist";
+import { Album } from "./Album";
 
 /**
  * Spotify api's track object.
