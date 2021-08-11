@@ -104,9 +104,19 @@ export interface UserTokenContext {
  */
 export interface CacheSettings {
     /** Cache setting for spotify users. */
-    users: boolean;
+    users?: boolean;
     /** Cache setting for spotify artists. */
-    artists: boolean;
+    artists?: boolean;
+    /** Cache setting for spotify tracks. */
+    tracks?: boolean;
+    /** Cache setting for spotify playlists. */
+    playlists?: boolean;
+    /** Cache setting for spotify albums. */
+    albums?: boolean;
+    /** Cache setting for spotify episodes. */
+    episodes?: boolean;
+    /** Cache setting for spotify shows. */
+    shows?: boolean;
 }
 
 /** The options structure for search functions in the various managers. */

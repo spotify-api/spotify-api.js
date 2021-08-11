@@ -55,10 +55,7 @@ export class Client {
     /**
      * Cache settings for the client.
      */
-    public cacheSettings: CacheSettings = {
-        users: true,
-        artists: true
-    };
+    public cacheSettings: CacheSettings = {};
 
     /**
      * The basic client to interact with the Spotify Web API.
