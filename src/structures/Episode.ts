@@ -1,4 +1,6 @@
 import type { Client } from "../Client";
+import type { Show } from "./Show";
+import { createCacheStruct } from "../Cache";
 import { CamelCaseObjectKeys } from "../Interface";
 import { hexToRgb } from "../Util";
 
@@ -108,6 +110,11 @@ export class Episode {
     public uri: string;
 
     /**
+     * The show which the episode belongs to.
+     */
+    public show?: Show;
+
+    /**
      * To create a js object conataing camel case keys of the SimplifiedEpisode and Episode data with additional functions.
      * 
      * @param client The spotify client.
@@ -140,6 +147,8 @@ export class Episode {
                 resumePositionMs: data.resume_point.resume_position_ms
             }
         }
+
+        if ('show' in data) this.show = createCacheStruct('shows', client, data.show)
     }
 
     /**
