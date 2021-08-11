@@ -17,3 +17,4 @@ export * from './structures/User';
 export * from './structures/Artist';
 export * from './structures/Album';
 export * from './structures/Playlist';
+export * from './structures/Episode';

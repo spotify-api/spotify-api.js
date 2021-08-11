@@ -4,6 +4,7 @@ import { User } from './structures/User';
 import { Track } from './structures/Track';
 import { Album } from './structures/Album';
 import { Playlist } from './structures/Playlist';
+import { Episode } from './structures/Episode';
 
 /** 
  * The cache handler for the module. 
@@ -13,7 +14,8 @@ export const Cache = {
     artists: new Map<string, Artist>(),
     tracks: new Map<string, Track>(),
     albums: new Map<string, Album>(),
-    playlists: new Map<string, Playlist>()
+    playlists: new Map<string, Playlist>(),
+    episodes: new Map<string, Episode>()
 };
 
 /**
@@ -56,5 +58,6 @@ const Structures = {
     artists: Artist,
     tracks: Track,
     albums: Album,
-    playlists: Playlist
+    playlists: Playlist,
+    episodes: Episode
 };

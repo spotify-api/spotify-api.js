@@ -2,12 +2,15 @@ import type { Client } from "../Client";
 import type { User } from "./User";
 import type { PlaylistTrack } from "../Interface";
 import { Track } from "./Track";
+import { Episode } from "./Episode";
 import { Cache, createCacheStruct } from "../Cache";
 import { hexToRgb } from "../Util";
 
 import type { 
     Playlist as RawPlaylist,
     PlaylistTrack as RawPlaylistTrack,
+    Track as RawTrack,
+    Episode as RawEpisode,
     SimplifiedPlaylist,
     SpotifyType,
     Image,
@@ -127,15 +130,20 @@ export class Playlist {
 
 }
 
+// TODO(Scientific-Guy): More cleaner code here.
 function createCachedPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
     if (client.cacheSettings.playlistTracks) return rawPlaylistTracks.map(x => {
         let track;
 
         switch (x.track?.type) {
             case "track":
-                // @ts-ignore
-                track = new Track(x.id, x);
+                track = new Track(x.track as RawTrack, client);
                 Cache.tracks.set(track.id, track);
+                break;
+
+            case "episode":
+                track = new Episode(x.track as RawEpisode, client);
+                Cache.episodes.set(track.id, track);
                 break;
         }
 
@@ -152,8 +160,11 @@ function createCachedPlaylistTracks(client: Client, rawPlaylistTracks: RawPlayli
 
         switch (x.track?.type) {
             case "track":
-                // @ts-ignore
-                track = new Track(x.id, x);
+                track = new Track(x.track as RawTrack, client);
+                break;
+
+            case "episode":
+                track = new Episode(x.track as RawEpisode, client);
                 break;
         }
 
