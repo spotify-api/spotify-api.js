@@ -59,8 +59,8 @@ export class Artist {
     /**
      * To create a js object containing camel case keys of SimplifiedArtist or Artist data with additional functions.
      * 
-     * @param data The raw data received from the api.
      * @param client The spotify client.
+     * @param data The raw data received from the api.
      * @example const artist = new Artist(client, fetchedData);
      */
     public constructor(client: Client, data: SimplifiedArtist | RawArtist) {

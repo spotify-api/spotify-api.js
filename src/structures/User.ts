@@ -72,8 +72,8 @@ export class User {
     /**
      * To create a js object conataing camel case keys of the PublicUser or PrivateUser data with additional functions.
      * 
-     * @param data The raw data received from the api.
      * @param client The spotify client.
+     * @param data The raw data received from the api.
      * @example const user = new User(client, fetchedData);
      */
     public constructor(client: Client, data: PublicUser | PrivateUser) {
