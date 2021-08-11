@@ -1,4 +1,3 @@
-import type { Client } from "../Client";
 import type { SimplifiedArtist, Artist as RawArtist, SpotifyType, ExternalUrl, Image } from "api-types";
 import { hexToRgb } from "../Util";
 

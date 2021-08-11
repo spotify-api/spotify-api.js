@@ -1,4 +1,3 @@
-import type { Client } from "../Client";
 import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
 import type { CamelCaseObjectKeys } from "../Interface";
 import { hexToRgb } from "../Util";
