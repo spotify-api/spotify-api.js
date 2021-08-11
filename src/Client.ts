@@ -4,6 +4,7 @@ import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 import { UserManager } from "./managers/User";
 import { ArtistManager } from "./managers/Artist";
+import { UserClient } from "./managers/UserClient";
 
 const NOOP = () => {};
 
@@ -31,6 +32,11 @@ export class Client {
      * A manager to perform actions with belongs to to the spotify artist web api.
      */
     public artists!: ArtistManager;
+
+    /**
+     * The client which handles all the current user api endpoints and with the details of the current user.
+     */
+    public user!: UserClient;
 
     /**
      * The version of spotify web api. For future purposes.
@@ -69,6 +75,7 @@ export class Client {
         this.auth = new AuthManager(this.token);
         this.users = new UserManager(this);
         this.artists = new ArtistManager(this);
+        this.user = new UserClient(this);
 
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
@@ -84,9 +91,10 @@ export class Client {
         } else if ('redirectURL' in options.token) {
             this.refreshMeta = options.token;
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
-                .then(context => {
+                .then(async context => {
                     this.token = context.accessToken;
                     this.refreshMeta.refreshToken = context.refreshToken;
+                    await this.user.patchInfo();
                     options.onReady?.(this);
                 });
         } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
@@ -134,7 +142,7 @@ export class Client {
                 .then(context => {
                     this.token = context.accessToken;
                     this.refreshMeta.refreshToken = context.refreshToken;
-                    this.onRefresh();
+                    this.user.patchInfo().then(this.onRefresh);
                 });
         } else {
             this.auth.getApiToken(this.refreshMeta.clientID, this.refreshMeta.clientSecret)

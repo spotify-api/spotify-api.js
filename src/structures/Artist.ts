@@ -75,7 +75,7 @@ export class Artist {
      * Returns a code image url from the spotify uri.
      * @param color The color code in hex.
      */
-    makeCodeImage(color = '1DB954') {
+    public makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     

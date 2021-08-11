@@ -1,5 +1,4 @@
-import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
-import type { CamelCaseObjectKeys } from "../Interface";
+import type { PublicUser, SpotifyType, ExternalUrl, Image } from "api-types";
 import { hexToRgb } from "../Util";
 
 /**
@@ -25,7 +24,7 @@ export class User {
     /** 
      * The Spotify object type which will be 'user'.
      */
-    public readonly type: SpotifyType = 'user';
+    public type: SpotifyType = 'user';
 
     /** 
      * The user’s profile image. 
@@ -43,55 +42,25 @@ export class User {
     public externalURL: ExternalUrl;
 
     /**
-     * The spotify subscription level of the user. If the user has the paticualr authorized scope for it.
-     */
-    public product?: UserProductType;
-
-    /** 
-     * The country of the user, as set in the user’s account profile. 
-     */
-    public country?: string;
-
-    /** 
-     * The user’s email address, as entered by the user when creating their account. 
-     */
-    public email?: string;
-    
-    /** 
-     * The user’s explicit content settings. 
-     */
-    public explicitContent?: CamelCaseObjectKeys<ExplicitContentSettings>;
-
-    /**
-     * To create a js object conataing camel case keys of the PublicUser or PrivateUser data with additional functions.
+     * To create a js object conataing camel case keys of the PublicUser data with additional functions.
      * 
      * @param client The spotify client.
      * @example const user = new User(fetchedData);
      */
-    public constructor(data: PublicUser | PrivateUser) {
+    public constructor(data: PublicUser) {
         this.displayName = data.display_name;
         this.id = data.id;
         this.uri = data.uri;
         this.images = data.images;
         this.totalFollowers = data.followers.total;
         this.externalURL = data.external_urls;
-        
-        if ('email' in data) {
-            this.email = data.email;
-            this.product = data.product;
-            this.country = data.country
-            this.explicitContent = {
-                filterEnabled: data.explicit_content.filter_enabled,
-                filterLocked: data.explicit_content.filter_locked
-            }
-        }
     }
 
     /**
      * Returns a code image url from the spotify uri.
      * @param color The color code in hex.
      */
-    makeCodeImage(color = '1DB954') {
+    public makeCodeImage(color = '1DB954') {
         return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
     
