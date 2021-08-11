@@ -1,7 +1,7 @@
 import type { Client } from "../Client";
 import { SearchOptions } from "../Interface";
 import { Artist } from "../structures/Artist";
-import * as Cache from "../Cache";
+import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
 
 /**
  * A manager to perform actions with belongs to to the spotify artist web api.
@@ -35,7 +35,7 @@ export class ArtistManager {
             }
         });
 
-        return fetchedData ? fetchedData.artists.items.map(x => new Artist(this.client, x)) : [];
+        return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists.items) : [];
     }
 
     /**
@@ -48,7 +48,7 @@ export class ArtistManager {
     async get(id: string, force = !this.client.cacheSettings.artists): Promise<Artist | null> {
         if (!force && Cache.artists.has(id)) return new Artist(this.client, Cache.artists.get(id)!);
         const fetchedData = await this.client.fetch(`/artists/${id}`);
-        return fetchedData ? new Artist(this.client, fetchedData) : null;
+        return fetchedData ? createCacheStruct('artists', this.client, fetchedData) : null;
     }
 
     /**
@@ -59,7 +59,7 @@ export class ArtistManager {
      */
     async getMultiple(...ids: string[]): Promise<Artist[]> {
         const fetchedData = await this.client.fetch('/artists', { params: { ids: ids.join(',') } });
-        return fetchedData ? fetchedData.artists.map(x => new Artist(this.client, x)) : [];
+        return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists) : [];
     }
 
 }

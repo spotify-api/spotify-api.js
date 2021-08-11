@@ -1,7 +1,6 @@
 import type { Client } from "../Client";
 import type { SimplifiedArtist, Artist as RawArtist, SpotifyType, ExternalUrl, Image } from "api-types";
 import { hexToRgb } from "../Util";
-import * as Cache from "../Cache";
 
 /**
  * Spotify api's user object.
@@ -58,15 +57,13 @@ export class Artist {
     public popularity?: number;
 
     /**
-     * To create a js object conataing camel case keys of SimplifiedArtist or Artist data.
+     * To create a js object containing camel case keys of SimplifiedArtist or Artist data with additional functions.
      * 
      * @param data The raw data received from the api.
      * @param client The spotify client.
      * @example const artist = new Artist(client, fetchedData);
      */
     public constructor(client: Client, data: SimplifiedArtist | RawArtist) {
-        if (client.cacheSettings.artists) Cache.artists.set(data.id, data);
-
         this.externalURL = data.external_urls;
         this.id = data.id;
         this.name = data.name;

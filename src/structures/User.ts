@@ -2,7 +2,7 @@ import type { Client } from "../Client";
 import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
 import { CamelCaseObjectKeys } from "../Interface";
 import { hexToRgb } from "../Util";
-import * as Cache from "../Cache";
+import { Cache } from "../Cache";
 
 /**
  * Spotify api's user object.
