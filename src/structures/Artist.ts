@@ -7,11 +7,6 @@ import { hexToRgb } from "../Util";
  */
 export class Artist {
 
-    /**
-     * The client to work with the artist api.
-     */
-    public readonly client!: Client;
-
     /** 
      * Known external URLs for this artist. 
      */
@@ -59,11 +54,10 @@ export class Artist {
     /**
      * To create a js object containing camel case keys of SimplifiedArtist or Artist data with additional functions.
      * 
-     * @param client The spotify client.
      * @param data The raw data received from the api.
-     * @example const artist = new Artist(client, fetchedData);
+     * @example const artist = new Artist(fetchedData);
      */
-    public constructor(client: Client, data: SimplifiedArtist | RawArtist) {
+    public constructor(data: SimplifiedArtist | RawArtist) {
         this.externalURL = data.external_urls;
         this.id = data.id;
         this.name = data.name;
@@ -76,8 +70,6 @@ export class Artist {
             this.genres = data.genres;
             this.totalFollowers = data.followers.total;
         }
-
-        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**

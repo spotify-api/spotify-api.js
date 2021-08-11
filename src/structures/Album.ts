@@ -22,11 +22,6 @@ import type {
  */
 export class Album {
 
-    /**
-     * The client to work with the artist api.
-     */
-    public readonly client!: Client;
-
     /** 
      * The field is present when getting an artist’s albums. 
      */
@@ -130,13 +125,12 @@ export class Album {
     /**
      * To create a js object conataing camel case keys of the SimplifiedAlbum and Album data with additional functions.
      * 
-     * @param client The spotify client.
      * @param data The raw data received from the api.
-     * @param fromCache Is the data received already stored in cache or not.
-     * @example const album = new Album(client, fetchedData);
+     * @param client The spotify client.
+     * @example const album = new Album(fetchedData, client);
      */
-    public constructor(client: Client, data: SimplifiedAlbum | RawAlbum, fromCache = false) {
-        this.artists = createCacheStructArray('artists', client, data.artists, fromCache);
+    public constructor(data: SimplifiedAlbum | RawAlbum, client: Client) {
+        this.artists = createCacheStructArray('artists', client, data.artists);
         this.albumType = data.album_type;
         this.availableMarkets = data.available_markets;
         this.externalURL = data.external_urls;
@@ -151,15 +145,13 @@ export class Album {
         this.uri = data.uri;
 
         if ('tracks' in data) {
-            this.tracks = createCacheStructArray('tracks', client, data.tracks, fromCache);
+            this.tracks = createCacheStructArray('tracks', client, data.tracks);
             this.externalID = data.external_ids;
             this.copyrights = data.copyrights;
             this.genres = data.genres;
             this.label = data.label;
             this.popularity;
         } else this.albumGroup = data.album_group;
-
-        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**

@@ -1,6 +1,6 @@
 import { Client } from './Client';
 import { Artist as ArtistStruct } from './structures/Artist';
-import { User as UserStruct } from './structures/User';
+import { User, User as UserStruct } from './structures/User';
 import { Track as TrackStruct } from './structures/Track';
 import { Album as AlbumStruct } from './structures/Album';
 
@@ -63,8 +63,8 @@ export function createCacheStructArray<T>(
     return data.map(
         client.cacheSettings[key] && !fromCache ? x => {
             Cache[key].set(x.id, x);
-            return new StructMap[key](client, x);
-        } : x => new StructMap[key](client, x)
+            return new StructMap[key](x, client);
+        } : x => new StructMap[key](x, client)
     );
 }
 

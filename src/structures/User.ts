@@ -8,11 +8,6 @@ import { hexToRgb } from "../Util";
  */
 export class User {
 
-    /**
-     * The client to work with the user api.
-     */
-    public readonly client!: Client;
-
     /** 
      * The name displayed on the user’s profile. null if not available. 
      */
@@ -72,10 +67,9 @@ export class User {
      * To create a js object conataing camel case keys of the PublicUser or PrivateUser data with additional functions.
      * 
      * @param client The spotify client.
-     * @param data The raw data received from the api.
-     * @example const user = new User(client, fetchedData);
+     * @example const user = new User(fetchedData);
      */
-    public constructor(client: Client, data: PublicUser | PrivateUser) {
+    public constructor(data: PublicUser | PrivateUser) {
         this.displayName = data.display_name;
         this.id = data.id;
         this.uri = data.uri;
@@ -92,8 +86,6 @@ export class User {
                 filterLocked: data.explicit_content.filter_locked
             }
         }
-
-        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**

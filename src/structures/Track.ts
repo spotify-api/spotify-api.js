@@ -11,11 +11,6 @@ import { hexToRgb } from "../Util";
  */
 export class Track {
 
-    /**
-     * The client to work with the artist api.
-     */
-    public readonly client!: Client;
-
     /** 
      * The artists who performed the track. Each artist object includes a link in href to more detailed information about the artist. 
      */
@@ -114,13 +109,12 @@ export class Track {
     /**
      * To create a js object conataing camel case keys of the SimplifiedTrack and Track data with additional functions.
      * 
-     * @param client The spotify client.
      * @param data The raw data received from the api.
-     * @param fromCache Is the data received already stored in cache or not.
-     * @example const track = new Track(client, fetchedData);
+     * @param client The spotify client.
+     * @example const track = new Track(fetchedData, client);
      */
-    public constructor(client: Client, data: SimplifiedTrack | RawTrack, fromCache = false) {
-        this.artists = createCacheStructArray('artists', client, data.artists, fromCache);
+    public constructor(data: SimplifiedTrack | RawTrack, client: Client) {
+        this.artists = createCacheStructArray('artists', client, data.artists);
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
@@ -146,12 +140,10 @@ export class Track {
         }
 
         if ('album' in data) {
-            this.album = createCacheStruct('albums', client, (data as RawTrack).album, fromCache);
+            this.album = createCacheStruct('albums', client, (data as RawTrack).album);
             this.externalID = (data as RawTrack).external_ids;
             this.popularity = (data as RawTrack).popularity;
         }
-
-        Object.defineProperty(this, 'client', { value: client });
     }
 
     /**
