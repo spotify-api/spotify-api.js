@@ -1,5 +1,5 @@
-import { Client } from "./Client";
-import type { SpotifyType } from "api-types";
+import type { ExternalUrl, SpotifyType } from "../apiTypes/typings";
+import type { Client } from "./Client";
 
 /**
  * All the spotify web api methods.
@@ -129,4 +129,18 @@ export interface SearchOptions {
     limit?: number;
     /** If a country code is specified, only content that is playable in that market is returned. */
     market?: number;
+}
+
+/** The linked track object for the [linkedFrom] field in [Track]. */
+export interface LinkedTrack {
+    /** A map of url name and the url. */
+    externalURL: ExternalUrl;
+    /** The api url where you can get the full details of the linked track. */
+    href: string;
+    /** The id of the linked track. */
+    id: string;
+    /** The type of spotify object. */
+    type: SpotifyType;
+    /** The uri of this object. */
+    uri: string;
 }

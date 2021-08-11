@@ -1,6 +1,6 @@
 import type { Client } from "../Client";
 import type { PublicUser, PrivateUser, SpotifyType, ExternalUrl, Image, UserProductType, ExplicitContentSettings } from "api-types";
-import { CamelCaseObjectKeys } from "../Interface";
+import type { CamelCaseObjectKeys } from "../Interface";
 import { hexToRgb } from "../Util";
 import { Cache } from "../Cache";
 

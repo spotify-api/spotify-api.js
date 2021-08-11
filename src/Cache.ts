@@ -1,6 +1,7 @@
 import { Client } from './Client';
 import { Artist as ArtistStruct } from './structures/Artist';
 import { User as UserStruct } from './structures/User';
+import { Track as TrackStruct } from './structures/Track';
 
 import { 
     PublicUser, 
@@ -67,5 +68,6 @@ export function createCacheStructArray<T>(
 /** The structures map by the keys as name and values as their corresponding structure. */
 const StructMap = {
     users: UserStruct,
-    artists: ArtistStruct
+    artists: ArtistStruct,
+    tracks: TrackStruct
 };
