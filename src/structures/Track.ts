@@ -1,7 +1,7 @@
 import type { ExternalID, ExternalUrl, Restriction, SimplifiedTrack, SpotifyType, Track as RawTrack } from "api-types";
 import type { LinkedTrack } from "../Interface";
 import type { Client } from "../Client";
-import { createCacheStructArray } from "../Cache";
+import { createCacheStruct, createCacheStructArray } from "../Cache";
 import { Artist } from "./Artist";
 import { Album } from "./Album";
 import { hexToRgb } from "../Util";
@@ -116,10 +116,11 @@ export class Track {
      * 
      * @param client The spotify client.
      * @param data The raw data received from the api.
+     * @param fromCache Is the data received already stored in cache or not.
      * @example const track = new Track(client, fetchedData);
      */
-    public constructor(client: Client, data: SimplifiedTrack | RawTrack) {
-        this.artists = createCacheStructArray('artists', client, data.artists);
+    public constructor(client: Client, data: SimplifiedTrack | RawTrack, fromCache = false) {
+        this.artists = createCacheStructArray('artists', client, data.artists, fromCache);
         this.availableMarkets = data.available_markets;
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
@@ -145,6 +146,7 @@ export class Track {
         }
 
         if ('album' in data) {
+            this.album = createCacheStruct('albums', client, (data as RawTrack).album, fromCache);
             this.externalID = (data as RawTrack).external_ids;
             this.popularity = (data as RawTrack).popularity;
         }

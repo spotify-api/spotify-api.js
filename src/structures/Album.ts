@@ -132,10 +132,11 @@ export class Album {
      * 
      * @param client The spotify client.
      * @param data The raw data received from the api.
+     * @param fromCache Is the data received already stored in cache or not.
      * @example const album = new Album(client, fetchedData);
      */
-    public constructor(client: Client, data: SimplifiedAlbum | RawAlbum) {
-        this.artists = createCacheStructArray('artists', client, data.artists);
+    public constructor(client: Client, data: SimplifiedAlbum | RawAlbum, fromCache = false) {
+        this.artists = createCacheStructArray('artists', client, data.artists, fromCache);
         this.albumType = data.album_type;
         this.availableMarkets = data.available_markets;
         this.externalURL = data.external_urls;
@@ -150,7 +151,7 @@ export class Album {
         this.uri = data.uri;
 
         if ('tracks' in data) {
-            this.tracks = createCacheStructArray('tracks', client, data.tracks);
+            this.tracks = createCacheStructArray('tracks', client, data.tracks, fromCache);
             this.externalID = data.external_ids;
             this.copyrights = data.copyrights;
             this.genres = data.genres;

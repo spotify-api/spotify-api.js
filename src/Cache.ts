@@ -2,6 +2,7 @@ import { Client } from './Client';
 import { Artist as ArtistStruct } from './structures/Artist';
 import { User as UserStruct } from './structures/User';
 import { Track as TrackStruct } from './structures/Track';
+import { Album as AlbumStruct } from './structures/Album';
 
 import type { 
     PublicUser, 
@@ -40,9 +41,10 @@ export const Cache = {
 export function createCacheStruct<T>(
     key: keyof typeof StructMap, 
     client: Client, 
-    data: any
+    data: any,
+    fromCache = false
 ): T {
-    if (client.cacheSettings[key]) Cache[key].set(data.id, data);
+    if (client.cacheSettings[key] && !fromCache) Cache[key].set(data.id, data);
     // @ts-ignore
     return new StructMap[key](client, data);
 }
@@ -54,11 +56,12 @@ export function createCacheStruct<T>(
 export function createCacheStructArray<T>(
     key: keyof typeof StructMap, 
     client: Client, 
-    data: any[]
+    data: any[],
+    fromCache = false
 ): T[] {
     // @ts-ignore
     return data.map(
-        client.cacheSettings[key] ? x => {
+        client.cacheSettings[key] && !fromCache ? x => {
             Cache[key].set(x.id, x);
             return new StructMap[key](client, x);
         } : x => new StructMap[key](client, x)
@@ -69,5 +72,6 @@ export function createCacheStructArray<T>(
 const StructMap = {
     users: UserStruct,
     artists: ArtistStruct,
-    tracks: TrackStruct
+    tracks: TrackStruct,
+    albums: AlbumStruct
 };
