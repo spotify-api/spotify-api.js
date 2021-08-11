@@ -1,37 +1,17 @@
 import { Client } from './Client';
-import { Artist as ArtistStruct } from './structures/Artist';
-import { User, User as UserStruct } from './structures/User';
-import { Track as TrackStruct } from './structures/Track';
-import { Album as AlbumStruct } from './structures/Album';
-
-import type { 
-    PublicUser, 
-    PrivateUser,  
-    SimplifiedArtist, 
-    SimplifiedTrack, 
-    SimplifiedPlaylist,
-    SimplifiedAlbum,
-    SimplifiedEpisode,
-    SimplifiedShow,
-    Artist,
-    Track, 
-    Playlist,
-    Album,
-    Episode,
-    Show
-} from "api-types";
+import { Artist } from './structures/Artist';
+import { User } from './structures/User';
+import { Track } from './structures/Track';
+import { Album } from './structures/Album';
 
 /** 
  * The cache handler for the module. 
  */
 export const Cache = {
-    users: new Map<string, PublicUser | PrivateUser>(),
-    artists: new Map<string, SimplifiedArtist | Artist>(),
-    tracks: new Map<string, SimplifiedTrack | Track>(),
-    playlists: new Map<string, SimplifiedPlaylist | Playlist>(),
-    albums: new Map<string, SimplifiedAlbum | Album>(),
-    shows: new Map<string, SimplifiedShow | Show>(),
-    episodes: new Map<string, SimplifiedEpisode | Episode>()
+    users: new Map<string, User>(),
+    artists: new Map<string, Artist>(),
+    tracks: new Map<string, Track>(),
+    albums: new Map<string, Album>()
 };
 
 /**
@@ -39,7 +19,7 @@ export const Cache = {
  * @hideconstructor
  */
 export function createCacheStruct<T>(
-    key: keyof typeof StructMap, 
+    key: keyof typeof Structures, 
     client: Client, 
     data: any,
     fromCache = false
@@ -54,7 +34,7 @@ export function createCacheStruct<T>(
  * @hideconstructor
  */
 export function createCacheStructArray<T>(
-    key: keyof typeof StructMap, 
+    key: keyof typeof Structures, 
     client: Client, 
     data: any[],
     fromCache = false
@@ -63,15 +43,15 @@ export function createCacheStructArray<T>(
     return data.map(
         client.cacheSettings[key] && !fromCache ? x => {
             Cache[key].set(x.id, x);
-            return new StructMap[key](x, client);
-        } : x => new StructMap[key](x, client)
+            return new Structures[key](x, client);
+        } : x => new Structures[key](x, client)
     );
 }
 
 /** The structures map by the keys as name and values as their corresponding structure. */
-const StructMap = {
-    users: UserStruct,
-    artists: ArtistStruct,
-    tracks: TrackStruct,
-    albums: AlbumStruct
+const Structures = {
+    users: User,
+    artists: Artist,
+    tracks: Track,
+    albums: Album
 };

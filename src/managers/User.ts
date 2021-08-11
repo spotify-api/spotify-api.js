@@ -23,7 +23,7 @@ export class UserManager {
      * @example await client.users.get('id');
      */
     async get(id: string, force = !this.client.cacheSettings.users): Promise<User | null> {
-        if (!force && Cache.users.has(id)) return new User(this.client, Cache.users.get(id)!);
+        if (!force && Cache.users.has(id)) return Cache.users.get(id)!;
         const fetchedData = await this.client.fetch(`/users/${id}`);
         return fetchedData ? createCacheStruct('users', this.client, fetchedData) : null;
     }

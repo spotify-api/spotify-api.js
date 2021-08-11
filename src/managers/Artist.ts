@@ -46,7 +46,7 @@ export class ArtistManager {
      * @example await client.artists.get('id');
      */
     async get(id: string, force = !this.client.cacheSettings.artists): Promise<Artist | null> {
-        if (!force && Cache.artists.has(id)) return new Artist(this.client, Cache.artists.get(id)!);
+        if (!force && Cache.artists.has(id)) return Cache.artists.get(id)!;
         const fetchedData = await this.client.fetch(`/artists/${id}`);
         return fetchedData ? createCacheStruct('artists', this.client, fetchedData) : null;
     }
