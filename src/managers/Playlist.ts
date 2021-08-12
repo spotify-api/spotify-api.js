@@ -32,6 +32,7 @@ export class PlaylistManager {
 
     /**
      * Create a playlist for a user.
+     * This method requires an user authorized token.
      * 
      * @param userID The spotify user id.
      * @param playlist The playlist details.
@@ -44,6 +45,21 @@ export class PlaylistManager {
         });
 
         return fetchedData ? createCacheStruct('playlists', this.client, fetchedData) : null;
+    }
+
+    /**
+     * Edit a playlist.
+     * This method requires an user authorized token.
+     * 
+     * @param id The playlist id.
+     * @param playlist The details of the playlist to edit.
+     * @example const playlist = await client.playlists.edit('id', { name: 'Edited playlist' });
+     */
+    public edit(id: string, playlist: Partial<CreatePlaylistQuery>): Promise<void> {
+        return this.client.fetch(`/playlists/${id}`, {
+            method: 'PUT',
+            params: playlist
+        });
     }
 
 }
