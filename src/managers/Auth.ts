@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetUserTokenOptions, UserTokenContext } from "../Interface";
+import type { GetUserTokenOptions, UserTokenContext } from "../Interface";
 
 /**
  * Browser compaitable function to encode base64 string.
@@ -75,8 +75,7 @@ export class AuthManager {
             },
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
-                Authorization: `
-                Basic ${encodeBase64(options.clientID + ":" + options.clientSecret)}`,
+                Authorization: `Basic ${encodeBase64(options.clientID + ":" + options.clientSecret)}`,
             },
         });
 

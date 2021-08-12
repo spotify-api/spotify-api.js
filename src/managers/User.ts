@@ -3,12 +3,12 @@ import { User } from "../structures/User";
 import { Cache, createCacheStruct } from "../Cache";
 
 /**
- * A manager to perform actions with belongs to to the spotify user web api.
+ * A manager to perform actions which belongs to the spotify user web api.
  */
 export class UserManager {
 
     /**
-     * A manager to perform actions with belongs to to the spotify user web api.
+     * A manager to perform actions which belongs to the spotify user web api.
      * 
      * @param client The spotify api client.
      * @example const users = new UserManager(client);

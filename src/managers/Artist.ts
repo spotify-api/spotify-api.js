@@ -4,15 +4,15 @@ import type { Track } from "../structures/Track";
 import type { Album } from "../structures/Album";
 import type { SearchOptions } from "../Interface";
 import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
-import { AlbumGroup } from "../../apiTypes/typings";
+import { AlbumGroup } from "api-types";
 
 /**
- * A manager to perform actions with belongs to to the spotify artist web api.
+ * A manager to perform actions which belongs to the spotify artist web api.
  */
 export class ArtistManager {
 
     /**
-     * A manager to perform actions with belongs to to the spotify artist web api.
+     * A manager to perform actions which belongs to the spotify artist web api.
      * 
      * @param client The spotify api client.
      * @example const artists = new ArtistManager(client);

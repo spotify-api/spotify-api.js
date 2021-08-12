@@ -1,6 +1,14 @@
-import type { SpotifyType, Image, ExternalUrl, UserProductType, ExplicitContentSettings, PrivateUser } from "api-types";
 import { Client } from "../Client";
 import { CamelCaseObjectKeys } from "../Interface";
+
+import type { 
+    SpotifyType, 
+    Image, 
+    ExternalUrl, 
+    UserProductType, 
+    ExplicitContentSettings, 
+    PrivateUser 
+} from "api-types";
 
 /**
  * The client which handles all the current user api endpoints and with the details of the current user.

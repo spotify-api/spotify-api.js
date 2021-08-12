@@ -4,6 +4,7 @@ import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 import { UserManager } from "./managers/User";
 import { ArtistManager } from "./managers/Artist";
+import { BrowseManager } from "./managers/Browse";
 import { UserClient } from "./managers/UserClient";
 
 const NOOP = () => {};
@@ -24,14 +25,19 @@ export class Client {
     public auth!: AuthManager;
 
     /**
-     * A manager to perform actions with belongs to to the spotify user web api.
+     * A manager to perform actions which belongs to the spotify user web api.
      */
     public users!: UserManager;
 
     /**
-     * A manager to perform actions with belongs to to the spotify artist web api.
+     * A manager to perform actions which belongs to the spotify artist web api.
      */
     public artists!: ArtistManager;
+
+    /**
+     * A manager to perform actions which belongs to the spotify browse web api.
+     */
+    public browse!: BrowseManager;
 
     /**
      * The client which handles all the current user api endpoints and with the details of the current user.
