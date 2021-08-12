@@ -1,5 +1,6 @@
 import type { Client } from "../Client";
 import type { Playlist } from "../structures/Playlist";
+import type { CreatePlaylistQuery } from "api-types";
 import { Cache, createCacheStruct } from "../Cache";
 
 /**
@@ -26,6 +27,22 @@ export class PlaylistManager {
     public async get(id: string, market = 'US', force = !this.client.cacheSettings.playlists): Promise<Playlist | null> {
         if (!force && Cache.playlists.has(id)) return Cache.playlists.get(id)!;
         const fetchedData = await this.client.fetch(`/playlists/${id}`, { params: { market } });
+        return fetchedData ? createCacheStruct('playlists', this.client, fetchedData) : null;
+    }
+
+    /**
+     * Create a playlist for a user.
+     * 
+     * @param userID The spotify user id.
+     * @param playlist The playlist details.
+     * @example const playlist = await client.playlists.create('id', { name: 'My Playlist' });
+     */
+    public async create(userID: string, playlist: CreatePlaylistQuery): Promise<Playlist | null> {
+        const fetchedData = await this.client.fetch(`/users/${userID}/playlists`, {
+            method: 'POST',
+            params: playlist
+        });
+
         return fetchedData ? createCacheStruct('playlists', this.client, fetchedData) : null;
     }
 

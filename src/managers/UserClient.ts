@@ -1,6 +1,7 @@
 import type { Client } from "../Client";
 import type { CamelCaseObjectKeys } from "../Interface";
 import type { Playlist } from "../structures/Playlist";
+import { SpotifyAPIError } from "../Error";
 import { createCacheStructArray } from "../Cache";
 import type { 
     SpotifyType, 
@@ -8,7 +9,8 @@ import type {
     ExternalUrl, 
     UserProductType, 
     ExplicitContentSettings, 
-    PrivateUser 
+    PrivateUser, 
+    CreatePlaylistQuery
 } from "api-types";
 
 /**
@@ -78,6 +80,7 @@ export class UserClient {
 
     /**
      * The client which handles all the current user api endpoints and with the details of the current user.
+     * All the methods in this class requires the user authorized token.
      * 
      * @param client The spotify api client.
      * @example const user = new UserClient(client);
@@ -121,6 +124,17 @@ export class UserClient {
     ): Promise<Playlist[]> {
         const fetchedData = await this.client.fetch(`/me/playlists`, { params: options });
         return fetchedData ? createCacheStructArray('playlists', this.client, fetchedData.items) : [];
+    }
+
+    /**
+     * Create a playlist.
+     * 
+     * @param playlist The playlist details to set.
+     * @example const playlist = await client.user.create({ name: 'My playlist' });
+     */
+    public create(playlist: CreatePlaylistQuery): Promise<Playlist | null> {
+        if (!this.id) throw new SpotifyAPIError('[UserClient.id] is `undefined`. Most likely [UserClient] is not loaded yet.')
+        return this.client.playlists.create(this.id, playlist);
     }
 
 }
