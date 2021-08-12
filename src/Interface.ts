@@ -1,6 +1,7 @@
-import type { Episode, ExternalUrl, SpotifyType } from "../apiTypes/typings";
+import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType } from "api-types";
 import type { Track } from "./structures/Track";
 import type { User } from "./structures/User";
+import type { Playlist } from "./structures/Playlist";
 import type { Client } from "./Client";
 
 /**
@@ -157,4 +158,22 @@ export interface PlaylistTrack {
     isLocal: boolean;
     /** Information about the track or episode. */
     track: Track | Episode | null;
+}
+
+/** The object returned by [Browse.getFeaturedPlaylists] function. */
+export interface FeaturedPlaylistContent {
+    /** The message of the featured playlists. */
+    message: string;
+    /** The featured playlists. */
+    playlists: Playlist[];
+}
+
+/**
+ * The collection of recommendation seed objects with tracks provided from the spotify api.
+ */
+export interface Recommendations {
+    /** An array of recommendation seed objects. */
+    seeds: RecommendationSeed[];
+    /** An array of track object (simplified) ordered according to the parameters supplied. */
+    tracks: Track[];
 }
