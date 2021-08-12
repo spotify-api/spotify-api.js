@@ -139,7 +139,7 @@ export class Album {
         this.name = data.name;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
-        this.restrictions = data.restrictions;
+        this.restrictions = data.restrictions || [];
         this.totalTracks = data.total_tracks;
         this.type = data.type;
         this.uri = data.uri;
