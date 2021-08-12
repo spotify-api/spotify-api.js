@@ -28,7 +28,7 @@ export class EpisodeManager {
             params: {
                 q: query,
                 type: 'episode',
-                market: options.market,
+                market: options.market || 'US',
                 limit: options.limit,
                 offset: options.offset,
                 include_external: options.includeExternalAudio ? 'audio' : undefined
