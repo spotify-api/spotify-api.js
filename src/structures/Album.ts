@@ -3,7 +3,6 @@ import type { Artist } from "./Artist";
 import type { Track } from "./Track";
 import { createCacheStructArray } from "../Cache";
 import { hexToRgb } from "../Util";
-
 import type { 
     SimplifiedAlbum, 
     Album as RawAlbum, 
@@ -15,7 +14,6 @@ import type {
     Copyright, 
     ExternalID 
 } from "api-types";
-
 
 /**
  * Spotify api's album object.
@@ -145,7 +143,7 @@ export class Album {
         this.uri = data.uri;
 
         if ('tracks' in data) {
-            this.tracks = createCacheStructArray('tracks', client, data.tracks);
+            this.tracks = createCacheStructArray('tracks', client, Array.isArray(data.tracks) ? data.tracks : data.tracks.items);
             this.externalID = data.external_ids;
             this.copyrights = data.copyrights;
             this.genres = data.genres;
