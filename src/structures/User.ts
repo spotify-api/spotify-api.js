@@ -34,7 +34,7 @@ export class User {
     /** 
      * Information about the followers of the user. 
      */
-    public totalFollowers: number;
+    public totalFollowers: number | null;
 
     /** 
      * Known external URLs for this user. 
@@ -52,8 +52,8 @@ export class User {
         this.id = data.id;
         this.uri = data.uri;
         this.images = data.images;
-        this.totalFollowers = data.followers.total;
         this.externalURL = data.external_urls;
+        this.totalFollowers = data.followers.total || null;
     }
 
     /**
