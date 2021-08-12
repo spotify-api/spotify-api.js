@@ -182,6 +182,9 @@ export class Client {
         }
     }
 
+    /**
+     * Refreshes the token from meta.
+     */
     private async refreshFromMeta() {
         if ('refreshToken' in this.refreshMeta) {
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
