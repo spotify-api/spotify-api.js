@@ -11,6 +11,7 @@ export * from './managers/User';
 export * from './managers/Artist';
 export * from './managers/Browse';
 export * from './managers/UserClient';
+export * from './managers/Album';
 
 // Export all the structures of the module.
 export * from './structures/Track';

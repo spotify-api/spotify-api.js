@@ -4,6 +4,7 @@ import { AuthManager } from "./managers/Auth";
 import { UserManager } from "./managers/User";
 import { ArtistManager } from "./managers/Artist";
 import { BrowseManager } from "./managers/Browse";
+import { AlbumManager } from "./managers/Album";
 import { UserClient } from "./managers/UserClient";
 
 import type { 
@@ -50,6 +51,11 @@ export class Client {
     public browse!: BrowseManager;
 
     /**
+     * A manager to perform actions which belongs to the spotify album web api.
+     */
+    public albums!: AlbumManager;
+
+    /**
      * The client which handles all the current user api endpoints and with the details of the current user.
      */
     public user!: UserClient;
@@ -92,6 +98,7 @@ export class Client {
         this.users = new UserManager(this);
         this.artists = new ArtistManager(this);
         this.browse = new BrowseManager(this);
+        this.albums = new AlbumManager(this);
         this.user = new UserClient(this);
 
         if (typeof options.token == "string") {
