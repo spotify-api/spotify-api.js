@@ -5,7 +5,9 @@ import { UserManager } from "./managers/User";
 import { ArtistManager } from "./managers/Artist";
 import { BrowseManager } from "./managers/Browse";
 import { AlbumManager } from "./managers/Album";
+import { EpisodeManager } from "./managers/Episode";
 import { UserClient } from "./managers/UserClient";
+import { createCacheStructArray } from "./Cache";
 
 import type { 
     ClientOptions, 
@@ -16,7 +18,6 @@ import type {
     ClientSearchOptions, 
     SearchContent
 } from "./Interface";
-import { createCacheStructArray } from "./Cache";
 
 const NOOP = () => {};
 
@@ -54,6 +55,11 @@ export class Client {
      * A manager to perform actions which belongs to the spotify album web api.
      */
     public albums!: AlbumManager;
+
+    /**
+     * A manager to perform actions which belongs to the spotify episode web api.
+     */
+    public episodes!: EpisodeManager;
 
     /**
      * The client which handles all the current user api endpoints and with the details of the current user.
@@ -99,6 +105,7 @@ export class Client {
         this.artists = new ArtistManager(this);
         this.browse = new BrowseManager(this);
         this.albums = new AlbumManager(this);
+        this.episodes = new EpisodeManager(this);
         this.user = new UserClient(this);
 
         if (typeof options.token == "string") {
