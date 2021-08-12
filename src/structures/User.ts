@@ -48,7 +48,7 @@ export class User {
      * @example const user = new User(fetchedData);
      */
     public constructor(data: PublicUser) {
-        this.displayName = data.display_name;
+        this.displayName = data.display_name || null;
         this.id = data.id;
         this.uri = data.uri;
         this.images = data.images || [];
