@@ -1,9 +1,8 @@
 import type { Client } from "../Client";
 import type { Show } from "./Show";
+import type { CamelCaseObjectKeys } from "../Interface";
 import { createCacheStruct } from "../Cache";
-import { CamelCaseObjectKeys } from "../Interface";
 import { hexToRgb } from "../Util";
-
 import type { 
     SimplifiedEpisode, 
     Episode as RawEpisode, 

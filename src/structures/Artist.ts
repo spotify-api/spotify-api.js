@@ -1,5 +1,11 @@
-import type { SimplifiedArtist, Artist as RawArtist, SpotifyType, ExternalUrl, Image } from "api-types";
 import { hexToRgb } from "../Util";
+import type { 
+    SimplifiedArtist, 
+    Artist as RawArtist, 
+    SpotifyType, 
+    ExternalUrl, 
+    Image 
+} from "api-types";
 
 /**
  * Spotify api's user object.

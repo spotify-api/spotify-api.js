@@ -1,9 +1,9 @@
 import type { ExternalID, ExternalUrl, Restriction, SimplifiedTrack, SpotifyType, Track as RawTrack } from "api-types";
 import type { LinkedTrack } from "../Interface";
 import type { Client } from "../Client";
+import type { Artist } from "./Artist";
+import type { Album } from "./Album";
 import { createCacheStruct, createCacheStructArray } from "../Cache";
-import { Artist } from "./Artist";
-import { Album } from "./Album";
 import { hexToRgb } from "../Util";
 
 /**

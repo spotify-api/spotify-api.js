@@ -5,7 +5,6 @@ import { Track } from "./Track";
 import { Episode } from "./Episode";
 import { Cache, createCacheStruct } from "../Cache";
 import { hexToRgb } from "../Util";
-
 import type { 
     Playlist as RawPlaylist,
     PlaylistTrack as RawPlaylistTrack,

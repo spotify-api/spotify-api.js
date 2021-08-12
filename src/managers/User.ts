@@ -1,5 +1,5 @@
 import type { Client } from "../Client";
-import { User } from "../structures/User";
+import type { User } from "../structures/User";
 import { Cache, createCacheStruct } from "../Cache";
 
 /**

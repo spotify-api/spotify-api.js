@@ -1,6 +1,5 @@
-import { Client } from "../Client";
-import { CamelCaseObjectKeys } from "../Interface";
-
+import type { Client } from "../Client";
+import type { CamelCaseObjectKeys } from "../Interface";
 import type { 
     SpotifyType, 
     Image, 

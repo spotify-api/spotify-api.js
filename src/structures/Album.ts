@@ -1,7 +1,7 @@
 import type { Client } from "../Client";
-import { Artist } from "./Artist";
+import type { Artist } from "./Artist";
+import type { Track } from "./Track";
 import { createCacheStructArray } from "../Cache";
-import { Track } from "./Track";
 import { hexToRgb } from "../Util";
 
 import type { 

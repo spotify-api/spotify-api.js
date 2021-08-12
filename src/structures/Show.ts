@@ -2,7 +2,6 @@ import type { Client } from "../Client";
 import type { Episode } from "./Episode";
 import { createCacheStructArray } from "../Cache";
 import { hexToRgb } from "../Util";
-
 import type {
     SimplifiedShow,
     Show as RawShow,
