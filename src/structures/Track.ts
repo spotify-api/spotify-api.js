@@ -124,7 +124,7 @@ export class Track {
         this.isLocal = data.is_local;
         this.name = data.name;
         this.previewURL = data.preview_url;
-        this.restrictions = data.restrictions;
+        this.restrictions = data.restrictions || [];
         this.trackNumber = data.track_number;
         this.type = data.type;
         this.uri = data.uri;
