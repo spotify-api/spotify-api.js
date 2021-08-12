@@ -42,13 +42,13 @@ export class EpisodeManager {
      * Get a spotify episode information by spotify id!
      * 
      * @param id The spotify episode id.
+     * @param market Only episodes that are available in that market will be returned.
      * @param force When true, will directly fetch else will search for the cache first!
      * @example const episode = await client.episodes.get('id');
      */
-    async get(id: string, force = !this.client.cacheSettings.episodes): Promise<Episode | null> {
+    async get(id: string, market = 'US', force = !this.client.cacheSettings.episodes): Promise<Episode | null> {
         if (!force && Cache.episodes.has(id)) return Cache.episodes.get(id)!;
-        const fetchedData = await this.client.fetch(`/episodes/${id}`);
-        console.log(fetchedData);
+        const fetchedData = await this.client.fetch(`/episodes/${id}`, { params: { market } });
         return fetchedData ? createCacheStruct('episodes', this.client, fetchedData) : null;
     }
 
@@ -56,10 +56,22 @@ export class EpisodeManager {
      * Get multiple spotify episodes in one fetch!
      * 
      * @param ids An array of spotify ids.
+     * @param market Only episodes that are available in that market will be returned.
      * @example const episodes = await client.episodes.getMultiple('id1', 'id2');
      */
-    async getMultiple(...ids: string[]): Promise<Episode[]> {
-        const fetchedData = await this.client.fetch('/episodes', { params: { ids: ids.join(',') } });
+    async getMultiple(
+        options: {
+            ids: string[], 
+            market?: string
+        }
+    ): Promise<Episode[]> {
+        const fetchedData = await this.client.fetch('/episodes', {
+            params: { 
+                ids: options.ids.join(','), 
+                market: options.market || 'US'
+            }
+        });
+
         return fetchedData ? createCacheStructArray('episodes', this.client, fetchedData.episodes) : [];
     }
 

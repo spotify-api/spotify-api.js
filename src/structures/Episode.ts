@@ -137,8 +137,6 @@ export class Episode {
         this.restrictions = data.restrictions || [];
         this.type = data.type;
         this.uri = data.uri;
-
-        // shows
         
         if (data.resume_point) {
             this.resumePoint = {
