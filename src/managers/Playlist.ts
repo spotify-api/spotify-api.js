@@ -1,8 +1,8 @@
 import type { Client } from "../Client";
-import type { Playlist } from "../structures/Playlist";
+import type { PlaylistTrack } from "../Interface";
 import type { CreatePlaylistQuery } from "api-types";
-import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
-import { Track } from "../structures/Track";
+import { Playlist, createCachedPlaylistTracks } from "../structures/Playlist";
+import { Cache, createCacheStruct } from "../Cache";
 
 /**
  * A manager to perform actions which belongs to the spotify playlist web api.
@@ -45,9 +45,9 @@ export class PlaylistManager {
             limit?: number,
             offset?: number
         } = {}
-    ): Promise<Track[]> {
+    ): Promise<PlaylistTrack[]> {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, { params: options });
-        return fetchedData ? createCacheStructArray('tracks', this.client, fetchedData.items) : [];
+        return fetchedData ? createCachedPlaylistTracks(this.client, fetchedData.items) : [];
     }
 
     /**

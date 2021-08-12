@@ -130,7 +130,7 @@ export class Playlist {
 }
 
 // TODO(Scientific-Guy): More cleaner code here.
-function createCachedPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
+export function createCachedPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
     if (client.cacheSettings.playlistTracks) return rawPlaylistTracks.map(x => {
         let track;
 
