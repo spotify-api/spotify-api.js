@@ -14,6 +14,11 @@ import type {
  */
 export class UserClient {
 
+    /**
+     * The spotify client for this UserClient to work with.
+     */
+    public readonly client!: Client;
+
     /** 
      * The name displayed on the user’s profile. null if not available. 
      */
@@ -75,7 +80,9 @@ export class UserClient {
      * @param client The spotify api client.
      * @example const user = new UserClient(client);
      */
-    public constructor(public client: Client) {}
+    public constructor(client: Client) {
+        Object.defineProperty(this, 'client', { value: client });
+    }
 
     /**
      * Patches the current user details info to this manager.
