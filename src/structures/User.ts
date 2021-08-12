@@ -51,7 +51,7 @@ export class User {
         this.displayName = data.display_name;
         this.id = data.id;
         this.uri = data.uri;
-        this.images = data.images;
+        this.images = data.images || [];
         this.externalURL = data.external_urls;
         if (data.followers) this.totalFollowers = data.followers.total;
     }
