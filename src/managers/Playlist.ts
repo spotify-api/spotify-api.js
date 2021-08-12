@@ -1,7 +1,8 @@
 import type { Client } from "../Client";
 import type { Playlist } from "../structures/Playlist";
 import type { CreatePlaylistQuery } from "api-types";
-import { Cache, createCacheStruct } from "../Cache";
+import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
+import { Track } from "../structures/Track";
 
 /**
  * A manager to perform actions which belongs to the spotify playlist web api.
@@ -28,6 +29,25 @@ export class PlaylistManager {
         if (!force && Cache.playlists.has(id)) return Cache.playlists.get(id)!;
         const fetchedData = await this.client.fetch(`/playlists/${id}`, { params: { market } });
         return fetchedData ? createCacheStruct('playlists', this.client, fetchedData) : null;
+    }
+
+    /**
+     * Get a spotify playlist's track by the playlist's id!
+     * 
+     * @param id The spotify playlist id.
+     * @param options The market, limit, offset query paramaters.
+     * @example const tracks = await client.playlists.getTracks('id');
+     */
+    public async getTracks(
+        id: string, 
+        options: {
+            market?: string,
+            limit?: number,
+            offset?: number
+        } = {}
+    ): Promise<Track[]> {
+        const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, { params: options });
+        return fetchedData ? createCacheStructArray('tracks', this.client, fetchedData.items) : [];
     }
 
     /**
