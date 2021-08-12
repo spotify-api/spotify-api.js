@@ -81,6 +81,7 @@ export class Client {
         this.auth = new AuthManager(this.token);
         this.users = new UserManager(this);
         this.artists = new ArtistManager(this);
+        this.browse = new BrowseManager(this);
         this.user = new UserClient(this);
 
         if (typeof options.token == "string") {
