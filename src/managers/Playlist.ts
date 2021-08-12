@@ -1,6 +1,6 @@
 import type { Client } from "../Client";
 import type { Playlist } from "../structures/Playlist";
-import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
+import { Cache, createCacheStruct } from "../Cache";
 
 /**
  * A manager to perform actions which belongs to the spotify playlist web api.
@@ -23,7 +23,7 @@ export class PlaylistManager {
      * @param force When true, will directly fetch else will search for the cache first!
      * @example const playlist = await client.playlists.get('id');
      */
-    async get(id: string, market = 'US', force = !this.client.cacheSettings.playlists): Promise<Playlist | null> {
+    public async get(id: string, market = 'US', force = !this.client.cacheSettings.playlists): Promise<Playlist | null> {
         if (!force && Cache.playlists.has(id)) return Cache.playlists.get(id)!;
         const fetchedData = await this.client.fetch(`/playlists/${id}`, { params: { market } });
         return fetchedData ? createCacheStruct('playlists', this.client, fetchedData) : null;

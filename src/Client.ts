@@ -6,6 +6,7 @@ import { ArtistManager } from "./managers/Artist";
 import { BrowseManager } from "./managers/Browse";
 import { AlbumManager } from "./managers/Album";
 import { EpisodeManager } from "./managers/Episode";
+import { PlaylistManager } from "./managers/Playlist";
 import { UserClient } from "./managers/UserClient";
 import { createCacheStructArray } from "./Cache";
 
@@ -62,6 +63,11 @@ export class Client {
     public episodes!: EpisodeManager;
 
     /**
+     * A manager to perform actions which belongs to the spotify playlist web api.
+     */
+    public playlists!: PlaylistManager;
+
+    /**
      * The client which handles all the current user api endpoints and with the details of the current user.
      */
     public user!: UserClient;
@@ -106,6 +112,7 @@ export class Client {
         this.browse = new BrowseManager(this);
         this.albums = new AlbumManager(this);
         this.episodes = new EpisodeManager(this);
+        this.playlists = new PlaylistManager(this);
         this.user = new UserClient(this);
 
         if (typeof options.token == "string") {
