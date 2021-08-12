@@ -49,7 +49,6 @@ export class AlbumManager {
     async get(id: string, force = !this.client.cacheSettings.albums): Promise<Album | null> {
         if (!force && Cache.albums.has(id)) return Cache.albums.get(id)!;
         const fetchedData = await this.client.fetch(`/albums/${id}`);
-        console.log(fetchedData);
         return fetchedData ? createCacheStruct('albums', this.client, fetchedData) : null;
     }
 

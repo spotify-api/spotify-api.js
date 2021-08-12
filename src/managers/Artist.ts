@@ -40,7 +40,7 @@ export class ArtistManager {
 
         return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists.items) : [];
     }
-
+    
     /**
      * Get a spotify artist information by spotify id!
      * 

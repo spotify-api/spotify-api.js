@@ -57,7 +57,7 @@ export class EpisodeManager {
      * 
      * @param ids An array of spotify ids.
      * @param market Only episodes that are available in that market will be returned.
-     * @example const episodes = await client.episodes.getMultiple('id1', 'id2');
+     * @example const episodes = await client.episodes.getMultiple({ ids: ['id1', 'id2'] });
      */
     async getMultiple(
         options: {
