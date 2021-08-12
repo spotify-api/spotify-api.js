@@ -23,7 +23,7 @@ export class EpisodeManager {
      * @param options Some search options to make the search more efficient.
      * @example const results = await client.episodes.search('some search');
      */
-    async search(query: string, options: SearchOptions = {}): Promise<Episode[]> {
+    public async search(query: string, options: SearchOptions = {}): Promise<Episode[]> {
         const fetchedData = await this.client.fetch('/search', {
             params: {
                 q: query,
@@ -46,7 +46,7 @@ export class EpisodeManager {
      * @param force When true, will directly fetch else will search for the cache first!
      * @example const episode = await client.episodes.get('id');
      */
-    async get(id: string, market = 'US', force = !this.client.cacheSettings.episodes): Promise<Episode | null> {
+    public async get(id: string, market = 'US', force = !this.client.cacheSettings.episodes): Promise<Episode | null> {
         if (!force && Cache.episodes.has(id)) return Cache.episodes.get(id)!;
         const fetchedData = await this.client.fetch(`/episodes/${id}`, { params: { market } });
         return fetchedData ? createCacheStruct('episodes', this.client, fetchedData) : null;
@@ -59,7 +59,7 @@ export class EpisodeManager {
      * @param market Only episodes that are available in that market will be returned.
      * @example const episodes = await client.episodes.getMultiple({ ids: ['id1', 'id2'] });
      */
-    async getMultiple(
+    public async getMultiple(
         options: {
             ids: string[], 
             market?: string

@@ -26,7 +26,7 @@ export class ArtistManager {
      * @param options Some search options to make the search more efficient.
      * @example const results = await client.artists.search('some search');
      */
-    async search(query: string, options: SearchOptions = {}): Promise<Artist[]> {
+    public async search(query: string, options: SearchOptions = {}): Promise<Artist[]> {
         const fetchedData = await this.client.fetch('/search', {
             params: {
                 q: query,
@@ -48,7 +48,7 @@ export class ArtistManager {
      * @param force When true, will directly fetch else will search for the cache first!
      * @example const artist = await client.artists.get('id');
      */
-    async get(id: string, force = !this.client.cacheSettings.artists): Promise<Artist | null> {
+    public async get(id: string, force = !this.client.cacheSettings.artists): Promise<Artist | null> {
         if (!force && Cache.artists.has(id)) return Cache.artists.get(id)!;
         const fetchedData = await this.client.fetch(`/artists/${id}`);
         return fetchedData ? createCacheStruct('artists', this.client, fetchedData) : null;
@@ -60,7 +60,7 @@ export class ArtistManager {
      * @param ids An array of spotify ids.
      * @example const artists = await client.artists.getMultiple('id1', 'id2');
      */
-    async getMultiple(...ids: string[]): Promise<Artist[]> {
+    public async getMultiple(...ids: string[]): Promise<Artist[]> {
         const fetchedData = await this.client.fetch('/artists', { params: { ids: ids.join(',') } });
         return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists) : [];
     }
@@ -73,7 +73,7 @@ export class ArtistManager {
      * @param market The market query option.
      * @example const topTracks = await client.artists.getTopTracks('id');
      */
-    async getTopTracks(id: string, market: string = 'US'): Promise<Track[]> {
+    public async getTopTracks(id: string, market: string = 'US'): Promise<Track[]> {
         const fetchedData = await this.client.fetch(`/artists/${id}/top-tracks`, { params: { market } });
         return fetchedData ? createCacheStructArray('tracks', this.client, fetchedData.tracks) : [];
     }
@@ -84,7 +84,7 @@ export class ArtistManager {
      * @param id The spotify artist id.
      * @example const relatedArtists = await client.artists.getRelatedArtists('id');
      */
-    async getRelatedArtists(id: string): Promise<Artist[]> {
+    public async getRelatedArtists(id: string): Promise<Artist[]> {
         const fetchedData = await this.client.fetch(`/artists/${id}/related-artists`);
         return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists) : [];
     }
@@ -96,7 +96,7 @@ export class ArtistManager {
      * @param options The options necessary to get the albums in a sorted way.
      * @example const albums = await client.artists.getAlbums('id');
      */
-    async getAlbums(
+    public async getAlbums(
         id: string,
         options: {
             includeGroups?: AlbumGroup,
