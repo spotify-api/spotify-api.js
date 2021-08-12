@@ -122,19 +122,19 @@ export class Client {
     /**
      * Search a query in spotify through web api across various types.
      * 
-     * @param q The query to search.
+     * @param query The query to search.
      * @param options The types, limit, offset, market query paramaters.
      * @example const { tracks, albums } = await client.search('some query', { types: ['track', 'album'] });
      */
-    public async search(q: string, options: ClientSearchOptions): Promise<SearchContent> {
+    public async search(query: string, options: ClientSearchOptions): Promise<SearchContent> {
         const response: SearchContent = {};
         const fetchedData = await this.fetch('/search', {
             params: {
-                q,
+                q: query,
                 type: options.types.join(','),
+                market: options.market,
                 limit: options.limit,
                 offset: options.offset,
-                market: options.market,
                 include_external: options.includeExternalAudio ? 'audio' : undefined
             }
         });
