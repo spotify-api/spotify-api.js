@@ -134,7 +134,7 @@ export class Episode {
         this.name = data.name;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
-        this.restrictions = data.restrictions;
+        this.restrictions = data.restrictions || [];
         this.type = data.type;
         this.uri = data.uri;
 
