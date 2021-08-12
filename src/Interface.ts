@@ -194,9 +194,14 @@ export interface ClientSearchOptions extends SearchOptions {
 
 /** The object structure returned by the [Client.search] function. */
 export interface SearchContent {
+    /** The episode search results. */
     episodes?: Episode[];
+    /** The show search results. */
     shows?: Show[];
+    /** The track search results. */
     tracks?: Track[];
+    /** The artists search results. */
     artists?: Artist[];
+    /** the album search results. */
     albums?: Album[];
 }
