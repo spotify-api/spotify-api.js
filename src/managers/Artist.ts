@@ -44,9 +44,9 @@ export class ArtistManager {
     /**
      * Get a spotify artist information by spotify id!
      * 
-     * @param id The spotify user id.
+     * @param id The spotify artist id.
      * @param force When true, will directly fetch else will search for the cache first!
-     * @example await client.artists.get('id');
+     * @example const artist = await client.artists.get('id');
      */
     async get(id: string, force = !this.client.cacheSettings.artists): Promise<Artist | null> {
         if (!force && Cache.artists.has(id)) return Cache.artists.get(id)!;
@@ -69,7 +69,7 @@ export class ArtistManager {
     /**
      * Get a spotify artist's top tracks by artist's spotify id!
      * 
-     * @param id The spotify user id.
+     * @param id The spotify artist id.
      * @param market The market query option.
      * @example const topTracks = await client.artists.getTopTracks('id');
      */
@@ -81,7 +81,7 @@ export class ArtistManager {
     /**
      * Get the artists who are related to a paticular artist by the artist's spotify id!
      * 
-     * @param id The spotify user id.
+     * @param id The spotify artist id.
      * @example const relatedArtists = await client.artists.getRelatedArtists('id');
      */
     async getRelatedArtists(id: string): Promise<Artist[]> {
@@ -92,7 +92,7 @@ export class ArtistManager {
     /**
      * Get the albums of the spotify artist by the artist's spotify id!
      * 
-     * @param id The spotify user id.
+     * @param id The spotify artist id.
      * @param options The options necessary to get the albums in a sorted way.
      * @example const albums = await client.artists.getAlbums('id');
      */

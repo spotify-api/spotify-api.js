@@ -20,7 +20,7 @@ export class UserManager {
      * 
      * @param id The spotify user id.
      * @param force When true, will directly fetch else will search for the cache first!
-     * @example await client.users.get('id');
+     * @example const user = await client.users.get('id');
      */
     async get(id: string, force = !this.client.cacheSettings.users): Promise<User | null> {
         if (!force && Cache.users.has(id)) return Cache.users.get(id)!;
