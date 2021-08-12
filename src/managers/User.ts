@@ -1,6 +1,7 @@
 import type { Client } from "../Client";
 import type { User } from "../structures/User";
-import { Cache, createCacheStruct } from "../Cache";
+import type { Playlist } from "../structures/Playlist";
+import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
 
 /**
  * A manager to perform actions which belongs to the spotify user web api.
@@ -22,10 +23,28 @@ export class UserManager {
      * @param force When true, will directly fetch else will search for the cache first!
      * @example const user = await client.users.get('id');
      */
-    async get(id: string, force = !this.client.cacheSettings.users): Promise<User | null> {
+    public async get(id: string, force = !this.client.cacheSettings.users): Promise<User | null> {
         if (!force && Cache.users.has(id)) return Cache.users.get(id)!;
         const fetchedData = await this.client.fetch(`/users/${id}`);
         return fetchedData ? createCacheStruct('users', this.client, fetchedData) : null;
+    }
+
+    /**
+     * Get the list of playlists of a user by the user's spotify id.
+     * 
+     * @param id The spotify user id.
+     * @param options The limit, offset query parameter options.
+     * @example const playlists = await client.user.getPlaylists('id');
+     */
+    public async getPlaylists(
+        id: string,
+        options: {
+            limit?: number,
+            offset?: number
+        } = {}
+    ): Promise<Playlist[]> {
+        const fetchedData = await this.client.fetch(`/users/${id}/playlists`, { params: options });
+        return fetchedData ? createCacheStructArray('playlists', this.client, fetchedData.items) : [];
     }
 
 }
