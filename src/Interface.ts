@@ -2,12 +2,20 @@ import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType } from "api-
 import type { Track } from "./structures/Track";
 import type { User } from "./structures/User";
 import type { Playlist } from "./structures/Playlist";
+import type { Artist } from './structures/Artist';
+import type { Album } from './structures/Album';
+import type { Show } from './structures/Show';
 import type { Client } from "./Client";
 
 /**
  * All the spotify web api methods.
  */
 export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
+
+/**
+ * All the spotify search types.
+ */
+export type SearchType = 'album' | 'artist' | 'track' |  'show' | 'episode';
 
 /**
  * The auth identity to generate a token or the token itself.
@@ -133,7 +141,7 @@ export interface SearchOptions {
     /** The limit of the results. */
     limit?: number;
     /** If a country code is specified, only content that is playable in that market is returned. */
-    market?: number;
+    market?: string;
 }
 
 /** The linked track object for the [linkedFrom] field in [Track]. */
@@ -176,4 +184,19 @@ export interface Recommendations {
     seeds: RecommendationSeed[];
     /** An array of track object (simplified) ordered according to the parameters supplied. */
     tracks: Track[];
+}
+
+/** The options structure for search functions in the client. */
+export interface ClientSearchOptions extends SearchOptions {
+    /** The list of item types to search across. */
+    types: SearchType[];
+}
+
+/** The object structure returned by the [Client.search] function. */
+export interface SearchContent {
+    episodes?: Episode[];
+    shows?: Show[];
+    tracks?: Track[];
+    artists?: Artist[];
+    albums?: Album[];
 }

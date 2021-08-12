@@ -1,11 +1,21 @@
 import axios from "axios";
-import { ClientOptions, FetchOptions, ClientRefreshMeta, GetUserTokenOptions, CacheSettings } from "./Interface";
 import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 import { UserManager } from "./managers/User";
 import { ArtistManager } from "./managers/Artist";
 import { BrowseManager } from "./managers/Browse";
 import { UserClient } from "./managers/UserClient";
+
+import type { 
+    ClientOptions, 
+    FetchOptions, 
+    ClientRefreshMeta, 
+    GetUserTokenOptions, 
+    CacheSettings, 
+    ClientSearchOptions, 
+    SearchContent
+} from "./Interface";
+import { createCacheStructArray } from "./Cache";
 
 const NOOP = () => {};
 
@@ -107,6 +117,35 @@ export class Client {
         } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
 
         if (typeof options.cacheSettings == "object") this.cacheSettings = options.cacheSettings;
+    }
+
+    /**
+     * Search a query in spotify through web api across various types.
+     * 
+     * @param q The query to search.
+     * @param options The types, limit, offset, market query paramaters.
+     * @example const { tracks, albums } = await client.search('some query', { types: ['track', 'album'] });
+     */
+    public async search(q: string, options: ClientSearchOptions): Promise<SearchContent> {
+        const response: SearchContent = {};
+        const fetchedData = await this.fetch('/search', {
+            params: {
+                q,
+                type: options.types.join(','),
+                limit: options.limit,
+                offset: options.offset,
+                market: options.market,
+                include_external: options.includeExternalAudio ? 'audio' : undefined
+            }
+        });
+
+        if (fetchedData.albums) response.albums = createCacheStructArray('albums', this, fetchedData.albums.items);
+        if (fetchedData.tracks) response.tracks = createCacheStructArray('tracks', this, fetchedData.tracks.items);
+        if (fetchedData.episodes) response.episodes = createCacheStructArray('episodes', this, fetchedData.episodes.items);
+        if (fetchedData.shows) response.shows = createCacheStructArray('shows', this, fetchedData.shows.items);
+        if (fetchedData.artists) response.artists = createCacheStructArray('artists', this, fetchedData.artists.items);
+
+        return response;
     }
 
     /**
