@@ -1,4 +1,4 @@
-import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType } from "api-types";
+import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType } from "api-types";
 import type { Track } from "./structures/Track";
 import type { User } from "./structures/User";
 import type { Playlist } from "./structures/Playlist";
@@ -11,11 +11,6 @@ import type { Client } from "./Client";
  * All the spotify web api methods.
  */
 export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
-
-/**
- * All the spotify search types.
- */
-export type SearchType = 'album' | 'artist' | 'track' |  'show' | 'episode';
 
 /**
  * The auth identity to generate a token or the token itself.
