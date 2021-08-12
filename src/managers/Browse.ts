@@ -123,7 +123,7 @@ export class BrowseManager {
      * });
      */
     public async getRecommendations(options: RecommendationQuery): Promise<Recommendations | null> {
-        const fetchedData = this.client.fetch('/recommendations', { params: options });
+        const fetchedData = await this.client.fetch('/recommendations', { params: options });
         return fetchedData ? {
             seeds: fetchedData.seeds,
             tracks: createCacheStructArray('tracks', this.client, fetchedData.tracks)
