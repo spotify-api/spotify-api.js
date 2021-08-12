@@ -34,7 +34,7 @@ export class UserManager {
      * 
      * @param id The spotify user id.
      * @param options The limit, offset query parameter options.
-     * @example const playlists = await client.user.getPlaylists('id');
+     * @example const playlists = await client.users.getPlaylists('id');
      */
     public async getPlaylists(
         id: string,

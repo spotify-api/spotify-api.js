@@ -1,5 +1,7 @@
 import type { Client } from "../Client";
 import type { CamelCaseObjectKeys } from "../Interface";
+import type { Playlist } from "../structures/Playlist";
+import { createCacheStructArray } from "../Cache";
 import type { 
     SpotifyType, 
     Image, 
@@ -103,6 +105,22 @@ export class UserClient {
             filterEnabled: data.explicit_content.filter_enabled,
             filterLocked: data.explicit_content.filter_locked
         };
+    }
+
+    /**
+     * Get the list of playlists of the current user.
+     * 
+     * @param options The limit, offset query parameter options.
+     * @example const playlists = await client.user.getPlaylists();
+     */
+    public async getPlaylists(
+        options: {
+            limit?: number,
+            offset?: number
+        } = {}
+    ): Promise<Playlist[]> {
+        const fetchedData = await this.client.fetch(`/me/playlists`, { params: options });
+        return fetchedData ? createCacheStructArray('playlists', this.client, fetchedData.items) : [];
     }
 
 }
