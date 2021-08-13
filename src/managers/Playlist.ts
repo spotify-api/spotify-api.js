@@ -89,7 +89,7 @@ export class PlaylistManager {
         return this.client.fetch(`/playlists/${id}`, {
             method: 'PUT',
             params: playlist
-        }).then(x => x == null);
+        }).then(x => x != null);
     }
 
     /**
@@ -175,7 +175,7 @@ export class PlaylistManager {
             method: 'PUT',
             headers: { "Content-Type": "image/jpeg" },
             body: imageData as any
-        }).then(x => x == null);
+        }).then(x => x != null);
     }
 
     /**
@@ -191,7 +191,7 @@ export class PlaylistManager {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: { public: publicly }
-        }).then(x => x == null);
+        }).then(x => x != null);
     }
 
     /**
@@ -202,7 +202,7 @@ export class PlaylistManager {
      * @example await client.playlists.unfollow('id');
      */
     public unfollow(id: string): Promise<boolean> {
-        return this.client.fetch(`/playlists/${id}/followers`, { method: 'DELETE' }).then(x => x == null);
+        return this.client.fetch(`/playlists/${id}/followers`, { method: 'DELETE' }).then(x => x != null);
     }
 
 }
