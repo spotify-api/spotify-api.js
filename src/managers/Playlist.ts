@@ -178,4 +178,31 @@ export class PlaylistManager {
         }).then(x => x == null);
     }
 
+    /**
+     * Follow the playlist.
+     * This method requires an user authorized token.
+     * 
+     * @param id The spotify playlist id.
+     * @param publicly If true, the playlist will be in your list publicly.
+     * @example await client.playlists.follow('id');
+     */
+    public follow(id: string, publicly = true): Promise<boolean> {
+        return this.client.fetch(`/playlists/${id}/followers`, {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: { public: publicly }
+        }).then(x => x == null);
+    }
+
+    /**
+     * Unfollow the playlist.
+     * This method requires an user authorized token.
+     * 
+     * @param id The spotify playlist id.
+     * @example await client.playlists.unfollow('id');
+     */
+    public unfollow(id: string): Promise<boolean> {
+        return this.client.fetch(`/playlists/${id}/followers`, { method: 'DELETE' }).then(x => x == null);
+    }
+
 }
