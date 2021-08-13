@@ -214,3 +214,48 @@ export interface PlaylistReorderOptions {
     /** The playlist’s snapshot ID against which you want to make the changes. */
     snapshotID?: string;
 }
+
+/**
+ * The scopes for the user authorization process.
+ * @see https://developer.spotify.com/documentation/general/guides/scopes/
+ */
+export enum Scopes {
+    /** Write access to user-provided images. */
+    ImageUpload = "ugc-image-upload",
+    /** Read access to a user’s recently played tracks. */
+    ReadRecentlyPlayed = "user-read-recently-played",
+    /** Read access to a user’s player state. */
+    ReadPlaybackState = "user-read-playback-state",
+    /** Read access to a user's top artists and tracks. */
+    ReadTopArtistsAndUsers = "user-top-read",
+    /** Remote control playback of Spotify. This scope is currently available to Spotify iOS and Android SDKs. */
+    RemoteControl = "app-remote-control",
+    /** Write access to a user's public playlists. */
+    ModifyPublicPlaylists = "playlist-modify-public",
+    /** Write access to a user’s playback state */
+    WritePlaybackState = "user-modify-playback-state",
+    /** Write access to a user's private playlists. */
+    ModifyPrivatePlaylists = "playlist-modify-private",
+    /** Read access to user's private playlists. */
+    ReadPrivatePlaylists = "playlist-read-private",
+    /** Write/delete access to the list of artists and other users that the user follows. */
+    ModifyFollowers = "user-follow-modify",
+    /** Read access to the list of artists and other users that the user follows. */
+    ReadFollowers = "user-follow-read",
+    /** Read access to a user’s currently playing content. */
+    ReadCurrentlyPlaying = "user-read-currently-playing",
+    /** Write/delete access to a user's "Your Music" library. */
+    ModifyUserLibrary = "user-library-modify",
+    /** Read access to a user's library. */
+    ReadUserLibrary = "user-library-read",
+    /** Read access to a user’s playback position in a content. */
+    ReadPlaybackPosition = "user-read-playback-position",
+    /** Read access to user’s email address. */
+    ReadUserEmail = "user-read-email",
+    /** Read access to user’s subscription details (type of user account). */
+    ReadUserPrivateDetails = "user-read-private",
+    /** Include collaborative playlists when requesting a user's playlists. */
+    ReadCollaborativePlaylists = "user-read-collaborative",
+    /** Control playback of a Spotify track. This scope is currently available to the Web Playback SDK. The user must have a Spotify Premium account. */
+    Streaming = "streaming"
+}
