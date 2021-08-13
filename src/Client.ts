@@ -133,13 +133,6 @@ export class Client {
             if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
             options.onReady?.(this);
-        } else if ('clientID' in options.token) {
-            this.refreshMeta = options.token;
-            this.auth.getApiToken(options.token.clientID, options.token.clientSecret)
-                .then(token => {
-                    this.token = token;
-                    options.onReady?.(this);
-                });
         } else if ('redirectURL' in options.token) {
             this.refreshMeta = options.token;
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
@@ -147,6 +140,13 @@ export class Client {
                     this.token = context.accessToken;
                     this.refreshMeta.refreshToken = context.refreshToken;
                     await this.user.patchInfo();
+                    options.onReady?.(this);
+                });
+        } else if ('clientID' in options.token) {
+            this.refreshMeta = options.token;
+            this.auth.getApiToken(options.token.clientID, options.token.clientSecret)
+                .then(token => {
+                    this.token = token;
                     options.onReady?.(this);
                 });
         } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
