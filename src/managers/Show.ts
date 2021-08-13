@@ -1,8 +1,8 @@
 import type { Client } from "../Client";
 import type { SearchOptions } from "../Interface";
 import type { Show } from "../structures/Show";
+import type { Episode } from "../structures/Episode";
 import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
-import { Episode } from "../structures/Episode";
 
 /**
  * A manager to perform actions which belongs to the spotify show web api.
