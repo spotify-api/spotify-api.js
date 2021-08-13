@@ -1,6 +1,7 @@
 import type { Client } from "../Client";
 import type { SearchOptions } from "../Interface";
 import type { Track } from "../structures/Track";
+import type { AudioAnalysis, AudioFeatures } from "api-types";
 import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
 
 /**
@@ -60,11 +61,43 @@ export class TrackManager {
      * @example const tracks = await client.tracks.getMultiple(['id1', 'id2']);
      */
     public async getMultiple(ids: string[], market = 'US'): Promise<Track[]> {
-        const fetchedData = await this.client.fetch('/tracks', {
-            params: { ids: ids.join(','), market }
-        });
-
+        const fetchedData = await this.client.fetch('/tracks', { params: { ids: ids.join(','), market } });
         return fetchedData ? createCacheStructArray('tracks', this.client, fetchedData.tracks) : [];
+    }
+
+    /**
+     * Get the audio features of the track.
+     * Returned type [AudioFeatures] is not a camelcased object.
+     * 
+     * @param id The spotify track id.
+     * @example const audioFeatures = await client.tracks.getAudioFeatures('id');
+     */
+    public getAudioFeatures(id: string): Promise<AudioFeatures | null> {
+        return this.client.fetch(`/audio-features/${id}`);
+    }
+
+    /**
+     * Get audio features of multiple tracks.
+     * Returned type [AudioFeatures[]] is not a camelcased object.
+     * 
+     * @param ids The array of spotify ids.
+     * @example const audioFeatures = await client.tracks.getMultipleAudioFeatures('id1', 'is2');
+     */
+    public getMultipleAudioFeatures(...ids: string[]): Promise<AudioFeatures[]> {
+        return this.client.fetch(`/audio-features`, { 
+            params: { ids: ids.join(',') } 
+        }).then(x => x || []);
+    }
+
+    /**
+     * Get the audio analysis of the track.
+     * Returned type [AudioAnalysis] is not a camelcase object and not documented.
+     * 
+     * @param id The spotify playlist id. 
+     * @example const audioAnalysis = await client.tracks.getAudioAnalysis('id');
+     */
+    public getAudioAnalysis(id: string): Promise<AudioAnalysis | null> {
+        return this.client.fetch(`/audio-analysis/${id}`);
     }
 
 }
