@@ -82,4 +82,22 @@ export class PlaylistManager {
         });
     }
 
+    /**
+     * Add items to the playlist by their uri and the playlist id.
+     * 
+     * @param id The spotify playlist id.
+     * @param uris The array of track or episodes uris to add.
+     * @param position The index position to add those items else will append it at the end of the playlist.
+     * @example 
+     * const snapshotID = await client.playlists.addItems('playlist id', [myTrack.uri, myAnotherTrack.uri, 'spotify:track:id']);
+     */
+    public async addItems(id: string, uris: string[], position?: number): Promise<string> {
+        const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
+            method: 'POST',
+            params: { uris: uris.join(','), position }
+        });
+
+        return fetchedData ? fetchedData.snapshot_id : '';
+    }
+
 }
