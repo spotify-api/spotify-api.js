@@ -94,6 +94,7 @@ export class PlaylistManager {
 
     /**
      * Add items to the playlist.
+     * This method requires an user authorized token.
      * 
      * @param id The spotify playlist id.
      * @param uris The array of track or episodes uris to add.
@@ -112,6 +113,7 @@ export class PlaylistManager {
 
     /**
      * Reorder items in the playlist.
+     * This method requires an user authorized token.
      * 
      * @param id The spotify playlist id.
      * @param options The options required to reorder items in the playlist.
@@ -138,6 +140,7 @@ export class PlaylistManager {
 
     /**
      * Remove items from the playlist.
+     * This method requires an user authorized token.
      * 
      * @param id The spotify playlist id.
      * @param uris The array of spotify uris of either track or episodes to remove
@@ -161,6 +164,7 @@ export class PlaylistManager {
 
     /**
      * Upload custom images to the playlist.
+     * This method requires an user authorized token.
      * 
      * @param id The spotify playlist id.
      * @param imageData The imageData should contain a Base64 encoded JPEG image data, maximum payload size is 256 KB.
