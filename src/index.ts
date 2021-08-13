@@ -13,6 +13,7 @@ export * from './managers/Browse';
 export * from './managers/Album';
 export * from './managers/Episode';
 export * from './managers/Playlist';
+export * from './managers/Show';
 export * from './managers/UserClient';
 
 // Export all the structures of the module.
