@@ -1,7 +1,7 @@
 import type { Client } from "../Client";
 import type { PlaylistTrack, PlaylistReorderOptions } from "../Interface";
 import type { CreatePlaylistQuery, Image } from "api-types";
-import { Playlist, createCachedPlaylistTracks } from "../structures/Playlist";
+import { Playlist, createPlaylistTrack } from "../structures/Playlist";
 import { Cache, createCacheStruct } from "../Cache";
 
 /**
@@ -47,7 +47,7 @@ export class PlaylistManager {
         } = {}
     ): Promise<PlaylistTrack[]> {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, { params: options });
-        return fetchedData ? createCachedPlaylistTracks(this.client, fetchedData.items) : [];
+        return fetchedData ? createPlaylistTrack(this.client, fetchedData.items) : [];
     }
 
     /**

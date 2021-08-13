@@ -115,7 +115,7 @@ export class Playlist {
             this.totalTracks = data.tracks.length;
             this.public = (data as RawPlaylist).public as boolean;
             this.totalFollowers = (data as RawPlaylist).followers.total;
-            this.tracks = createCachedPlaylistTracks(client, (data as RawPlaylist).tracks);
+            this.tracks = createPlaylistTrack(client, (data as RawPlaylist).tracks);
         } else this.totalTracks = data.tracks.total;
     }
 
@@ -129,49 +129,34 @@ export class Playlist {
 
 }
 
-// TODO(Scientific-Guy): More cleaner code here.
-export function createCachedPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
-    if (client.cacheSettings.playlistTracks) return rawPlaylistTracks.map(x => {
-        let track;
+export function createPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
+    const createTrack = client.cacheSettings.playlistTracks ?
+                        (x) => {
+                            let track: any = null;
+                            if (x.track) {
+                                if (x.track.type == "track") {
+                                    track = new Track(x.track as RawTrack, client);
+                                    Cache.tracks.set(track.id, track);
+                                } else (x.track.type == "episode") {
+                                    track = new Episode(x.track as RawEpisode, client);
+                                    Cache.episodes.set(track.id, track);
+                                }
+                            }
 
-        switch (x.track?.type) {
-            case "track":
-                track = new Track(x.track as RawTrack, client);
-                Cache.tracks.set(track.id, track);
-                break;
+                            return track;
+                        } :
+                        (x) => {
+                            return x.track
+                                    ? x.track.type == "track" 
+                                    ? new Track(x.track as RawTrack, client)
+                                    : new Episode(x.track as RawEpisode, client)
+                                    : null;
+                        }
 
-            case "episode":
-                track = new Episode(x.track as RawEpisode, client);
-                Cache.episodes.set(track.id, track);
-                break;
-        }
-
-        return {
-            addedAt: x.added_at,
-            addedBy: createCacheStruct('users', client, x.added_by),
-            isLocal: x.is_local,
-            track
-        } as PlaylistTrack;
-    });
-
-    else return rawPlaylistTracks.map(x => {
-        let track;
-
-        switch (x.track?.type) {
-            case "track":
-                track = new Track(x.track as RawTrack, client);
-                break;
-
-            case "episode":
-                track = new Episode(x.track as RawEpisode, client);
-                break;
-        }
-
-        return {
-            addedAt: x.added_at,
-            addedBy: createCacheStruct('users', client, x.added_by),
-            isLocal: x.is_local,
-            track
-        } as PlaylistTrack;
-    });
+    return rawPlaylistTracks.map(x => ({
+        addedAt: x.added_at,
+        addedBy: createCacheStruct('users', client, x.added_by),
+        isLocal: x.is_local,
+        track: createTrack(x)
+    }) as PlaylistTrack);
 }
