@@ -58,19 +58,11 @@ export class ShowManager {
      * 
      * @param ids An array of spotify ids.
      * @param market Only shows that are available in that market will be returned.
-     * @example const shows = await client.shows.getMultiple({ ids: ['id1', 'id2'] });
+     * @example const shows = await client.shows.getMultiple(['id1', 'id2']);
      */
-    public async getMultiple(
-        options: {
-            ids: string[], 
-            market?: string
-        }
-    ): Promise<Show[]> {
+    public async getMultiple(ids: string[], market = 'US'): Promise<Show[]> {
         const fetchedData = await this.client.fetch('/shows', {
-            params: { 
-                ids: options.ids.join(','), 
-                market: options.market || 'US'
-            }
+            params: { ids: ids.join(','), market }
         });
 
         return fetchedData ? createCacheStructArray('shows', this.client, fetchedData.shows) : [];

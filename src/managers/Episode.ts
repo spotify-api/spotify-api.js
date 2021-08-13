@@ -57,19 +57,11 @@ export class EpisodeManager {
      * 
      * @param ids An array of spotify ids.
      * @param market Only episodes that are available in that market will be returned.
-     * @example const episodes = await client.episodes.getMultiple({ ids: ['id1', 'id2'] });
+     * @example const episodes = await client.episodes.getMultiple(['id1', 'id2']);
      */
-    public async getMultiple(
-        options: {
-            ids: string[], 
-            market?: string
-        }
-    ): Promise<Episode[]> {
+    public async getMultiple(ids: string[], market = 'US'): Promise<Episode[]> {
         const fetchedData = await this.client.fetch('/episodes', {
-            params: { 
-                ids: options.ids.join(','), 
-                market: options.market || 'US'
-            }
+            params: { ids: ids.join(','), market }
         });
 
         return fetchedData ? createCacheStructArray('episodes', this.client, fetchedData.episodes) : [];

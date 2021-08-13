@@ -56,9 +56,9 @@ export class AlbumManager {
      * Get the information of multiple albums in one fetch.
      * 
      * @param ids An array of spotify ids.
-     * @example const albums = await client.albums.getMultiple('id1', 'id2');
+     * @example const albums = await client.albums.getMultiple(['id1', 'id2']);
      */
-    async getMultiple(...ids: string[]): Promise<Album[]> {
+    async getMultiple(ids: string[]): Promise<Album[]> {
         const fetchedData = await this.client.fetch('/albums', { params: { ids: ids.join(',') } });
         return fetchedData ? createCacheStructArray('albums', this.client, fetchedData.albums) : [];
     }

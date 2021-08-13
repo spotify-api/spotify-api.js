@@ -58,9 +58,9 @@ export class ArtistManager {
      * Get the information of multiple spotify artists in one fetch.
      * 
      * @param ids An array of spotify ids.
-     * @example const artists = await client.artists.getMultiple('id1', 'id2');
+     * @example const artists = await client.artists.getMultiple(['id1', 'id2']);
      */
-    public async getMultiple(...ids: string[]): Promise<Artist[]> {
+    public async getMultiple(ids: string[]): Promise<Artist[]> {
         const fetchedData = await this.client.fetch('/artists', { params: { ids: ids.join(',') } });
         return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists) : [];
     }
