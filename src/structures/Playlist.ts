@@ -115,7 +115,7 @@ export class Playlist {
             this.totalTracks = data.tracks.length;
             this.public = (data as RawPlaylist).public as boolean;
             this.totalFollowers = (data as RawPlaylist).followers.total;
-            this.tracks = createPlaylistTrack(client, (data as RawPlaylist).tracks);
+            this.tracks = createPlaylistTracks(client, (data as RawPlaylist).tracks);
         } else this.totalTracks = data.tracks.total;
     }
 
@@ -137,7 +137,7 @@ export function createPlaylistTracks(client: Client, rawPlaylistTracks: RawPlayl
                                 if (x.track.type == "track") {
                                     track = new Track(x.track as RawTrack, client);
                                     Cache.tracks.set(track.id, track);
-                                } else (x.track.type == "episode") {
+                                } else if (x.track.type == "episode") {
                                     track = new Episode(x.track as RawEpisode, client);
                                     Cache.episodes.set(track.id, track);
                                 }

@@ -1,7 +1,7 @@
 import type { Client } from "../Client";
 import type { PlaylistTrack, PlaylistReorderOptions } from "../Interface";
 import type { CreatePlaylistQuery, Image } from "api-types";
-import { Playlist, createPlaylistTrack } from "../structures/Playlist";
+import { Playlist, createPlaylistTracks } from "../structures/Playlist";
 import { Cache, createCacheStruct } from "../Cache";
 
 /**
