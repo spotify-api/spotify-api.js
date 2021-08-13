@@ -1,6 +1,6 @@
 import type { Client } from "../Client";
-import type { PlaylistTrack } from "../Interface";
-import type { CreatePlaylistQuery } from "api-types";
+import type { PlaylistTrack, PlaylistReorderOptions } from "../Interface";
+import type { CreatePlaylistQuery, Image } from "api-types";
 import { Playlist, createCachedPlaylistTracks } from "../structures/Playlist";
 import { Cache, createCacheStruct } from "../Cache";
 
@@ -51,6 +51,16 @@ export class PlaylistManager {
     }
 
     /**
+     * Get the images of the playlist.
+     * 
+     * @param id The spotify playlist id.
+     * @example const images = await client.playlists.getImages('id');
+     */
+    public async getImages(id: string): Promise<Image[]> {
+        return await this.client.fetch(`/playlists/${id}/images`) || [];
+    }
+
+    /**
      * Create a playlist for a user.
      * This method requires an user authorized token.
      * 
@@ -83,7 +93,7 @@ export class PlaylistManager {
     }
 
     /**
-     * Add items to the playlist by their uri and the playlist id.
+     * Add items to the playlist.
      * 
      * @param id The spotify playlist id.
      * @param uris The array of track or episodes uris to add.
@@ -98,6 +108,72 @@ export class PlaylistManager {
         });
 
         return fetchedData ? fetchedData.snapshot_id : '';
+    }
+
+    /**
+     * Reorder items in the playlist.
+     * 
+     * @param id The spotify playlist id.
+     * @param options The options required to reorder items in the playlist.
+     * @example 
+     * const snapshotID = await client.playlists.reorderItems('playlist id', {
+     *     uris: ['spotify:uri:id'],
+     *     insertBefore: 2
+     * });
+     */
+    public async reorderItems(id: string, options: PlaylistReorderOptions): Promise<string> {
+        const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
+            method: 'PUT',
+            params: {
+                uris: options.uris?.join(','),
+                range_start: options.rangeStart,
+                range_length: options.rangeLength,
+                insert_before: options.insertBefore,
+                snapshot_id: options.snapshotID
+            }
+        });
+
+        return fetchedData ? fetchedData.snapshot_id : '';
+    }
+
+    /**
+     * Remove items from the playlist.
+     * 
+     * @param id The spotify playlist id.
+     * @param uris The array of spotify uris of either track or episodes to remove
+     * @param snapshotID The playlist’s snapshot ID against which you want to make the changes.
+     * @example const snapshotID = await client.playlists.removeItems('playlist id', { uris: ['spotify:uri:id']  });
+     */
+    public async removeItems(id: string, uris: string[], snapshotID?: string): Promise<string> {
+        const body: any = {};
+
+        if (snapshotID) body.snapshot_id = snapshotID;
+        if (uris) body.uris = uris.map(uri => ({ uri }));
+
+        const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/json" },
+            body
+        });
+
+        return fetchedData ? fetchedData.snapshot_id : '';
+    }
+
+    /**
+     * Upload custom images to the playlist.
+     * 
+     * @param id The spotify playlist id.
+     * @param imageData The imageData should contain a Base64 encoded JPEG image data, maximum payload size is 256 KB.
+     * @example await client.playlists.uploadImage('id', 'data:image/jpeg;....');
+     */
+    public async uploadImage(id: string, imageData: string): Promise<boolean> {
+        const fetchedData = await this.client.fetch(`/playlists/${id}/images`, {
+            method: 'PUT',
+            headers: { "Content-Type": "image/jpeg" },
+            body: imageData as any
+        });
+
+        return fetchedData == null;
     }
 
 }

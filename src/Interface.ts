@@ -200,3 +200,17 @@ export interface SearchContent {
     /** the album search results. */
     albums?: Album[];
 }
+
+/** The options structure required for [PlaylistManager.reorderItems] function. */
+export interface PlaylistReorderOptions {
+    /** The uris of the tracks or episodes. */
+    uris?: string[];
+    /** The position of the first item to be reordered. */
+    rangeStart?: number;
+    /** The position where the items should be inserted. */
+    insertBefore?: number;
+    /** The amount of items to be reordered. */
+    rangeLength?: number;
+    /** The playlist’s snapshot ID against which you want to make the changes. */
+    snapshotID?: string;
+}
