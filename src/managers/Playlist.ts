@@ -47,7 +47,7 @@ export class PlaylistManager {
         } = {}
     ): Promise<PlaylistTrack[]> {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, { params: options });
-        return fetchedData ? createPlaylistTrack(this.client, fetchedData.items) : [];
+        return fetchedData ? createPlaylistTracks(this.client, fetchedData.items) : [];
     }
 
     /**
