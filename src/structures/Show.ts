@@ -119,7 +119,7 @@ export class Show {
         this.type = data.type;
         this.uri = data.uri;
         
-        if ('episodes' in data) this.episodes = createCacheStructArray('episodes', client, (data as RawShow).episodes);
+        if ('episodes' in data) this.episodes = createCacheStructArray('episodes', client, Array.isArray(data.episodes) ? data.episodes : data.episodes.items);
     }
 
     /**
