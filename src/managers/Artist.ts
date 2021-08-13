@@ -42,7 +42,7 @@ export class ArtistManager {
     }
     
     /**
-     * Get a spotify artist information by spotify id!
+     * Get an artist's information.
      * 
      * @param id The spotify artist id.
      * @param force When true, will directly fetch else will search for the cache first!
@@ -55,7 +55,7 @@ export class ArtistManager {
     }
 
     /**
-     * Get multiple spotify artists in one fetch!
+     * Get the information of multiple spotify artists in one fetch.
      * 
      * @param ids An array of spotify ids.
      * @example const artists = await client.artists.getMultiple('id1', 'id2');
@@ -67,7 +67,7 @@ export class ArtistManager {
 
 
     /**
-     * Get a spotify artist's top tracks by artist's spotify id!
+     * Get the information of top tracks from the spotify artist.
      * 
      * @param id The spotify artist id.
      * @param market The market query option.
@@ -79,7 +79,7 @@ export class ArtistManager {
     }
 
     /**
-     * Get the artists who are related to a paticular artist by the artist's spotify id!
+     * Get the information of the artists who are related to a paticular artist.
      * 
      * @param id The spotify artist id.
      * @example const relatedArtists = await client.artists.getRelatedArtists('id');
@@ -90,7 +90,7 @@ export class ArtistManager {
     }
 
     /**
-     * Get the albums of the spotify artist by the artist's spotify id!
+     * Get the informations of albums of the artist.
      * 
      * @param id The spotify artist id.
      * @param options The options necessary to get the albums in a sorted way.

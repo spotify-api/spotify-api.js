@@ -93,7 +93,7 @@ export class BrowseManager {
     }
 
     /**
-     * Get the playlists of a paticular category by its id.
+     * Get the playlists of a paticular category.
      * 
      * @param id The spotify category id.
      * @param options The country, offset, limit query parameters options.
@@ -131,7 +131,7 @@ export class BrowseManager {
     }
 
     /**
-     * Get all the recommendation genres from the api.
+     * Get all the recommendation genres.
      * 
      * @example const genres = await browse.getRecommendationGenreSeeds();
      */

@@ -18,7 +18,7 @@ export class PlaylistManager {
     public constructor(public client: Client) {}
 
     /**
-     * Get a spotify playlist information by spotify id!
+     * Get a playlist's information.
      * 
      * @param id The spotify playlist id.
      * @param market Only playlists that are available in that market will be returned.
@@ -32,7 +32,7 @@ export class PlaylistManager {
     }
 
     /**
-     * Get a spotify playlist's track by the playlist's id!
+     * Get the information of the tracks in the playlist.
      * 
      * @param id The spotify playlist id.
      * @param options The market, limit, offset query paramaters.
@@ -51,7 +51,7 @@ export class PlaylistManager {
     }
 
     /**
-     * Get the images of the playlist.
+     * Get the information of the images of the playlist.
      * 
      * @param id The spotify playlist id.
      * @example const images = await client.playlists.getImages('id');
@@ -61,7 +61,7 @@ export class PlaylistManager {
     }
 
     /**
-     * Create a playlist for a user.
+     * Create a playlist for a paticular user.
      * This method requires an user authorized token.
      * 
      * @param userID The spotify user id.
@@ -85,11 +85,11 @@ export class PlaylistManager {
      * @param playlist The details of the playlist to edit.
      * @example const playlist = await client.playlists.edit('id', { name: 'Edited playlist' });
      */
-    public edit(id: string, playlist: Partial<CreatePlaylistQuery>): Promise<void> {
+    public edit(id: string, playlist: Partial<CreatePlaylistQuery>): Promise<boolean> {
         return this.client.fetch(`/playlists/${id}`, {
             method: 'PUT',
             params: playlist
-        });
+        }).then(x => x == null);
     }
 
     /**
@@ -166,14 +166,12 @@ export class PlaylistManager {
      * @param imageData The imageData should contain a Base64 encoded JPEG image data, maximum payload size is 256 KB.
      * @example await client.playlists.uploadImage('id', 'data:image/jpeg;....');
      */
-    public async uploadImage(id: string, imageData: string): Promise<boolean> {
-        const fetchedData = await this.client.fetch(`/playlists/${id}/images`, {
+    public uploadImage(id: string, imageData: string): Promise<boolean> {
+        return this.client.fetch(`/playlists/${id}/images`, {
             method: 'PUT',
             headers: { "Content-Type": "image/jpeg" },
             body: imageData as any
-        });
-
-        return fetchedData == null;
+        }).then(x => x == null);
     }
 
 }

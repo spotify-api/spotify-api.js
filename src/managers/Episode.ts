@@ -39,7 +39,7 @@ export class EpisodeManager {
     }
 
     /**
-     * Get a spotify episode information by spotify id!
+     * Get an episode's information.
      * 
      * @param id The spotify episode id.
      * @param market Only episodes that are available in that market will be returned.
@@ -53,7 +53,7 @@ export class EpisodeManager {
     }
 
     /**
-     * Get multiple spotify episodes in one fetch!
+     * Get the information of multiple spotify episodes in one fetch.
      * 
      * @param ids An array of spotify ids.
      * @param market Only episodes that are available in that market will be returned.

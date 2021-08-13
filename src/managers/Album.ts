@@ -40,7 +40,7 @@ export class AlbumManager {
     }
 
     /**
-     * Get a spotify album information by spotify id!
+     * Get an album's information.
      * 
      * @param id The spotify album id.
      * @param force When true, will directly fetch else will search for the cache first!
@@ -53,7 +53,7 @@ export class AlbumManager {
     }
 
     /**
-     * Get multiple spotify albums in one fetch!
+     * Get the information of multiple albums in one fetch.
      * 
      * @param ids An array of spotify ids.
      * @example const albums = await client.albums.getMultiple('id1', 'id2');
@@ -64,7 +64,7 @@ export class AlbumManager {
     }
 
     /**
-     * Get a spotify album information by spotify id!
+     * Get the information about the album's tracks.
      * 
      * @param id The spotify album id.
      * @example const tracks = await client.albums.getTracks('id');

@@ -17,7 +17,7 @@ export class UserManager {
     public constructor(public client: Client) {}
 
     /**
-     * Get a spotify user information by spotify id!
+     * Get an user's information.
      * 
      * @param id The spotify user id.
      * @param force When true, will directly fetch else will search for the cache first!
