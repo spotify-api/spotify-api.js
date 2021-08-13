@@ -255,7 +255,7 @@ export enum Scopes {
     /** Read access to user’s subscription details (type of user account). */
     ReadUserPrivateDetails = "user-read-private",
     /** Include collaborative playlists when requesting a user's playlists. */
-    ReadCollaborativePlaylists = "user-read-collaborative",
+    ReadCollaborativePlaylists = "playlist-read-collaborative",
     /** Control playback of a Spotify track. This scope is currently available to the Web Playback SDK. The user must have a Spotify Premium account. */
     Streaming = "streaming"
 }
