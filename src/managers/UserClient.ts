@@ -104,7 +104,7 @@ export class UserClient {
         this.email = data.email;
         this.product = data.product;
         this.country = data.country;
-        this.explicitContent = {
+        if (data.explicit_content) this.explicitContent = {
             filterEnabled: data.explicit_content.filter_enabled,
             filterLocked: data.explicit_content.filter_locked
         };
