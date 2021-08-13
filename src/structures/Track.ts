@@ -115,7 +115,7 @@ export class Track {
      */
     public constructor(data: SimplifiedTrack | RawTrack, client: Client) {
         this.artists = createCacheStructArray('artists', client, data.artists);
-        this.availableMarkets = data.available_markets;
+        this.availableMarkets = data.available_markets || [];
         this.discNumber = data.disc_number;
         this.duration = data.duration_ms;
         this.explicit = data.explicit;

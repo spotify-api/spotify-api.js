@@ -130,7 +130,7 @@ export class Album {
     public constructor(data: SimplifiedAlbum | RawAlbum, client: Client) {
         this.artists = createCacheStructArray('artists', client, data.artists);
         this.albumType = data.album_type;
-        this.availableMarkets = data.available_markets;
+        this.availableMarkets = data.available_markets || [];
         this.externalURL = data.external_urls;
         this.id = data.id;
         this.images = data.images;
