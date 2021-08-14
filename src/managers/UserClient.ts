@@ -95,6 +95,7 @@ export class UserClient {
      */
     public async patchInfo() {
         const data: PrivateUser = await this.client.fetch('/me');
+        if (!data) throw new SpotifyAPIError("Could not load private user data from the user authorized token.");
 
         this.displayName = data.display_name;
         this.id = data.id;
