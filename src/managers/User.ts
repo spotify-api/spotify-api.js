@@ -52,12 +52,26 @@ export class UserManager {
      * 
      * @param playlistID The id of the spotify playlist.
      * @param ids The array of spotify user ids.
-     * @example const [userFollows] = await client.user.followsPlaylist('id');
+     * @example const [userFollows] = await client.users.followsPlaylist('id');
      */
     public followsPlaylist(playlistID: string, ...ids: string[]): Promise<boolean[]> {
         return this.client.fetch(`/playlists/${playlistID}/followers/contains`, {
             params: { ids: ids.join(',') }
         }).then(x => x || [])
+    }
+
+    /**
+     * Follow one or many users.
+     * This method requires an user authorized token.
+     * 
+     * @param ids The array of user ids.
+     * @example await client.users.follow('id1', 'id2');
+     */
+    public follow(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/following`, {
+            method: 'PUT',
+            params: { type: 'user', ids: ids.join(',') }
+        }).then(x => x != null);
     }
 
 }

@@ -117,4 +117,18 @@ export class ArtistManager {
         return fetchedData ? createCacheStructArray('albums', this.client, fetchedData.items) : [];
     }
 
+    /**
+     * Follow one or many artists.
+     * This method requires an user authorized token.
+     * 
+     * @param ids The array of artist ids.
+     * @example await client.artists.follow('id1', 'id2');
+     */
+    public follow(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/following`, {
+            method: 'PUT',
+            params: { type: 'artist', ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
 }
