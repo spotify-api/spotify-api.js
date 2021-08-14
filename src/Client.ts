@@ -127,19 +127,24 @@ export class Client {
         this.playlists = new PlaylistManager(this);
         this.shows = new ShowManager(this);
         this.tracks = new TrackManager(this);
-        this.user = new UserClient(this);
 
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
-            options.onReady?.(this);
+
+            if (options.userAuthorizedToken) {
+                new UserClient(this).patchInfo().then(x => {
+                    this.user = x;
+                    options.onReady?.(this);
+                });
+            } else options.onReady?.(this);
         } else if ('redirectURL' in options.token) {
             this.refreshMeta = options.token;
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
                 .then(async context => {
                     this.token = context.accessToken;
                     this.refreshMeta.refreshToken = context.refreshToken;
-                    await this.user.patchInfo();
+                    this.user = await new UserClient(this).patchInfo();
                     options.onReady?.(this);
                 });
         } else if ('clientID' in options.token) {
@@ -226,7 +231,10 @@ export class Client {
                 .then(context => {
                     this.token = context.accessToken;
                     this.refreshMeta.refreshToken = context.refreshToken;
-                    this.user.patchInfo().then(this.onRefresh);
+                    new UserClient(this).patchInfo().then(x => {
+                        this.user = x;
+                        this.onRefresh();
+                    });
                 });
         } else {
             this.auth.getApiToken(this.refreshMeta.clientID, this.refreshMeta.clientSecret)

@@ -12,6 +12,7 @@ import type {
     PrivateUser, 
     CreatePlaylistQuery
 } from "api-types";
+import { Artist } from "../structures/Artist";
 
 /**
  * The client which handles all the current user api endpoints and with the details of the current user.
@@ -31,7 +32,7 @@ export class UserClient {
     /** 
      * The Spotify user ID for the user.
      */
-    public id?: string;
+    public id!: string;
 
     /** 
      * The Spotify URI for the user. 
@@ -108,6 +109,8 @@ export class UserClient {
             filterEnabled: data.explicit_content.filter_enabled,
             filterLocked: data.explicit_content.filter_locked
         };
+
+        return this;
     }
 
     /**
@@ -130,10 +133,9 @@ export class UserClient {
      * Create a playlist.
      * 
      * @param playlist The playlist details to set.
-     * @example const playlist = await client.user.create({ name: 'My playlist' });
+     * @example const playlist = await client.user.createPlaylist({ name: 'My playlist' });
      */
-    public create(playlist: CreatePlaylistQuery): Promise<Playlist | null> {
-        if (!this.id) throw new SpotifyAPIError('[UserClient.id] is `undefined`. Most likely [UserClient] is not loaded yet.');
+    public createPlaylist(playlist: CreatePlaylistQuery): Promise<Playlist | null> {
         return this.client.playlists.create(this.id, playlist);
     }
 
@@ -144,8 +146,24 @@ export class UserClient {
      * @example const currentUserFollows = await client.user.followsPlaylist('id');
      */
     public followsPlaylist(playlistID: string): Promise<boolean> {
-        if (!this.id) throw new SpotifyAPIError('[UserClient.id] is `undefined`. Most likely [UserClient] is not loaded yet.');
         return this.client.users.followsPlaylist(playlistID, this.id).then(x => x[0] || false);
+    }
+
+    /**
+     * Get an array of artists who are been followed by the current usser.
+     * 
+     * @param options The limit, after query parameters. The after option is the last artist ID retrieved from the previous request.
+     * @example const artists = await client.user.getFollowingArtists();
+     */
+    public async getFollowingArtists(
+        options: {
+            limit?: number,
+            after?: string
+        } = {}
+    ): Promise<Artist[]> {
+        return createCacheStructArray('artists', this.client, await this.client.fetch(`/me/following`, {
+            params: { type: 'artist', ...options }
+        }) || []);
     }
 
 }

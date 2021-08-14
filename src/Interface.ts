@@ -43,6 +43,8 @@ export interface ClientOptions {
     refreshToken?: boolean;
     /** Your spotify web api token or some authenication details to generate one. */
     token: AuthIdentity;
+    /** If the token provided is a string and is user authroized set this to true. */
+    userAuthorizedToken?: boolean;
     /** The cache settings for the client. */
     cacheSettings?: CacheSettings | boolean;
     /** Boolean stating should the client retry when the request is rate limited or not by default it is true. */
