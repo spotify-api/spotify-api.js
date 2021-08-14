@@ -133,8 +133,19 @@ export class UserClient {
      * @example const playlist = await client.user.create({ name: 'My playlist' });
      */
     public create(playlist: CreatePlaylistQuery): Promise<Playlist | null> {
-        if (!this.id) throw new SpotifyAPIError('[UserClient.id] is `undefined`. Most likely [UserClient] is not loaded yet.')
+        if (!this.id) throw new SpotifyAPIError('[UserClient.id] is `undefined`. Most likely [UserClient] is not loaded yet.');
         return this.client.playlists.create(this.id, playlist);
+    }
+
+    /**
+     * Verify if the current user follows a paticular playlist.
+     * 
+     * @param playlistID The id of the spotify playlist.
+     * @example const currentUserFollows = await client.user.followsPlaylist('id');
+     */
+    public followsPlaylist(playlistID: string): Promise<boolean> {
+        if (!this.id) throw new SpotifyAPIError('[UserClient.id] is `undefined`. Most likely [UserClient] is not loaded yet.');
+        return this.client.users.followsPlaylist(playlistID, this.id).then(x => x[0] || false);
     }
 
 }

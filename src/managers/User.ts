@@ -47,4 +47,17 @@ export class UserManager {
         return fetchedData ? createCacheStructArray('playlists', this.client, fetchedData.items) : [];
     }
 
+    /**
+     * Verify a list of users follows a paticular playlist.
+     * 
+     * @param playlistID The id of the spotify playlist.
+     * @param ids The array of spotify user ids.
+     * @example const [userFollows] = await client.user.followsPlaylist('id');
+     */
+    public followsPlaylist(playlistID: string, ...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/playlists/${playlistID}/followers/contains`, {
+            params: { ids: ids.join(',') }
+        }).then(x => x || [])
+    }
+
 }
