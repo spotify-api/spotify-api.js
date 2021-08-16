@@ -97,7 +97,7 @@ export class Client {
     /**
      * The metadata for continous refresh of token.
      */
-    public refreshMeta!: ClientRefreshMeta;
+    public refreshMeta?: ClientRefreshMeta;
 
     /** 
      * Boolean stating should the client retry when the request is rate limited or not by default it is true. 
@@ -143,7 +143,7 @@ export class Client {
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
                 .then(async context => {
                     this.token = context.accessToken;
-                    this.refreshMeta.refreshToken = context.refreshToken;
+                    this.refreshMeta!.refreshToken = context.refreshToken;
                     this.user = await new UserClient(this).patchInfo();
                     options.onReady?.(this);
                 });
@@ -226,18 +226,18 @@ export class Client {
      * Refreshes the token from meta.
      */
     private async refreshFromMeta() {
-        if ('refreshToken' in this.refreshMeta) {
+        if ('refreshToken' in this.refreshMeta!) {
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
                 .then(context => {
                     this.token = context.accessToken;
-                    this.refreshMeta.refreshToken = context.refreshToken;
+                    this.refreshMeta!.refreshToken = context.refreshToken;
                     new UserClient(this).patchInfo().then(x => {
                         this.user = x;
                         this.onRefresh();
                     });
                 });
         } else {
-            this.auth.getApiToken(this.refreshMeta.clientID, this.refreshMeta.clientSecret)
+            this.auth.getApiToken(this.refreshMeta!.clientID, this.refreshMeta!.clientSecret)
                 .then(token => {
                     this.token = token;
                     this.onRefresh();
