@@ -74,4 +74,18 @@ export class UserManager {
         }).then(x => x != null);
     }
 
+    /**
+     * Unfollow one or many users.
+     * This method requires an user authorized token.
+     * 
+     * @param ids The array of user ids.
+     * @example await client.users.unfollow('id1', 'id2');
+     */
+    public unfollow(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/following`, {
+            method: 'DELETE',
+            params: { type: 'user', ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
 }

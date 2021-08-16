@@ -131,4 +131,18 @@ export class ArtistManager {
         }).then(x => x != null);
     }
 
+    /**
+     * Unfollow one or many artists.
+     * This method requires an user authorized token.
+     * 
+     * @param ids The array of artist ids.
+     * @example await client.artists.unfollow('id1', 'id2');
+     */
+    public unfollow(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/following`, {
+            method: 'DELETE',
+            params: { type: 'artist', ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
 }

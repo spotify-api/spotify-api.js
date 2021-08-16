@@ -162,9 +162,8 @@ export class UserClient {
             after?: string
         } = {}
     ): Promise<Artist[]> {
-        return createCacheStructArray('artists', this.client, await this.client.fetch(`/me/following`, {
-            params: { type: 'artist', ...options }
-        }) || []);
+        const fetchedData = await this.client.fetch(`/me/following`, { params: { type: 'artist', ...options } });
+        return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists.items) : [];
     }
 
 }
