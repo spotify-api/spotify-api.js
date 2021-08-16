@@ -139,4 +139,13 @@ export class BrowseManager {
         return this.client.fetch('/recommendations/available-genre-seeds');
     }
 
+    /**
+     * Get all the available markets.
+     * 
+     * @example const { markets } = await client.browse.getMarkets();
+     */
+    public getAvailableMarkets(): Promise<Record<'markets', string[]>> {
+        return this.client.fetch('/markets');
+    }
+
 }
