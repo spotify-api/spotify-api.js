@@ -149,6 +149,36 @@ export class UserClient {
     public followsPlaylist(playlistID: string): Promise<boolean> {
         return this.client.users.followsPlaylist(playlistID, this.id).then(x => x[0] || false);
     }
+    
+    /**
+     * Verify if the current user follows one or more artists.
+     * 
+     * @param ids The array of spotify artist ids.
+     * @example const [followsArtist] = await client.user.followsArtists('id1');
+     */
+    public followsArtists(...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/me/following/contains`, {
+            params: {
+                type: 'artist',
+                ids: ids.join(',')
+            }
+        }).then(x => x || ids.map(() => false))
+    }
+
+    /**
+     * Verify if the current user follows one or more users.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example const [followsUser] = await client.user.followsUsers('id1');
+     */
+    public followsUsers(...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/me/following/contains`, {
+            params: {
+                type: 'user',
+                ids: ids.join(',')
+            }
+        }).then(x => x || ids.map(() => false))
+    }
 
     /**
      * Get an array of artists who are been followed by the current usser.
