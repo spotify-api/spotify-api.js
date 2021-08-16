@@ -1,6 +1,8 @@
 import type { Client } from "../Client";
-import type { CamelCaseObjectKeys } from "../Interface";
+import type { CamelCaseObjectKeys, TimeRange } from "../Interface";
 import type { Playlist } from "../structures/Playlist";
+import type { Artist } from "../structures/Artist";
+import type { Track } from "../structures/Track";
 import { SpotifyAPIError } from "../Error";
 import { createCacheStructArray } from "../Cache";
 import type { 
@@ -12,7 +14,6 @@ import type {
     PrivateUser, 
     CreatePlaylistQuery
 } from "api-types";
-import { Artist } from "../structures/Artist";
 
 /**
  * The client which handles all the current user api endpoints and with the details of the current user.
@@ -194,6 +195,54 @@ export class UserClient {
     ): Promise<Artist[]> {
         const fetchedData = await this.client.fetch(`/me/following`, { params: { type: 'artist', ...options } });
         return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.artists.items) : [];
+    }
+
+    /**
+     * Get the top tracks of the user based on the current user's affinity.
+     * 
+     * @param options The timeRange, limit, offset query paramaters.
+     * @example const topTracks = await client.user.getTopTracks();
+     */
+    public async getTopTracks(
+        options: {
+            timeRange?: TimeRange,
+            limit?: number,
+            offset?: number
+        } = {}
+    ): Promise<Track[]> {
+        const fetchedData = await this.client.fetch(`/me/top/tracks`, {
+            params: {
+                time_range: options.timeRange,
+                limit: options.limit,
+                offset: options.offset
+            }
+        });
+
+        return fetchedData ? createCacheStructArray('tracks', this.client, fetchedData.items) : [];
+    }
+
+    /**
+     * Get the top artists of the user based on the current user's affinity.
+     * 
+     * @param options The timeRange, limit, offset query paramaters.
+     * @example const topArtists = await client.user.getTopArtists();
+     */
+    public async getTopArtists(
+        options: {
+            timeRange?: TimeRange,
+            limit?: number,
+            offset?: number
+        } = {}
+    ): Promise<Artist[]> {
+        const fetchedData = await this.client.fetch(`/me/top/artists`, {
+            params: {
+                time_range: options.timeRange,
+                limit: options.limit,
+                offset: options.offset
+            }
+        });
+
+        return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.items) : [];
     }
 
 }

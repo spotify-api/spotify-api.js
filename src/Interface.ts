@@ -261,3 +261,15 @@ export enum Scopes {
     /** Control playback of a Spotify track. This scope is currently available to the Web Playback SDK. The user must have a Spotify Premium account. */
     Streaming = "streaming"
 }
+
+/**
+ * The time range type from the spotify api used for the [/me/top/{type}] endpoint.
+ */
+export enum TimeRange {
+    /** Time range of several years. */
+    Long = "long_term",
+    /** Time range of 6 months. */
+    Medium = "medium_term",
+    /** Time range of 4 weeks. */
+    Short = "short_term"
+}
