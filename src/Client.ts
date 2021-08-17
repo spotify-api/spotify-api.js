@@ -195,22 +195,18 @@ export class Client {
      * @param options The additional options required to fetch from the api.
      * @example await client.fetch('/users/id');
      */
-    public async fetch(url: string, options: FetchOptions = {}) {
-        try {
-            const response = await axios({
-                url: `https://api.spotify.com/${this.version}${url}`,
-                method: options.method || 'GET',
-                params: options.params,
-                headers: {
-                    Authorization: "Bearer " + this.token,
-                    Accept: 'application/json',
-                    ...options.headers
-                },
-                data: options.body
-            });
-    
-            return response.data;
-        } catch(error) {
+    public fetch(url: string, options: FetchOptions = {}) {
+        return axios({
+            url: `https://api.spotify.com/${this.version}${url}`,
+            method: options.method || 'GET',
+            params: options.params,
+            headers: {
+                Authorization: "Bearer " + this.token,
+                Accept: 'application/json',
+                ...options.headers
+            },
+            data: options.body
+        }).then(response => response.data, async error => {
             if (error.response.status = 404) return null;
             else if (error.response.status == 429 && this.retryOnRateLimit) {
                 const retryAfter = error.response.headers['Retry-After'];
@@ -219,7 +215,7 @@ export class Client {
             else throw new SpotifyAPIError(error);
 
             return this.fetch(url, options);
-        }
+        });
     }
 
     /**
