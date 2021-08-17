@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 /**
  * This error mostly occurs when the spotify api responses an invalid json format!
@@ -17,10 +17,10 @@ export class SpotifyAPIError extends Error {
      * 
      * @param message Error message or axios response.
      */
-    public constructor(response: Record<'response', AxiosResponse> | string) {
+    public constructor(response: AxiosError | string) {
         if (typeof response == "string") super(response)
         else {
-            super(JSON.stringify(response.response.data));
+            super(JSON.stringify(response.response?.data));
             this.response = response.response;
         }
 

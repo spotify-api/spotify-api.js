@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 import { UserManager } from "./managers/User";
@@ -206,8 +206,9 @@ export class Client {
                 ...options.headers
             },
             data: options.body
-        }).then(response => response.data, async error => {
-            if (error.response.status = 404) return null;
+        }).then(response => response.data, async (error: AxiosError) => {
+            if (!error.response) throw new SpotifyAPIError(error);
+            else if (error.response.status == 404) return null;
             else if (error.response.status == 429 && this.retryOnRateLimit) {
                 const retryAfter = error.response.headers['Retry-After'];
                 if (typeof retryAfter == "number") await new Promise(r => setTimeout(r, retryAfter * 1000));
