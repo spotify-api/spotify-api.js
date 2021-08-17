@@ -90,7 +90,7 @@ export class UserClient {
     public explicitContent?: CamelCaseObjectKeys<ExplicitContentSettings>;
 
     /**
-     * The client which handles all the current user api endpoints and with the details of the current user.
+     * The client which handles all the current user api endpoints with the details of the current user.
      * All the methods in this class requires the user authorized token.
      * 
      * @param client The spotify api client.
