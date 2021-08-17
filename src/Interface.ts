@@ -60,7 +60,7 @@ export interface FetchOptions {
     /** Search query parameters. */
     params?: Record<string, any>;
     /** The json body to send if available. */
-    body?: Record<string, string | boolean | number>;
+    body?: Record<string, string | boolean | number | (string | boolean | number)[]>;
 }
 
 /** The meta details for the client refresh meta. */
