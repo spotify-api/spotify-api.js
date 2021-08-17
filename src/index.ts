@@ -16,6 +16,7 @@ export * from './managers/Playlist';
 export * from './managers/Show';
 export * from './managers/Track';
 export * from './managers/UserClient';
+export * from './managers/Player';
 
 // Export all the structures of the module.
 export * from './structures/Track';

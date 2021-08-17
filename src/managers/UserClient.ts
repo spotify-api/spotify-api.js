@@ -5,6 +5,8 @@ import type { Artist } from "../structures/Artist";
 import type { Track } from "../structures/Track";
 import type { Episode } from "../structures/Episode";
 import type { Show } from "../structures/Show";
+import type { Album } from "../structures/Album";
+import { Player } from "./Player";
 import { SpotifyAPIError } from "../Error";
 import { createCacheStructArray, createCacheSavedStructArray } from "../Cache";
 import type { 
@@ -16,7 +18,6 @@ import type {
     PrivateUser, 
     CreatePlaylistQuery
 } from "api-types";
-import { Album } from "../structures/Album";
 
 /**
  * The client which handles all the current user api endpoints and with the details of the current user.
@@ -27,6 +28,11 @@ export class UserClient {
      * The spotify client for this UserClient to work with.
      */
     public readonly client!: Client;
+
+    /**
+     * The manager for the player api endpoints.
+     */
+    public player: Player;
 
     /** 
      * The name displayed on the user’s profile. null if not available. 
@@ -91,6 +97,7 @@ export class UserClient {
      * @example const user = new UserClient(client);
      */
     public constructor(client: Client) {
+        this.player = new Player(client);
         Object.defineProperty(this, 'client', { value: client });
     }
 
