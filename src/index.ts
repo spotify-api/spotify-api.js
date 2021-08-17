@@ -26,3 +26,4 @@ export * from './structures/Album';
 export * from './structures/Playlist';
 export * from './structures/Episode';
 export * from './structures/Show';
+export * from './structures/Player';

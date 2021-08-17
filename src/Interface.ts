@@ -1,4 +1,4 @@
-import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType } from "api-types";
+import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType, Device } from "api-types";
 import type { Track } from "./structures/Track";
 import type { User } from "./structures/User";
 import type { Playlist } from "./structures/Playlist";
@@ -223,6 +223,24 @@ export interface Saved<T> {
     addedAt: number;
     /** The saved item. */
     item: T;
+}
+
+/** The current playback returned by the [Player.getCurrentPlayback] function. */
+export interface CurrentPlayback {
+    timestamp: number;
+    device: CamelCaseObjectKeys<Device>;
+    progress: number;
+    isPlaying: boolean;
+    currentPlayingType: string;
+    shuffleState: boolean;
+    repeatState: 'track' | 'off' | 'context';
+    item: Track | Episode | null;
+    context: {
+        externalURL: ExternalUrl,
+        href: string,
+        type: string,
+        uri: string
+    };
 }
 
 /**
