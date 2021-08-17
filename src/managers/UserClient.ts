@@ -263,4 +263,41 @@ export class UserClient {
         return fetchedData ? createCacheSavedStructArray('albums', this.client, fetchedData.items) : [];
     }
 
+    /**
+     * Save albums to the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.saveAlbums('id1', 'id2');
+     */
+    public saveAlbums(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/albums`, {
+            method: 'PUT',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Remove albums from the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.removeAlbums('id1', 'id2');
+     */
+    public removeAlbums(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/albums`, {
+            method: 'DELETE',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Verify if the current user has a paticular one or more albums.
+     * 
+     * @param ids The array of spotify album ids.
+     * @example const [hasFirstAlbum, hasSecondAlbum] = await client.user.hasAlbums('id1', 'id2');
+     */
+    public hasAlbums(...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/me/albums/contains`, { params: { ids: ids.join(',') } })
+            .then(x => ids.map(() => false));
+    }
+
 }
