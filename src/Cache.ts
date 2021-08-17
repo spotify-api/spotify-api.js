@@ -1,4 +1,5 @@
-import { Client } from './Client';
+import type { Client } from './Client';
+import type { Saved } from './Interface';
 import { Artist } from './structures/Artist';
 import { User } from './structures/User';
 import { Track } from './structures/Track';
@@ -27,13 +28,33 @@ const Cache = {
 export function createCacheStruct<T>(
     key: keyof typeof Structures, 
     client: Client, 
-    data: any,
-    fromCache = false
+    data: any
 ): T {
-    if (client.cacheSettings[key] && !fromCache) Cache[key].set(data.id, data);
+    if (client.cacheSettings[key]) Cache[key].set(data.id, data);
     // @ts-ignore
     return new Structures[key](data, client);
 }
+
+/**
+ * Creates an array of cache structure of a saved object from key, client and its raw data.
+ * @hideconstructor
+ */
+export function createCacheSavedStructArray<T>(
+    key: keyof typeof Structures,
+    client: Client,
+    data: [],
+    fromCache: boolean = false
+): Saved<T>[] {
+    let normalKey = key.slice(0, -1);
+    // @ts-ignore
+    return data.map(
+        client.cacheSettings[key] && !fromCache ? (x: any) => {
+            const mainData = x[normalKey];
+            Cache[key].set(mainData.id, mainData);
+            return { addedAt: x.added_at, item: new Structures[key](mainData, client) };
+        } : (x: any) => ({ addedAt: x.added_at, item: new Structures[key](x[normalKey], client) })
+    );
+};
 
 /**
  * Creates am array of cache structure from key, client and its raw data.

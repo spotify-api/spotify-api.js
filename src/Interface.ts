@@ -217,6 +217,14 @@ export interface PlaylistReorderOptions {
     snapshotID?: string;
 }
 
+/** The saved object type. */
+export interface Saved<T> {
+    /** The timestamp when the item was added at. */
+    addedAt: number;
+    /** The saved item. */
+    item: T;
+}
+
 /**
  * The scopes for the user authorization process.
  * @see https://developer.spotify.com/documentation/general/guides/scopes/

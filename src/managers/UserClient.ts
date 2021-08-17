@@ -1,10 +1,10 @@
 import type { Client } from "../Client";
-import type { CamelCaseObjectKeys, TimeRange } from "../Interface";
+import type { CamelCaseObjectKeys, Saved, TimeRange } from "../Interface";
 import type { Playlist } from "../structures/Playlist";
 import type { Artist } from "../structures/Artist";
 import type { Track } from "../structures/Track";
 import { SpotifyAPIError } from "../Error";
-import { createCacheStructArray } from "../Cache";
+import { createCacheStructArray, createCacheSavedStructArray } from "../Cache";
 import type { 
     SpotifyType, 
     Image, 
@@ -14,6 +14,7 @@ import type {
     PrivateUser, 
     CreatePlaylistQuery
 } from "api-types";
+import { Album } from "../structures/Album";
 
 /**
  * The client which handles all the current user api endpoints and with the details of the current user.
@@ -243,6 +244,23 @@ export class UserClient {
         });
 
         return fetchedData ? createCacheStructArray('artists', this.client, fetchedData.items) : [];
+    }
+
+    /**
+     * Get all the saved albums of the current user.
+     * 
+     * @param options The limit, offset, market query paramaters.
+     * @example const savedAlbums = await client.user.getSavedAlbums();
+     */
+    public async getSavedAlbums(
+        options: {
+            limit?: number,
+            offset?: number,
+            market?: string
+        }
+    ): Promise<Saved<Album>[]> {
+        const fetchedData = await this.client.fetch(`/me/albums`, { params: options });
+        return fetchedData ? createCacheSavedStructArray('albums', this.client, fetchedData.items) : [];
     }
 
 }
