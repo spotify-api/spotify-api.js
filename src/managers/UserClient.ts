@@ -3,6 +3,8 @@ import type { CamelCaseObjectKeys, Saved, TimeRange } from "../Interface";
 import type { Playlist } from "../structures/Playlist";
 import type { Artist } from "../structures/Artist";
 import type { Track } from "../structures/Track";
+import type { Episode } from "../structures/Episode";
+import type { Show } from "../structures/Show";
 import { SpotifyAPIError } from "../Error";
 import { createCacheStructArray, createCacheSavedStructArray } from "../Cache";
 import type { 
@@ -297,7 +299,169 @@ export class UserClient {
      */
     public hasAlbums(...ids: string[]): Promise<boolean[]> {
         return this.client.fetch(`/me/albums/contains`, { params: { ids: ids.join(',') } })
-            .then(x => ids.map(() => false));
+            .then(x => x || ids.map(() => false));
+    }
+
+    /**
+     * Get all the saved tracks of the current user.
+     * 
+     * @param options The limit, offset, market query paramaters.
+     * @example const savedTracks = await client.user.getSavedTracks();
+     */
+    public async getSavedTracks(
+        options: {
+            limit?: number,
+            offset?: number,
+            market?: string
+        }
+    ): Promise<Saved<Track>[]> {
+        const fetchedData = await this.client.fetch(`/me/tracks`, { params: options });
+        return fetchedData ? createCacheSavedStructArray('tracks', this.client, fetchedData.items) : [];
+    }
+
+    /**
+     * Save tracks to the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.saveTracks('id1', 'id2');
+     */
+    public saveTracks(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/tracks`, {
+            method: 'PUT',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Remove tracks from the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.removeTracks('id1', 'id2');
+     */
+    public removeTracks(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/tracks`, {
+            method: 'DELETE',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Verify if the current user has a paticular one or more tracks.
+     * 
+     * @param ids The array of spotify track ids.
+     * @example const [hasFirstTrack, hasSecondTrack] = await client.user.hasTracks('id1', 'id2');
+     */
+    public hasTracks(...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/me/tracks/contains`, { params: { ids: ids.join(',') } })
+            .then(x => x || ids.map(() => false));
+    }
+
+    /**
+     * Get all the saved episodes of the current user.
+     * 
+     * @param options The limit, offset, market query paramaters.
+     * @example const savedEpisodes = await client.user.getSavedEpisodes();
+     */
+    public async getSavedEpisodes(
+        options: {
+            limit?: number,
+            offset?: number,
+            market?: string
+        }
+    ): Promise<Saved<Episode>[]> {
+        const fetchedData = await this.client.fetch(`/me/episodes`, { params: options });
+        return fetchedData ? createCacheSavedStructArray('episodes', this.client, fetchedData.items) : [];
+    }
+
+    /**
+     * Save episodes to the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.saveEpisodes('id1', 'id2');
+     */
+    public saveEpisodes(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/episodes`, {
+            method: 'PUT',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Remove episodes from the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.removeEpisodes('id1', 'id2');
+     */
+    public removeEpisodes(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/episodes`, {
+            method: 'DELETE',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Verify if the current user has a paticular one or more episodes.
+     * 
+     * @param ids The array of spotify episode ids.
+     * @example const [hasFirstEpisode, hasSecondEpisode] = await client.user.hasEpisodes('id1', 'id2');
+     */
+    public hasEpisodes(...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/me/episodes/contains`, { params: { ids: ids.join(',') } })
+            .then(x => x || ids.map(() => false));
+    }
+
+    /**
+     * Get all the saved shows of the current user.
+     * 
+     * @param options The limit, offset, market query paramaters.
+     * @example const savedShows = await client.user.getSavedShows();
+     */
+    public async getSavedShows(
+        options: {
+            limit?: number,
+            offset?: number,
+            market?: string
+        }
+    ): Promise<Saved<Show>[]> {
+        const fetchedData = await this.client.fetch(`/me/shows`, { params: options });
+        return fetchedData ? createCacheSavedStructArray('shows', this.client, fetchedData.items) : [];
+    }
+
+    /**
+     * Save shows to the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.saveShows('id1', 'id2');
+     */
+    public saveShows(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/shows`, {
+            method: 'PUT',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Remove shows from the current user library.
+     * 
+     * @param ids The array of spotify user ids.
+     * @example await client.user.removeShows('id1', 'id2');
+     */
+    public removeShows(...ids: string[]): Promise<boolean> {
+        return this.client.fetch(`/me/shows`, {
+            method: 'DELETE',
+            params: { ids: ids.join(',') }
+        }).then(x => x != null);
+    }
+
+    /**
+     * Verify if the current user has a paticular one or more shows.
+     * 
+     * @param ids The array of spotify show ids.
+     * @example const [hasFirstShow, hasSecondShow] = await client.user.hasShows('id1', 'id2');
+     */
+    public hasShows(...ids: string[]): Promise<boolean[]> {
+        return this.client.fetch(`/me/shows/contains`, { params: { ids: ids.join(',') } })
+            .then(x => x || ids.map(() => false));
     }
 
 }
