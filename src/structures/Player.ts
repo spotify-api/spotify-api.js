@@ -1,6 +1,6 @@
 import type { Device } from "api-types";
 import type { Client } from "../Client";
-import type { CamelCaseObjectKeys, CurrentPlayback } from "../Interface";
+import type { CamelCaseObjectKeys, CurrentPlayback, CurrentlyPlaying } from "../Interface";
 import { createCacheStruct } from "../Cache";
 
 /**
@@ -29,13 +29,26 @@ export function createDevice(data: Device): CamelCaseObjectKeys<Device> {
  */
 export function createCurrentPlayback(client: Client, data: any): CurrentPlayback {
     return {
+        shuffleState: data.shuffle_state,
+        repeatState: data.repeat_state,
+        ...createCurrentlyPlayingStruct(client, data)
+    }
+}
+
+/**
+ * Create the object structure containing the currently playing details.
+ * 
+ * @param client The spotify client.
+ * @param data The data from the spotify api.
+ * @example const currentlyPlaying = createCurrentlyPlayingStruct(client, fetchedData);
+ */
+export function createCurrentlyPlayingStruct(client: Client, data: any): CurrentlyPlaying {
+    return {
         timestamp: data.timestamp,
         device: createDevice(data.device),
         progress: data.progress_ms,
         isPlaying: data.is_playing,
         currentPlayingType: data.currently_playing_type,
-        shuffleState: data.shuffle_state,
-        repeatState: data.repeat_state,
         item: data.item ? createCacheStruct(`${data.item.type}s` as any, client, data.item) : null,
         context: {
             externalURL: data.context.external_urls,
