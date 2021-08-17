@@ -229,12 +229,12 @@ export interface Saved<T> {
 export interface CurrentPlayback extends CurrentlyPlaying {
     shuffleState: boolean;
     repeatState: 'track' | 'off' | 'context';
+    device: CamelCaseObjectKeys<Device>;
 }
 
 /** The object structure containg the details of the currently playing which is returned by [Player.getCurrentlyPlaying] function. */
 export interface CurrentlyPlaying {
     timestamp: number;
-    device: CamelCaseObjectKeys<Device>;
     progress: number;
     isPlaying: boolean;
     currentPlayingType: string;

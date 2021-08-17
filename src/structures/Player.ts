@@ -31,6 +31,7 @@ export function createCurrentPlayback(client: Client, data: any): CurrentPlaybac
     return {
         shuffleState: data.shuffle_state,
         repeatState: data.repeat_state,
+        device: createDevice(data.device),
         ...createCurrentlyPlayingStruct(client, data)
     }
 }
@@ -45,7 +46,6 @@ export function createCurrentPlayback(client: Client, data: any): CurrentPlaybac
 export function createCurrentlyPlayingStruct(client: Client, data: any): CurrentlyPlaying {
     return {
         timestamp: data.timestamp,
-        device: createDevice(data.device),
         progress: data.progress_ms,
         isPlaying: data.is_playing,
         currentPlayingType: data.currently_playing_type,
