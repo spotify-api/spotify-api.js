@@ -39,7 +39,7 @@ export function createCacheStruct<T>(
  * Creates a structure which will be cached even if the option is set to false from key, client and its raw data.
  * @hideconstructor
  */
-export function createCachedStruct<T>(key: keyof typeof Structures, client: Client, data: any): T {
+export function createForcedCacheStruct<T>(key: keyof typeof Structures, client: Client, data: any): T {
     let structure = new Structures[key](data, client) as any;
     Cache[key].set(data.id, structure);
     return structure;

@@ -3,7 +3,7 @@ import type { User } from "./User";
 import type { PlaylistTrack } from "../Interface";
 import { Track } from "./Track";
 import { Episode } from "./Episode";
-import { Cache, createCacheStruct } from "../Cache";
+import { createCacheStruct, createForcedCacheStruct } from "../Cache";
 import { hexToRgb } from "../Util";
 import type { 
     Playlist as RawPlaylist,
@@ -131,17 +131,7 @@ export class Playlist {
 
 export function createPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
     const createTrack = client.cacheSettings.playlistTracks 
-                        ? (track) => {
-                            if (track.type == "track") {
-                                track = new Track(track as RawTrack, client);
-                                Cache.tracks.set(track.id, track);
-                            } else if (track.type == "episode") {
-                                track = new Episode(track as RawEpisode, client);
-                                Cache.episodes.set(track.id, track);
-                            }
-
-                            return track;
-                        }
+                        ? (track) => createForcedCacheStruct(`${track.type}s` as any, client, track)
                         : (track) =>  track.type == "track" 
                                         ? new Track(track as RawTrack, client)
                                         : new Episode(track as RawEpisode, client)

@@ -148,7 +148,7 @@ export class PlaylistManager {
      * @example const snapshotID = await client.playlists.removeItems('playlist id', { uris: ['spotify:uri:id']  });
      */
     public async removeItems(id: string, uris: string[], snapshotID?: string): Promise<string> {
-        const body: any = {};
+        const body = {} as any;
 
         if (snapshotID) body.snapshot_id = snapshotID;
         if (uris) body.uris = uris.map(uri => ({ uri }));
