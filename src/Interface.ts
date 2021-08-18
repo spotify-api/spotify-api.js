@@ -1,4 +1,4 @@
-import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType, Device } from "api-types";
+import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType, Device, Cursor } from "api-types";
 import type { Track } from "./structures/Track";
 import type { User } from "./structures/User";
 import type { Playlist } from "./structures/Playlist";
@@ -225,6 +225,31 @@ export interface Saved<T> {
     item: T;
 }
 
+/** The context object of the player. */
+ export interface PlayerContext {
+    /** External URLs for this context. */
+    externalURL: ExternalUrl;
+    /** A link to the Web API endpoint providing full details of the track. */
+    href: string;
+    /** The object type. */
+    type: SpotifyType;
+    /** The Spotify URI for the context. */
+    uri: string;
+}
+
+/** The recently played object which is returned by the [Player.getRecentlyPlayed] function. */
+export interface RecentlyPlayed {
+    /** The cursors to check other pages of recently played. */
+    cursors: Cursor;
+    /** The items which have been recently played. */
+    items: {
+        /** The track which has been played recently. */
+        track: Track,
+        /** The timestamp when it was played. */
+        playedAt: string
+    }[];
+}
+
 /** The current playback returned by the [Player.getCurrentPlayback] function. */
 export interface CurrentPlayback extends CurrentlyPlaying {
     shuffleState: boolean;
@@ -239,12 +264,7 @@ export interface CurrentlyPlaying {
     isPlaying: boolean;
     currentPlayingType: string;
     item: Track | Episode | null;
-    context: {
-        externalURL: ExternalUrl,
-        href: string,
-        type: string,
-        uri: string
-    };
+    context: PlayerContext;
 }
 
 /**

@@ -1,5 +1,6 @@
 import type { Client } from './Client';
-import type { Saved } from './Interface';
+import type { Saved, RecentlyPlayed } from './Interface';
+import type { CursorPaging, PlayHistory } from "api-types";
 import { Artist } from './structures/Artist';
 import { User } from './structures/User';
 import { Track } from './structures/Track';
@@ -57,7 +58,7 @@ export function createCacheSavedStructArray<T>(
 };
 
 /**
- * Creates am array of cache structure from key, client and its raw data.
+ * Creates an array of cache structure from key, client and its raw data.
  * @hideconstructor
  */
 export function createCacheStructArray<T>(
@@ -73,6 +74,17 @@ export function createCacheStructArray<T>(
             return new Structures[key](x, client);
         } : x => new Structures[key](x, client)
     );
+}
+
+/**
+ * Creates a recently played structure containg the playhistory details.
+ * @hideconstructor
+ */
+export function createCachedRecentlyPlayedStruct(client: Client, data: CursorPaging<PlayHistory>): RecentlyPlayed {
+    return {
+        items: data.items.map(x => ({ track: createCacheStruct('tracks', client, x.track), playedAt: x.played_at })),
+        cursors: data.cursors
+    };
 }
 
 /** The structures map by the keys as name and values as their corresponding structure. */

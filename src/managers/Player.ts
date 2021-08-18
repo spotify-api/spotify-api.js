@@ -1,6 +1,7 @@
-import type { Device } from "api-types";
+import type { Device, Cursor } from "api-types";
 import type { Client } from "../Client";
-import type { CamelCaseObjectKeys, CurrentPlayback } from "../Interface";
+import type { CamelCaseObjectKeys, CurrentPlayback, RecentlyPlayed } from "../Interface";
+import { createCachedRecentlyPlayedStruct } from "../Cache";
 import { createCurrentPlayback, createCurrentlyPlayingStruct, createDevice } from "../structures/Player";
 
 /**
@@ -45,6 +46,17 @@ export class Player {
     public getCurrentlyPlaying(additionalTypes?: 'track' | 'episode'): Promise<CurrentPlayback | null> {
         return this.client.fetch(`/me/player/currently-playing`, { params: { additional_types: additionalTypes } })
             .then(x => x ? createCurrentlyPlayingStruct(this.client, x) : null);
+    }
+
+    /**
+     * Get the recently played data from the current user's player.
+     * 
+     * @param options The before, after and limit query paramaeters.
+     * @example const recentlyPlayed = await player.getRecentlyPlayed();
+     */
+    public getRecentlyPlayed(options: Partial<Cursor> & { limit?: number } = {}): Promise<RecentlyPlayed> {
+        return this.client.fetch(`/me/player/recently-played`, { params: options })
+            .then(x => createCachedRecentlyPlayedStruct(this.client, x))
     }
 
     /**
