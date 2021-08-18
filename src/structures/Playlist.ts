@@ -130,33 +130,26 @@ export class Playlist {
 }
 
 export function createPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
-    const createTrack = client.cacheSettings.playlistTracks ?
-                        (x) => {
-                            let track: any = null;
-                            if (x.track) {
-                                if (x.track.type == "track") {
-                                    track = new Track(x.track as RawTrack, client);
-                                    Cache.tracks.set(track.id, track);
-                                } else if (x.track.type == "episode") {
-                                    track = new Episode(x.track as RawEpisode, client);
-                                    Cache.episodes.set(track.id, track);
-                                }
+    const createTrack = client.cacheSettings.playlistTracks 
+                        ? (track) => {
+                            if (track.type == "track") {
+                                track = new Track(track as RawTrack, client);
+                                Cache.tracks.set(track.id, track);
+                            } else if (track.type == "episode") {
+                                track = new Episode(track as RawEpisode, client);
+                                Cache.episodes.set(track.id, track);
                             }
 
                             return track;
-                        } :
-                        (x) => {
-                            return x.track
-                                    ? x.track.type == "track" 
-                                    ? new Track(x.track as RawTrack, client)
-                                    : new Episode(x.track as RawEpisode, client)
-                                    : null;
                         }
+                        : (track) =>  track.type == "track" 
+                                        ? new Track(track as RawTrack, client)
+                                        : new Episode(track as RawEpisode, client)
 
     return rawPlaylistTracks.map(x => ({
         addedAt: x.added_at,
         addedBy: createCacheStruct('users', client, x.added_by),
         isLocal: x.is_local,
-        track: createTrack(x)
+        track: x.track ? createTrack(x.track) : null
     }) as PlaylistTrack);
 }

@@ -30,9 +30,9 @@ export function createCacheStruct<T>(
     client: Client, 
     data: any
 ): T {
-    if (client.cacheSettings[key]) Cache[key].set(data.id, data);
-    // @ts-ignore
-    return new Structures[key](data, client);
+    let structure = new Structures[key](data, client) as any;
+    if (client.cacheSettings[key]) Cache[key].set(data.id, structure);
+    return structure;
 }
 
 /**
