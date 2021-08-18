@@ -129,6 +129,13 @@ export class Playlist {
 
 }
 
+/**
+ * Create playlist tracks structure.
+ * 
+ * @param client The spotify client.
+ * @param rawPlaylistTracks The raw data received from the api.
+ * @example const playlistTracks = createPlaylistTracks(client, data);
+ */
 export function createPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
     const createTrack = client.cacheSettings.playlistTracks 
                         ? (track) => createForcedCacheStruct(`${track.type}s` as any, client, track)
