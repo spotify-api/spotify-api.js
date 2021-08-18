@@ -36,6 +36,16 @@ export function createCacheStruct<T>(
 }
 
 /**
+ * Creates a structure which will be cached even if the option is set to false from key, client and its raw data.
+ * @hideconstructor
+ */
+export function createCachedStruct<T>(key: keyof typeof Structures, client: Client, data: any): T {
+    let structure = new Structures[key](data, client) as any;
+    Cache[key].set(data.id, structure);
+    return structure;
+}
+
+/**
  * Creates an array of cache structure of a saved object from key, client and its raw data.
  * @hideconstructor
  */
@@ -46,12 +56,11 @@ export function createCacheSavedStructArray<T>(
     fromCache: boolean = false
 ): Saved<T>[] {
     let normalKey = key.slice(0, -1);
-    // @ts-ignore
     return data.map(
         client.cacheSettings[key] && !fromCache ? (x: any) => {
-            const mainData = x[normalKey];
-            Cache[key].set(mainData.id, mainData);
-            return { addedAt: x.added_at, item: new Structures[key](mainData, client) };
+            let item = new Structures[key](x[normalKey], client) as any;
+            Cache[key].set(item.id, item);
+            return { addedAt: x.added_at, item };
         } : (x: any) => ({ addedAt: x.added_at, item: new Structures[key](x[normalKey], client) })
     );
 };
@@ -66,11 +75,11 @@ export function createCacheStructArray<T>(
     data: any[],
     fromCache = false
 ): T[] {
-    // @ts-ignore
     return data.map(
         client.cacheSettings[key] && !fromCache ? x => {
-            Cache[key].set(x.id, x);
-            return new Structures[key](x, client);
+            let structure = new Structures[key](x, client) as any;
+            Cache[key].set(x.id, structure);
+            return structure;
         } : x => new Structures[key](x, client)
     );
 }
