@@ -1,6 +1,6 @@
-import type { Device } from "api-types";
 import type { Client } from "../Client";
-import type { CamelCaseObjectKeys, CurrentPlayback, CurrentlyPlaying } from "../Interface";
+import type { CursorPaging, Device, PlayHistory } from "api-types";
+import type { CamelCaseObjectKeys, CurrentPlayback, CurrentlyPlaying, RecentlyPlayed } from "../Interface";
 import { createCacheStruct } from "../Cache";
 
 /**
@@ -32,7 +32,7 @@ export function createCurrentPlayback(client: Client, data: any): CurrentPlaybac
         shuffleState: data.shuffle_state,
         repeatState: data.repeat_state,
         device: createDevice(data.device),
-        ...createCurrentlyPlayingStruct(client, data)
+        ...createCurrentlyPlaying(client, data)
     }
 }
 
@@ -41,9 +41,9 @@ export function createCurrentPlayback(client: Client, data: any): CurrentPlaybac
  * 
  * @param client The spotify client.
  * @param data The data from the spotify api.
- * @example const currentlyPlaying = createCurrentlyPlayingStruct(client, fetchedData);
+ * @example const currentlyPlaying = createCurrentlyPlaying(client, fetchedData);
  */
-export function createCurrentlyPlayingStruct(client: Client, data: any): CurrentlyPlaying {
+export function createCurrentlyPlaying(client: Client, data: any): CurrentlyPlaying {
     return {
         timestamp: data.timestamp,
         progress: data.progress_ms,
@@ -57,4 +57,18 @@ export function createCurrentlyPlayingStruct(client: Client, data: any): Current
             uri: data.context.uri
         }
     }
+}
+
+/**
+ * Creates a recently played structure containg the playhistory details.
+ * 
+ * @param client The spotify api client.
+ * @param data The raw data fetched from the spotify api.
+ * @example const recentlyPlayed = createRecentlyPlayed(client, data);
+ */
+export function createRecentlyPlayed(client: Client, data: CursorPaging<PlayHistory>): RecentlyPlayed {
+    return {
+        items: data.items.map(x => ({ track: createCacheStruct('tracks', client, x.track), playedAt: x.played_at })),
+        cursors: data.cursors
+    };
 }

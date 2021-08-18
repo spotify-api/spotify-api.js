@@ -1,8 +1,12 @@
 import type { Device, Cursor } from "api-types";
 import type { Client } from "../Client";
 import type { CamelCaseObjectKeys, CurrentPlayback, RecentlyPlayed } from "../Interface";
-import { createCachedRecentlyPlayedStruct } from "../Cache";
-import { createCurrentPlayback, createCurrentlyPlayingStruct, createDevice } from "../structures/Player";
+import { 
+    createCurrentPlayback, 
+    createCurrentlyPlaying, 
+    createDevice, 
+    createRecentlyPlayed 
+} from "../structures/Player";
 
 /**
  * A manager to perform actions which belongs to the spotify player web api.
@@ -45,7 +49,7 @@ export class Player {
      */
     public getCurrentlyPlaying(additionalTypes?: 'track' | 'episode'): Promise<CurrentPlayback | null> {
         return this.client.fetch(`/me/player/currently-playing`, { params: { additional_types: additionalTypes } })
-            .then(x => x ? createCurrentlyPlayingStruct(this.client, x) : null);
+            .then(x => x ? createCurrentlyPlaying(this.client, x) : null);
     }
 
     /**
@@ -55,8 +59,7 @@ export class Player {
      * @example const recentlyPlayed = await player.getRecentlyPlayed();
      */
     public getRecentlyPlayed(options: Partial<Cursor> & { limit?: number } = {}): Promise<RecentlyPlayed> {
-        return this.client.fetch(`/me/player/recently-played`, { params: options })
-            .then(x => createCachedRecentlyPlayedStruct(this.client, x))
+        return this.client.fetch(`/me/player/recently-played`, { params: options }).then(x => createRecentlyPlayed(this.client, x))
     }
 
     /**
