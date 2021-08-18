@@ -157,6 +157,16 @@ export class Client {
         } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
 
         if (typeof options.cacheSettings == "object") this.cacheSettings = options.cacheSettings;
+        else if (options.cacheSettings == true) this.cacheSettings = {
+            users: true,
+            artists: true,
+            tracks: true,
+            episodes: true,
+            shows: true,
+            albums: true,
+            playlists: true,
+            playlistTracks: true
+        };
     }
 
     /**
