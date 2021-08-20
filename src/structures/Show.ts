@@ -1,51 +1,114 @@
-import { Copyright, Image, Paging, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from "../Types";
-import Episode from "./Episode";
-import Client from "../Client";
+import type { Client } from "../Client";
+import type { Episode } from "./Episode";
+import { createCacheStructArray } from "../Cache";
+import { hexToRgb } from "../Util";
+import type {
+    SimplifiedShow,
+    Show as RawShow,
+    Copyright,
+    ExternalUrl,
+    Image,
+    SpotifyType
+} from "api-types";
 
 /**
- * Spotify Api's Show Object!
+ * Spotify api's show object.
  */
-export default class Show {
+export class Show {
 
-    readonly data: any;
-    readonly client!: Client;
+    /** 
+     * A list of the countries in which the show can be played, identified by their ISO 3166-1 alpha-2 code. 
+     */
+    public availableMarkets: string[];
 
-    availableMarkets: string[];
-    copyrights: Copyright[];
-    description: string;
-    explicit: boolean;
-    externalUrls: RawObject;
-    href: string;
-    id: string;
-    images: Image[];
-    isExternallyHosted: boolean;
-    languages: string[];
-    mediaType: string;
-    name: string;
-    publisher: string;
-    type: SpotifyTypes;
-    uri: SpotifyURI;
-
-    episodes?: Episode[];
+    /** 
+     * The copyright statements of the show. 
+     */
+    public copyrights: Copyright[];
 
     /**
-     * Spotify Api's Show Object!
-     * 
-     * @param data Received raw data from the spotify api
-     * @param client Spotify Client
-     * @example const show = new Show(data, client);
+     * A description of the show. HTML tags are stripped away from this field, use html_description field in case HTML tags are needed. 
      */
-    constructor(data: any, client: Client){
+    public description: string;
 
-        Object.defineProperty(this, 'data', { value: data, writable: false });
-        Object.defineProperty(this, 'client', { value: client, writable: false });
+    /**
+     * Whether or not the show has explicit content (true = yes it does; false = no it does not OR unknown). 
+     */
+    public explicit: boolean;
 
+    /** 
+     * External URLs for this show. 
+     */
+    public externalURL: ExternalUrl;
+    
+    /** 
+     * A description of the show. This field may contain HTML tags. 
+     */
+    public htmlDescription: string;
+
+    /** 
+     * The Spotify ID for the show. 
+     */
+    public id: string;
+
+    /** 
+     * The cover art for the show in various sizes, widest first. 
+     */
+    public images: Image[];
+
+    /** 
+     * True if all of the show’s episodes are hosted outside of Spotify’s CDN. This field might be null in some cases. 
+     */
+    public isExternallyHosted: boolean;
+
+    /** 
+     * A list of the languages used in the show, identified by their ISO 639 code. 
+     */
+    public languages: string[];
+
+    /** 
+     * The media type of the show. 
+     */
+    public mediaType: string;
+
+    /** 
+     * The name of the show. 
+     */
+    public name: string;
+
+    /** 
+     * The publisher of the show. 
+     */
+    public publisher: string;
+
+    /** 
+     * The object type: “show”. 
+     */
+    public type: SpotifyType;
+
+    /** 
+     * The Spotify URI for the show. 
+     */
+    public uri: string;
+
+    /**
+     * The episodes of the show.
+     */
+    public episodes?: Episode[];
+
+    /**
+     * To create a js object conataing camel case keys of the SimplifiedShow and Show data with additional functions.
+     * 
+     * @param client The spotify client.
+     * @example const show = new Show(fetchedData, client);
+     */
+    public constructor(data: SimplifiedShow | RawShow, client: Client) {
         this.availableMarkets = data.available_markets;
-        this.copyrights = data.copyrights;
         this.description = data.description;
+        this.copyrights = data.copyrights;
         this.explicit = data.explicit;
-        this.externalUrls = data.external_urls;
-        this.href = data.href;
+        this.externalURL = data.external_urls;
+        this.htmlDescription = data.html_description;
         this.id = data.id;
         this.images = data.images;
         this.isExternallyHosted = data.is_externally_hosted;
@@ -56,59 +119,15 @@ export default class Show {
         this.type = data.type;
         this.uri = data.uri;
         
-        if('episodes' in data) this.episodes = data.episodes.items.map(x => new Episode(x, this.client));
-
+        if ('episodes' in data) this.episodes = createCacheStructArray('episodes', client, Array.isArray(data.episodes) ? data.episodes : data.episodes.items);
     }
 
     /**
-     * Returns a code image of the Show!
-     * @param color Hex color code
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
      */
-    makeCodeImage(color: string = '1DB954'): string {
-        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(this.client.util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+    public makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-
-    /**
-     * Fetches the show and refreshes the cache!
-     */
-    async fetch(): Promise<Show> {
-        return await this.client.shows.get(this.id, true) as Show;
-    }
-
-    /**
-     * Returns the episodes by fetching!
-     * 
-     * @param options Basic PagingOptions
-     * @example await show.getEpisodes();
-     */
-    async getEpisodes(options?: PagingOptions): Promise<Paging<Episode>> {
-        const episodes = await this.client.shows.getEpisodes(this.id, options);
-        this.episodes = episodes.items;
-        return episodes;
-    }
-
-    /**
-     * Add this show to your save list!
-     * @example await show.add();
-     */
-    async add(): Promise<boolean> {
-        return await this.client.user.addShows(this.id);
-    }
-
-    /**
-     * Remove this show from your save list!
-     * @example await show.delete();
-     */
-    async delete(): Promise<boolean> {
-        return await this.client.user.deleteShows(this.id);
-    }
-
-    /**
-     * Returns a boolean stating is this shows saved on the user's savelist (library)
-     * @example const isSaved = await show.saved();
-     */
-    async saved(): Promise<boolean> {
-        return (await this.client.user.hasShows(this.id))[0] || false;
-    } 
-
-};
+    
+}

@@ -1,123 +1,88 @@
-import Client from '../Client';
-import Album from './Album';
-import Track from './Track';
-import { Image, Paging, PagingOptions, RawObject, SpotifyTypes, SpotifyURI } from '../Types';
+import { hexToRgb } from "../Util";
+import type { 
+    SimplifiedArtist, 
+    Artist as RawArtist, 
+    SpotifyType, 
+    ExternalUrl, 
+    Image 
+} from "api-types";
 
 /**
- * Spotify Api's artist object
+ * Spotify api's user object.
  */
-export default class Artist{
+export class Artist {
 
-    readonly data!: any;
-    readonly client!: Client;
+    /** 
+     * Known external URLs for this artist. 
+     */
+    public externalURL: ExternalUrl;
+    
+    /** 
+     * The Spotify ID for the artist. 
+     */
+    public id: string;
+    /** 
+     * The name of the artist. 
+     */
+    public name: string;
 
-    externalUrls: RawObject;
-    href: string;
-    id: string;
-    name: string;
-    type: SpotifyTypes;
-    uri: SpotifyURI;
-    images: Image[]
+    /** 
+     * The object type: "artist". 
+     */
+    public type: SpotifyType;
 
-    totalFollowers?: number;
-    genres?: string;
-    popularity?: number;
+    /** 
+     * The Spotify URI for the artist. 
+     */
+    public uri: string;
 
     /**
-     * Structure for the Spotify Api's Artist Object!
-     * 
-     * @param data Received Raw data by the Spotify Api!
-     * @param client Your Spotify Client!
-     * @example const artist = new Artist(data, client);
+     * Total number of followers of the artist.
      */
-    constructor(data: any, client: Client){
+    public totalFollowers?: number;
 
-        Object.defineProperty(this, 'data', { value: data, writable: false });
-        Object.defineProperty(this, 'client', { value: client, writable: false });
+    /** 
+     * A list of the genres the artist is associated with. For example: "Prog Rock" , "Post-Grunge". (If not yet classified, the array is empty.) 
+     */
+    public genres?: string[];
 
-        this.externalUrls = data.external_urls;
-        this.href = data.href;
+    /** 
+     * Images of the artist in various sizes, widest first. 
+     */
+    public images?: Image[];
+
+    /** 
+     * The popularity of the artist. The value will be between 0 and 100, with 100 being the most popular. The artist’s popularity is calculated from the popularity of all the artist’s tracks. 
+     */
+    public popularity?: number;
+
+    /**
+     * To create a js object containing camel case keys of SimplifiedArtist or Artist data with additional functions.
+     * 
+     * @param data The raw data received from the api.
+     * @example const artist = new Artist(fetchedData);
+     */
+    public constructor(data: SimplifiedArtist | RawArtist) {
+        this.externalURL = data.external_urls;
         this.id = data.id;
         this.name = data.name;
         this.type = data.type;
         this.uri = data.uri;
-        this.images = data.images || [];
 
-        if('popularity' in data) {
-            this.totalFollowers = data.followers.total;
-            this.genres = data.genres;
+        if ('images' in data) {
+            this.images = data.images;
             this.popularity = data.popularity;
+            this.genres = data.genres;
+            this.totalFollowers = data.followers.total;
         }
-
-    };
-
-    /**
-     * Returns a code image of the artist!
-     * @param color Hex color code
-     */
-    makeCodeImage(color: string = '1DB954'): string {
-        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(this.client.util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
 
     /**
-     * Fetches the Episode and refreshes the cache!
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
      */
-    async fetch(): Promise<Artist> {
-        return await this.client.artists.get(this.id) as Artist;
+    public makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-
-    /**
-     * Get albums of the artist!
-     * 
-     * @param options Basic paging options
-     * @example await artist.getAlbums();
-     */
-    async getAlbums(options?: PagingOptions): Promise<Paging<Album>> {
-        return await this.client.artists.getAlbums(this.id, options);
-    }
-
-    /**
-     * Returns the top tracks of the artist
-     * 
-     * @param options Basic PagingOptions
-     * @example await artist.getTopTracks();
-     */
-    async getTopTracks(options?: PagingOptions): Promise<Track[]> {
-        return await this.client.artists.getTopTracks(this.id, options);
-    }
-
-    /**
-     * Returns the related artists of the artist
-     * 
-     * @param options Basic PagingOptions
-     * @example await artist.getRelatedArtists();
-     */
-    async getRelatedArtists(options?: PagingOptions): Promise<Artist[]> {
-        return await this.client.artists.getRelatedArtists(this.id, options);
-    }
-
-    /**
-     * Follow this artist!
-     * @example await artist.follow();
-     */
-    async follow(): Promise<boolean> {
-        return await this.client.user.followArtists(this.id);
-    }
-
-    /**
-     * Unfollow this artist!
-     * @example await artist.unfollow();
-     */
-    async unfollow(): Promise<boolean> {
-        return await this.client.user.unfollowArtists(this.id);
-    }
-
-    /**
-     * Verify if the current user follows this artist!
-     * @example const follows = await artists.follows();
-     */
-    async follows(): Promise<boolean> {
-        return (await this.client.user.followsArtists(this.id))[0] || false;
-    }
-
+    
 }

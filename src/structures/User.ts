@@ -1,125 +1,67 @@
-import { Image, Paging, PagingOptions, RawObject } from "../Types";
-import Playlist from "./Playlist";
-import Client from "../Client";
-import { CreatePlaylist } from "../UserClient";
- 
+import type { PublicUser, SpotifyType, ExternalUrl, Image } from "api-types";
+import { hexToRgb } from "../Util";
+
 /**
- * Spotify Api's User object!
+ * Spotify api's user object.
  */
-export default class User {
- 
-    readonly data: any;
-    readonly client!: Client;
- 
-    name: string;
-    externalUrls: RawObject;
-    href: string;
-    id: string;
-    uri: string;
-    images: Image[];
-    type: string;
- 
-    totalFollowers?: number;
- 
-    /**
-     * The Spotify Api's User object!
-     * 
-     * @param data The raw spotify user data!
-     * @param client The spotify client
-     * @example const user = new Spotify.User(data, client);
+export class User {
+
+    /** 
+     * The name displayed on the user’s profile. null if not available. 
      */
-    constructor(data: any, client: Client){
- 
-        Object.defineProperty(this, 'data', { value: data, writable: false });
-        Object.defineProperty(this, 'client', { value: client, writable: false });
- 
-        this.name = data.display_name;
-        this.externalUrls = data.external_urls;
-        this.href = data.href;
+    public displayName: string | null;
+
+    /** 
+     * The Spotify user ID for the user.
+     */
+    public id: string;
+
+    /** 
+     * The Spotify URI for the user. 
+     */
+    public uri: string;
+
+    /** 
+     * The Spotify object type which will be 'user'.
+     */
+    public type: SpotifyType = 'user';
+
+    /** 
+     * The user’s profile image. 
+     */
+    public images: Image[];
+
+    /** 
+     * Information about the followers of the user. 
+     */
+    public totalFollowers?: number;
+
+    /** 
+     * Known external URLs for this user. 
+     */
+    public externalURL: ExternalUrl;
+
+    /**
+     * To create a js object conataing camel case keys of the PublicUser data with additional functions.
+     * 
+     * @param client The spotify client.
+     * @example const user = new User(fetchedData);
+     */
+    public constructor(data: PublicUser) {
+        this.displayName = data.display_name || null;
         this.id = data.id;
-        this.type = data.type;
         this.uri = data.uri;
         this.images = data.images || [];
-        if('followers' in data) this.totalFollowers = data.followers.total;
- 
-    };
- 
-    /**
-     * Fetches user and refreshes the cache!
-     * @example user.fetch();
-     */
-    async fetch(): Promise<User> {
-        return await this.client.users.get(this.id, true) as User;
+        this.externalURL = data.external_urls;
+        if (data.followers) this.totalFollowers = data.followers.total;
     }
 
     /**
-     * Returns the saved playlist of the user!
-     * 
-     * @param options Options containing the offset and limit!
-     * @example await user.getPlaylists();
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
      */
-    async getPlaylists(options?: PagingOptions): Promise<Paging<Playlist>> {
-        return await this.client.users.getPlaylists(this.id, options)
+    public makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
-
-    /**
-     * Verify if the user follow a playlist by its id
-     * 
-     * @param id Spotify playlist id
-     * @example const follows = await user.followsPlaylist('id');
-     */
-    async followsPlaylist(id: string): Promise<boolean> {
-        return (await this.client.playlists.userFollows(id, this.id))[0] || false;
-    }
-
-    /**
-     * Follow this user!
-     * @example await user.follow();
-     */
-    async follow(): Promise<boolean> {
-        return await this.client.user.followUsers(this.id);
-    }
-
-    /**
-     * Unfollow this user!
-     * @example await user.unfollow();
-     */
-    async unfollow(): Promise<boolean> {
-        return await this.client.user.unfollowUsers(this.id);
-    }
-
-    /**
-     * Verify if the current user follows this user!
-     * @example const follows = await users.follows();
-     */
-    async follows(): Promise<boolean> {
-        return (await this.client.user.followsUsers(this.id))[0] || false;
-    }
-
-    /**
-     * Create a spotify playlist for this user!
-     * 
-     * @param options Options to create a playlist except userID field
-     * @example await client.user.createPlaylist({
-     *     name: 'Funky playlist',
-     *     description: 'My own cool playlist created by spotify-api.js',
-     *     public: true,
-     *     collaborative: false
-     * });
-     */
-    async createPlaylist(options: Omit<CreatePlaylist, 'userID'>): Promise<Playlist | null> {
-        return await this.client.user.createPlaylist({
-            ...options,
-            userID: this.id
-        }); 
-    }
- 
-    /**
-     * Returns a code image
-     * @param color Hex color code
-     */
-    makeCodeImage(color: string = '1DB954'): string {
-        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(this.client.util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
-    }
-     
-};
+    
+}

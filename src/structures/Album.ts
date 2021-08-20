@@ -1,161 +1,163 @@
-import Client from '../Client';
-import Track from './Track';
-import { Image, Restriction, Copyright, RawObject, SpotifyTypes, SpotifyURI, PagingOptions, Paging, ExternalIDs } from '../Types';
-import Artist from './Artist';
+import type { Client } from "../Client";
+import type { Artist } from "./Artist";
+import type { Track } from "./Track";
+import { createCacheStructArray } from "../Cache";
+import { hexToRgb } from "../Util";
+import type { 
+    SimplifiedAlbum, 
+    Album as RawAlbum, 
+    SpotifyType, 
+    Restriction, 
+    Image, 
+    AlbumType, 
+    ExternalUrl, 
+    Copyright, 
+    ExternalID 
+} from "api-types";
 
 /**
- * Spotify api's album object!
+ * Spotify api's album object.
  */
-class Album {
+export class Album {
 
-    readonly data: any;
-    readonly client!: Client;
+    /** 
+     * The field is present when getting an artist’s albums. 
+     */
+    public albumGroup?: 'album' | 'single' | 'compilation' | 'appears_on';
 
-    albumType: 'album' | 'single' | 'compilation';
-    availableMarkets: string[];
-    externalUrls: RawObject;
-    href: string;
-    id: string;
-    images: Image[];
-    name: string;
-    releaseDate: string;
-    releaseDatePrecision: string;
-    type: SpotifyTypes;
-    uri: SpotifyURI;
-    label: string | null;
-    restrictions: Restriction<'market' | 'product' | 'explicit'> | null;
+    /** 
+     * The type of album. 
+     */
+    public albumType: AlbumType;
 
-    albumGroup?: 'album' | 'single' | 'compilation' | 'appears_on';
-    totalTracks?: number;
-    copyrights?: Copyright[];
-    externalIds?: ExternalIDs;
-    popularity?: number;
-    genres?: string[];
+    /** 
+     * The artists of the album. 
+     */
+    public artists: Artist[];
+
+    /** 
+     * The markets in which the album is available. 
+     */
+    public availableMarkets: string[];
+
+    /** 
+     * Known external URLs for this album. 
+     */
+    public externalURL: ExternalUrl;
+
+    /** 
+     * The Spotify ID of the album. 
+     */
+    public id: string;
+
+    /** 
+     * The cover art for the album in various sizes, widest first. 
+     */
+    public images: Image[];
+
+    /** 
+     * The name of the album. 
+     */
+    public name: string;
+
+    /** 
+     * The date the album was first released, for example “1981-12-15”. 
+     */
+    public releaseDate: string;
+
+    /** 
+     * The precision with which release_date value is known: “year” , “month” , or “day”. 
+     */
+    public releaseDatePrecision: string;
+
+    /** 
+     * Included in the response when a content restriction is applied. 
+     */
+    public restrictions: Restriction[];
+
+    /** 
+     * The total number of tracks in the album. 
+     */
+    public totalTracks: number;
+
+    /** 
+     * The object type which will be 'album'. 
+     */
+    public type: SpotifyType;
+    
+    /** 
+     * The Spotify URI for the album. 
+     */
+    public uri: string;
+
+    /** 
+     * The copyright statements of the album. 
+     */
+    public copyrights?: Copyright[];
+
+    /** 
+     * Known external IDs for the album. 
+     */
+    public externalID?: ExternalID;
+
+    /** 
+     * A list of the genres used to classify the album. For example: “Prog Rock” , “Post-Grunge”. (If not yet classified, the array is empty.) 
+     */
+    public genres?: string[];
+
+    /** 
+     * The label for the album. 
+     */
+    public label?: string;
+
+    /** 
+     * The popularity of the album. The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated from the popularity of the album’s individual tracks. 
+     */
+    public popularity?: number;
+
+    /** 
+     * The tracks of the album. 
+     */
+    public tracks?: Track[];
 
     /**
-     * **Example:**
+     * To create a js object conataing camel case keys of the SimplifiedAlbum and Album data with additional functions.
      * 
-     * ```js
-     * const album = new Album(data);
-     * ```
-     * 
-     * @param data Received raw data from the spotify api
-     * @param client Spotify Client
+     * @param data The raw data received from the api.
+     * @param client The spotify client.
+     * @example const album = new Album(fetchedData, client);
      */
-    constructor(data: any, client: Client){
-
-        Object.defineProperty(this, 'data', { value: data, writable: false });
-        Object.defineProperty(this, 'client', { value: client, writable: false });
-
+    public constructor(data: SimplifiedAlbum | RawAlbum, client: Client) {
+        this.artists = createCacheStructArray('artists', client, data.artists);
         this.albumType = data.album_type;
-        this.albumGroup = data.album_group;
-        this.availableMarkets = data.available_markets;
-        this.externalUrls = data.external_urls;
-        this.href = data.href;
+        this.availableMarkets = data.available_markets || [];
+        this.externalURL = data.external_urls;
         this.id = data.id;
         this.images = data.images;
         this.name = data.name;
         this.releaseDate = data.release_date;
         this.releaseDatePrecision = data.release_date_precision;
+        this.restrictions = data.restrictions || [];
+        this.totalTracks = data.total_tracks;
         this.type = data.type;
         this.uri = data.uri;
-        this.totalTracks = data.total_tracks;
-        this.label = data.label || null;
-        this.restrictions = data.restrictions || null;
 
-        if('popularity' in data){
-            this.popularity = data.popularity;
-            this.genres = data.genres;
+        if ('tracks' in data) {
+            this.tracks = createCacheStructArray('tracks', client, Array.isArray(data.tracks) ? data.tracks : data.tracks.items);
+            this.externalID = data.external_ids;
             this.copyrights = data.copyrights;
-            this.externalIds = data.external_ids;
-        }
-
-    };
-
-    /**
-     * Returns a code image of the Album!
-     * @param color Hex color code
-     */
-    makeCodeImage(color: string = '1DB954'): string {
-        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(this.client.util.hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
+            this.genres = data.genres;
+            this.label = data.label;
+            this.popularity;
+        } else this.albumGroup = data.album_group;
     }
 
     /**
-     * Returns the array of tracks in the album!
-     * Will send empty array if the album object supplied was simplified!
-     * @readonly
+     * Returns a code image url from the spotify uri.
+     * @param color The color code in hex.
      */
-    get tracks(): Paging<Track> {
-        return this.data.tracks ? {
-            limit: this.data.tracks.limit,
-            total: this.data.tracks.total,
-            offset: this.data.tracks.offset,
-            items: this.data.tracks.items.map(x => new Track(x, this.client))
-        } : {
-            limit: 0,
-            total: 0,
-            offset: 0,
-            items: []
-        };
+    public makeCodeImage(color = '1DB954') {
+        return `https://scannables.scdn.co/uri/plain/jpeg/#${color}/${(hexToRgb(color)[0] > 150) ? "black" : "white"}/1080/${this.uri}`;
     }
 
-    /**
-     * Returns the array of artists of the album!
-     * @readonly
-     */
-    get artists(): Artist[] {
-        return this.data.artists.map(x => new Artist(x, this.client));
-    }; 
-
-    /**
-     * Returns the Date object when the album was released!
-     * @readonly
-     */
-    get releasedAt(): Date {
-        return new Date(this.releaseDate);
-    };
-
-    /**
-     * Refetches the album and refreshes the cache!
-     */
-    async fetch(): Promise<Album> {
-        return await this.client.albums.get(this.id, true) as Album;
-    }; 
-
-    /**
-     * Refetches the tracks of the album!
-     * 
-     * @param options Basic PagingOptions
-     * @example await album.getTracks();
-     */
-    async getTracks(options?: PagingOptions): Promise<Paging<Track>> {
-        return await this.client.albums.getTracks(this.id, options);
-    } 
-
-    /**
-     * Add this album to your save list!
-     * @example await album.add();
-     */
-    async add(): Promise<boolean> {
-        return await this.client.user.addAlbums(this.id);
-    }
-
-    /**
-     * Remove this album from your save list!
-     * @example await album.delete();
-     */
-    async delete(): Promise<boolean> {
-        return await this.client.user.deleteAlbums(this.id);
-    }
-
-    /**
-     * Returns a boolean stating is this albums saved on the user's savelist (library)
-     * @example const isSaved = await album.saved();
-     */
-    async saved(): Promise<boolean> {
-        return (await this.client.user.hasAlbums(this.id))[0] || false;
-    }
-
-};
-
-export default Album;
+}
