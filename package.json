@@ -35,7 +35,7 @@
     },
     "scripts": {
         "docs": "npx typedoc --entryPoints src/index.ts --json docs/docs.json",
-        "docs:types": "npx typedoc --entryPoints apiTypes/typings/index.ts --json docs/typings.json",
+        "docs:types": "npx typedoc --entryPoints apiTypes/typings/index.d.ts --json docs/typings.json",
         "build": "npx tsc --project tsconfig.json",
         "build:types": "cd apiTypes && npx tsc --project tsconfig.json",
         "test": "node test"
