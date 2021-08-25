@@ -129,7 +129,7 @@ export class Client {
         this.tracks = new TrackManager(this);
 
         if (typeof options.token == "string") {
-            if (options.refreshToken) console.trace("[SpotifyWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
+            if (options.refreshToken) console.trace("[SpotifyClientWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
 
             if (options.userAuthorizedToken) {
