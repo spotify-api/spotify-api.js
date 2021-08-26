@@ -1,5 +1,3 @@
-> This code is of v9. And v9 is not published yet.
-
 <div align="center">
   <img src="https://media.discordapp.net/attachments/736466510888960020/760853915876327464/Sa.png?width=718&height=275"><br>
   <div>
@@ -19,7 +17,7 @@ Spotify-api.js is an alternative to work with spotify api with a typesafe enviro
 # Features 
 
 - Typesafe environment.
-- Has typings for api types too [here](https://github.com/spotify-api/spotify-types).
+- Has typings for api types [here](https://github.com/spotify-api/spotify-types).
 - Object oriented with camel case object keys.
 - Works with caching too.
 - Easy to learn.

@@ -12,6 +12,7 @@
         "url": "https://github.com/spotify-api/spotify-api.js"
     },
     "homepage": "https://github.com/spotify-api/spotify-api.js#readme",
+    "readme": "https://github.com/spotify-api/spotify-api.js#readme",
     "keywords": [
         "spotify",
         "spotify.js",
