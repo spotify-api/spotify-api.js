@@ -24,8 +24,8 @@
     "author": "Abh80",
     "license": "MIT",
     "dependencies": {
-        "api-types": "file:apiTypes",
-        "axios": "^0.21.1"
+        "axios": "^0.21.1",
+        "spotify-types": "^1.0.0"
     },
     "devDependencies": {
         "@types/node": "16.7.1",

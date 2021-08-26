@@ -1,4 +1,4 @@
-import type { Device, Cursor } from "api-types";
+import type { Device, Cursor } from "spotify-types";
 import type { Client } from "../Client";
 import type { CamelCaseObjectKeys, CurrentPlayback, RecentlyPlayed } from "../Interface";
 import { 

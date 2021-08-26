@@ -14,7 +14,7 @@ import type {
     SpotifyType,
     Image,
     ExternalUrl
-} from "api-types";
+} from "spotify-types";
 
 
 /**

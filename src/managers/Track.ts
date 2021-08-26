@@ -1,7 +1,7 @@
 import type { Client } from "../Client";
 import type { SearchOptions } from "../Interface";
 import type { Track } from "../structures/Track";
-import type { AudioAnalysis, AudioFeatures } from "api-types";
+import type { AudioAnalysis, AudioFeatures } from "spotify-types";
 import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
 
 /**

@@ -13,7 +13,7 @@ import type {
     ExternalUrl, 
     Copyright, 
     ExternalID 
-} from "api-types";
+} from "spotify-types";
 
 /**
  * Spotify api's album object.

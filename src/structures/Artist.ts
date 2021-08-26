@@ -5,7 +5,7 @@ import type {
     SpotifyType, 
     ExternalUrl, 
     Image 
-} from "api-types";
+} from "spotify-types";
 
 /**
  * Spotify api's user object.

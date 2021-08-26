@@ -2,7 +2,7 @@ import type { Client } from "../Client";
 import type { Album } from "../structures/Album";
 import type { Playlist } from "../structures/Playlist";
 import type { FeaturedPlaylistContent, Recommendations } from "../Interface";
-import type { Category, RecommendationQuery } from "api-types";
+import type { Category, RecommendationQuery } from "spotify-types";
 import { createCacheStructArray } from "../Cache";
 
 /**

@@ -11,7 +11,7 @@ import type {
     Restriction, 
     ResumePoint, 
     SpotifyType 
-} from "api-types";
+} from "spotify-types";
 
 /**
  * Spotify api's episode object.

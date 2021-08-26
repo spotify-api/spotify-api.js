@@ -9,7 +9,7 @@ import type {
     ExternalUrl,
     Image,
     SpotifyType
-} from "api-types";
+} from "spotify-types";
 
 /**
  * Spotify api's show object.

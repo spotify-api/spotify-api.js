@@ -1,4 +1,4 @@
-import type { PublicUser, SpotifyType, ExternalUrl, Image } from "api-types";
+import type { PublicUser, SpotifyType, ExternalUrl, Image } from "spotify-types";
 import { hexToRgb } from "../Util";
 
 /**

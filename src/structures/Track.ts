@@ -1,4 +1,4 @@
-import type { ExternalID, ExternalUrl, Restriction, SimplifiedTrack, SpotifyType, Track as RawTrack } from "api-types";
+import type { ExternalID, ExternalUrl, Restriction, SimplifiedTrack, SpotifyType, Track as RawTrack } from "spotify-types";
 import type { LinkedTrack } from "../Interface";
 import type { Client } from "../Client";
 import type { Artist } from "./Artist";

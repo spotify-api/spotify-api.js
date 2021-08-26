@@ -27,3 +27,13 @@ export * from './structures/Playlist';
 export * from './structures/Episode';
 export * from './structures/Show';
 export * from './structures/Player';
+
+// Reexporting Types from the raw typings modules
+export type { 
+    Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType, Device, Cursor,
+    AlbumGroup, Category, RecommendationQuery, CreatePlaylistQuery, Image, AudioAnalysis, 
+    AudioFeatures, UserProductType, ExplicitContentSettings, PrivateUser, SimplifiedAlbum, 
+    Album, Restriction, AlbumType, Copyright, ExternalID, SimplifiedArtist, Artist,
+    CursorPaging, PlayHistory, SimplifiedEpisode, ResumePoint, Playlist, PlaylistTrack, 
+    Track, SimplifiedPlaylist, SimplifiedShow, Show, PublicUser, SimplifiedTrack
+} from "spotify-types"

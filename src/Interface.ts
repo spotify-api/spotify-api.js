@@ -1,4 +1,4 @@
-import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType, Device, Cursor } from "api-types";
+import type { Episode, ExternalUrl, RecommendationSeed, SpotifyType, SearchType, Device, Cursor } from "spotify-types";
 import type { Track } from "./structures/Track";
 import type { User } from "./structures/User";
 import type { Playlist } from "./structures/Playlist";

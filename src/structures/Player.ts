@@ -1,5 +1,5 @@
 import type { Client } from "../Client";
-import type { CursorPaging, Device, PlayHistory } from "api-types";
+import type { CursorPaging, Device, PlayHistory } from "spotify-types";
 import type { CamelCaseObjectKeys, CurrentPlayback, CurrentlyPlaying, RecentlyPlayed } from "../Interface";
 import { createCacheStruct } from "../Cache";
 

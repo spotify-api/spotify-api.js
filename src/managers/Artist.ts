@@ -3,7 +3,7 @@ import type { Artist } from "../structures/Artist";
 import type { Track } from "../structures/Track";
 import type { Album } from "../structures/Album";
 import type { SearchOptions } from "../Interface";
-import type { AlbumGroup } from "api-types";
+import type { AlbumGroup } from "spotify-types";
 import { Cache, createCacheStruct, createCacheStructArray } from "../Cache";
 
 /**

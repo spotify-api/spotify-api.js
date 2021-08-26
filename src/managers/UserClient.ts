@@ -17,7 +17,7 @@ import type {
     ExplicitContentSettings, 
     PrivateUser, 
     CreatePlaylistQuery
-} from "api-types";
+} from "spotify-types";
 
 /**
  * The client which handles all the current user api endpoints and with the details of the current user.
