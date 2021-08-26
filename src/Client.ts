@@ -164,8 +164,7 @@ export class Client {
             episodes: true,
             shows: true,
             albums: true,
-            playlists: true,
-            playlistTracks: true
+            playlists: true
         };
     }
 
