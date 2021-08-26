@@ -16,7 +16,7 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 - refactor(structures): made structures lightweight and removed client functions from it.
 - docs(*): rewrote all the docs and used typedoc with custom theme.
 
-**Released:** Yet to be released<br/>
+**Released:** 26th August 2021<br/>
 **Status:** Recommended to use.<br/>
 **Root PR:** [#56](https://github.com/spotify-api/spotify-api.js/pull/56)
 
