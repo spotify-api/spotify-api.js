@@ -125,8 +125,6 @@ export interface CacheSettings {
     episodes?: boolean;
     /** Cache setting for spotify shows. */
     shows?: boolean;
-    /** Cache setting for spotify playlist tracks. */
-    playlistTracks?: boolean;
 }
 
 /** The options structure for search functions in the various managers. */

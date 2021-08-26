@@ -137,7 +137,7 @@ export class Playlist {
  * @example const playlistTracks = createPlaylistTracks(client, data);
  */
 export function createPlaylistTracks(client: Client, rawPlaylistTracks: RawPlaylistTrack[]): PlaylistTrack[] {
-    const createTrack = client.cacheSettings.playlistTracks 
+    const createTrack = client.cacheSettings.tracks && client.cacheSettings.episodes
                         ? (track) => createForcedCacheStruct(`${track.type}s` as any, client, track)
                         : (track) =>  track.type == "track" 
                                         ? new Track(track as RawTrack, client)
