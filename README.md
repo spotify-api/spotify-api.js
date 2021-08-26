@@ -85,6 +85,58 @@ console.log(client.token); // The current user token.
 await client.artists.follow("SOME ARTIST ID"); // And can use the api methods which are for current user if you have the paticular scopes...
 ```
 
+## Surpassing ratelimits
+
+Ratelimits are common with any api services to prevent spam but sometimes it might be annoying. The client has an options `retryOnRateLimit`. If it is set to true, it would refetch the same request after a paticular time interval sent by the spotify api in the headers `Retry-After` so you cannot face any obstacles. This is disabled by default...
+
+```js
+const Spotify = require("spotify-api.js");
+const client = new Spotify.Client({ 
+    token: 'token',
+    retryOnCacheLimit: true
+});
+
+console.log(await client.tracks.get('id'));
+```
+
+## Auto refreshing token.
+
+The tokens of spotify are temporary so it is a trouble to refresh the token each and every interval of time. As an alternative you can use the `refreshToken` option.
+
+- Using clientID and clientSecret for api only token.
+```js
+const client = await Client.create({
+    refreshToken: true, // Set this to true.
+    token: {
+        clientID: 'id', // Your spotify application client id.
+        clientSecret: 'secret', // Your spotify application client secret.
+    },
+    // This event is emitted whenever the token is refreshed by either 429 requests or [Client.refresh] method.
+    onRefresh() {
+        console.log(`Token has been refreshed. New token: ${client.token}!`);
+    }
+});
+```
+
+- Using [GetUserTokenOptions](https://spotify-api.js.org/main/interface/GetUserTokenOptions) for user authorization token.
+```js
+const client = await Client.create({
+    refreshToken: true, // Set this to true.
+    token: {
+        clientID: 'id', // Your spotify application client id.
+        clientSecret: 'secret', // Your spotify application client secret.
+        code: 'code', // The code search query from the web redirect.
+        redirectURL: 'url' // The redirect url which you have used when redirected to the login page.
+    },
+    // This event is emitted whenever the token is refreshed by either 429 requests or [Client.refresh] method.
+    onRefresh() {
+        console.log(`Token has been refreshed. New token: ${client.token}!`);
+    }
+});
+```
+
+> **NOTE:** This option is useless if you just provided the token string and not the clientID and the clientSecret or the current user authorization options.
+
 ## Caching
 
 There is an inbuilt cache system for the module. By default the caching is disabled to prevent memory leaking and unwanted processing.
