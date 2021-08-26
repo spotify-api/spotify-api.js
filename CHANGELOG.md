@@ -4,6 +4,43 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 
 ---
 
+## v9.0.0
+
+- feat(compaitability): added compaitability for web and deno.
+- feat(recommendations): added `Get Recommendations` api [#58](https://github.com/spotify-api/spotify-api.js/issues/58).
+- fix(errors): made a better error handler to manage 429 requests and retry on rate limit.
+- perf(refreshToken): auto updaing refresh token feature by handelling 401 requests.
+- perf(cache): made cache global for all clients and used `Map` instead of custom instances.
+- refactor(getters): used readonly properties instead of using getters.
+- refactor(options): changed client options structure so that they can even enter clientID and clientSecret.
+- refactor(structures): made structures lightweight and removed client functions from it.
+- docs(*): rewrote all the docs and used typedoc with custom theme.
+
+**Released:** Yet to be released<br/>
+**Status:** Recommended to use.<br/>
+**Root PR:** [#56](https://github.com/spotify-api/spotify-api.js/pull/56)
+
+---
+
+## v8.1.1
+
+- fix(body): fixed json body for `PlaylistManager.removeItems` method. [#38](https://github.com/spotify-api/spotify-api.js/issues/38).
+
+**Released:** 22nd July 2021<br/>
+**Status:** Good for use.
+
+---
+
+## v8.1.0
+
+- fix(refreshToken): fixed `refreshToken` field in `AuthManager` methods. [#32](https://github.com/spotify-api/spotify-api.js/issues/32).
+- fix(playlist): fixed `PlaylistManager.create` from creating the playlist public always [#35](https://github.com/spotify-api/spotify-api.js/pull/35).
+
+**Released:** 23rd June 2021<br/>
+**Status:** Good for use.
+
+---
+
 ## v8.0.0
 
 - refactor(*): rewrote the whole package code. ([reference](https://github.com/spotify-api/spotify-api.js/wiki/Migration-guide-for-v8)).
