@@ -6,7 +6,7 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 
 ## v9.0.1
 
-- fix(refreshToken): fixed a security vulnerability on exposing the credentials in `Client.refreshMeta`. [#68](https://github.com/spotify-api/spotify-api.js/issues/68#issuecomment-911526688).
+- fix(refreshToken): fixed a security vulnerability on exposing the credentials in `Client.refreshMeta` (Especially for browser clients). [#68](https://github.com/spotify-api/spotify-api.js/issues/68#issuecomment-911526688).
 
 **Released:** 2nd September 2021<br/>
 **Status:** Recommended to use.<br/>
@@ -26,7 +26,7 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 - docs(*): rewrote all the docs and used typedoc with custom theme.
 
 **Released:** 26th August 2021<br/>
-**Status:** Recommended to use. (Has a security vulnerablity)<br/>
+**Status:** Recommended to use. (Has a security vulnerablity for browser client)<br/>
 **Root PR:** [#56](https://github.com/spotify-api/spotify-api.js/pull/56)
 
 ---
