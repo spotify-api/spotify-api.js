@@ -139,16 +139,16 @@ export class Client {
                 });
             } else options.onReady?.(this);
         } else if ('redirectURL' in options.token) {
-            this.refreshMeta = options.token;
-            this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
+            if (options.refreshToken) this.refreshMeta = options.token;
+            this.auth.getUserToken(options.token as GetUserTokenOptions)
                 .then(async context => {
+                    if (options.refreshToken) this.refreshMeta!.refreshToken = context.refreshToken;
                     this.token = context.accessToken;
-                    this.refreshMeta!.refreshToken = context.refreshToken;
                     this.user = await new UserClient(this).patchInfo();
                     options.onReady?.(this);
                 });
         } else if ('clientID' in options.token) {
-            this.refreshMeta = options.token;
+            if (options.refreshToken) this.refreshMeta = options.token;
             this.auth.getApiToken(options.token.clientID, options.token.clientSecret)
                 .then(token => {
                     this.token = token;
@@ -242,6 +242,7 @@ export class Client {
      * Refreshes the token from meta.
      */
     private async refreshFromMeta() {
+        if (!this.refreshMeta) return;
         if ('refreshToken' in this.refreshMeta!) {
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
                 .then(context => {
