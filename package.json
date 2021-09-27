@@ -29,7 +29,7 @@
         "spotify-types": "^1.0.0"
     },
     "devDependencies": {
-        "@types/node": "16.9.0",
+        "@types/node": "16.10.1",
         "express": "^4.17.1",
         "typedoc": "^0.21.6",
         "typescript": "^4.3.5"
