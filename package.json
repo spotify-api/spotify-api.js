@@ -25,7 +25,7 @@
     "author": "Abh80",
     "license": "MIT",
     "dependencies": {
-        "axios": "^0.23.0",
+        "axios": "^0.24.0",
         "spotify-types": "^1.0.0"
     },
     "devDependencies": {
