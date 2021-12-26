@@ -4,6 +4,15 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 
 ---
 
+## v9.0.2
+
+- fix(clientCreate): made [Client.create] function a public static function [#102](https://github.com/spotify-api/spotify-api.js/issues/102)
+
+**Released:** 26th December 2021<br/>
+**Status:** Recommended to use.<br/>
+
+---
+
 ## v9.0.1
 
 - fix(refreshToken): fixed a security vulnerability on exposing the credentials in `Client.refreshMeta` (Especially for browser clients). [#68](https://github.com/spotify-api/spotify-api.js/issues/68#issuecomment-911526688).
