@@ -1,6 +1,16 @@
 # Spotify-api.js Changelog
 
-Version history of spotify-api.js since v4.0.5. Only major releases are presented here.
+Version history of spotify-api.js since v4.0.5.
+
+---
+
+## v9.0.3
+
+- fix(struct): fix undefined error while creating [CurrentlyPlaying] struct. [#107](https://github.com/spotify-api/spotify-api.js/pull/107).
+- feat(struct): [CurrentlyPlaying.context] may be null.
+
+**Released:** 31st December 2021<br/>
+**Status:** Recommended to use<br/>
 
 ---
 
@@ -9,7 +19,7 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 - fix(clientCreate): made [Client.create] function a public static function [#102](https://github.com/spotify-api/spotify-api.js/issues/102)
 
 **Released:** 26th December 2021<br/>
-**Status:** Recommended to use.<br/>
+**Status:** Good for use.<br/>
 
 ---
 
@@ -18,7 +28,7 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 - fix(refreshToken): fixed a security vulnerability on exposing the credentials in `Client.refreshMeta` (Especially for browser clients). [#68](https://github.com/spotify-api/spotify-api.js/issues/68#issuecomment-911526688).
 
 **Released:** 2nd September 2021<br/>
-**Status:** Recommended to use.<br/>
+**Status:** Good for use.<br/>
 
 ---
 
@@ -35,7 +45,7 @@ Version history of spotify-api.js since v4.0.5. Only major releases are presente
 - docs(*): rewrote all the docs and used typedoc with custom theme.
 
 **Released:** 26th August 2021<br/>
-**Status:** Recommended to use. (Has a security vulnerablity for browser client)<br/>
+**Status:** Good for use. (Has a security vulnerablity for browser client)<br/>
 **Root PR:** [#56](https://github.com/spotify-api/spotify-api.js/pull/56)
 
 ---
