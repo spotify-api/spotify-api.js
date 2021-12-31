@@ -50,12 +50,12 @@ export function createCurrentlyPlaying(client: Client, data: any): CurrentlyPlay
         isPlaying: data.is_playing,
         currentPlayingType: data.currently_playing_type,
         item: data.item ? createCacheStruct(`${data.item.type}s` as any, client, data.item) : null,
-        context: {
-            externalURL: data?.context?.external_urls,
-            href: data?.context?.href,
-            type: data?.context?.type,
-            uri: data?.context?.uri
-        }
+        context: data?.context ? {
+            externalURL: data.context.external_urls,
+            href: data.context.href,
+            type: data.context.type,
+            uri: data.context.uri
+        } : null
     }
 }
 

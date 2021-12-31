@@ -262,7 +262,7 @@ export interface CurrentlyPlaying {
     isPlaying: boolean;
     currentPlayingType: string;
     item: Track | Episode | null;
-    context: PlayerContext;
+    context: PlayerContext | null;
 }
 
 /**
