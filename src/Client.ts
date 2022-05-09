@@ -246,8 +246,8 @@ export class Client {
             if (options.refreshToken) console.trace("[SpotifyClientWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
             if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
-        } else if ('token' in options.token) {
-            this.token = options.token.token;
+        } else if ('accessToken' in options.token) {
+            this.token = options.token.accessToken;
             this.refreshMeta = options.token;
             if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
         } else if ('redirectURL' in options.token) {

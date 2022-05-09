@@ -95,11 +95,11 @@ export interface GetUserTokenOptions {
 }
 
 /**
- * Option structure to supply the token with the refresh options.
+ * Option structure to supply the access token with the refresh options.
  */
 export interface TokenWithRefreshOptions extends ClientRefreshMeta {
-    /** The token which has already been obtained from the api. */
-    token: string;
+    /** The access token which has already been obtained from the api. */
+    accessToken: string;
 }
 
 /**
