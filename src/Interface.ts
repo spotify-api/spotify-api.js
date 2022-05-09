@@ -15,7 +15,10 @@ export type Methods = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
 /**
  * The auth identity to generate a token or the token itself.
  */
-export type AuthIdentity = string | { clientID: string, clientSecret: string } | GetUserTokenOptions;
+export type AuthIdentity = string 
+    | { clientID: string, clientSecret: string } 
+    | GetUserTokenOptions 
+    | TokenWithRefreshOptions;
 
 /**
  * Converts a string type into camelcase.
@@ -89,6 +92,14 @@ export interface GetUserTokenOptions {
     redirectURL: string;
     /** The code query acquired from the authorization if available. */
     code?: string;
+}
+
+/**
+ * Option structure to supply the token with the refresh options.
+ */
+export interface TokenWithRefreshOptions extends ClientRefreshMeta {
+    /** The token which has already been obtained from the api. */
+    token: string;
 }
 
 /**

@@ -127,34 +127,7 @@ export class Client {
         this.playlists = new PlaylistManager(this);
         this.shows = new ShowManager(this);
         this.tracks = new TrackManager(this);
-
-        if (typeof options.token == "string") {
-            if (options.refreshToken) console.trace("[SpotifyClientWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
-            this.token = options.token;
-
-            if (options.userAuthorizedToken) {
-                new UserClient(this).patchInfo().then(x => {
-                    this.user = x;
-                    options.onReady?.(this);
-                });
-            } else options.onReady?.(this);
-        } else if ('redirectURL' in options.token) {
-            if (options.refreshToken) this.refreshMeta = options.token;
-            this.auth.getUserToken(options.token as GetUserTokenOptions)
-                .then(async context => {
-                    if (options.refreshToken) this.refreshMeta!.refreshToken = context.refreshToken;
-                    this.token = context.accessToken;
-                    this.user = await new UserClient(this).patchInfo();
-                    options.onReady?.(this);
-                });
-        } else if ('clientID' in options.token) {
-            if (options.refreshToken) this.refreshMeta = options.token;
-            this.auth.getApiToken(options.token.clientID, options.token.clientSecret)
-                .then(token => {
-                    this.token = token;
-                    options.onReady?.(this);
-                });
-        } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
+        this._init(options);
 
         if (typeof options.cacheSettings == "object") this.cacheSettings = options.cacheSettings;
         else if (options.cacheSettings == true) this.cacheSettings = {
@@ -241,7 +214,7 @@ export class Client {
     /**
      * Refreshes the token from meta.
      */
-    private async refreshFromMeta() {
+    public async refreshFromMeta() {
         if (!this.refreshMeta) return;
         if ('refreshToken' in this.refreshMeta!) {
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
@@ -262,6 +235,35 @@ export class Client {
         }
 
         this.auth = new AuthManager(this.token);
+    }
+
+    /**
+     * A function to initate the client through options and client options.
+     */
+    private async _init(options: ClientOptions) {
+        if (!options.token) throw new SpotifyAPIError('No token was provided in [ClientOptions]');
+        if (typeof options.token == "string") {
+            if (options.refreshToken) console.trace("[SpotifyClientWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
+            this.token = options.token;
+            if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
+        } else if ('token' in options.token) {
+            this.token = options.token.token;
+            this.refreshMeta = options.token;
+            if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
+        } else if ('redirectURL' in options.token) {
+            if (options.refreshToken) this.refreshMeta = options.token;
+            
+            const context = await this.auth.getUserToken(options.token as GetUserTokenOptions);
+            if (options.refreshToken) this.refreshMeta!.refreshToken = context.refreshToken;
+            
+            this.token = context.accessToken;
+            this.user = await new UserClient(this).patchInfo();
+        } else if ('clientID' in options.token) {
+            if (options.refreshToken) this.refreshMeta = options.token;
+            this.token = await this.auth.getApiToken(options.token.clientID, options.token.clientSecret);
+        } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
+
+        options.onReady?.(this);
     }
 
 }
