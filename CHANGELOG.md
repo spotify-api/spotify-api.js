@@ -4,6 +4,15 @@ Version history of spotify-api.js since v4.0.5.
 
 ---
 
+## v9.1.0
+
+- feat(options): allow to use `accessToken` field with refresh options in `token` field of `ClientOptions`.
+
+**Released:** 9th May 2022<br/>
+**Status:** Recommended to use<br/>
+
+---
+
 ## v9.0.3
 
 - fix(struct): fix undefined error while creating [CurrentlyPlaying] struct. [#107](https://github.com/spotify-api/spotify-api.js/pull/107).
