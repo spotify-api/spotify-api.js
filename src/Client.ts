@@ -242,6 +242,7 @@ export class Client {
      */
     private async _init(options: ClientOptions) {
         if (!options.token) throw new SpotifyAPIError('No token was provided in [ClientOptions]');
+        
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyClientWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
