@@ -99,7 +99,7 @@ export interface GetUserTokenOptions {
  */
 export interface TokenWithRefreshOptions extends ClientRefreshMeta {
     /** The access token which has already been obtained from the api. */
-    accessToken: string;
+    token: string;
 }
 
 /**

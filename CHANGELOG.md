@@ -6,7 +6,23 @@ Version history of spotify-api.js since v4.0.5.
 
 ## v9.1.0
 
-- feat(options): allow to use `accessToken` field with refresh options in `token` field of `ClientOptions`.
+- feat(options): allow to input access token with refresh options in `token` field of `ClientOptions`.
+
+**Example:**
+
+```js
+const client = await Client.create({
+     userAuthorizedToken: true,
+     refreshToken: true,
+     token: {
+          token: "access token here",
+          // other details required to refresh the token...
+          clientID: "client id",
+          clientSecret: "client secret",
+          redirectURL: "redirect url here"
+    }
+});
+```
 
 **Released:** 9th May 2022<br/>
 **Status:** Recommended to use<br/>
