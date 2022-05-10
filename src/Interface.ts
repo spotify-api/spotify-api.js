@@ -113,7 +113,7 @@ export interface UserTokenContext {
     /** The duration in seconds in which the token will expire. */
     expiresIn: number;
     /** The refresh token to get a new one after the actual one expired. */
-    refreshToken: string;
+    refreshToken?: string;
     /** The scopes to get the token. */
     scope: string;
 }

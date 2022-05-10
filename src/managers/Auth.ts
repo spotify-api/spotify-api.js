@@ -60,6 +60,8 @@ export class AuthManager {
      * })
      */
     public async getUserToken(options: GetUserTokenOptions): Promise<UserTokenContext> {
+        if (!options.refreshToken && !options.code) throw new TypeError("The 'refresh token' and the 'authorization code' supplied to generate a user token is invalid.");
+
         let grant_type = (options.refreshToken && !options.code) 
             ? "refresh_token"
             : "authorization_code";

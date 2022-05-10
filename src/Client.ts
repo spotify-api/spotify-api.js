@@ -204,6 +204,7 @@ export class Client {
             else if (error.response.status == 429 && this.retryOnRateLimit) {
                 const retryAfter = error.response.headers['Retry-After'];
                 if (typeof retryAfter == "number") await new Promise(r => setTimeout(r, retryAfter * 1000));
+            // @ts-ignore
             } else if (error.response.data.error.message == "Invalid access token" && this.refreshMeta) await this.refreshFromMeta();
             else throw new SpotifyAPIError(error);
 
@@ -220,7 +221,8 @@ export class Client {
             this.auth.getUserToken(this.refreshMeta as GetUserTokenOptions)
                 .then(context => {
                     this.token = context.accessToken;
-                    this.refreshMeta!.refreshToken = context.refreshToken;
+                    if (context.refreshToken) this.refreshMeta!.refreshToken = context.refreshToken;
+
                     new UserClient(this).patchInfo().then(x => {
                         this.user = x;
                         this.onRefresh();
@@ -246,21 +248,23 @@ export class Client {
         if (typeof options.token == "string") {
             if (options.refreshToken) console.trace("[SpotifyClientWarn]: You have provided a token and used `refreshToken` option. Try to provide clientID, clientSecret or user authenication details.");
             this.token = options.token;
+
             if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
         } else if ('token' in options.token) {
             this.token = options.token.token;
             this.refreshMeta = options.token;
+
             if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
         } else if ('redirectURL' in options.token) {
-            if (options.refreshToken) this.refreshMeta = options.token;
-            
             const context = await this.auth.getUserToken(options.token as GetUserTokenOptions);
-            if (options.refreshToken) this.refreshMeta!.refreshToken = context.refreshToken;
+
+            this.refreshMeta = options.token;
+            if (context.refreshToken) this.refreshMeta.refreshToken = context.refreshToken;
             
             this.token = context.accessToken;
             this.user = await new UserClient(this).patchInfo();
         } else if ('clientID' in options.token) {
-            if (options.refreshToken) this.refreshMeta = options.token;
+            this.refreshMeta = options.token;
             this.token = await this.auth.getApiToken(options.token.clientID, options.token.clientSecret);
         } else throw new SpotifyAPIError('Improper [ClientOptions] provided!.');
 
