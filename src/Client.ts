@@ -255,7 +255,7 @@ export class Client {
             this.refreshMeta = options.token;
 
             if (options.userAuthorizedToken) this.user = await new UserClient(this).patchInfo();
-        } else if ('redirectURL' in options.token) {
+        } else if (('redirectURL' in options.token) || ('refreshToken' in options.token)) {
             const context = await this.auth.getUserToken(options.token as GetUserTokenOptions);
 
             this.refreshMeta = options.token;

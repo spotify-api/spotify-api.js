@@ -1,6 +1,6 @@
 {
     "name": "spotify-api.js",
-    "version": "9.2.0",
+    "version": "9.2.1",
     "description": "A complete node js wrapper of spotify api with oauth support",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

@@ -4,6 +4,15 @@ Version history of spotify-api.js since v4.0.5.
 
 ---
 
+## v9.2.1
+
+- fix(refreshToken): fix refresh token regeneration using only `refreshToken` field. [#83](https://github.com/spotify-api/spotify-api.js/issues/83#issuecomment-1140212527)
+
+**Released:** 31st May 2022<br/>
+**Status:** Recommended to use<br/>
+
+---
+
 ## v9.2.0
 
 - fix(refreshToken): fix [Client.refreshFromMeta] error. [#83](https://github.com/spotify-api/spotify-api.js/issues/83#issuecomment-1122299829)
