@@ -71,7 +71,7 @@ export class PlaylistManager {
     public async create(userID: string, playlist: CreatePlaylistQuery): Promise<Playlist | null> {
         const fetchedData = await this.client.fetch(`/users/${userID}/playlists`, {
             method: 'POST',
-            params: playlist
+            body: playlist as any
         });
 
         return fetchedData ? createCacheStruct('playlists', this.client, fetchedData) : null;
@@ -88,7 +88,7 @@ export class PlaylistManager {
     public edit(id: string, playlist: Partial<CreatePlaylistQuery>): Promise<boolean> {
         return this.client.fetch(`/playlists/${id}`, {
             method: 'PUT',
-            params: playlist
+            body: playlist as any
         }).then(x => x != null);
     }
 
@@ -105,7 +105,10 @@ export class PlaylistManager {
     public async addItems(id: string, uris: string[], position?: number): Promise<string> {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
             method: 'POST',
-            params: { uris: uris.join(','), position }
+            body: {
+                uris,
+                ...(position !== undefined && {position})
+            }
         });
 
         return fetchedData ? fetchedData.snapshot_id : '';
@@ -126,12 +129,12 @@ export class PlaylistManager {
     public async reorderItems(id: string, options: PlaylistReorderOptions): Promise<string> {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
             method: 'PUT',
-            params: {
-                uris: options.uris?.join(','),
-                range_start: options.rangeStart,
-                range_length: options.rangeLength,
-                insert_before: options.insertBefore,
-                snapshot_id: options.snapshotID
+            body: {
+                ...(options.uris !== undefined && {uri: options.uris}),
+                ...(options.rangeStart !== undefined && {range_start: options.rangeStart}),
+                ...(options.rangeLength !== undefined && {range_length: options.rangeLength}),
+                ...(options.insertBefore !== undefined && {insert_before: options.insertBefore}),
+                ...(options.snapshotID !== undefined && {snapshot_id: options.snapshotID}),
             }
         });
 
