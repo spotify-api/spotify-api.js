@@ -4,6 +4,15 @@ Version history of spotify-api.js since v4.0.5.
 
 ---
 
+## v9.2.2
+
+- fix: fix several playlist create/edit API by using request body.
+
+**Released:** 14th July 2022<br/>
+**Status:** Recommended to use<br/>
+
+---
+
 ## v9.2.1
 
 - fix(refreshToken): fix refresh token regeneration using only `refreshToken` field. [#83](https://github.com/spotify-api/spotify-api.js/issues/83#issuecomment-1140212527)
