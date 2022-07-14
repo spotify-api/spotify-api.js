@@ -107,7 +107,7 @@ export class PlaylistManager {
             method: 'POST',
             body: {
                 uris,
-                ...(position !== undefined && {position})
+                ...(position !== undefined && { position })
             }
         });
 
@@ -130,11 +130,11 @@ export class PlaylistManager {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
             method: 'PUT',
             body: {
-                ...(options.uris !== undefined && {uri: options.uris}),
-                ...(options.rangeStart !== undefined && {range_start: options.rangeStart}),
-                ...(options.rangeLength !== undefined && {range_length: options.rangeLength}),
-                ...(options.insertBefore !== undefined && {insert_before: options.insertBefore}),
-                ...(options.snapshotID !== undefined && {snapshot_id: options.snapshotID}),
+                ...(options.uris !== undefined && { uri: options.uris }),
+                ...(options.rangeStart !== undefined && { range_start: options.rangeStart }),
+                ...(options.rangeLength !== undefined && { range_length: options.rangeLength }),
+                ...(options.insertBefore !== undefined && { insert_before: options.insertBefore }),
+                ...(options.snapshotID !== undefined && { snapshot_id: options.snapshotID }),
             }
         });
 
