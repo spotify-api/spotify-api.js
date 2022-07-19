@@ -130,7 +130,7 @@ export class PlaylistManager {
         const fetchedData = await this.client.fetch(`/playlists/${id}/tracks`, {
             method: 'PUT',
             body: {
-                ...(options.uris !== undefined && { uri: options.uris }),
+                ...(options.uris !== undefined && { uris: options.uris }),
                 ...(options.rangeStart !== undefined && { range_start: options.rangeStart }),
                 ...(options.rangeLength !== undefined && { range_length: options.rangeLength }),
                 ...(options.insertBefore !== undefined && { insert_before: options.insertBefore }),
