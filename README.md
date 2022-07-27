@@ -91,7 +91,7 @@ Ratelimits are common with any api services to prevent spam but sometimes it mig
 const Spotify = require("spotify-api.js");
 const client = new Spotify.Client({ 
     token: 'token',
-    retryOnCacheLimit: true
+    retryOnRateLimit: true
 });
 
 console.log(await client.tracks.get('id'));
