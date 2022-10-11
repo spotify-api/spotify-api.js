@@ -204,8 +204,13 @@ export class Client {
             else if (error.response.status == 429 && this.retryOnRateLimit) {
                 const retryAfter = error.response.headers['Retry-After'];
                 if (typeof retryAfter == "number") await new Promise(r => setTimeout(r, retryAfter * 1000));
-            // @ts-ignore
-            } else if (error.response.data.error.message == "Invalid access token" && this.refreshMeta) await this.refreshFromMeta();
+            } else if (
+                // @ts-ignore
+                error.response.data.error.message == "Invalid access token" ||
+                // @ts-ignore
+                error.response.data.error.message == "The access token expired" &&
+                this.refreshMeta
+            ) await this.refreshFromMeta();
             else throw new SpotifyAPIError(error);
 
             return this.fetch(url, options);
