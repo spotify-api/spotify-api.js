@@ -6,7 +6,6 @@ import type { Track } from "../structures/Track";
 import type { Episode } from "../structures/Episode";
 import type { Show } from "../structures/Show";
 import type { Album } from "../structures/Album";
-import type {PlaylistList} from "../structures/PlaylistList";
 import { Player } from "./Player";
 import { SpotifyAPIError } from "../Error";
 import { createCacheStructArray, createCacheSavedStructArray } from "../Cache";
@@ -17,7 +16,8 @@ import type {
     UserProductType, 
     ExplicitContentSettings, 
     PrivateUser, 
-    CreatePlaylistQuery
+    CreatePlaylistQuery,
+    Paging
 } from "spotify-types";
 
 /**
@@ -130,7 +130,7 @@ export class UserClient {
      * Get the list of playlists of the current user.
      *
      * @param options The limit, offset query parameter options.
-     * @param fetchAll Retrieve all playlist at once if more than 50
+     * @param fetchAll Retrieve all playlist at once if more than 50.
      * @example const playlists = await client.user.getPlaylists();
      */
     public async getPlaylists(
@@ -140,14 +140,14 @@ export class UserClient {
         } = {},
         fetchAll: boolean = false
     ): Promise<Playlist[]> {
-        const fetchedData: PlaylistList = await this.client.fetch(`/me/playlists`, { params: options });
-        let playlists: Array<Playlist> = fetchedData.items
-        const initialFetchedItemsCount = playlists.length
+        const fetchedData: Paging<Playlist> = await this.client.fetch(`/me/playlists`, { params: options });
+        let playlists: Array<Playlist> = fetchedData.items,
+            length = playlists.length;
 
-        if (fetchAll && fetchedData.total > initialFetchedItemsCount) {
-            for (let offset = initialFetchedItemsCount; offset < fetchedData.total; offset += initialFetchedItemsCount) {
-                const playListBatch: PlaylistList = await this.client.fetch(`/me/playlists`, { params: {limit: initialFetchedItemsCount, offset} });
-                playlists.push(...playListBatch.items);
+        if (fetchAll && fetchedData.total > length) {
+            for (let offset = length; offset < fetchedData.total; offset += length) {
+                let playlistBatch: Paging<Playlist> = await this.client.fetch(`/me/playlists`, { params: { limit: length , offset} });
+                playlists.push(...playlistBatch.items);
             }
         }
 
