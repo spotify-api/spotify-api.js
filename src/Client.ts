@@ -278,7 +278,7 @@ export class Client {
         } catch (error) {
             // Only possible error here that could be thrown is AxiosError from getApiToken and getUserToken.
             error = new SpotifyAPIError(error as AxiosError);
-            if (options.onFail) options.onFail(error);
+            if (options.onFail) options.onFail(error as SpotifyAPIError);
             else throw error;
         }
     }
