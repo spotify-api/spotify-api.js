@@ -6,6 +6,7 @@ import type { Artist } from './structures/Artist';
 import type { Album } from './structures/Album';
 import type { Show } from './structures/Show';
 import type { Client } from "./Client";
+import { SpotifyAPIError } from "./Error";
 
 /**
  * All the spotify web api methods.
@@ -41,7 +42,7 @@ export interface ClientOptions {
     /** The ready event which is called when the token is aquired. */
     onReady?: (client: Client) => void;
     /** The fail event which is called when something wrong happens in the client initialisation. */
-    onFail?: (error) => void;
+    onFail?: (error: SpotifyAPIError) => void;
     /** The refresh which is called when there is a token refresh. */
     onRefresh?: () => void;
     /** Set true to refresh token if the token is needed to be acquired if expired by default it is false. */

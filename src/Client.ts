@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import { SpotifyAPIError  } from "./Error";
 import { AuthManager } from "./managers/Auth";
 import { UserManager } from "./managers/User";
@@ -276,7 +276,10 @@ export class Client {
 
             options.onReady?.(this);
         } catch (error) {
-            options.onFail?.(error);
+            // Only possible error here that could be thrown is AxiosError from getApiToken and getUserToken.
+            error = new SpotifyAPIError(error as AxiosError);
+            if (options.onFail) options.onFail(error);
+            else throw error;
         }
     }
 
