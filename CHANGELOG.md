@@ -2,6 +2,17 @@
 
 Version history of spotify-api.js since v4.0.5.
 
+--
+
+## v9.2.5
+
+- fix: properly reject the promise in client initialisation. [#167](https://github.com/spotify-api/spotify-api.js/pull/167)
+- fix: handle The access token expired api error and refresh token. [#189](https://github.com/spotify-api/spotify-api.js/issues/189) [#190](https://github.com/spotify-api/spotify-api.js/pull/190)
+- feat: add a parameter to getPlaylists to fetch all playlists at once. [#168](https://github.com/spotify-api/spotify-api.js/pull/168)
+
+**Released:** 11th November 2022<br/>
+**Status:** Recommended to use<br/>
+
 ---
 
 ## v9.2.3
