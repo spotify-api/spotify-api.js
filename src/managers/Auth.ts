@@ -26,7 +26,7 @@ export class AuthManager {
      * 
      * @param clientID Your spotify app's client id.
      * @param clientSecret Your spotify app's client secret.
-     * @example await auth.getApiToken('id', 'secert');
+     * @example await auth.getApiToken('id', 'secret');
      */
     public async getApiToken(clientID: string, clientSecret: string): Promise<string> {
         const { data } = await axios({
