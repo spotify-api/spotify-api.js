@@ -9,5 +9,5 @@ about: Suggest an idea for this project.
 
 <!-- If this is a feature request for a solution for some pull request or an issue please mention it too. -->
 
-- [ ] This feature request is regarding a bug.
-- [ ] This feature request is regarding peformance.
+-   [ ] This feature request is regarding a bug.
+-   [ ] This feature request is regarding peformance.

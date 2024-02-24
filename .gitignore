@@ -15,3 +15,5 @@ dist/
 
 # Submodules
 apiTypes/
+
+.idea/

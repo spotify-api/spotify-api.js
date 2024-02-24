@@ -14,14 +14,14 @@ Spotify-api.js is an alternative to work with spotify api with a typesafe enviro
 
 > This package or the documentation might have bugs, so kindly report us about that in the issues.
 
-# Features 
+# Features
 
-- Typesafe environment.
-- Has typings for api types [here](https://github.com/spotify-api/spotify-types).
-- Object oriented with camel case object keys.
-- Works with caching too.
-- Easy to learn.
-- Works with browser and deno too.
+-   Typesafe environment.
+-   Has typings for api types [here](https://github.com/spotify-api/spotify-types).
+-   Object oriented with camel case object keys.
+-   Works with caching too.
+-   Easy to learn.
+-   Works with browser and deno too.
 
 # Examples
 
@@ -39,16 +39,16 @@ Get your client id and client secret from [here](https://developer.spotify.com/d
 
 ```js
 const Spotify = require("spotify-api.js");
-const client = new Spotify.Client({ token: 'token' });
+const client = new Spotify.Client({ token: "token" });
 
-console.log(await client.tracks.get('id'));
+console.log(await client.tracks.get("id"));
 ```
 
 Or create a token directly from clientID and clientSecret,
 
 ```js
 const { Client } = require("spotify-api.js");
-const client = new Client({ 
+const client = new Client({
     token: { clientID: 'id', clientSecret: 'secret' },
     // Ready event is required if you are providing clientID and clientSecret fields.
     // As the client has to create the token first with it and then emits the ready event.
@@ -67,19 +67,19 @@ console.log(await client.tracks.get('id'));
 Get a current user authorized token from the authenication details you got from the request or to refresh the token,
 
 ```js
-const { Client } = require('spotify-api.js');
+const { Client } = require("spotify-api.js");
 
 const client = await Client.create({
-    token: {
-        clientID: 'id', // Your spotify application client id.
-        clientSecret: 'secret', // Your spotify application client secret.
-        code: 'code', // The code search query from the web redirect. Do not use this field if your aim is to refresh the token.
-        refreshToken: 'refreshToken', // Use this field only if your aim is to refresh your token instead of getting new one put your refresh token here.
-        redirectURL: 'url' // The redirect url which you have used when redirected to the login page.
-    }
+	token: {
+		clientID: "id", // Your spotify application client id.
+		clientSecret: "secret", // Your spotify application client secret.
+		code: "code", // The code search query from the web redirect. Do not use this field if your aim is to refresh the token.
+		refreshToken: "refreshToken", // Use this field only if your aim is to refresh your token instead of getting new one put your refresh token here.
+		redirectURL: "url", // The redirect url which you have used when redirected to the login page.
+	},
 });
 
-console.log(client.token); // The current user token. 
+console.log(client.token); // The current user token.
 await client.artists.follow("SOME ARTIST ID"); // And can use the api methods which are for current user if you have the paticular scopes...
 ```
 
@@ -89,47 +89,49 @@ Ratelimits are common with any api services to prevent spam but sometimes it mig
 
 ```js
 const Spotify = require("spotify-api.js");
-const client = new Spotify.Client({ 
-    token: 'token',
-    retryOnRateLimit: true
+const client = new Spotify.Client({
+	token: "token",
+	retryOnRateLimit: true,
 });
 
-console.log(await client.tracks.get('id'));
+console.log(await client.tracks.get("id"));
 ```
 
 ## Auto refreshing token.
 
 The tokens of spotify are temporary so it is a trouble to refresh the token each and every interval of time. As an alternative you can use the `refreshToken` option.
 
-- Using clientID and clientSecret for api only token.
+-   Using clientID and clientSecret for api only token.
+
 ```js
 const client = await Client.create({
-    refreshToken: true, // Set this to true.
-    token: {
-        clientID: 'id', // Your spotify application client id.
-        clientSecret: 'secret', // Your spotify application client secret.
-    },
-    // This event is emitted whenever the token is refreshed by either 429 requests or [Client.refresh] method.
-    onRefresh() {
-        console.log(`Token has been refreshed. New token: ${client.token}!`);
-    }
+	refreshToken: true, // Set this to true.
+	token: {
+		clientID: "id", // Your spotify application client id.
+		clientSecret: "secret", // Your spotify application client secret.
+	},
+	// This event is emitted whenever the token is refreshed by either 429 requests or [Client.refresh] method.
+	onRefresh() {
+		console.log(`Token has been refreshed. New token: ${client.token}!`);
+	},
 });
 ```
 
-- Using [GetUserTokenOptions](https://spotify-api.js.org/main/interface/GetUserTokenOptions) for user authorization token.
+-   Using [GetUserTokenOptions](https://spotify-api.js.org/main/interface/GetUserTokenOptions) for user authorization token.
+
 ```js
 const client = await Client.create({
-    refreshToken: true, // Set this to true.
-    token: {
-        clientID: 'id', // Your spotify application client id.
-        clientSecret: 'secret', // Your spotify application client secret.
-        code: 'code', // The code search query from the web redirect.
-        redirectURL: 'url' // The redirect url which you have used when redirected to the login page.
-    },
-    // This event is emitted whenever the token is refreshed by either 429 requests or [Client.refresh] method.
-    onRefresh() {
-        console.log(`Token has been refreshed. New token: ${client.token}!`);
-    }
+	refreshToken: true, // Set this to true.
+	token: {
+		clientID: "id", // Your spotify application client id.
+		clientSecret: "secret", // Your spotify application client secret.
+		code: "code", // The code search query from the web redirect.
+		redirectURL: "url", // The redirect url which you have used when redirected to the login page.
+	},
+	// This event is emitted whenever the token is refreshed by either 429 requests or [Client.refresh] method.
+	onRefresh() {
+		console.log(`Token has been refreshed. New token: ${client.token}!`);
+	},
 });
 ```
 
@@ -140,15 +142,15 @@ const client = await Client.create({
 There is an inbuilt cache system for the module. By default the caching is disabled to prevent memory leaking and unwanted processing.
 
 ```js
-const { Client, Cache } = require('spotify-api.js');
+const { Client, Cache } = require("spotify-api.js");
 
 const client = new Client({
-    token: "token",
-    // If you want to cache all the cache types, you can do it like
-    // cacheSettings: true
-    cacheSettings: {
-        tracks: true // Only tracks will be cached.
-    }
+	token: "token",
+	// If you want to cache all the cache types, you can do it like
+	// cacheSettings: true
+	cacheSettings: {
+		tracks: true, // Only tracks will be cached.
+	},
 });
 
 await client.tracks.get("ID"); // The track is now cached.
